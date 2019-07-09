@@ -1,0 +1,59 @@
+create table members(
+m_idx NUMBER not null PRIMARY key,
+id VARCHAR2(50) UNIQUE,
+pw VARCHAR2(50),
+email VARCHAR2(50),
+name VARCHAR2(50),
+gender VARCHAR2(50),
+regdate date);
+
+create table recipe(
+r_idx NUMBER not null,
+m_idx NUMBER,
+subject VARCHAR2(50),
+content_ VARCHAR2(4000),
+file_name VARCHAR2(50),
+cate VARCHAR2(50),
+mate VARCHAR2(50),
+view_ NUMBER,
+hit NUMBER,
+regdate date,
+PRIMARY key (r_idx),
+foreign key (m_idx) references members(m_idx)
+);
+
+create table recipe_c(
+r_c_idx NUMBER not null,
+r_idx NUMBER,
+m_idx NUMBER,
+content_ VARCHAR2(4000),
+hit NUMBER,
+regdate date,
+PRIMARY key (r_c_idx),
+foreign key (m_idx) references members(m_idx),
+foreign key (r_idx) references recipe(r_idx)
+);
+
+create table talk(
+t_idx NUMBER not null,
+m_idx NUMBER,
+subject VARCHAR2(50),
+content_ VARCHAR2(4000),
+file_name VARCHAR2(50),
+hit NUMBER,
+regdate date,
+PRIMARY key (t_idx),
+foreign key (m_idx) references members(m_idx)
+);
+
+create table talk_c(
+t_c_idx NUMBER not null,
+m_idx NUMBER,
+t_idx NUMBER,
+content_ VARCHAR2(4000),
+hit NUMBER,
+regdate date,
+PRIMARY key (t_idx),
+foreign key (m_idx) references members(m_idx),
+foreign key (t_idx) references talk(t_idx)
+);
