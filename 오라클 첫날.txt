@@ -1,0 +1,79 @@
+  오라클 설치 및 환경설정
+1. 
+https://www.oracle.com/downloads/
+ C:\mystudy\util\01.자바\jdbc
+ 2개 폴더와 1개 파일 
+
+2. OracleXE112_Win64 열어서 설치 중
+   System. 비번 지정 (oracle) 후  설치 끝
+
+3. sqldeveloper는 설치 하는 것이 아님
+   실행파일 바탕화면에 바로가기 아이콘 만들기
+
+4. 오라클 설치 검사
+ cmd 창 => sqlplus
+ Enter user-name: system
+ Enter password: (설치할때 사용한 비번)   
+ sql> 나오면 성공
+
+5. 연습용 hr 계정 락 풀기
+SQL> alter user hr account unlock;
+
+6. 연습용 hr 계정 비번 지정
+SQL> alter user hr identified by 1111;
+
+7. hr 계정으로 접속하기 위해서 system계정 종료
+SQL> exit;
+
+8. hr 계정 접속
+SQL> sqlplus
+
+9.  현재 구성된 테이블 보기 : select * from tab;
+10. 테이블 구조(스카마)보기 : desc 테이블 이름;
+====================================
+11. sqldeveloper 실행
+    대화상자 모두 체크하거나 안해도 됨
+
+12. 접속 만들기
+   접속 글자 위 있는 + 기호 클릭
+  
+    접속이름 ; 임의 지정(System계정)
+    사용자이름 : system(계정이름)
+    비밀번호 : 1111 (비번)
+
+13. 접속 만들기
+    
+   접속 글자 위 있는 + 기호 클릭
+  
+    접속이름 ; 임의 지정(HR계정)
+    사용자이름 : system(계정이름)
+    비밀번호 : 1111 (비번)
+
+14. System 계정에서 자기 계정 하나 만들기
+   create user nohsam(계정) identified by 1111(비번);
+
+   /* 계정 락 풀기 */
+   alter user nohsam account unlock;
+
+  -- 접속 권한 및 자원 사용 권한 부여
+  grant connect, resource to nohsam;
+
+15. 만든 계정으로 접속 만들기
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
