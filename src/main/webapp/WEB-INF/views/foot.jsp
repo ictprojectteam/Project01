@@ -58,9 +58,31 @@
 			</div>
 		</div>
 		<div id="second-footer">
-			<div id="footer-logo"></div>
-			<div id="footer-counting"></div>
-			<div id="footer-mailto"></div>
+			<div id="second-footer-content">
+				<div id="footer-logo"><a href="javascript:location.href='/'"><img src="resources/images/footlogo.png"></a></div>
+				<div id="footer-counting">
+					<a href="#"><i class="fas fa-carrot"></i></a>
+					<i class="fas fa-users"></i>
+					<i class="fas fa-book-reader"></i>
+					<div>
+						<p class="footer-counting-label">총 레시피수</p>
+						<p class="footer-counting-number">2,019</p>
+					</div>
+					<div>
+						<p class="footer-counting-label">월 방문자수</p>
+						<p class="footer-counting-number">258,741</p>
+					</div>
+					<div>
+						<p class="footer-counting-label">총 레시피 조회수</p>
+						<p class="footer-counting-number">9,842,358</p>
+					</div>
+				</div>
+				<div id="footer-mailto-round">
+					<div id="footer-mailto">
+						<i class="fas fa-envelope"></i>
+					</div>
+				</div>
+				</div>
 		</div>
 		<div id="last-footer">
 			

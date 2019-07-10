@@ -19,8 +19,16 @@
 				<a href="javascript:recipe_search(this.form)" id="search-button"><i class="fas fa-search"></i></a>
 			</form>
 			<div id="top-icon">
-				<a href="javascript:void(0)" onclick="profile_popup()"><i class="fas fa-user-circle"></i></a>
+				<a href="#"><i class="fas fa-user-circle"></i></a>
 				<a href="javascript:void(0)" onclick="write_popup()" id="top-pencil-icon"><i class="fas fa-pencil-alt"></i></a>
+				<div id="profile-dropdown">
+					<a class="profile-dropdown-menu" href="#">MY홈</a>
+					<a class="profile-dropdown-menu" href="#">스크랩한 레시피</a>
+					<a class="profile-dropdown-menu" href="#">레시피 노트</a>
+					<a class="profile-dropdown-menu" href="#">문의내역</a>
+					<a class="profile-dropdown-menu" href="#">회원정보수정</a>
+					<a class="profile-dropdown-menu" href="#">로그아웃</a>
+				</div>
 			</div>
 		</div>
 		<div id="top-nav">
