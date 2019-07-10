@@ -84,6 +84,7 @@
 		background: #eee;
 		text-align: center;
 		padding: 0px 10px;
+		visibility: hidden;
 	}
 	.profile-dropdown-menu:link, .profile-dropdown-menu:visited{
 		display: block;
@@ -107,6 +108,7 @@
 		height: 50px;
 		text-align: center;
 		color: #eee;
+		text-decoration: none;
 	}
 	.top-nav-menu:hover{
 		background:#fda;
@@ -207,15 +209,20 @@
 <script type="text/javascript" src="../resources/js/jquery-3.4.1.min.js"></script>
 <script type="text/javascript">
 	$(function(){
+		$("#profile-dropdown").fadeOut();
 		$(".fa-user-circle").click(function(){
-			$("#profile-dropdown").fadeToggle("fast");
+			if($("#loginchk").val() == "no"){
+				location.href='login';
+			} else {
+				$("#profile-dropdown").css("visibility", "visible");
+				$("#profile-dropdown").fadeToggle("fast");
+			}
 		});
-	});
-	window.addEventListener('click', function(e){
-		var k = document.getElementsByClassName("fa-user-circle");
-		if(!k[0].contains(e.target)){
-			document.getElementById("profile-dropdown").style.visibility = "hidden";
-		}
+		$(window).click(function(e){
+			if(e.target.getAttribute("class") != "fas fa-user-circle"){
+				$("#profile-dropdown").fadeOut();
+			}
+		});
 	});
 </script>
 </head>

@@ -8,6 +8,7 @@
 
 </head>
 <body>
+	<input type="hidden" id="loginchk" value="no">
 	<div id="head">
 		<div id="top-logo-bar">
 			<div id="top-logo">
@@ -19,8 +20,8 @@
 				<a href="javascript:recipe_search(this.form)" id="search-button"><i class="fas fa-search"></i></a>
 			</form>
 			<div id="top-icon">
-				<a href="#"><i class="fas fa-user-circle"></i></a>
-				<a href="javascript:void(0)" onclick="write_popup()" id="top-pencil-icon"><i class="fas fa-pencil-alt"></i></a>
+				<a id="user-circle" href="#"><i class="fas fa-user-circle"></i></a>
+				<a href="chk_write" onclick="write_popup()" id="top-pencil-icon"><i class="fas fa-pencil-alt"></i></a>
 				<div id="profile-dropdown">
 					<a class="profile-dropdown-menu" href="#">MY홈</a>
 					<a class="profile-dropdown-menu" href="#">스크랩한 레시피</a>
@@ -34,7 +35,7 @@
 		<div id="top-nav">
 			<div id="top-nav-menu-bar">
 				<a class="top-nav-menu" href="javascript:location.href='/'">홈</a>
-				<a class="top-nav-menu" href="javascript:location.href='/'">레시피</a>
+				<a class="top-nav-menu" href="javascript:location.href='/'">조리영상</a>
 				<a class="top-nav-menu" href="javascript:location.href='/'">토크</a>
 				<a class="top-nav-menu" href="javascript:location.href='/'">랭킹</a>
 				<a class="top-nav-menu" href="javascript:location.href='/'">이벤트</a>
