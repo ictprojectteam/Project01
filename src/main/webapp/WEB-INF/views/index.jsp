@@ -189,7 +189,7 @@
 		font-size: 30pt;
 		text-align: center;
 	}
-	#footer-mailto i{
+	#footer-mailto i{ 
 		margin-top: 20px;
 	}
 	.footer-counting-label{
