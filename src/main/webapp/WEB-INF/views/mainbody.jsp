@@ -61,7 +61,9 @@
 		<div id="close-category">
 			<a href="#">카테고리 닫기<i class="fas fa-angle-double-down"></i></a>
 		</div>
-	
+		<div id="recipe-list">
+			
+		</div>
 	</div>
 </body>
 </html>
