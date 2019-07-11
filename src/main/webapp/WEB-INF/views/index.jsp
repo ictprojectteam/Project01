@@ -4,13 +4,15 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>ICT PROJECT TEAM</title>
 <style type="text/css">
 	#head{
-		width: 101%;
+		width: 100vw;
 		height: 150px;
 		margin: -8px;
-		overflow: hidden;
+		overflow: visible;
+		position: static;
 	}
 	#logo-image{
 		width: 100%;
@@ -93,7 +95,8 @@
 	}
 	#top-nav{
 		background: #fa8;
-		width: 101%;
+		width: 100vw;
+		min-width: 1320px;
 		height: 50px;
 		position: relative;
 	}
@@ -105,7 +108,7 @@
 	}
 	.top-nav-menu{
 		padding-top: 10px;
-		height: 50px;
+		height: 40px;
 		text-align: center;
 		color: #eee;
 		text-decoration: none;
@@ -167,7 +170,8 @@
 	}
 	#second-footer{
 		background: #fa8;
-		width: 101%;
+		width: 100vw;
+		min-width: 1320px;
 		margin: -8px;
 		margin-top: 20px;
 	}
@@ -244,7 +248,7 @@
 </script>
 </head>
 <body>
-	<header>
+	<header style="position: relative;">
 		<jsp:include page="head.jsp" />
 	</header>
 	<div id="body-content">

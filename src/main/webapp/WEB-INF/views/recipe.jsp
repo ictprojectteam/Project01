@@ -7,7 +7,7 @@
 <title>Insert title here</title>
 <style type="text/css">
 	
-	#mainbody{ 
+	#recipebody{ 
 	}
 	#category{
 		border: 1px dotted yellow;
@@ -40,18 +40,20 @@
 	}
 	
 	
-	#close-category{
+	#category-label{
 		margin: 20px auto;
-		text-align: center;
 	}
-	#close-category a:link, #close-category a:visited{
+	#category-label a:link, #category-label a:visited{
 		text-decoration: none;
 		color: #fa8; 
 	}
 </style>
 </head>
 <body>
-	<div id="mainbody">
+	<div id="recipebody">
+		<div id="category-label">
+			<a href="#">카테고리<i class="fas fa-angle-double-down"></i></a>
+		</div>
 		<div id="category">
 			<div id="category-group">
 				<div class="category-group-label">종류별</div>
@@ -102,9 +104,7 @@
 				</div>
 			</div>
 		</div>
-		<div id="close-category">
-			<a href="#">카테고리 닫기<i class="fas fa-angle-double-down"></i></a>
-		</div>
+		
 		<div id="recipe-list">
 			
 		</div>

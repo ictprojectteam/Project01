@@ -28,7 +28,7 @@ public class MainController {
 	
 	@RequestMapping(value = "login")
 	public ModelAndView getLogin() {
-		ModelAndView mv = new ModelAndView("login");
+		ModelAndView mv = new ModelAndView("admin_login");
 		
 		return mv;
 	}
@@ -59,7 +59,7 @@ public class MainController {
 		MVO r_mvo = dao.getLogin(mvo);
 		if (r_mvo != null) {
 			session.setAttribute("mvo", r_mvo);
-			mv.setViewName("redirect:/");		// admin > Home 으로 설정
+			mv.setViewName("redirect:/");		// admin > Home 
 		} else {
 			mv.setViewName("loginfail");
 		}
