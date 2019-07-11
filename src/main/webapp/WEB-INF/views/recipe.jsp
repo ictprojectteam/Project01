@@ -7,7 +7,7 @@
 <title>Insert title here</title>
 <style type="text/css">
 	
-	#mainbody{
+	#mainbody{ 
 	}
 	#category{
 		border: 1px dotted yellow;

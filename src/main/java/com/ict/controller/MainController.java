@@ -28,7 +28,7 @@ public class MainController {
 	
 	@RequestMapping(value = "login")
 	public ModelAndView getLogin() {
-		ModelAndView mv = new ModelAndView("temp_login");
+		ModelAndView mv = new ModelAndView("login");
 		
 		return mv;
 	}
