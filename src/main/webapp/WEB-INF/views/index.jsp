@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Index</title>
+<title>ICT PROJECT TEAM</title>
 <style type="text/css">
 	#head{
 		width: 101%;
@@ -248,7 +248,7 @@
 		<jsp:include page="head.jsp" />
 	</header>
 	<div id="body-content">
-		<jsp:include page="mainbody.jsp" />
+		<jsp:include page="${wPage}" />
 	</div>
 	<footer>
 		<jsp:include page="foot.jsp" />

@@ -16,11 +16,13 @@ import com.ict.service.MVO;
 public class MainController {
 	@Autowired
 	private DAO dao;
+	private String wPage;
 	
 	@RequestMapping(value = "/")
 	public ModelAndView getIndex() {
 		ModelAndView mv = new ModelAndView("index");
-		
+		wPage = "mainbody.jsp";
+		addw(mv);
 		return mv;
 	}
 	
@@ -51,5 +53,17 @@ public class MainController {
 		request.getSession().removeAttribute("mvo");
 		if (str.equals("")) str = "/";
 		return new ModelAndView("redirect:" + str);
+	}
+	
+	@RequestMapping("recipe")
+	public ModelAndView getRecipe() {
+		ModelAndView mv = new ModelAndView("index");
+		wPage = "recipe.jsp";
+		addw(mv);
+		return mv;
+	}
+	
+	public void addw(ModelAndView mv) {
+		mv.addObject("wPage", wPage);
 	}
 }

@@ -59,9 +59,9 @@
 		</div>
 		<div id="second-footer">
 			<div id="second-footer-content">
-				<div id="footer-logo"><a href="javascript:location.href='/'"><img src="resources/images/footlogo.png"></a></div>
+				<div id="footer-logo"><a href="/"><img src="resources/images/footlogo.png"></a></div>
 				<div id="footer-counting">
-					<a href="#"><i class="fas fa-carrot"></i></a>
+					<a href="recipe"><i class="fas fa-carrot"></i></a>
 					<i class="fas fa-users"></i>
 					<i class="fas fa-book-reader"></i>
 					<div>

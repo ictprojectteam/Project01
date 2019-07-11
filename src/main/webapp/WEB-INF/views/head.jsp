@@ -13,7 +13,7 @@
 		<div id="top-logo-bar">
 			<div id="top-logo">
 				<!-- 로고 이미지 -->
-				<a href="javascript:location.href='/'"><img src="resources/images/coffee.png" id="logo-image"></a>
+				<a href="/"><img src="resources/images/coffee.png" id="logo-image"></a>
 			</div>
 			<form id="recipe-search">
 				<div><input type="text" name="search" id="search-bar"></div>
@@ -34,13 +34,13 @@
 		</div>
 		<div id="top-nav">
 			<div id="top-nav-menu-bar">
-				<a class="top-nav-menu" href="javascript:location.href='/'">홈</a>
-				<a class="top-nav-menu" href="javascript:location.href='recipe'">레시피</a>
-				<a class="top-nav-menu" href="javascript:location.href='video'">조리영상</a>
-				<a class="top-nav-menu" href="javascript:location.href='talk'">토크</a>
-				<a class="top-nav-menu" href="javascript:location.href='ranking'">랭킹</a>
-				<a class="top-nav-menu" href="javascript:location.href='event'">이벤트</a>
-				<a class="top-nav-menu" href="javascript:location.href='myhome'">MY홈</a>
+				<a class="top-nav-menu" href="/">홈</a>
+				<a class="top-nav-menu" href="recipe">레시피</a>
+				<a class="top-nav-menu" href="video">조리영상</a>
+				<a class="top-nav-menu" href="talk">토크</a>
+				<a class="top-nav-menu" href="ranking">랭킹</a>
+				<a class="top-nav-menu" href="event">이벤트</a>
+				<a class="top-nav-menu" href="myhome">MY홈</a>
 			</div>
 		</div>
 	</div>
