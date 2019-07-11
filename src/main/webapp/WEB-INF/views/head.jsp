@@ -8,7 +8,7 @@
 
 </head>
 <body>
-	<input type="hidden" id="loginchk" value="no">
+	<input type="hidden" id="loginchk" value="${mvo.id}">
 	<div id="head">
 		<div id="top-logo-bar">
 			<div id="top-logo">
@@ -23,23 +23,24 @@
 				<a id="user-circle" href="#"><i class="fas fa-user-circle"></i></a>
 				<a href="chk_write" onclick="write_popup()" id="top-pencil-icon"><i class="fas fa-pencil-alt"></i></a>
 				<div id="profile-dropdown">
-					<a class="profile-dropdown-menu" href="#">MY홈</a>
-					<a class="profile-dropdown-menu" href="#">스크랩한 레시피</a>
-					<a class="profile-dropdown-menu" href="#">레시피 노트</a>
-					<a class="profile-dropdown-menu" href="#">문의내역</a>
-					<a class="profile-dropdown-menu" href="#">회원정보수정</a>
-					<a class="profile-dropdown-menu" href="#">로그아웃</a>
+					<a class="profile-dropdown-menu" href="myhome">MY홈</a>
+					<a class="profile-dropdown-menu" href="myscrap">스크랩한 레시피</a>
+					<a class="profile-dropdown-menu" href="myrecipe">레시피 노트</a>
+					<a class="profile-dropdown-menu" href="myreport">문의내역</a>
+					<a class="profile-dropdown-menu" href="editprofile">회원정보수정</a>
+					<a class="profile-dropdown-menu" href="logout">로그아웃</a>
 				</div>
 			</div>
 		</div>
 		<div id="top-nav">
 			<div id="top-nav-menu-bar">
 				<a class="top-nav-menu" href="javascript:location.href='/'">홈</a>
-				<a class="top-nav-menu" href="javascript:location.href='/'">조리영상</a>
-				<a class="top-nav-menu" href="javascript:location.href='/'">토크</a>
-				<a class="top-nav-menu" href="javascript:location.href='/'">랭킹</a>
-				<a class="top-nav-menu" href="javascript:location.href='/'">이벤트</a>
-				<a class="top-nav-menu" href="javascript:location.href='/'">MY홈</a>
+				<a class="top-nav-menu" href="javascript:location.href='recipe'">레시피</a>
+				<a class="top-nav-menu" href="javascript:location.href='video'">조리영상</a>
+				<a class="top-nav-menu" href="javascript:location.href='talk'">토크</a>
+				<a class="top-nav-menu" href="javascript:location.href='ranking'">랭킹</a>
+				<a class="top-nav-menu" href="javascript:location.href='event'">이벤트</a>
+				<a class="top-nav-menu" href="javascript:location.href='myhome'">MY홈</a>
 			</div>
 		</div>
 	</div>

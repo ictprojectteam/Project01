@@ -8,4 +8,8 @@ import org.springframework.stereotype.Repository;
 public class DAO {
 	@Autowired
 	private SqlSessionTemplate sqlSessionTemplate;
+	
+	public MVO getLogin(MVO mvo) {
+		return sqlSessionTemplate.selectOne("login", mvo);
+	}
 }

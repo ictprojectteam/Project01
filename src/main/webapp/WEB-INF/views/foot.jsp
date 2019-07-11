@@ -44,9 +44,9 @@
 				<p>서울지방중소기업청 제 191234321-9-01190호</p>
 			</div>
 			<div id="footer-sns">
-				<a href="#"><img src="resources/images/facebook_logo.png"></a>
-				<a href="#"><img src="resources/images/instagram_logo.jpg"></a>
-				<a href="#"><img src="resources/images/youtube_logo.png"></a>
+				<a href="https://www.facebook.com/"><img src="resources/images/facebook_logo.png"></a>
+				<a href="https://www.instagram.com/"><img src="resources/images/instagram_logo.jpg"></a>
+				<a href="https://www.youtube.com/"><img src="resources/images/youtube_logo.png"></a>
 			</div>
 			<div id="footer-report">
 				<form method="post">

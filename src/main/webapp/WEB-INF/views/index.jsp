@@ -101,7 +101,7 @@
 		margin: auto;
 		width: 1200px;
 		display: grid;
-		grid-template-columns: auto auto auto auto auto auto;
+		grid-template-columns: auto auto auto auto auto auto auto;
 	}
 	.top-nav-menu{
 		padding-top: 10px;
@@ -119,50 +119,10 @@
 ================================================ body ===========================================
 	
 	 */
+	
 	#body-content{
 		width: 1200px;
 		margin: 30px auto 0px;
-	}
-	#mainbody{
-	}
-	#category{
-		border: 1px dotted yellow;
-		display: grid;
-		grid-template-columns: 100px 1000px;
-	}
-	.category-group-label{
-		height: 20px;
-		padding-top: 5px;
-		text-align: center;
-		border: 1px solid #fa8;
-		margin: 15px 20px;
-		border-radius: 25px;
-		color: #fa8;
-		font-size: 9pt;
-	}
-	.category-detail-label{
-		margin: 15px 20px;
-		padding-top: 3px;
-		height: 22px;
-	}
-	.category-detail-label a:link, .category-detail-label a:visited{
-		text-decoration: none;
-		font-size: 9pt;
-		margin-left: 10px;
-		color: #555;
-	}
-	.category-detail-label a:hover{
-		color: #fb9;
-	}
-	
-	
-	#close-category{
-		margin: 20px auto;
-		text-align: center;
-	}
-	#close-category a:link, #close-category a:visited{
-		text-decoration: none;
-		color: #fa8; 
 	}
 	
 	
@@ -268,8 +228,8 @@
 	$(function(){
 		$("#profile-dropdown").fadeOut();
 		$(".fa-user-circle").click(function(){
-			if($("#loginchk").val() == "no"){
-				location.href='login';
+			if($("#loginchk").val() == null || $("#loginchk").val() == ""){
+				location.href="login";
 			} else {
 				$("#profile-dropdown").css("visibility", "visible");
 				$("#profile-dropdown").fadeToggle("fast");
@@ -277,7 +237,7 @@
 		});
 		$(window).click(function(e){
 			if(e.target.getAttribute("class") != "fas fa-user-circle"){
-				$("#profile-dropdown").fadeOut();
+				$("#profile-dropdown").fadeOut("fast");
 			}
 		});
 	});
