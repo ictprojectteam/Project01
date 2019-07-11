@@ -46,6 +46,26 @@ public class MainController {
 		return mv;
 	}
 	
+	@RequestMapping(value = "admin")
+	public ModelAndView getAdminLogin() {
+		ModelAndView mv = new ModelAndView("admin_login");
+		
+		return mv;
+	}
+	
+	@RequestMapping(value = "goAdminLogin", method = RequestMethod.POST)
+	public ModelAndView goAdminLogin(MVO mvo, HttpSession session) {
+		ModelAndView mv = new ModelAndView();
+		MVO r_mvo = dao.getLogin(mvo);
+		if (r_mvo != null) {
+			session.setAttribute("mvo", r_mvo);
+			mv.setViewName("redirect:/");		// admin > Home 으로 설정
+		} else {
+			mv.setViewName("loginfail");
+		}
+		return mv;
+	}
+	
 	@RequestMapping("logout")
 	public ModelAndView getLogout(HttpServletRequest request) {
 		String str = request.getHeader("REFERER");
