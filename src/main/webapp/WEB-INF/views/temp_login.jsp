@@ -19,7 +19,7 @@
 			<legend>로그인</legend>
 			아이디 : <input type="text" name="id">
 			패스워드 : <input type="password" name="pw">
-			<input type="button" onclick="goLogin(this.form)">
+			<input type="button" onclick="goLogin(this.form)" value="로그인">
 		</fieldset>
 	</form>
 	<a id="kakao-login-btn"></a>
@@ -32,7 +32,7 @@
         Kakao.Auth.createLoginButton({
           container: '#kakao-login-btn',
           success: function(authObj) {
-            alert(JSON.stringify(authObj));
+            alert(Kakao.Auth.getAccessToken());
           },
           fail: function(err) {
              alert(JSON.stringify(err));
