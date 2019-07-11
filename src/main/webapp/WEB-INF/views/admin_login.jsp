@@ -67,16 +67,30 @@ input:focus { box-shadow: inset 0 -5px 45px rgba(100,100,100,0.4), 0 1px 1px rgb
 
 </style>
 
+<script type="text/javascript">
+	function goAdminLogin(f){
+		f.action = "goAdminLogin";
+		f.submit();
+	}
+</script>
+
 </head>
 <body>
 
 
 <div class="login">
 	<h1>Login</h1>
+<<<<<<< HEAD:src/main/webapp/WEB-INF/views/login.jsp
     <form method="post" action="goLogin">
     	<input type="text" name="id" placeholder="Username" required="required" />
         <input type="password" name="pw" placeholder="Password" required="required" />
         <button type="submit" class="btn btn-primary btn-block btn-large">로그인</button>
+=======
+    <form method="post">
+    	<input type="text" name="id" placeholder="Username" required="required" />
+        <input type="password" name="pw" placeholder="Password" required="required" />
+        <button type="submit" class="btn btn-primary btn-block btn-large" onclick="goAdminLogin(this.form)">로그인</button>
+>>>>>>> 344fbff979711e536dd0e0f02772f64718b14859:src/main/webapp/WEB-INF/views/admin_login.jsp
     </form>
 </div>
 
