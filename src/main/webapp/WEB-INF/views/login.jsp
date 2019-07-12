@@ -4,14 +4,20 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<meta name="google-signin-client_id" content="383758306779-1jiumsras5rv9m91p26mbp1vc9lt2cpb.apps.googleusercontent.com">
+
 <title>login</title>
 <script src="//developers.kakao.com/sdk/js/kakao.min.js"></script>
-
+<script type="text/javascript" src="https://static.nid.naver.com/js/naverLogin_implicit-1.0.3.js" charset="utf-8"></script>
+<script type="text/javascript" src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
+<script src="https://apis.google.com/js/platform.js" async defer></script>
+<script type="text/javascript" src="../resources/js/jquery-3.4.1.min.js"></script>
 <style type="text/css">
 	.top{
 		background-color: #FFC19E;
 		text-align: center;
 		color: white;
+		cursor: pointer;
 	}
 	.body{
 		text-align: center;
@@ -21,14 +27,115 @@
 	width: 350pt;
 	height: 30pt;
 	}
+	.g-signin2{
+		display: inline-block;
+	}
+	/* footer */
+	#footer{
+		width: 101%;
+		margin: 100px auto 0px;
+	}
+	#first-footer{
+		width: 1300px;
+		margin: auto;
+		display: grid;
+		grid-template-columns: 400px 550px 350px;
+	}
+	#footer-company{
+		font-size: 9pt;
+		color: #888;
+		line-height: 5pt;
+	}
+	#footer-link a:link, #footer-link a:visited{
+		color: #888;
+	}
+	#footer-sns img{
+		margin-top: 50px;
+		width: 70px;
+		height: 70px;
+	}
+	#report-content{
+		margin-left: 50px;
+	}
+	#send-report{
+		display: block;
+		text-decoration: none;
+		font-size: 9pt;
+		color: black;
+		margin: auto;
+		text-align: center;
+	}
+	#second-footer{
+		background: #fa8;
+		width: 100vw;
+		min-width: 1320px;
+		margin: -8px;
+		margin-top: 20px;
+	}
+	#second-footer-content{
+		width: 1300px;
+		display: grid;
+		grid-template-columns: 250px 800px 250px;
+		height: 170px;
+		margin: auto;
+	}
+	#footer-logo{
+		padding: 40px;
+	}
+	#footer-counting{
+		display: grid;
+		grid-template-columns: auto auto auto;
+		grid-template-rows: 100px 70px;
+		text-align: center;
+		color: #e86;
+		font-size: 35pt;
+	}
+	#footer-counting i{
+		margin-top: 25px;
+	}
+	#footer-counting a:link, #footer-counting a:visited{
+		color: #e86;
+	}
+	#footer-mailto-round{
+		padding: 40px;
+	}
+	#footer-mailto{
+		margin: auto;
+		height: 80px;
+		width: 80px;
+		border-radius: 80px;
+		background: #fff;
+		color: #d75;
+		font-size: 30pt;
+		text-align: center;
+	}
+	#footer-mailto i{ 
+		margin-top: 20px;
+	}
+	.footer-counting-label{
+		margin-top: -10px;
+		font-size: 9pt;
+		color: #eee;
+	}
+	.footer-counting-number{
+		margin-top: -10px;
+		font-size: 16pt;
+		color: #dd3;
+	}
 </style>
-	<a href="/" style="text-decoration: none"><div class="top">
-		<h1> ICT 레시피 </h1>
-		<h2> ICT RECIPE </h2>
-	</div></a>
+	
 </head>
 <body>
+	<div class="top">
+		<h1> ICT 레시피 </h1>
+		<h2> ICT RECIPE </h2>
+	</div>
 <script type="text/javascript">
+	$(function(){
+		$(".top").on("click", function(){
+			location.href="/";
+		});
+	});
 	function goLogin(f){
 		f.action = "goLogin";
 		f.submit();
@@ -72,7 +179,7 @@
 		<!-- Kakao -->
 		<!-- <button id=bar style="background-color: yellow; color: black; font-size: 15pt;"> 카카오 간편로그인 </button><br> -->
 		<a id="kakao-login-btn"></a>
-    	<a href="http://developers.kakao.com/logout"></a><br>
+    	<a href="http://developers.kakao.com/logout"></a>
     	<script type='text/javascript'>
       	//<![CDATA[
         // 사용할 앱의 JavaScript 키를 설정해 주세요.
@@ -89,8 +196,39 @@
        	});
       	//]]>
     	</script>
-		<button id=bar style="background-color: #1DDB16; color: white; font-size: 15pt;"> 네이버 간편로그인 </button><br>
-		<button id=bar style="background-color: red; color: white; font-size: 15pt;"> 구글 간편로그인 </button>
-	</div>
+    	<br><br>
+    	
+    	<!-- naver -->
+		<!-- <button id=bar style="background-color: #1DDB16; color: white; font-size: 15pt;"> 네이버 간편로그인 </button><br> -->
+		<!-- 네이버아이디로로그인 버튼 노출 영역 -->
+		  <div id="naver_id_login"></div>
+		  <!-- //네이버아이디로로그인 버튼 노출 영역 -->
+		  <script type="text/javascript">
+		  	var naver_id_login = new naver_id_login("c7XkD73CSDSwyqxmd05i", "DNPQ61HzvC");
+		  	var state = naver_id_login.getUniqState();
+		  	naver_id_login.setButton("green", 8,48);
+		  	naver_id_login.setDomain("http://localhost:8090/login");
+		  	naver_id_login.setState(state);
+		  	naver_id_login.setPopup();
+		  	naver_id_login.init_naver_id_login();
+		  </script>
+		  <br>
+		  
+		  <!-- google -->
+		<!-- <button id=bar style="background-color: red; color: white; font-size: 15pt;"> 구글 간편로그인 </button> -->
+		<div class="g-signin2" data-onsuccess="onSignIn"></div>
+		<script type="text/javascript">
+		function onSignIn(googleUser) {
+		  var profile = googleUser.getBasicProfile();
+		  console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
+		  console.log('Name: ' + profile.getName());
+		  console.log('Image URL: ' + profile.getImageUrl());
+		  console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
+		}
+		</script>
+		</div>
+		<footer>
+		<jsp:include page="foot.jsp" />
+		</footer>
 </body>
 </html>
