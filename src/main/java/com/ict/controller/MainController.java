@@ -83,6 +83,14 @@ public class MainController {
 		return mv;
 	}
 	
+	@RequestMapping("video")
+	public ModelAndView getVideo() {
+		ModelAndView mv = new ModelAndView("index");
+		wPage = "video.jsp";
+		addw(mv);
+		return mv;
+	}
+	
 	public void addw(ModelAndView mv) {
 		mv.addObject("wPage", wPage);
 	}

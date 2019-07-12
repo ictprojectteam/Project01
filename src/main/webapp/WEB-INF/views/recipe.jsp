@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>Recipe</title>
 <style type="text/css">
 	
 	#recipebody{ 
@@ -43,11 +43,9 @@
 	}
 	#category-label{
 		margin: 20px auto;
+		color: #fa8;
 	}
-	#category-label a:link, #category-label a:visited{
-		text-decoration: none;
-		color: #fa8; 
-	}
+	
 /* ======================================== 레시피리스트 ========================================== */
 	#recipe-list{
 	}
@@ -69,11 +67,16 @@
 		margin: 10px 5px 0px;;
 		font-size: 15pt;
 		color: #444;
-		height: 70px;
+		height: 50px;
+		display:-webkit-box;
+	    -webkit-line-clamp:2;
+	    -webkit-box-orient:vertical;
 		overflow: hidden;
+		text-overflow: ellipsis;
+		
 	}
 	.recipe-preview-writer{
-		margin: -10px 5px 0px;
+		margin: 20px 5px 0px;
 		font-size: 12pt;
 		color: #888;
 		text-align: right;
@@ -102,7 +105,7 @@
 <body>
 	<div id="recipebody">
 		<div id="category-label">
-			<a href="#">카테고리<i class="fas fa-angle-double-down"></i></a>
+			카테고리<i class="fas fa-angle-double-down"></i>
 		</div>
 		<div id="category">
 			<div id="category-group">
@@ -167,7 +170,7 @@
 							</c:when>
 							<c:otherwise>
 								<div class="recipe-preview-image"><img src="resources/images/buzzi.jpg"></div>
-								<div class="recipe-preview-subject">의정부 부대찌개 따라해보기!</div>
+								<div class="recipe-preview-subject">의정부 부대찌개 따라해보기! 2줄이 넘으면 말줄임표가 나타나게 설정</div>
 								<div class="recipe-preview-writer">by 닭갈비제작소</div>
 							</c:otherwise>
 						</c:choose>
