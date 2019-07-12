@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -9,8 +10,10 @@
 	
 	#recipebody{ 
 	}
+	
+/* ======================================== 카테고리 ========================================== */
 	#category{
-		border: 1px dotted yellow;
+		margin-top: -10px;
 		display: grid;
 		grid-template-columns: 100px 1000px;
 	}
@@ -38,8 +41,6 @@
 	.category-detail-label a:hover{
 		color: #fb9;
 	}
-	
-	
 	#category-label{
 		margin: 20px auto;
 	}
@@ -47,7 +48,56 @@
 		text-decoration: none;
 		color: #fa8; 
 	}
+/* ======================================== 레시피리스트 ========================================== */
+	#recipe-list{
+	}
+	#recipe-internal{
+		display: grid;
+		grid-template-columns:290px 290px 290px 290px;
+		grid-gap: 13px;
+	}
+	.recipe-list-preview{
+		height: 400px;
+		margin-top: 20px;
+		cursor: pointer;
+	}
+	.recipe-preview-image img{
+		width: 290px;
+		height: 290px;
+	}
+	.recipe-preview-subject{
+		margin: 10px 5px 0px;;
+		font-size: 15pt;
+		color: #444;
+		height: 70px;
+		overflow: hidden;
+	}
+	.recipe-preview-writer{
+		margin: -10px 5px 0px;
+		font-size: 12pt;
+		color: #888;
+		text-align: right;
+	}
+	#recipe-paging{
+		width: 500px;
+		margin: 20px auto;
+		border: 1px solid blue;
+		text-align: center;
+		background: #fa8;
+	}
+	.recipe-list-preview:hover img{
+		opacity: 0.5;
+	}
 </style>
+<script type="text/javascript" src="../resources/js/jquery-3.4.1.min.js"></script>
+<script>
+	$(function(){
+		$(".recipe-list-preview").on("click", function(){
+			var page = $(this).attr("mp");
+			alert(page);
+		});
+	});
+</script>
 </head>
 <body>
 	<div id="recipebody">
@@ -106,7 +156,16 @@
 		</div>
 		
 		<div id="recipe-list">
-			
+			<div id="recipe-internal">
+				<c:forEach var="k" begin="1" end="16">
+					<div class="recipe-list-preview" mp="${k}">
+						<div class="recipe-preview-image"><img src="resources/images/gimzzi.jpg"></div>
+						<div class="recipe-preview-subject">김치찌개 간단 레시피!</div>
+						<div class="recipe-preview-writer">by 짜파게티 요리사</div>
+					</div>
+				</c:forEach>
+			</div>
+			<div id="recipe-paging">페이징이 들어갈 자리</div>
 		</div>
 	</div>
 </body>

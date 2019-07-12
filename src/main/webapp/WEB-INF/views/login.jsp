@@ -14,7 +14,7 @@
 <script type="text/javascript" src="../resources/js/jquery-3.4.1.min.js"></script>
 <style type="text/css">
 	.top{
-		background-color: #FFC19E;
+		background-color: #fa8;
 		text-align: center;
 		color: white;
 		cursor: pointer;
@@ -27,7 +27,7 @@
 	width: 350pt;
 	height: 30pt;
 	}
-	.g-signin2{
+	#my-signin2{
 		display: inline-block;
 	}
 	/* footer */
@@ -125,7 +125,7 @@
 </style>
 	
 </head>
-<body>
+<body onload="renderButton()">
 	<div class="top">
 		<h1> ICT 레시피 </h1>
 		<h2> ICT RECIPE </h2>
@@ -140,6 +140,24 @@
 		f.action = "goLogin";
 		f.submit();
 	}
+	function onSuccess(googleUser) {
+	console.log('Logged in as: ' + googleUser.getBasicProfile().getName());
+	}
+	function onFailure(error) {
+		console.log(error);
+	}
+	function renderButton() {
+		gapi.signin2.render('my-signin2', {
+			'scope': 'profile email',
+			'width': 240,
+			'height': 50,
+			'longtitle': true,
+			'theme': 'light',
+			'onsuccess': onSuccess,
+			'onfailure': onFailure
+		});
+	}
+	
 </script>
 	<div class="body">
 		<form method="post">
@@ -216,7 +234,8 @@
 		  
 		  <!-- google -->
 		<!-- <button id=bar style="background-color: red; color: white; font-size: 15pt;"> 구글 간편로그인 </button> -->
-		<div class="g-signin2" data-onsuccess="onSignIn"></div>
+		<!-- <div class="g-signin2" data-onsuccess="onSignIn"></div> -->
+		<div id="my-signin2"></div>
 		<script type="text/javascript">
 		function onSignIn(googleUser) {
 		  var profile = googleUser.getBasicProfile();
