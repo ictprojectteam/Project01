@@ -6,6 +6,7 @@
 <meta charset="UTF-8">
 <title>login</title>
 <script src="//developers.kakao.com/sdk/js/kakao.min.js"></script>
+
 <style type="text/css">
 	.top{
 		background-color: #FFC19E;
@@ -43,7 +44,32 @@
 		<br>
 		<p style="font-size: 10pt;"><a href="test.do">아이디/비밀번호 찾기</a> | <a href="test.do">회원가입</a></p>
 		<br>
-		<button id=bar style="background-color: blue; color: white; font-size: 15pt;"> Facebook 간편로그인 </button><br>
+		<!-- Facebook -->
+		<!-- <button id=bar style="background-color: blue; color: white; font-size: 15pt;"> Facebook 간편로그인 </button><br> -->
+		<div id="fb-root"></div>
+		<script async defer crossorigin="anonymous" src="https://connect.facebook.net/ko_KR/sdk.js#xfbml=1&version=v3.3&appId=343449269655895&autoLogAppEvents=1"></script>
+		<div class="fb-login-button" data-width="" data-size="large" data-button-type="login_with" data-auto-logout-link="false" data-use-continue-as="false"></div>
+		<script>
+		  window.fbAsyncInit = function() {
+		    FB.init({
+		      appId      : '343449269655895',
+		      cookie     : true,
+		      xfbml      : true,
+		      version    : 'v3.3'
+		    });
+		    FB.AppEvents.logPageView();   
+		  };
+		  (function(d, s, id){
+		     var js, fjs = d.getElementsByTagName(s)[0];
+		     if (d.getElementById(id)) {return;}
+		     js = d.createElement(s); js.id = id;
+		     js.src = "https://connect.facebook.net/en_US/sdk.js";
+		     fjs.parentNode.insertBefore(js, fjs);
+		   }(document, 'script', 'facebook-jssdk'));
+		</script>
+		<br><br>
+		
+		<!-- Kakao -->
 		<!-- <button id=bar style="background-color: yellow; color: black; font-size: 15pt;"> 카카오 간편로그인 </button><br> -->
 		<a id="kakao-login-btn"></a>
     	<a href="http://developers.kakao.com/logout"></a><br>
