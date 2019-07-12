@@ -25,10 +25,10 @@
 	
 
 </style>
-	<div class="top">
+	<a href="/" style="text-decoration: none"><div class="top">
 		<h1> ICT 레시피 </h1>
 		<h2> ICT RECIPE </h2>
-	</div>
+	</div></a>
 </head>
 <body>
 	<div class="body">
