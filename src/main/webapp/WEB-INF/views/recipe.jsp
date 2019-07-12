@@ -159,9 +159,20 @@
 			<div id="recipe-internal">
 				<c:forEach var="k" begin="1" end="16">
 					<div class="recipe-list-preview" mp="${k}">
-						<div class="recipe-preview-image"><img src="resources/images/gimzzi.jpg"></div>
-						<div class="recipe-preview-subject">김치찌개 간단 레시피!</div>
-						<div class="recipe-preview-writer">by 짜파게티 요리사</div>
+						<c:choose>
+							<c:when test="${k%2==0}">
+								<div class="recipe-preview-image"><img src="resources/images/gimzzi.jpg"></div>
+								<div class="recipe-preview-subject">김치찌개 간단 레시피!</div>
+								<div class="recipe-preview-writer">by 짜파게티 요리사</div>
+							</c:when>
+							<c:otherwise>
+								<div class="recipe-preview-image"><img src="resources/images/buzzi.jpg"></div>
+								<div class="recipe-preview-subject">의정부 부대찌개 따라해보기!</div>
+								<div class="recipe-preview-writer">by 닭갈비제작소</div>
+							</c:otherwise>
+						</c:choose>
+						
+						
 					</div>
 				</c:forEach>
 			</div>
