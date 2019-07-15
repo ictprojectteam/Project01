@@ -8,6 +8,10 @@
 <title>Video</title>
 <style type="text/css">
 /* ======================================== 영상 게시자 ========================================== */
+	#video-body{
+		width: 1200px;
+		margin: 30px auto 0px;
+	}
 	#video-group{
 		margin-top: 20px;
 		width: 1200px;
@@ -71,7 +75,10 @@
 </style>
 </head>
 <body>
-	<div>
+	<header>
+		<jsp:include page="head.jsp" />
+	</header>
+	<div id="video-body">
 		<div id="video-group">
 			<c:forEach var="k" begin="1" end="9">
 				<div class="video-group-each">
@@ -83,5 +90,8 @@
 		<div id="video-request">동영상 업로드 요청</div>
 		
 	</div>
+	<footer>
+		<jsp:include page="foot.jsp" />
+	</footer>
 </body>
 </html>

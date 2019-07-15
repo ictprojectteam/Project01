@@ -64,3 +64,13 @@ create sequence members_seq increment by 1 start with 1 nocycle;
 
 어드민 계정 임의추가
 insert into members values (members_seq.nextval, 'admin', 'admin', null, 'admin', 'male', sysdate);
+
+========================================================================
+추가예정 : 카테고리 DB
+create table cate_sort(
+  csnum number,
+  csval varchar2(50) unique,
+  cspara varchar2(20) unique,
+  csclass varchar2(20),
+  primary key(csnum)
+);

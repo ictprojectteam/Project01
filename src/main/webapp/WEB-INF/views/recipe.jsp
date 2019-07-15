@@ -9,6 +9,8 @@
 <style type="text/css">
 	
 	#recipebody{ 
+		width: 1200px;
+		margin: 30px auto 0px;
 	}
 	
 /* ======================================== 카테고리 ========================================== */
@@ -103,6 +105,9 @@
 </script>
 </head>
 <body>
+	<header>
+		<jsp:include page="head.jsp" />
+	</header>
 	<div id="recipebody">
 		<div id="category-label">
 			카테고리<i class="fas fa-angle-double-down"></i>
@@ -182,5 +187,8 @@
 			<div id="recipe-paging">페이징이 들어갈 자리</div>
 		</div>
 	</div>
+	<footer>
+		<jsp:include page="foot.jsp" />
+	</footer>
 </body>
 </html>
