@@ -59,7 +59,7 @@ public class MainController {
 		MVO r_mvo = dao.getLogin(mvo);
 		if (r_mvo != null) {
 			session.setAttribute("mvo", r_mvo);
-			mv.setViewName("redirect:/");		// admin > Home 
+			mv.setViewName("admin_home");		// admin > Home 
 		} else {
 			mv.setViewName("loginfail");
 		}
