@@ -40,6 +40,7 @@
 		display: inline-block;
 		width: 250px;
 		margin: 10px 10px;
+		cursor: pointer;
 	}
 	.talk-preview img, .recipe-preview img{
 		width: 250px;
@@ -48,7 +49,6 @@
 	.talk-preview-content, .recipe-preview-content{
 		width: 250px;
 		height: 90px;
-		border: 1px solid blue;
 		line-height: 15px;
 		color: #333;
 		text-indent: 10px;
@@ -59,6 +59,7 @@
 		font-size: 35pt;
 		text-align: center;
 		text-decoration: none;
+		color: #fa8;
 	}
 	#talk-recent a, #recipe-recent a{
 		color: #fa8;
@@ -69,6 +70,14 @@
 	.talk-left, .recipe-left{
 		visibility: hidden;
 	}
+	.talk-preview:hover .talk-preview-content, .recipe-preview:hover .recipe-preview-content{
+		background: #fb9;
+		color: #ddd;
+		opacity: 0.5;
+	}
+	.talk-preview:hover img, .recipe-preview:hover img{
+		opacity: 0.5;
+	}
 </style>
 <script type="text/javascript" src="../resources/js/jquery-3.4.1.min.js"></script>
 <script>
@@ -78,15 +87,20 @@
 		var talk_num = 0;
 		var total = $(".talk-preview").length;
 		var talk_width = 273;
+		if(talk_num == 0){
+			$(".talk-right").css("cursor", "pointer");
+		}
 		$(".talk-right-arrow").on("click", function(){
 			if(talk_num < (total - talk_show_num)) {
 				talk_num++;
 				talklist.stop().animate({marginLeft:-talk_width*talk_num+"px"},400);
 				$(".talk-left").css("visibility", "visible");
+				$(".talk-left").css("cursor", "pointer");
 				$(".talk-left").fadeIn("fast");
 			}
 			if(talk_num == (total - talk_show_num)){
 				 $(".talk-right").fadeOut("fast");
+				 $(".talk-right").css("cursor", "default");
 			}
 		});
 		$(".talk-left-arrow").on("click", function(){
@@ -94,9 +108,11 @@
 				talk_num--;
 				talklist.stop().animate({marginLeft:-talk_width*talk_num+"px"},400);
 				$(".talk-right").fadeIn("fast");
+				$(".talk-right").css("cursor", "pointer");
 			}
 			if(talk_num == 0) {
 				$(".talk-left").fadeOut("fast");
+				$(".talk-left").css("cursor", "default");
 			}
 		});
 		var recipelist = $("#recipe-recent-preview");
@@ -104,6 +120,9 @@
 		var recipe_num = 0;
 		var total = $(".recipe-preview").length;
 		var recipe_width = 273;
+		if(recipe_num == 0){
+			$(".recipe-right").css("cursor", "pointer");
+		}
 		$(".recipe-right-arrow").on("click", function(){
 			if(recipe_num < (total - recipe_show_num)) {
 				recipe_num++;
@@ -125,6 +144,14 @@
 				$(".recipe-left").fadeOut("fast");
 			}
 		});
+		$(".talk-preview").on("click", function(p){
+			var attrib = $(this).attr("id");
+			alert(attrib);
+		});
+		$(".recipe-preview").on("click", function(p){
+			var attrib = $(this).attr("id");
+			alert(attrib);
+		});
 	});
 </script>
 </head>
@@ -133,13 +160,13 @@
 		<p id="talk-recent-label"><a href="talk">토크!!</a><p>
 		<div id="talk-recent">
 			<div class="talk-left-arrow">
-				<a href="javascript:void(0)"><i class="fas fa-angle-left talk-left"></i></a>
+				<i class="fas fa-angle-left talk-left"></i>
 			</div>
 			<div id="talk-recent-preview-wrap">
 				<div id="talk-recent-preview">
 					<c:forEach var="k" begin="1" end="8">
-						<div class="talk-preview">
-							<a href="#"><img src="../resources/images/dessert.jpg"></a>
+						<div class="talk-preview" id="talk${k}">
+							<img src="../resources/images/dessert.jpg">
 							<div class="talk-preview-content">
 								<p>제목 : ${k}</p>
 								<p>작성자 : </p>
@@ -150,7 +177,7 @@
 				</div>
 			</div>
 			<div class="talk-right-arrow">
-				<a href="javascript:void(0)"><i class="fas fa-angle-right talk-right"></i></a>
+				<i class="fas fa-angle-right talk-right"></i>
 			</div>
 		</div>
 		
@@ -162,8 +189,8 @@
 			<div id="recipe-recent-preview-wrap">
 				<div id="recipe-recent-preview">
 					<c:forEach var="k" begin="1" end="8">
-						<div class="recipe-preview">
-							<a href="#"><img src="../resources/images/dessert.jpg"></a>
+						<div class="recipe-preview" id="recipe${k}">
+							<img src="../resources/images/dessert.jpg">
 							<div class="recipe-preview-content">
 								<p>제목 : ${k}</p>
 								<p>작성자 : </p>
@@ -174,7 +201,7 @@
 				</div>
 			</div>
 			<div class="recipe-right-arrow">
-				<a href="javascript:void(0)"><i class="fas fa-angle-right recipe-right"></i></a>
+				<i class="fas fa-angle-right recipe-right"></i>
 			</div>
 		</div>
 		

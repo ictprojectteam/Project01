@@ -6,6 +6,99 @@
 <head>
 <meta charset="UTF-8">
 <title>Foot - Recently, Company, SNS, Report, Counting</title>
+<style type="text/css">
+	#footer{
+		margin: 100px auto 0px;
+	}
+	#first-footer{
+		width: 1300px;
+		margin: auto;
+		display: grid;
+		grid-template-columns: 400px 550px 350px;
+	}
+	#footer-company{
+		font-size: 9pt;
+		color: #888;
+		line-height: 5pt;
+	}
+	#footer-link a:link, #footer-link a:visited{
+		color: #888;
+	}
+	#footer-sns img{
+		margin-top: 50px;
+		width: 70px;
+		height: 70px;
+	}
+	#report-content{
+		margin-left: 50px;
+	}
+	#send-report{
+		display: block;
+		text-decoration: none;
+		font-size: 9pt;
+		color: black;
+		margin: auto;
+		text-align: center;
+	}
+	#second-footer{
+		background: #fa8;
+		width: 100vw;
+		min-width: 1320px;
+		margin: -8px;
+		margin-top: 20px;
+	}
+	#second-footer-content{
+		width: 1300px;
+		display: grid;
+		grid-template-columns: 250px 800px 250px;
+		height: 170px;
+		margin: auto;
+	}
+	#footer-logo{
+		padding: 40px;
+	}
+	#footer-counting{
+		display: grid;
+		grid-template-columns: auto auto auto;
+		grid-template-rows: 100px 70px;
+		text-align: center;
+		color: #e86;
+		font-size: 35pt;
+	}
+	#footer-counting i{
+		margin-top: 25px;
+	}
+	#footer-counting a:link, #footer-counting a:visited{
+		color: #e86;
+	}
+	#footer-mailto-round{
+		padding: 40px;
+	}
+	#footer-mailto{
+		margin: auto;
+		height: 80px;
+		width: 80px;
+		border-radius: 80px;
+		background: #fff;
+		color: #d75;
+		font-size: 30pt;
+		text-align: center;
+	}
+	#footer-mailto i{ 
+		margin-top: 20px;
+	}
+	.footer-counting-label{
+		margin-top: -10px;
+		font-size: 9pt;
+		color: #eee;
+	}
+	.footer-counting-number{
+		margin-top: -10px;
+		font-size: 16pt;
+		color: #dd3;
+	}
+</style>
+<script src="https://kit.fontawesome.com/057ba10041.js"></script>
 </head>
 <body>
 	<div id="footer">

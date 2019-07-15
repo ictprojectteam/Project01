@@ -28,7 +28,7 @@ public class MainController {
 	
 	@RequestMapping(value = "login")
 	public ModelAndView getLogin() {
-		ModelAndView mv = new ModelAndView("admin_login");
+		ModelAndView mv = new ModelAndView("login");
 		
 		return mv;
 	}
@@ -79,6 +79,14 @@ public class MainController {
 	public ModelAndView getRecipe() {
 		ModelAndView mv = new ModelAndView("index");
 		wPage = "recipe.jsp";
+		addw(mv);
+		return mv;
+	}
+	
+	@RequestMapping("video")
+	public ModelAndView getVideo() {
+		ModelAndView mv = new ModelAndView("index");
+		wPage = "video.jsp";
 		addw(mv);
 		return mv;
 	}
