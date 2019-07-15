@@ -12,4 +12,8 @@ public class DAO {
 	public MVO getLogin(MVO mvo) {
 		return sqlSessionTemplate.selectOne("login", mvo);
 	}
+	
+	public MVO getAdminLogin(MVO mvo) {
+		return sqlSessionTemplate.selectOne("admin_login", mvo);
+	}
 }
