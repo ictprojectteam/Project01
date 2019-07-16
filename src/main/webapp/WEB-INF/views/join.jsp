@@ -67,6 +67,7 @@
 			var name = $("#name").val();
 			var gender = $("input[name='gender']:checked").length
 			var join_chk = $("input[name='join_chk']:checked").length
+			var gender1 = $("input[name='gender']:checked").val();
 			
 
 			/* 
@@ -111,8 +112,6 @@
 			if(join_chk == 0){
 				alert("이용약관에 동의해주세요");
 				return false;
-			}else{
-				alert("가입 성공");
 			}
 		});
 	});
@@ -127,11 +126,11 @@
 				if(pw1 == pw2){
 					$("#alert-success").show();
 					$("#alert-danger").hide();
-					// $(".join_bt").removeAttr("disabled");
+					$(".join_bt").removeAttr("disabled");
 				}else{
 					$("#alert-success").hide();
 					$("#alert-danger").show();
-					// $(".join_bt").attr("disabled","disavled");
+					$(".join_bt").attr("disabled","disavled");
 				}
 			}	
 		});
@@ -140,8 +139,9 @@
 	
 </script>
 	<div class="body">
-		<form method="post">
+		<form method="post" action="join_ok" onSubmit="return join_bt()">
 			<h1 style="font-size: 50px;">회원가입</h1>
+			
 			<p><input class=inpo_box type="text" placeholder="아이디" name="id" id="id"></p>
 			<p><input id=pw1 type="password" placeholder="비밀번호" name="pw"></p>
 			<p><input id=pw2 type="password" placeholder="비밀번호 확인" name="pw_ok"></p>
@@ -149,16 +149,19 @@
 			<p id="alert-danger">비밀번호가 일치하지 않습니다.</p>
 			<p><input class=inpo_box type="text" placeholder="이메일" name="email" id="email"></p>
 			<p><input class=inpo_box type="text" placeholder="닉네임" name="name" id="name"></p>
-			<p><input type="radio" name="gender" class="gender">남자
-			   <input type="radio" name="gender" class="gender">여자
+			<p>
+			<input type="radio" name="gender" value="남자">남자
+			<input type="radio" name="gender" value="여자">여자
 			</p>
+			   
 			<fieldset style="width: 10%">
 			<legend>이용약관</legend>
 			<p><textarea rows="5%" cols="60%">개인정보 수집입니다.</textarea></p>
 			<input type="checkbox" id="join_chk" name="join_chk">이용약관 동의(필수)
 			</fieldset>
+			
 			<br>
-			<input class="join_bt" type="button" value="회원가입"/>
+			<input class="join_bt" type="submit" value="회원가입"/>
 		</form>
 	</div>
 </body>
