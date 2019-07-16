@@ -46,6 +46,11 @@ public class MainController {
 		return mv;
 	}
 	
+	@RequestMapping("join")
+	public ModelAndView goJoin() {
+		return new ModelAndView("join");
+	}
+	
 	@RequestMapping(value = "admin")
 	public ModelAndView getAdminLogin() {
 		ModelAndView mv = new ModelAndView("admin_login");
