@@ -6,6 +6,10 @@
 	<select id="login" parameterType="mvo" resultType="mvo">
 		select * from members where id=#{id} and pw=#{pw}
 	</select>
+	<insert id="join" parameterType="com.ict.service.MVO">
+		insert into members
+			values(members_seq.nextval,#{id},#{pw},#{email},#{name},#{gender},sysdate)
+	</insert>
 </mapper>
 
 
