@@ -51,6 +51,13 @@ public class MainController {
 		return new ModelAndView("join");
 	}
 	
+	@RequestMapping("join_ok")
+	public ModelAndView getInsert(MVO mvo) {
+		ModelAndView mv = new ModelAndView("redirect:/");
+		dao.getJoin(mvo);
+		return mv;
+	}
+	
 	@RequestMapping(value = "admin")
 	public ModelAndView getAdminLogin() {
 		ModelAndView mv = new ModelAndView("admin_login");
