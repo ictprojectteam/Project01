@@ -12,4 +12,7 @@ public class DAO {
 	public MVO getLogin(MVO mvo) {
 		return sqlSessionTemplate.selectOne("login", mvo);
 	}
+	public int getJoin(MVO mvo) {
+		return sqlSessionTemplate.insert("join", mvo);
+	}
 }
