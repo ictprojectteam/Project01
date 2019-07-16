@@ -13,8 +13,11 @@ m_idx NUMBER,
 subject VARCHAR2(50),
 content_ VARCHAR2(4000),
 file_name VARCHAR2(50),
-cate VARCHAR2(50),
+cate VARCHAR2(50), // 삭제
+type VARCHAR2(50), // 추가
+situ VARCHAR2(50,  // 추가
 mate VARCHAR2(50),
+meth VARCHAR2(50,  // 추가
 view_ NUMBER,
 hit NUMBER,
 regdate date,
