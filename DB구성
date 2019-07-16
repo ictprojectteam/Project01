@@ -64,3 +64,10 @@ create sequence members_seq increment by 1 start with 1 nocycle;
 
 어드민 계정 임의추가
 insert into members values (members_seq.nextval, 'admin', 'admin', null, 'admin', 'male', sysdate);
+
+========================================================================
+recipe 구조 수정
+alter table recipe add type varchar2(50);
+alter table recipe add situ varchar2(50);
+alter table recipe add meth varchar2(50);
+alter table recipe drop COLUMN cate;
