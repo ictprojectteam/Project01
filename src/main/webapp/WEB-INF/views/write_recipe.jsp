@@ -140,9 +140,10 @@
 		margin: 0px 30px;
 		color: #333;
 		cursor: pointer;
+		border-radius: 3px;
 	}
-	.recipe-delete-pack p:onclick{
-		box-shadow: 
+	.recipe-delete-pack p:active{
+		box-shadow: 0px 0px 2px 1px #79f;
 	}
 	.recipe-each-sort{
 		display: grid;
@@ -155,9 +156,28 @@
 		border-radius: 5px;
 		margin-bottom: 5px;
 	}
+	.recipe-each-delete>.fa-times{
+		color: #eee;
+		background: #ccc;
+		border-radius: 10px;
+		padding: 3px;
+		margin: 10px 0px 0px 10px;
+		cursor: pointer;
+		visibility: hidden;
+	}
+	.recipe-each-sort:hover>.recipe-each-delete>.fa-times{
+		visibility: visible;
+	}
 	.recipe-each-add{
 		text-align: center;
+		font-size: 10pt;
 		margin: 5px auto 20px auto;
+		cursor: pointer;
+	}
+	.recipe-each-add>.fa-plus{
+		padding: 3px;
+		background: #fa8;
+		border-radius: 15px;
 	}
 	#recipe-pack-not{
 		margin-top: 20px;
@@ -197,6 +217,21 @@
 				$("#write-top-image-insert").hide();
 				$("#write-top-image-com").show();
 			}
+		});
+		$(".recipe-each-delete").on("click", function(){
+			var k = $(this).parent();
+			k.animate({
+				opacity: 0
+			}, 300, function(){
+				k.remove();
+			});
+		});
+		$(".recipe-each-add").on("click", function(){
+			var k = $(this).parent().children(".recipe-each-ing");
+			var c = k.find(".recipe-each-sort:first");
+			c.clone().appendTo(k);
+			alert(c.attr("class"));
+			
 		});
 	});	
 </script>
@@ -379,7 +414,7 @@
 							</div>
 							<div class="empty"></div>
 							<div class="empty"></div>
-							<div class="recipe-each-add"><i class="fas fa-plus"></i>추가</div>
+							<div class="recipe-each-add"><i class="fas fa-plus"></i> 추가</div>
 						</div>
 					</div>
 					<div>
@@ -445,7 +480,7 @@
 							</div>
 							<div class="empty"></div>
 							<div class="empty"></div>
-							<div class="recipe-each-add"><i class="fas fa-plus"></i>추가</div>
+							<div class="recipe-each-add"><i class="fas fa-plus"></i> 추가</div>
 						</div>
 					</div>
 				</div>

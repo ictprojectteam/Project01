@@ -6,6 +6,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Video</title>
+<link rel="stylesheet" href="../resources/css/jquery-ui.min.css">
 <style type="text/css">
 /* ======================================== 영상 게시자 ========================================== */
 	#video-body{
@@ -73,6 +74,9 @@
 /* ======================================== 인기 영상 ========================================== */
 
 </style>
+<script src="https://kit.fontawesome.com/057ba10041.js"></script>
+<script src="../resources/js/jquery-3.4.1.min.js"></script>
+<script src="../resources/js/jquery-ui.min.js"></script>
 </head>
 <body>
 	<header>
