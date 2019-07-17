@@ -185,6 +185,15 @@
 		font-size: 11pt;
 		color: #f33;
 	}
+	#recipe-add-pack{
+		text-align: center;
+	}
+	#recipe-add-pack p{
+		display: inline-block;
+		border: 1px solid #aaa;
+		padding: 10px 25px;
+		border-radius: 5px;
+	}
 </style>
 <script src="https://kit.fontawesome.com/057ba10041.js"></script>
 <script src="../resources/js/jquery-3.4.1.min.js"></script>
@@ -218,22 +227,25 @@
 				$("#write-top-image-com").show();
 			}
 		});
-		$(".recipe-each-delete").on("click", function(){
-			var k = $(this).parent();
-			k.animate({
-				opacity: 0
-			}, 300, function(){
-				k.remove();
-			});
+	});
+	function each_add(pack){
+		var k = $("#recipe-pack-"+pack);
+		var ing = 0;
+		$("#recipe-pack-"+pack+" [id^=recipe-each-"+pack+"-]").each(function(){
+			var pre_ing = $(this).prop("id").replace("recipe-each-"+pack+"-", "");
+			var tmp_ing = parseInt(pre_ing, 10);
+			ing = Math.max(ing, tmp_ing);
 		});
-		$(".recipe-each-add").on("click", function(){
-			var k = $(this).parent().children(".recipe-each-ing");
-			var c = k.find(".recipe-each-sort:first");
-			c.clone().appendTo(k);
-			alert(c.attr("class"));
-			
-		});
-	});	
+		var str = '<div class="recipe-each-sort" id="recipe-each-'+pack+'-'+ing+'">';
+		str += '<div class="recipe-each-arrow"><i class="fas fa-sort-up"></i><br><i class="fas fa-sort-down"></i></div>';
+		str += '<div class="recipe-each-name"><textarea rows="1" cols="39" placeholder="예) 돼지고기"></textarea></div>';
+		str += '<div class="recipe-each-quant"><textarea rows="1" cols="28" placeholder="예) 300g"></textarea></div>';
+		str += '<div class="recipe-each-delete" onclick="each_del('+pack+','+ing+')"><i class="fas fa-times"></i></div></div>';
+		$(str).appendTo("#recipe-pack-"+pack);
+	}	
+	function each_del(pack, ing){
+		$("#recipe-each-"+pack+"-"+ing).remove();
+	}
 </script>
 </head>
 <body>
@@ -365,8 +377,8 @@
 									<p><i class="fas fa-times"></i> 묶음삭제</p>
 								</div>
 							</div>
-							<div class="recipe-each-ing">
-								<div class="recipe-each-sort">
+							<div class="recipe-each-ing" id="recipe-pack-1">
+								<div class="recipe-each-sort" id="recipe-each-1-1">
 									<div class="recipe-each-arrow">
 										<i class="fas fa-sort-up"></i><br>
 										<i class="fas fa-sort-down"></i>
@@ -377,11 +389,11 @@
 									<div class="recipe-each-quant">
 										<textarea rows="1" cols="28" placeholder="예) 300g"></textarea>
 									</div>
-									<div class="recipe-each-delete">
+									<div class="recipe-each-delete" onclick="each_del(1,1)">
 										<i class="fas fa-times"></i>
 									</div>
 								</div>
-								<div class="recipe-each-sort">
+								<div class="recipe-each-sort" id="recipe-each-1-2">
 									<div class="recipe-each-arrow">
 										<i class="fas fa-sort-up"></i><br>
 										<i class="fas fa-sort-down"></i>
@@ -392,11 +404,11 @@
 									<div class="recipe-each-quant">
 										<textarea rows="1" cols="28" placeholder="예) 1/2개"></textarea>
 									</div>
-									<div class="recipe-each-delete">
+									<div class="recipe-each-delete" onclick="each_del(1,2)">
 										<i class="fas fa-times"></i>
 									</div>
 								</div>
-								<div class="recipe-each-sort">
+								<div class="recipe-each-sort" id="recipe-each-1-3">
 									<div class="recipe-each-arrow">
 										<i class="fas fa-sort-up"></i><br>
 										<i class="fas fa-sort-down"></i>
@@ -407,15 +419,13 @@
 									<div class="recipe-each-quant">
 										<textarea rows="1" cols="28" placeholder="예) 1T"></textarea>
 									</div>
-									<div class="recipe-each-delete">
+									<div class="recipe-each-delete" onclick="each_del(1,3)">
 										<i class="fas fa-times"></i>
 									</div>
 								</div>
 							</div>
-							<div class="empty"></div>
-							<div class="empty"></div>
-							<div class="recipe-each-add"><i class="fas fa-plus"></i> 추가</div>
 						</div>
+						<div class="recipe-each-add" onclick="each_add(1)"><i class="fas fa-plus"></i> 추가</div>
 					</div>
 					<div>
 						<div class="recipe-sort">
@@ -431,8 +441,8 @@
 									<p><i class="fas fa-times"></i> 묶음삭제</p>
 								</div>
 							</div>
-							<div class="recipe-each-ing">
-								<div class="recipe-each-sort">
+							<div class="recipe-each-ing" id="recipe-pack-2">
+								<div class="recipe-each-sort" id="recipe-each-2-1">
 									<div class="recipe-each-arrow">
 										<i class="fas fa-sort-up"></i><br>
 										<i class="fas fa-sort-down"></i>
@@ -443,11 +453,11 @@
 									<div class="recipe-each-quant">
 										<textarea rows="1" cols="28" placeholder="예) 300g"></textarea>
 									</div>
-									<div class="recipe-each-delete">
+									<div class="recipe-each-delete" onclick="each_del(2,1)">
 										<i class="fas fa-times"></i>
 									</div>
 								</div>
-								<div class="recipe-each-sort">
+								<div class="recipe-each-sort" id="recipe-each-2-2">
 									<div class="recipe-each-arrow">
 										<i class="fas fa-sort-up"></i><br>
 										<i class="fas fa-sort-down"></i>
@@ -458,11 +468,11 @@
 									<div class="recipe-each-quant">
 										<textarea rows="1" cols="28" placeholder="예) 1/2개"></textarea>
 									</div>
-									<div class="recipe-each-delete">
+									<div class="recipe-each-delete" onclick="each_del(2,2)">
 										<i class="fas fa-times"></i>
 									</div>
 								</div>
-								<div class="recipe-each-sort">
+								<div class="recipe-each-sort" id="recipe-each-2-3">
 									<div class="recipe-each-arrow">
 										<i class="fas fa-sort-up"></i><br>
 										<i class="fas fa-sort-down"></i>
@@ -473,19 +483,17 @@
 									<div class="recipe-each-quant">
 										<textarea rows="1" cols="28" placeholder="예) 1T"></textarea>
 									</div>
-									<div class="recipe-each-delete">
+									<div class="recipe-each-delete" onclick="each_del(2,3)">
 										<i class="fas fa-times"></i>
 									</div>
 								</div>
 							</div>
-							<div class="empty"></div>
-							<div class="empty"></div>
-							<div class="recipe-each-add"><i class="fas fa-plus"></i> 추가</div>
 						</div>
+						<div class="recipe-each-add" onclick="each_add(2)"><i class="fas fa-plus"></i> 추가</div>
 					</div>
 				</div>
 				<div id="recipe-pack-not">※ 양념, 양념장, 소스, 드레싱, 토핑, 시럽, 육수, 밑간 등으로 구분해서 작성해주세요.</div>
-				<div>
+				<div id="recipe-add-pack">
 					<p><i class="fas fa-plus"></i> 재료/양념 묶음 추가</p>
 				</div>
 				<div id="recipe-order">
