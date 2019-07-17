@@ -21,7 +21,6 @@ public class DAO {
 	public MVO getLogin(MVO mvo) {
 		return sqlSessionTemplate.selectOne("login", mvo);
 	}
-<<<<<<< HEAD
 	
 	public MVO a_getLogin(MVO mvo) {
 		return sqlSessionTemplate.selectOne("login", mvo);
@@ -31,9 +30,7 @@ public class DAO {
 		return sqlSessionTemplate.selectList("list");
 	}
 	
-=======
 	public int getJoin(MVO mvo) {
 		return sqlSessionTemplate.insert("join", mvo);
 	}
->>>>>>> branch 'master' of https://github.com/ictprojectteam/Project01.git
 }

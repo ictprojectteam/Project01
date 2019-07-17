@@ -167,7 +167,7 @@
 		<button id=bar style="background-color: #997000; color: white; font-size: 15pt;" onclick="goLogin(this.form)"> 로그인 </button>
 		</form>
 		<br>
-		<p style="font-size: 10pt;"><a href="test.do">아이디/비밀번호 찾기</a> | <a href="test.do">회원가입</a></p>
+		<p style="font-size: 10pt;"><a href="find">비밀번호 찾기</a> | <a href="test.do">회원가입</a></p>
 		<br>
 		<!-- Facebook -->
 		<!-- <button id=bar style="background-color: blue; color: white; font-size: 15pt;"> Facebook 간편로그인 </button><br> -->

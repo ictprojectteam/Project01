@@ -35,6 +35,11 @@ public class MainController {
 		return mv;
 	}
 	
+	@RequestMapping("find")
+	public ModelAndView getFind() {
+		return new ModelAndView("find");
+	}
+	
 	@RequestMapping(value = "goLogin", method = RequestMethod.POST)
 	public ModelAndView goLogin(MVO mvo, HttpSession session) {
 		ModelAndView mv = new ModelAndView();
@@ -48,9 +53,6 @@ public class MainController {
 		return mv;
 	}
 	
-<<<<<<< HEAD
-	@RequestMapping(value = "m")
-=======
 	@RequestMapping("join")
 	public ModelAndView goJoin() {
 		return new ModelAndView("join");
@@ -63,8 +65,7 @@ public class MainController {
 		return mv;
 	}
 	
-	@RequestMapping(value = "admin")
->>>>>>> branch 'master' of https://github.com/ictprojectteam/Project01.git
+	@RequestMapping(value = "m")
 	public ModelAndView getAdminLogin() {
 		ModelAndView mv = new ModelAndView("admin_login");
 		
