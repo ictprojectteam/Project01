@@ -1,5 +1,7 @@
 package com.ict.controller;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -46,25 +48,36 @@ public class MainController {
 		return mv;
 	}
 	
-	@RequestMapping(value = "admin")
+	@RequestMapping(value = "m")
 	public ModelAndView getAdminLogin() {
 		ModelAndView mv = new ModelAndView("admin_login");
 		
 		return mv;
 	}
 	
-	@RequestMapping(value = "goAdminLogin", method = RequestMethod.POST)
-	public ModelAndView goAdminLogin(MVO mvo, HttpSession session) {
+	@RequestMapping(value = "admin", method = {RequestMethod.POST, RequestMethod.GET})
+	public ModelAndView a_goLogin(MVO mvo, HttpSession session) {
 		ModelAndView mv = new ModelAndView();
 		MVO r_mvo = dao.getLogin(mvo);
 		if (r_mvo != null) {
 			session.setAttribute("mvo", r_mvo);
-			mv.setViewName("admin_home");		// admin > Home 
+			mv.setViewName("admin");
+			List<MVO> list = dao.getList();
+			mv.addObject("list", list);
 		} else {
 			mv.setViewName("loginfail");
 		}
 		return mv;
 	}
+	@RequestMapping(value = "home")
+	public ModelAndView getAdmin() {
+		ModelAndView mv = new ModelAndView("admin");
+		List<MVO> list = dao.getList();
+		mv.addObject("list", list);
+		return mv;
+	}
+	
+	
 	
 	@RequestMapping("logout")
 	public ModelAndView getLogout(HttpServletRequest request) {
@@ -94,4 +107,15 @@ public class MainController {
 	public void addw(ModelAndView mv) {
 		mv.addObject("wPage", wPage);
 	}
+	
+	
+	
+	//================================================//
+	
+	
+	
+	
+	
+	
+	
 }

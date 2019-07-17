@@ -6,6 +6,9 @@
 	<select id="login" parameterType="mvo" resultType="mvo">
 		select * from members where id=#{id} and pw=#{pw}
 	</select>
+	<select id="list" resultType="mvo">
+		select * from members order by m_idx
+	</select>
 </mapper>
 
 

@@ -24,4 +24,7 @@
 	<context:annotation-config />
 	<context:component-scan base-package="com.ict.*" />
 
+	<bean id="dao" class="com.ict.service.DAO">
+		<property name="sqlSessionTemplate" ref="sqlSessionTemplate"></property>
+	</bean>
 </beans>
