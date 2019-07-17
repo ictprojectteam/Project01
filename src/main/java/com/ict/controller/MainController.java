@@ -48,7 +48,23 @@ public class MainController {
 		return mv;
 	}
 	
+<<<<<<< HEAD
 	@RequestMapping(value = "m")
+=======
+	@RequestMapping("join")
+	public ModelAndView goJoin() {
+		return new ModelAndView("join");
+	}
+	
+	@RequestMapping("join_ok")
+	public ModelAndView getInsert(MVO mvo) {
+		ModelAndView mv = new ModelAndView("redirect:/");
+		dao.getJoin(mvo);
+		return mv;
+	}
+	
+	@RequestMapping(value = "admin")
+>>>>>>> branch 'master' of https://github.com/ictprojectteam/Project01.git
 	public ModelAndView getAdminLogin() {
 		ModelAndView mv = new ModelAndView("admin_login");
 		
