@@ -48,9 +48,6 @@ public class MainController {
 		return mv;
 	}
 	
-<<<<<<< HEAD
-	@RequestMapping(value = "m")
-=======
 	@RequestMapping("join")
 	public ModelAndView goJoin() {
 		return new ModelAndView("join");
@@ -63,8 +60,7 @@ public class MainController {
 		return mv;
 	}
 	
-	@RequestMapping(value = "admin")
->>>>>>> branch 'master' of https://github.com/ictprojectteam/Project01.git
+	@RequestMapping(value = "m")
 	public ModelAndView getAdminLogin() {
 		ModelAndView mv = new ModelAndView("admin_login");
 		
@@ -88,6 +84,14 @@ public class MainController {
 	@RequestMapping(value = "home")
 	public ModelAndView getAdmin() {
 		ModelAndView mv = new ModelAndView("admin");
+		List<MVO> list = dao.getList();
+		mv.addObject("list", list);
+		return mv;
+	}
+	
+	@RequestMapping(value = "a_recipe")
+	public ModelAndView geta_recipe() {
+		ModelAndView mv = new ModelAndView("a_recipe");
 		List<MVO> list = dao.getList();
 		mv.addObject("list", list);
 		return mv;
@@ -123,14 +127,6 @@ public class MainController {
 	public void addw(ModelAndView mv) {
 		mv.addObject("wPage", wPage);
 	}
-	
-	
-	
-	//================================================//
-	
-	
-	
-	
 	
 	
 	
