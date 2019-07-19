@@ -33,4 +33,13 @@ public class DAO {
 	public int getJoin(MVO mvo) {
 		return sqlSessionTemplate.insert("join", mvo);
 	}
+	
+	public MVO findPw(String email) {
+		return sqlSessionTemplate.selectOne("findPw", email);
+		
+	}
+	
+	public int pwUpdate(MVO mvo) {
+		return sqlSessionTemplate.update("pwUpdate", mvo);
+	}
 }

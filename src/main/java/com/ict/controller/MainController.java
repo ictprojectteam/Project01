@@ -35,11 +35,6 @@ public class MainController {
 		return mv;
 	}
 	
-	@RequestMapping("find")
-	public ModelAndView getFind() {
-		return new ModelAndView("find");
-	}
-	
 	@RequestMapping(value = "goLogin", method = RequestMethod.POST)
 	public ModelAndView goLogin(MVO mvo, HttpSession session) {
 		ModelAndView mv = new ModelAndView();
@@ -127,7 +122,6 @@ public class MainController {
 	
 	
 	
-	//================================================//
 	
 	
 	

@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -33,6 +34,10 @@
 				location.href="/";
 			});
 		});
+		function send_go(f){
+			f.action = "send_mail";
+			f.submit();
+		}
 	</script>
 	<div class="top">
 		<h1> ICT 레시피 </h1>

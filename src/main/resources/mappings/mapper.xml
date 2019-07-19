@@ -9,10 +9,16 @@
 	<select id="list" resultType="mvo">
 		select * from members order by m_idx
 	</select>
-	<insert id="join" parameterType="com.ict.service.MVO">
+	<insert id="join" parameterType="mvo">
 		insert into members
 			values(members_seq.nextval,#{id},#{pw},#{email},#{name},#{gender},sysdate)
 	</insert>
+	<select id="findPw" parameterType="String" resultType="mvo">
+		select * from members where email = #{email}
+	</select>
+	<update id="pwUpdate" parameterType="mvo">
+		update members set pw = #{pw} where m_idx = #{m_idx}
+	</update>
 </mapper>
 
 
