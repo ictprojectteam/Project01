@@ -82,10 +82,28 @@
 		text-align: center;
 		cursor: pointer;
 	}
+	#write-top-image-com{
+		height: 250px;
+	}
 	#write-top-image-insert img{
 		width: 230px;
 		height: 230px;
 		margin: 10px;
+	}
+	#write-top-image-insert>.fa-times{
+		background: #333;
+		color: #ccc;
+		position: relative;
+		bottom: 245px;
+		left: 105px;
+		z-index: 1;
+		font-size: 20pt;
+		opacity: 0.7;
+		visibility: hidden;
+		cursor: pointer;
+	}
+	#write-top-image-insert:hover>.fa-times{
+		visibility: visible;
 	}
 	.fa-camera{
 		margin-top: 60px;
@@ -180,19 +198,104 @@
 		border-radius: 15px;
 	}
 	#recipe-pack-not{
-		margin-top: 20px;
+		margin-top: 50px;
 		text-align: center;
-		font-size: 11pt;
+		font-size: 10pt;
 		color: #f33;
 	}
 	#recipe-add-pack{
 		text-align: center;
 	}
-	#recipe-add-pack p{
+	#recipe-add-pack>p{
 		display: inline-block;
 		border: 1px solid #aaa;
 		padding: 10px 25px;
 		border-radius: 5px;
+		cursor: pointer;
+	}
+	#recipe-order-not{
+		font-size: 9pt;
+		color: #999;
+		line-height: 5px;
+	}
+	#recipe-order-not > :first-child{
+		font-weight: bold;
+	}
+	#recipe-order-not > :not(:first-child){
+		text-indent: 10pt;
+	}
+	.recipe-order{
+		width: 700px;
+		margin: 20px auto 0px 30px;
+		display: grid;
+		grid-template-columns: 150px 350px 150px 50px;
+	}
+	.recipe-order-count{
+		text-align: center;
+		color: #fa8;
+		font-size: 20pt;
+	}
+	.recipe-order-content>textarea{
+		font-size: 12pt;
+		resize: none;
+		width: 340px;
+		height: 160px;
+		margin: 0px;
+	}
+	.recipe-order-addimage{
+		height: 165px;
+		border: 1px solid #999;
+	}
+	.recipe-order-addimage>div:not(.recipe-order-image){
+		cursor: pointer;
+	}
+	.recipe-order-addimage>div>i.fa-plus{
+		margin: 69px 60px;
+		text-align: center;
+		color: #999;
+		font-size: 20pt;
+	}
+	.recipe-order-image>img{
+		width: 150px;
+		margin: 0;
+		height: 160px;
+		cursor: pointer;
+	}
+	.recipe-order-image>i.fa-times{
+		color: #ccc;
+		background: #333;
+		opacity: 0.7;
+		font-size: 20pt;
+		position: relative;
+		bottom: 165px;
+		left: 130px;
+		cursor: pointer;
+		visibility: hidden;
+	}
+	.recipe-order-image:hover>i.fa-times{
+		visibility: visible;
+	}
+	.recipe-order-button>i{
+		display: block;
+		color: #999;
+		font-size: 14pt;
+		margin: 17px auto;
+		text-align: center;
+		cursor: pointer;
+	}
+	#recipe-order-add{
+		width: 100px;
+		margin: 20px auto 0px 330px;
+		text-align: center;
+		cursor: pointer;
+	}
+	#recipe-order-add .fa-plus{
+		color: #eee;
+		background: #fa8;
+		border-radius: 10px;
+		font-size: 8pt;
+		padding: 3px;
+		vertical-align: 2pt;
 	}
 </style>
 <script src="https://kit.fontawesome.com/057ba10041.js"></script>
@@ -200,15 +303,22 @@
 <script src="../resources/js/jquery-ui.min.js"></script>
 <script type="text/javascript">
 	$(function(){
-		$("write-top-image-insert").css("visibility", "hidden");
-		$("#write-top-image").on("click", function(){
-			$("#insert-main-image").click();
-		});
+		$("#write-top-image-com").on("click", insert_click);
 		$("#recipe-ing").sortable({
 			handle: '.recipe-sort-arrow'
 		});
 		$(".recipe-each-ing").sortable({
 			handle: '.recipe-each-arrow'
+		});
+		$("#recipe-order-container").sortable({
+			handle: '.recipe-order-count',
+		});
+		$("#recipe-order-container").on("sortstop", function(){
+			var i = 1;
+			$(".recipe-order").each(function(){
+				$(this).find(".recipe-order-count").text("Step " + i);
+				i++;
+			});
 		});
 		
 		$("#insert-main-image").on("change", function(){
@@ -218,8 +328,8 @@
 				reader.onload = function(e){
 					$("#write-top-image-com").hide();
 					$("#write-top-image-insert").empty();
-					$("#write-top-image-insert").append("<img src=" + e.target.result + ">");
-					$("#write-top-image-insert").css("visibility", "visible");
+					$("#write-top-image-insert").append("<img onclick='javascript:insert_click()' src=" + e.target.result + ">");
+					$("#write-top-image-insert").append("<i class='fas fa-times' onclick='del_mainimage()'></i>")
 					$("#write-top-image-insert").show();
 				}
 			} else {
@@ -227,24 +337,115 @@
 				$("#write-top-image-com").show();
 			}
 		});
+
+		$("[id^=recipe-orderimage-]").on("change", change_order_image);
+		
 	});
+	function insert_click(){
+		$("#insert-main-image").click();
+	}
+	
+	function del_mainimage(){
+		$("#insert-main-image").val('');
+		$("#write-top-image-insert").empty();
+		$("#write-top-image-com").show();
+	}
+
+	function del_pack(pack){
+		var k = $(".recipe-ing-pack");
+		if(k.length < 2){
+			$("#recipe-ing-pack-"+pack+" textarea").val("");
+			$("#recipe-ing-pack-"+pack).attr("id","recipe-ing-pack-1");
+		} else {
+			$("#recipe-ing-pack-"+pack).remove();
+		}
+	}
+	
 	function each_add(pack){
-		var k = $("#recipe-pack-"+pack);
 		var ing = 0;
 		$("#recipe-pack-"+pack+" [id^=recipe-each-"+pack+"-]").each(function(){
 			var pre_ing = $(this).prop("id").replace("recipe-each-"+pack+"-", "");
 			var tmp_ing = parseInt(pre_ing, 10);
 			ing = Math.max(ing, tmp_ing);
 		});
+		ing++;
 		var str = '<div class="recipe-each-sort" id="recipe-each-'+pack+'-'+ing+'">';
 		str += '<div class="recipe-each-arrow"><i class="fas fa-sort-up"></i><br><i class="fas fa-sort-down"></i></div>';
 		str += '<div class="recipe-each-name"><textarea rows="1" cols="39" placeholder="예) 돼지고기"></textarea></div>';
 		str += '<div class="recipe-each-quant"><textarea rows="1" cols="28" placeholder="예) 300g"></textarea></div>';
 		str += '<div class="recipe-each-delete" onclick="each_del('+pack+','+ing+')"><i class="fas fa-times"></i></div></div>';
 		$(str).appendTo("#recipe-pack-"+pack);
+		$(".recipe-each-ing").sortable({
+			handle: '.recipe-each-arrow'
+		});
 	}	
+
 	function each_del(pack, ing){
 		$("#recipe-each-"+pack+"-"+ing).remove();
+	}
+
+	function add_pack(){
+		var pack = 0;
+		$(".recipe-each-ing").each(function(){
+			var pre_pack = $(this).prop("id").replace("recipe-pack-","");
+			var tmp_pack = parseInt(pre_pack, 10);
+			pack = Math.max(pack, tmp_pack);
+		});
+		pack++;
+		var str = '<div class="recipe-ing-pack" id="recipe-ing-pack-' + pack + '"><div class="recipe-sort">';
+		str += '<div class="recipe-sort-arrow"><i class="fas fa-sort-up"></i><br><i class="fas fa-sort-down"></i></div>';
+		str += '<div><div class="recipe-sort-pack"><textarea rows="1" cols="16" name="ing-pack" wrap="soft"></textarea></div>';
+		str += '<div class="recipe-delete-pack"><p onclick="javascript:del_pack(' + pack + ')"><i class="fas fa-times"></i> 묶음삭제</p></div></div>';
+		str += '<div class="recipe-each-ing" id="recipe-pack-' + pack + '"></div></div>';
+		str += '<div class="recipe-each-add" onclick="each_add(' + pack + ')"><i class="fas fa-plus"></i> 추가</div></div>';
+		$("#recipe-ing").append(str);
+		each_add(pack);
+		each_add(pack);
+	}
+
+	function add_order_image(num){
+		$("#recipe-orderimage-" + num).click();
+	}
+
+	function change_order_image(){
+		var k = $(this).attr("id").replace("recipe-orderimage-", "");
+		if(this.files && this.files[0]){
+			var reader = new FileReader();
+			reader.readAsDataURL(this.files[0]);
+			reader.onload = function(e){
+				$("#recipe-order-" + k + " .recipe-order-addimage i.fa-plus").hide();
+				$("#recipe-order-" + k + " .recipe-order-image").empty();
+				var imgapp = "<img onclick='javascript:add_order_image(" + k + ")' src=" + e.target.result + ">";
+				imgapp += "<i class='fas fa-times' onclick = 'del_order_image("+ k + ")'></i>";
+				$("#recipe-order-" + k + " .recipe-order-image").append(imgapp);
+			}
+		} else {
+			$("#recipe-order-" + k + " .recipe-order-image").empty();
+			$("#recipe-order-" + k + " .recipe-order-addimage i.fa-plus").show();
+		}
+	}
+
+	function del_order_image(num){
+		$("#recipe-orderimage-" + num).val('');
+		$("#recipe-order-" + num + " .recipe-order-image").empty();
+		$("#recipe-order-" + num + " .recipe-order-addimage i.fa-plus").show();
+	}
+	function add_order(){
+		var count = 0;
+		$(".recipe-order").each(function(){
+			var pre_count = $(this).prop("id").replace("recipe-order-","");
+			var tmp_count = parseInt(pre_count, 10);
+			count = Math.max(count, tmp_count);
+		});
+		count++;
+		var str = '<div class="recipe-order" id="recipe-order-' + count + '"><div class="recipe-order-count">Step ' + count + '</div><div class="recipe-order-content">';
+		str += '<textarea placeholder="예) 소고기는 기름기를 떼어내고 적당한 크기로 썰어주세요."></textarea></div>';
+		str += '<div class="recipe-order-addimage"><div onclick="add_order_image(' + count + ')"><i class="fas fa-plus"></i></div><div class="recipe-order-image"></div></div>';
+		str += '<input type="file" hidden="" name="recipe_orderimage1" accept="image/*" id="recipe-orderimage-' + count + '">';	
+		str += '<div class="recipe-order-button"><i class="fas fa-angle-up"></i> <i class="fas fa-angle-down"></i>';
+		str += '<i class="fas fa-plus"></i> <i class="fas fa-times"></i></div></div>';
+		$("#recipe-order-container").append(str);
+		$("#recipe-orderimage-" + count).bind("change", change_order_image);
 	}
 </script>
 </head>
@@ -363,7 +564,7 @@
 			<div id="write-body">
 				<p>재료가 남거나 부족하지 않도록 정확한 계량정보를 적어주세요.</p>
 				<div id="recipe-ing">
-					<div>
+					<div class="recipe-ing-pack" id="recipe-ing-pack-1">
 						<div class="recipe-sort">
 							<div class="recipe-sort-arrow">
 								<i class="fas fa-sort-up"></i><br>
@@ -374,7 +575,7 @@
 									<textarea rows="1" cols="16" name="ing-pack" wrap="soft">재료</textarea>
 								</div>
 								<div class="recipe-delete-pack">
-									<p><i class="fas fa-times"></i> 묶음삭제</p>
+									<p onclick='javascript:del_pack(1)'><i class="fas fa-times"></i> 묶음삭제</p>
 								</div>
 							</div>
 							<div class="recipe-each-ing" id="recipe-pack-1">
@@ -427,87 +628,42 @@
 						</div>
 						<div class="recipe-each-add" onclick="each_add(1)"><i class="fas fa-plus"></i> 추가</div>
 					</div>
-					<div>
-						<div class="recipe-sort">
-							<div class="recipe-sort-arrow">
-								<i class="fas fa-sort-up"></i><br>
-								<i class="fas fa-sort-down"></i>
-							</div>
-							<div>
-								<div class="recipe-sort-pack">
-									<textarea rows="1" cols="16" name="ing-pack" wrap="soft">재료</textarea>
-								</div>
-								<div class="recipe-delete-pack">
-									<p><i class="fas fa-times"></i> 묶음삭제</p>
-								</div>
-							</div>
-							<div class="recipe-each-ing" id="recipe-pack-2">
-								<div class="recipe-each-sort" id="recipe-each-2-1">
-									<div class="recipe-each-arrow">
-										<i class="fas fa-sort-up"></i><br>
-										<i class="fas fa-sort-down"></i>
-									</div>
-									<div class="recipe-each-name">
-										<textarea rows="1" cols="39" placeholder="예) 돼지고기"></textarea>
-									</div>
-									<div class="recipe-each-quant">
-										<textarea rows="1" cols="28" placeholder="예) 300g"></textarea>
-									</div>
-									<div class="recipe-each-delete" onclick="each_del(2,1)">
-										<i class="fas fa-times"></i>
-									</div>
-								</div>
-								<div class="recipe-each-sort" id="recipe-each-2-2">
-									<div class="recipe-each-arrow">
-										<i class="fas fa-sort-up"></i><br>
-										<i class="fas fa-sort-down"></i>
-									</div>
-									<div class="recipe-each-name">
-										<textarea rows="1" cols="39" placeholder="예) 양배추"></textarea>
-									</div>
-									<div class="recipe-each-quant">
-										<textarea rows="1" cols="28" placeholder="예) 1/2개"></textarea>
-									</div>
-									<div class="recipe-each-delete" onclick="each_del(2,2)">
-										<i class="fas fa-times"></i>
-									</div>
-								</div>
-								<div class="recipe-each-sort" id="recipe-each-2-3">
-									<div class="recipe-each-arrow">
-										<i class="fas fa-sort-up"></i><br>
-										<i class="fas fa-sort-down"></i>
-									</div>
-									<div class="recipe-each-name">
-										<textarea rows="1" cols="39" placeholder="예) 참기름"></textarea>
-									</div>
-									<div class="recipe-each-quant">
-										<textarea rows="1" cols="28" placeholder="예) 1T"></textarea>
-									</div>
-									<div class="recipe-each-delete" onclick="each_del(2,3)">
-										<i class="fas fa-times"></i>
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="recipe-each-add" onclick="each_add(2)"><i class="fas fa-plus"></i> 추가</div>
-					</div>
 				</div>
 				<div id="recipe-pack-not">※ 양념, 양념장, 소스, 드레싱, 토핑, 시럽, 육수, 밑간 등으로 구분해서 작성해주세요.</div>
 				<div id="recipe-add-pack">
-					<p><i class="fas fa-plus"></i> 재료/양념 묶음 추가</p>
+					<p onclick="javascript:add_pack()"><i class="fas fa-plus"></i> 재료/양념 묶음 추가</p>
 				</div>
 				<div id="recipe-order">
-					<p>요리순서</p>
+					<div class="write-label">요리순서</div>
 					<div id="recipe-order-not">
 						<p>요리의 맛이 좌우될 수 있는 중요한 부분은 빠짐없이 적어주세요.</p>
 						<p>예) 10분간 익혀주세요 ▷ 10분간 약한불로 익혀주세요.</p>
-						<p>마늘편은 익혀주세요 ▷ 마늘편을 충분히 익혀주셔야 매운 맛이 사라집니다.</p>
-						<p>꿀을 조금 넣어주세요 ▷ 꿀이 없는 경우, 설탕 1스푼으로 대체 가능합니다.</p>
+						<p>&nbsp; &nbsp;마늘편은 익혀주세요 ▷ 마늘편을 충분히 익혀주셔야 매운 맛이 사라집니다.</p>
+						<p>&nbsp; &nbsp;꿀을 조금 넣어주세요 ▷ 꿀이 없는 경우, 설탕 1스푼으로 대체 가능합니다.</p>
 					</div>
 					<div id="recipe-order-container">
-						
+						<div class="recipe-order" id="recipe-order-1">
+							<div class="recipe-order-count">Step 1</div>
+							<div class="recipe-order-content"><textarea placeholder="예) 소고기는 기름기를 떼어내고 적당한 크기로 썰어주세요."></textarea></div>
+							<div class="recipe-order-addimage">
+								<div onclick="add_order_image(1)"><i class="fas fa-plus"></i></div>
+								<div class="recipe-order-image"></div>
+							</div>
+							
+							<input type="file" hidden="" name="recipe_orderimage1" accept="image/*" id="recipe-orderimage-1">
+							<div class="recipe-order-button">
+								<i class="fas fa-angle-up"></i>
+								<i class="fas fa-angle-down"></i>
+								<i class="fas fa-plus"></i>
+								<i class="fas fa-times"></i>
+							</div>
+						</div>
+					</div>
+					<div id="recipe-order-add" onclick="add_order()">
+						<i class="fas fa-plus"></i> 순서추가
 					</div>
 				</div>
+				
 			</div>
 		</form>
 	</div>
