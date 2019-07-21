@@ -11,8 +11,6 @@
 		width: 1200px;
 		margin: 30px auto 0px;
 	}
-	#write-recipe *{
-	}
 	#write-recipe-topic{
 		font-size: 20pt;
 		font-weight: bold;
@@ -148,8 +146,6 @@
 		border-radius: 5px;
 		padding: 10px 0px 10px 10px;
 	}
-	.recipe-delete-pack{
-	}
 	.recipe-delete-pack p{
 		text-align: center;
 		border: 1px solid #999;
@@ -191,6 +187,7 @@
 		font-size: 10pt;
 		margin: 5px auto 20px auto;
 		cursor: pointer;
+		width: 70px;
 	}
 	.recipe-each-add>.fa-plus{
 		padding: 3px;
@@ -256,7 +253,7 @@
 		font-size: 20pt;
 	}
 	.recipe-order-image>img{
-		width: 150px;
+		width: 148px;
 		margin: 0;
 		height: 160px;
 		cursor: pointer;
@@ -279,9 +276,19 @@
 		display: block;
 		color: #999;
 		font-size: 14pt;
-		margin: 17px auto;
+		margin: 6px auto 0px 6px;
 		text-align: center;
 		cursor: pointer;
+		border: 1px solid #eee;
+		background: #ccc;
+		width: 25px;
+		height: 25px;
+		padding: 4px;
+		line-height: 25px;
+		visibility: hidden;
+	}
+	.recipe-order:hover .recipe-order-button>i{
+		visibility: visible;
 	}
 	#recipe-order-add{
 		width: 100px;
@@ -313,13 +320,7 @@
 		$("#recipe-order-container").sortable({
 			handle: '.recipe-order-count',
 		});
-		$("#recipe-order-container").on("sortstop", function(){
-			var i = 1;
-			$(".recipe-order").each(function(){
-				$(this).find(".recipe-order-count").text("Step " + i);
-				i++;
-			});
-		});
+		$("#recipe-order-container").on("sortstop", order_sort);
 		
 		$("#insert-main-image").on("change", function(){
 			if(this.files && this.files[0]){
@@ -430,10 +431,11 @@
 		$("#recipe-order-" + num + " .recipe-order-image").empty();
 		$("#recipe-order-" + num + " .recipe-order-addimage i.fa-plus").show();
 	}
+
 	function add_order(){
 		var count = 0;
 		$(".recipe-order").each(function(){
-			var pre_count = $(this).prop("id").replace("recipe-order-","");
+			var pre_count = $(this).attr("id").replace("recipe-order-","");
 			var tmp_count = parseInt(pre_count, 10);
 			count = Math.max(count, tmp_count);
 		});
@@ -441,11 +443,74 @@
 		var str = '<div class="recipe-order" id="recipe-order-' + count + '"><div class="recipe-order-count">Step ' + count + '</div><div class="recipe-order-content">';
 		str += '<textarea placeholder="예) 소고기는 기름기를 떼어내고 적당한 크기로 썰어주세요."></textarea></div>';
 		str += '<div class="recipe-order-addimage"><div onclick="add_order_image(' + count + ')"><i class="fas fa-plus"></i></div><div class="recipe-order-image"></div></div>';
-		str += '<input type="file" hidden="" name="recipe_orderimage1" accept="image/*" id="recipe-orderimage-' + count + '">';	
-		str += '<div class="recipe-order-button"><i class="fas fa-angle-up"></i> <i class="fas fa-angle-down"></i>';
-		str += '<i class="fas fa-plus"></i> <i class="fas fa-times"></i></div></div>';
+		str += '<input type="file" hidden="" name="recipe_orderimage' + count + '" accept="image/*" id="recipe-orderimage-' + count + '">';	
+		str += '<div class="recipe-order-button"><i class="fas fa-angle-up" onclick="order_up()"></i> <i class="fas fa-angle-down" onclick="order_down()"></i>';
+		str += '<i class="fas fa-plus" onclick="order_after()"></i> <i class="fas fa-times" onclick="order_del()"></i></div></div>';
 		$("#recipe-order-container").append(str);
 		$("#recipe-orderimage-" + count).bind("change", change_order_image);
+	}
+
+	function order_sort(){
+		var i = 1;
+		$(".recipe-order").each(function(){
+			$(this).attr("id", "recipe-order-" + i);
+			$(this).find(".recipe-order-count").text("Step " + i);
+			$(this).find(".recipe-order-addimage").find("div:first-child").attr("onclick", "add_order_image(" + i + ")");
+			$(this).find("input").attr({"name":"recipe_orderimage" + i, "id":"recipe-orderimage-" + i});
+			$(this).find(".recipe-order-addimage").find(".recipe-order-image").find("img").attr("onclick", "javascript:add_order_image(" + i + ")");
+			$(this).find(".recipe-order-addimage").find(".recipe-order-image").find("i").attr("onclick", "javascript:del_order_image(" + i + ")");
+			i++;
+		});
+	}
+	
+	function order_up(){
+		var k = event.target.parentElement.parentElement.id.replace("recipe-order-","");
+		k = parseInt(k, 10);
+		if(k > 1){
+			var content = $("#recipe-order-" + k);
+			content.clone().insertBefore("#recipe-order-" + (k - 1));
+			content.remove();
+			order_sort();
+			$("#recipe-orderimage-" + (k - 1)).bind("change", change_order_image);
+		}
+	}
+
+	function order_down(){
+		var k = event.target.parentElement.parentElement.id.replace("recipe-order-","");
+		k = parseInt(k, 10);
+		var max = 0;
+		$(".recipe-order").each(function(){
+			var pre_max = $(this).attr("id").replace("recipe-order-", "");
+			var tmp_max = parseInt(pre_max, 10);
+			max = Math.max(max, tmp_max);
+		});
+		if(k < max){
+			var content = $("#recipe-order-" + k);
+			content.clone().insertAfter("#recipe-order-" + (k + 1));
+			content.remove();
+			order_sort();
+			$("#recipe-orderimage-" + (k + 1)).bind("change", change_order_image);
+		}
+	}
+
+	function order_after(){
+		var k = event.target.parentElement.parentElement.id.replace("recipe-order-","");
+		k = parseInt(k, 10);
+		var content = $("#recipe-order-" + k);
+		content.clone().insertAfter("#recipe-order-" + k);
+		order_sort();
+		content = $("#recipe-order-" + (k + 1));
+		content.find(".recipe-order-content").find("textarea").val("");
+		content.find(".recipe-order-addimage").find("input").val("");
+		content.find(".recipe-order-addimage").find(".recipe-order-image").empty();
+		content.find(" .recipe-order-addimage i.fa-plus").show();
+		$("#recipe-orderimage-" + (k + 1)).bind("change", change_order_image);
+	}
+
+	function order_del(){
+		var k = event.target.parentElement.parentElement.id.replace("recipe-order-","");
+		$("#recipe-order-" + k).remove();
+		order_sort();
 	}
 </script>
 </head>
@@ -652,10 +717,10 @@
 							
 							<input type="file" hidden="" name="recipe_orderimage1" accept="image/*" id="recipe-orderimage-1">
 							<div class="recipe-order-button">
-								<i class="fas fa-angle-up"></i>
-								<i class="fas fa-angle-down"></i>
-								<i class="fas fa-plus"></i>
-								<i class="fas fa-times"></i>
+								<i class="fas fa-angle-up" onclick="order_up()"></i>
+								<i class="fas fa-angle-down" onclick="order_down()"></i>
+								<i class="fas fa-plus" onclick="order_after()"></i>
+								<i class="fas fa-times" onclick="order_del()"></i>
 							</div>
 						</div>
 					</div>
