@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -38,12 +39,14 @@
 		resize: none;
 		font-size: 14pt;
 		margin: 5px;
+		border: 1px solid #ccc;
 		border-radius: 5px;
 		padding: 10px 0px 10px 10px;
 	}
 	.write-input select{
 		font-size: 12pt;
 		padding: 5px 0px 10px 5px;
+		border: 1px solid #ccc;
 		margin: 5px 0px 0px 5px;
 		color: #444;
 	}
@@ -143,12 +146,13 @@
 		background: #eec;
 		resize: none;
 		font-size: 14pt;
+		border: 1px solid #ccc;
 		border-radius: 5px;
 		padding: 10px 0px 10px 10px;
 	}
 	.recipe-delete-pack p{
 		text-align: center;
-		border: 1px solid #999;
+		border: 1px solid #ccc;
 		font-size: 9pt;
 		padding: 5px;
 		margin: 0px 30px;
@@ -167,6 +171,7 @@
 		resize: none;
 		font-size: 14pt;
 		padding: 10px 0px 10px 10px;
+		border: 1px solid #ccc;
 		border-radius: 5px;
 		margin-bottom: 5px;
 	}
@@ -205,7 +210,7 @@
 	}
 	#recipe-add-pack>p{
 		display: inline-block;
-		border: 1px solid #aaa;
+		border: 1px solid #ccc;
 		padding: 10px 25px;
 		border-radius: 5px;
 		cursor: pointer;
@@ -233,6 +238,7 @@
 		font-size: 20pt;
 	}
 	.recipe-order-content>textarea{
+		border: 1px solid #ccc;
 		font-size: 12pt;
 		resize: none;
 		width: 340px;
@@ -241,7 +247,7 @@
 	}
 	.recipe-order-addimage{
 		height: 165px;
-		border: 1px solid #999;
+		border: 1px solid #ccc;
 	}
 	.recipe-order-addimage>div:not(.recipe-order-image){
 		cursor: pointer;
@@ -304,6 +310,105 @@
 		padding: 3px;
 		vertical-align: 2pt;
 	}
+	#write-bottom{
+		padding-left: 40px;
+	}
+	#write-comp-image{
+		width: 800px;
+		height: 150px;
+		margin: 50px auto 0px 0px;
+		display: grid;
+		grid-template-columns: 160px 640px;
+	}
+	#comp-image-pack{
+		display: grid;
+		grid-template-columns: 153px 153px 153px 153px;
+		grid-column-gap: 8px;
+		height: 150px;
+	}
+	#comp-image-oneclick{
+		width: 120px;
+		height: 30px;
+		font-size: 10pt;
+		border: 1px solid #ccc;
+		padding: 0px 7px;
+		line-height: 30px;
+		border-radius: 5px;
+		cursor: pointer;
+	}
+	#comp-image-oneclick:active{
+		box-shadow: 0px 0px 5px 1px #79f;
+	}
+	.comp-image{
+		cursor: pointer;
+		height: 150px;
+	}
+	.comp-image-empty{
+		border: 1px solid #ccc;
+	}
+	.comp-image-empty i{
+		margin: 60px 60px;
+		text-align: center;
+		color: #999;
+		font-size: 20pt;
+	}
+	.comp-image-selected img{
+		width: 153px;
+		height: 150px;
+	}
+	.comp-image-selected i{
+		color: #ccc;
+		background: #333;
+		opacity: 0.7;
+		font-size: 20pt;
+		position: relative;
+		bottom: 155px;
+		left: 133px;
+		cursor: pointer;
+		visibility: hidden;
+	}
+	.comp-image-selected:hover i{
+		visibility: visible;
+	}
+	#write-tip{
+		width: 800px;
+		height: 100px;
+		margin: 80px auto 0px 0px;
+		display: grid;
+		grid-template-columns: 160px 640px;
+	}
+	#write-tip-content textarea{
+		resize: none;
+		width: 100%;
+		height: 100%;
+		font-size: 12pt;
+		border: 1px solid #ccc;
+		border-radius: 5px;
+		padding: 10px;
+	}
+	#write-tag{
+		width: 800px;
+		height: 45px;
+		margin: 80px auto 0px 0px;
+		display: grid;
+		grid-template-columns: 160px 640px;
+	}
+	#write-tag-content input{
+		resize: none;
+		width: 100%;
+		font-size: 12pt;
+		border-radius: 5px;
+		padding: 10px;
+		border: 1px solid #ccc;
+	}
+	#taginf{
+		margin-left: 160px;
+		font-size: 11pt;
+	}
+	#taginf span{
+		font-size: 10pt;
+		color: #999;
+	}
 </style>
 <script src="https://kit.fontawesome.com/057ba10041.js"></script>
 <script src="../resources/js/jquery-3.4.1.min.js"></script>
@@ -327,11 +432,20 @@
 				var reader = new FileReader();
 				reader.readAsDataURL(this.files[0]);
 				reader.onload = function(e){
-					$("#write-top-image-com").hide();
-					$("#write-top-image-insert").empty();
-					$("#write-top-image-insert").append("<img onclick='javascript:insert_click()' src=" + e.target.result + ">");
-					$("#write-top-image-insert").append("<i class='fas fa-times' onclick='del_mainimage()'></i>")
-					$("#write-top-image-insert").show();
+					var readFile = e.target.result;
+					var chkcor = readFile.substring(readFile.indexOf(',') + 1, readFile.indexOf(',') + 5);
+					readFile = readFile.substring(0, readFile.indexOf('/'));
+					if(readFile === "data:image" && chkcor != "77u/"){
+						$("#write-top-image-com").hide();
+						$("#write-top-image-insert").empty();
+						$("#write-top-image-insert").append("<img onclick='javascript:insert_click()' src=" + e.target.result + ">");
+						$("#write-top-image-insert").append("<i class='fas fa-times' onclick='del_mainimage()'></i>");
+						$("#write-top-image-insert").show();
+					} else {
+						$("#insert-main-image").val("");
+						$("#write-top-image-insert").hide();
+						$("#write-top-image-com").show();
+					}
 				}
 			} else {
 				$("#write-top-image-insert").hide();
@@ -341,9 +455,93 @@
 
 		$("[id^=recipe-orderimage-]").on("change", change_order_image);
 		
+		$("#comp-image-oneclick").on("click", function(){
+			$("#comp-image-multfile").click();
+		});
+
+		$("#comp-image-multfile").on("change", function(){
+			var files = this.files;
+			var imgnum = 1;
+			if(files){
+				for (var i = 0; i < files.length; i++) {
+					var reader = new FileReader();
+					reader.readAsDataURL(files[i]);
+					reader.onload = function(e){
+						if(imgnum > 4) return;
+						var cont = $("#comp-image-" + imgnum);
+						var selimg = cont.find(".comp-image-selected");
+						var readFile = e.target.result;
+						var chkcor = readFile.substring(readFile.indexOf(',') + 1, readFile.indexOf(',') + 5);
+						readFile = readFile.substring(0, readFile.indexOf('/'));
+						if(readFile === "data:image" && chkcor != "77u/"){
+							cont.find(".comp-image-empty").hide();
+							selimg.empty();
+							selimg.append("<img src=" + e.target.result + ">");
+							selimg.append("<i class='fas fa-times' onclick = 'del_compimage(" + imgnum + ")'></i>");
+							selimg.show();
+							imgnum++;
+							alert("imgnum3 = " + imgnum);
+						} else {
+							selimg.hide();
+							cont.find(".comp-image-empty").show();
+						}
+					}	
+				}
+			}
+		});
+		
+		$(".comp-image-empty").on("click", function(){
+			var k = $(this).parent().attr("id").replace("comp-image-", "");
+			$("#comp-image-file-" + k).click();
+		});
+
+		$("[id^=comp-image-file-").on("change", function(){
+			var k = $(this).attr("id").replace("comp-image-file-", "");
+			var cont = $("#comp-image-" + k);
+			var selimg = cont.find(".comp-image-selected");
+			if(this.files && this.files[0]){
+				var reader = new FileReader();
+				reader.readAsDataURL(this.files[0]);
+				reader.onload = function(e){
+					var readFile = e.target.result;
+					var chkcor = readFile.substring(readFile.indexOf(',') + 1, readFile.indexOf(',') + 5);
+					readFile = readFile.substring(0, readFile.indexOf('/'));
+					if(readFile === "data:image" && chkcor != "77u/"){
+						cont.find(".comp-image-empty").hide();
+						selimg.empty();
+						selimg.append("<img src=" + e.target.result + ">");
+						selimg.append("<i class='fas fa-times' onclick = 'del_compimage(" + k + ")'></i>");
+						selimg.show();
+					} else {
+						$(this).val("");
+						selimg.hide();
+						cont.find(".comp-image-empty").show();
+					}
+				}
+			} else {
+				selimg.hide();
+				cont.find(".comp-image-empty").show();
+			}
+		});
+
+		$("#video-url").on("focusout", function(){
+			var url = $("#video-url").val();
+			if(/http[s]?:[/]{2}/.test(url)){
+				url = url.substring(url.lastIndexOf('/') + 1, url.length);
+				alert(url);
+				url = "https://img.youtube.com/vi/" + url + "/0.jpg";
+				$("#video-pre").hide();
+				$("#video-thumbnail").append("<img src='" + url + "' onerror=img_error()>");
+				$("#video-thumbnail").show();
+			}
+		});
 	});
 	function insert_click(){
 		$("#insert-main-image").click();
+	}
+
+	function img_error(){
+		alert(333);
 	}
 	
 	function del_mainimage(){
@@ -414,11 +612,20 @@
 			var reader = new FileReader();
 			reader.readAsDataURL(this.files[0]);
 			reader.onload = function(e){
-				$("#recipe-order-" + k + " .recipe-order-addimage i.fa-plus").hide();
-				$("#recipe-order-" + k + " .recipe-order-image").empty();
-				var imgapp = "<img onclick='javascript:add_order_image(" + k + ")' src=" + e.target.result + ">";
-				imgapp += "<i class='fas fa-times' onclick = 'del_order_image("+ k + ")'></i>";
-				$("#recipe-order-" + k + " .recipe-order-image").append(imgapp);
+				var readFile = e.target.result;
+				var chkcor = readFile.substring(readFile.indexOf(',') + 1, readFile.indexOf(',') + 5);
+				readFile = readFile.substring(0, readFile.indexOf('/'));
+				if(readFile === "data:image" && chkcor != "77u/"){
+					$("#recipe-order-" + k + " .recipe-order-addimage i.fa-plus").hide();
+					$("#recipe-order-" + k + " .recipe-order-image").empty();
+					var imgapp = "<img onclick='javascript:add_order_image(" + k + ")' src=" + e.target.result + ">";
+					imgapp += "<i class='fas fa-times' onclick = 'del_order_image("+ k + ")'></i>";
+					$("#recipe-order-" + k + " .recipe-order-image").append(imgapp);
+				} else {
+					$("#recipe-orderimage-" + k).val("");
+					$("#recipe-order-" + k + " .recipe-order-image").empty();
+					$("#recipe-order-" + k + " .recipe-order-addimage i.fa-plus").show();
+				}
 			}
 		} else {
 			$("#recipe-order-" + k + " .recipe-order-image").empty();
@@ -512,6 +719,12 @@
 		$("#recipe-order-" + k).remove();
 		order_sort();
 	}
+
+	function del_compimage(num){
+		$("#comp-image-file-" + num).val("");
+		$("#comp-image-" + num).find(".comp-image-selected").empty();
+		$("#comp-image-" + num).find(".comp-image-empty").show();
+	}
 </script>
 </head>
 <body>
@@ -530,10 +743,11 @@
 					<div class="write-label">동영상</div>
 					<div class="write-input" id="write-video">
 						<textarea rows="3" cols="40" id="video-url" name="recipe_video" placeholder="동영상이 있으면 주소를 입력하세요.(Youtube만 가능) &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 예)http://youtu.be/lA0Bxo3lZmM"></textarea>
-						<div>
+						<div id="video-pre">
 							<i class="fab fa-youtube"></i>
 							<p>동영상 썸네일</p>
 						</div>
+						<div id="video-thumbnail"></div>
 					</div>
 					<div class="write-label">카테고리</div>
 					<div class="write-input">
@@ -728,7 +942,40 @@
 						<i class="fas fa-plus"></i> 순서추가
 					</div>
 				</div>
-				
+			</div>
+			
+			<div id="write-bottom">
+				<div id="write-comp-image">
+					<div class="write-label">
+						요리완성사진
+						<p id="comp-image-oneclick"><i class="fas fa-plus"></i> 사진 한번에 넣기</p>
+						<input type="file" hidden="" multiple accept="image/*" id="comp-image-multfile">
+					</div>
+					<div id="comp-image-pack">
+						<c:forEach var="k" begin="1" end="4">
+							<input type="file" hidden="" id="comp-image-file-${k}" accept="image/*">
+							<div class="comp-image" id="comp-image-${k}">
+								<div class="comp-image-empty">
+									<i class="fas fa-plus"></i>
+								</div>
+								<div class="comp-image-selected"></div>
+							</div>
+						</c:forEach>
+					</div>
+				</div>
+				<div id="write-tip">
+					<div class="write-label">요리팁</div>
+					<div id="write-tip-content">
+						<textarea placeholder="예) 고기요리에는 소금보다 설탕을 먼저 넣어야 단맛이 겉돌지 않고 육질이 부드러워요."></textarea>
+					</div>
+				</div>
+				<div id="write-tag">
+					<div class="write-label">태그</div>
+					<div id="write-tag-content">
+						<input type="text">
+					</div>
+				</div>
+				<p id="taginf">주재료, 목적, 효능, 대상 등을 태그로 남겨주세요. <span>예) 돼지고기, 다이어트, 비만, 칼슘, 감기예방, 이유식, 초간단</span></p>
 			</div>
 		</form>
 	</div>
