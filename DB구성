@@ -40,7 +40,7 @@ foreign key (r_idx) references recipe(r_idx)
 create table talk(
 t_idx NUMBER not null,
 m_idx NUMBER,
-subject VARCHAR2(50),
+subject VARCHAR2(50), // 삭제
 content_ VARCHAR2(4000),
 file_name VARCHAR2(50),
 hit NUMBER,
@@ -74,3 +74,7 @@ alter table recipe add type varchar2(50);
 alter table recipe add situ varchar2(50);
 alter table recipe add meth varchar2(50);
 alter table recipe drop COLUMN cate;
+
+========================================================================
+talk 구조 수정
+alter table talk drop column subject;
