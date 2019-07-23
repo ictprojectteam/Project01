@@ -75,6 +75,10 @@
 		margin-top: 10px;
 		font-size: 30pt;
 	}
+	#video-thumbnail img{
+		width: 176px;
+		height: 99px;
+	}
 	#write-top-image{
 		border: 1px solid #bbb;
 		margin: auto;
@@ -409,6 +413,57 @@
 		font-size: 10pt;
 		color: #999;
 	}
+	#save-button{
+		text-align: center;
+		margin-top: 40px;
+	}
+	#save-button span{
+		cursor: pointer;
+	}
+	#save-button span:first-child{
+		display: inline-block;
+		border: 1px solid #5a5;
+		padding: 10px 40px;
+		margin: 0px 4px;
+		color: #fff;
+		background: #9d5;
+		border-radius: 5px;
+		font-weight: bold;
+	}
+	#save-button span:first-child:hover{
+		background: #8c5;
+	}
+	#save-button span:first-child:active{
+		box-shadow: 0px 0px 5px 1px #79f;
+	}
+	#save-button span:nth-child(2){
+		display: inline-block;
+		border: 1px solid #d85;
+		padding: 10px 40px;
+		margin: 0px 4px;
+		color: #fff;
+		background: #fa8;
+		border-radius: 5px;
+		font-weight: bold;
+	}
+	#save-button span:nth-child(2):hover{
+		background: #e98;
+	}
+	#save-button span:nth-child(2):active{
+		box-shadow: 0px 0px 5px 1px #79f;
+	}
+	#save-button span:last-child{
+		display: inline-block;
+		border: 1px solid #ccc;
+		padding: 10px 40px;
+		margin: 0px 4px;
+		color: #333;
+		border-radius: 5px;
+		font-weight: bold;
+	}
+	#save-button span:last-child:active{
+		box-shadow: 0px 0px 5px 1px #79f;
+	}
 </style>
 <script src="https://kit.fontawesome.com/057ba10041.js"></script>
 <script src="../resources/js/jquery-3.4.1.min.js"></script>
@@ -436,6 +491,7 @@
 					var chkcor = readFile.substring(readFile.indexOf(',') + 1, readFile.indexOf(',') + 5);
 					readFile = readFile.substring(0, readFile.indexOf('/'));
 					if(readFile === "data:image" && chkcor != "77u/"){
+						$("#write-top-image-com").append("<input type='hidden' value='" + e.target.result + "' name='main_image'>")
 						$("#write-top-image-com").hide();
 						$("#write-top-image-insert").empty();
 						$("#write-top-image-insert").append("<img onclick='javascript:insert_click()' src=" + e.target.result + ">");
@@ -528,20 +584,48 @@
 			var url = $("#video-url").val();
 			if(/http[s]?:[/]{2}/.test(url)){
 				url = url.substring(url.lastIndexOf('/') + 1, url.length);
-				alert(url);
-				url = "https://img.youtube.com/vi/" + url + "/0.jpg";
-				$("#video-pre").hide();
-				$("#video-thumbnail").append("<img src='" + url + "' onerror=img_error()>");
-				$("#video-thumbnail").show();
+				if(/\w{11,11}/.test(url)) {
+					url = "https://img.youtube.com/vi/" + url + "/mqdefault.jpg";
+					$.ajax({
+						url : "thumbnail",
+						type : "post",
+						data : {"url":url},
+						dataType : "text",
+						success : function(data){
+							$("#video-pre").hide();
+							$("#video-thumbnail").empty();
+							$("#video-thumbnail").append("<img src='" + data + "' alt='' onerror=img_error()>");
+							$("#video-thumbnail").show();
+						}
+					});
+				} else {
+					alert("올바른 주소를 입력해주세요.");
+					$("#video-url").val("");
+				}
 			}
 		});
+
+		/* $("#save").on("click", function(){
+			$("input[type=file]").attr("disabled", "disabled");
+			$("#recipe-form").attr("action", "save_recipe").submit();
+		}); */
 	});
+	function save_go(f) {
+		$("input[type=file]").remove();
+		$("#recipe-form").attr("action", "save_recipe");
+		$("#save-go").click();
+	}
+	
 	function insert_click(){
 		$("#insert-main-image").click();
 	}
 
 	function img_error(){
-		alert(333);
+		$("#video-thumbnail").empty();
+		$("#video-thumbnail").hide();
+		$("#video-pre").show();
+		alert("올바른 주소를 입력해주세요");
+		$("#video-url").val("");
 	}
 	
 	function del_mainimage(){
@@ -593,7 +677,7 @@
 		pack++;
 		var str = '<div class="recipe-ing-pack" id="recipe-ing-pack-' + pack + '"><div class="recipe-sort">';
 		str += '<div class="recipe-sort-arrow"><i class="fas fa-sort-up"></i><br><i class="fas fa-sort-down"></i></div>';
-		str += '<div><div class="recipe-sort-pack"><textarea rows="1" cols="16" name="ing-pack" wrap="soft"></textarea></div>';
+		str += '<div><div class="recipe-sort-pack"><textarea rows="1" cols="16" name="ing-pack-' + pack + '" wrap="soft"></textarea></div>';
 		str += '<div class="recipe-delete-pack"><p onclick="javascript:del_pack(' + pack + ')"><i class="fas fa-times"></i> 묶음삭제</p></div></div>';
 		str += '<div class="recipe-each-ing" id="recipe-pack-' + pack + '"></div></div>';
 		str += '<div class="recipe-each-add" onclick="each_add(' + pack + ')"><i class="fas fa-plus"></i> 추가</div></div>';
@@ -733,7 +817,7 @@
 	</header>
 	<div id="write-recipe">
 		<div id="write-recipe-topic">레시피 등록</div>
-		<form method="post">
+		<form method="post" id="recipe-form" name="recipe-form">
 			<div id="write-top">
 				<div id="write-top-left">
 					<div class="write-label">레시피 제목</div>
@@ -851,7 +935,7 @@
 							</div>
 							<div>
 								<div class="recipe-sort-pack">
-									<textarea rows="1" cols="16" name="ing-pack" wrap="soft">재료</textarea>
+									<textarea rows="1" cols="16" name="ing-pack-1" wrap="soft">재료</textarea>
 								</div>
 								<div class="recipe-delete-pack">
 									<p onclick='javascript:del_pack(1)'><i class="fas fa-times"></i> 묶음삭제</p>
@@ -976,7 +1060,14 @@
 					</div>
 				</div>
 				<p id="taginf">주재료, 목적, 효능, 대상 등을 태그로 남겨주세요. <span>예) 돼지고기, 다이어트, 비만, 칼슘, 감기예방, 이유식, 초간단</span></p>
+				<div id="save-button">
+					<span id="save" onclick="save_go(this.form)">저장</span>
+					<span id="public"> 저장 후 공개하기 </span>
+					<span id="cancel">취소</span>
+				</div>
 			</div>
+			<input type="text" name="test">
+			<button type="submit" id="save-go" style="visibility: hidden;"></button>
 		</form>
 	</div>
 	<footer>
