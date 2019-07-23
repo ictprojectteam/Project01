@@ -481,6 +481,8 @@
 			handle: '.recipe-order-count',
 		});
 		$("#recipe-order-container").on("sortstop", order_sort);
+		$("#recipe-ing").on("sortstop", pack_sort);
+		$(".recipe-each-ing").on("sortstop", mat_sort);
 		
 		$("#insert-main-image").on("change", function(){
 			if(this.files && this.files[0]){
@@ -584,7 +586,7 @@
 			var url = $("#video-url").val();
 			if(/http[s]?:[/]{2}/.test(url)){
 				url = url.substring(url.lastIndexOf('/') + 1, url.length);
-				if(/\w{11,11}/.test(url)) {
+				if(/.{11,11}/.test(url)) {
 					url = "https://img.youtube.com/vi/" + url + "/mqdefault.jpg";
 					$.ajax({
 						url : "thumbnail",
@@ -654,19 +656,58 @@
 		ing++;
 		var str = '<div class="recipe-each-sort" id="recipe-each-'+pack+'-'+ing+'">';
 		str += '<div class="recipe-each-arrow"><i class="fas fa-sort-up"></i><br><i class="fas fa-sort-down"></i></div>';
-		str += '<div class="recipe-each-name"><textarea rows="1" cols="39" placeholder="예) 돼지고기"></textarea></div>';
-		str += '<div class="recipe-each-quant"><textarea rows="1" cols="28" placeholder="예) 300g"></textarea></div>';
+		str += '<div class="recipe-each-name"><textarea rows="1" cols="39" placeholder="예) 돼지고기" name="recipe-each-name-'+pack+'-'+ing+'"></textarea></div>';
+		str += '<div class="recipe-each-quant"><textarea rows="1" cols="28" placeholder="예) 300g" name="recipe-each-quant-'+pack+'-'+ing+'"></textarea></div>';
 		str += '<div class="recipe-each-delete" onclick="each_del('+pack+','+ing+')"><i class="fas fa-times"></i></div></div>';
 		$(str).appendTo("#recipe-pack-"+pack);
 		$(".recipe-each-ing").sortable({
 			handle: '.recipe-each-arrow'
 		});
+		$(".recipe-each-ing").on("sortstop", mat_sort);
 	}	
 
 	function each_del(pack, ing){
 		$("#recipe-each-"+pack+"-"+ing).remove();
+		mat_sort_input(pack);
 	}
 
+	function mat_sort(){
+		var pack = $(this).attr("id").replace("recipe-pack-","");
+		var ing = 1;
+		$(this).find(".recipe-each-sort").each(function(){
+			$(this).attr("id", "recipe-each-" + pack + "-" + ing);
+			$(this).find(".recipe-each-name textarea").attr("name", "recipe-each-name-" + pack + "-" + ing);
+			$(this).find(".recipe-each-quant textarea").attr("name", "recipe-each-quant-" + pack + "-" + ing);
+			$(this).find(".recipe-each-delete").attr("onclick", "each_del(" + pack + "," + ing + ")");
+			ing++;
+		});
+	}
+
+	function mat_sort_input(pack){
+		var ing = 1;
+		alert(pack);
+		$("#recipe-pack-"+pack).find(".recipe-each-sort").each(function(){
+			$(this).attr("id", "recipe-each-" + pack + "-" + ing);
+			$(this).find(".recipe-each-name textarea").attr("name", "recipe-each-name-" + pack + "-" + ing);
+			$(this).find(".recipe-each-quant textarea").attr("name", "recipe-each-quant-" + pack + "-" + ing);
+			$(this).find(".recipe-each-delete").attr("onclick", "each_del(" + pack + "," + ing + ")");
+			ing++;
+		});
+	}
+	
+	function pack_sort(){
+		var pack = 1;
+		$(".recipe-ing-pack").each(function(){
+			$(this).attr("id", "recipe-ing-pack-" + pack);
+			$(this).find(".recipe-sort-pack textarea").attr("name", "ing-pack-"+pack);
+			$(this).find(".recipe-delete-pack p").attr("onclick","del_pack("+pack+")");
+			$(this).find(".recipe-each-ing").attr("id", "recipe-pack-"+pack);
+			$(this).find(".recipe-each-add").attr("onclick","each_add("+pack+")");
+			mat_sort_input(pack);
+			pack++;
+		});
+	}
+	
 	function add_pack(){
 		var pack = 0;
 		$(".recipe-each-ing").each(function(){
@@ -678,7 +719,7 @@
 		var str = '<div class="recipe-ing-pack" id="recipe-ing-pack-' + pack + '"><div class="recipe-sort">';
 		str += '<div class="recipe-sort-arrow"><i class="fas fa-sort-up"></i><br><i class="fas fa-sort-down"></i></div>';
 		str += '<div><div class="recipe-sort-pack"><textarea rows="1" cols="16" name="ing-pack-' + pack + '" wrap="soft"></textarea></div>';
-		str += '<div class="recipe-delete-pack"><p onclick="javascript:del_pack(' + pack + ')"><i class="fas fa-times"></i> 묶음삭제</p></div></div>';
+		str += '<div class="recipe-delete-pack"><p onclick="del_pack(' + pack + ')"><i class="fas fa-times"></i> 묶음삭제</p></div></div>';
 		str += '<div class="recipe-each-ing" id="recipe-pack-' + pack + '"></div></div>';
 		str += '<div class="recipe-each-add" onclick="each_add(' + pack + ')"><i class="fas fa-plus"></i> 추가</div></div>';
 		$("#recipe-ing").append(str);
@@ -938,7 +979,7 @@
 									<textarea rows="1" cols="16" name="ing-pack-1" wrap="soft">재료</textarea>
 								</div>
 								<div class="recipe-delete-pack">
-									<p onclick='javascript:del_pack(1)'><i class="fas fa-times"></i> 묶음삭제</p>
+									<p onclick='del_pack(1)'><i class="fas fa-times"></i> 묶음삭제</p>
 								</div>
 							</div>
 							<div class="recipe-each-ing" id="recipe-pack-1">
@@ -948,10 +989,10 @@
 										<i class="fas fa-sort-down"></i>
 									</div>
 									<div class="recipe-each-name">
-										<textarea rows="1" cols="39" placeholder="예) 돼지고기"></textarea>
+										<textarea rows="1" cols="39" placeholder="예) 돼지고기" name="recipe-each-name-1-1"></textarea>
 									</div>
 									<div class="recipe-each-quant">
-										<textarea rows="1" cols="28" placeholder="예) 300g"></textarea>
+										<textarea rows="1" cols="28" placeholder="예) 300g" name="recipe-each-quant-1-1"></textarea>
 									</div>
 									<div class="recipe-each-delete" onclick="each_del(1,1)">
 										<i class="fas fa-times"></i>
@@ -963,10 +1004,10 @@
 										<i class="fas fa-sort-down"></i>
 									</div>
 									<div class="recipe-each-name">
-										<textarea rows="1" cols="39" placeholder="예) 양배추"></textarea>
+										<textarea rows="1" cols="39" placeholder="예) 양배추" name="recipe-each-name-1-2"></textarea>
 									</div>
 									<div class="recipe-each-quant">
-										<textarea rows="1" cols="28" placeholder="예) 1/2개"></textarea>
+										<textarea rows="1" cols="28" placeholder="예) 1/2개" name="recipe-each-quant-1-2"></textarea>
 									</div>
 									<div class="recipe-each-delete" onclick="each_del(1,2)">
 										<i class="fas fa-times"></i>
@@ -978,10 +1019,10 @@
 										<i class="fas fa-sort-down"></i>
 									</div>
 									<div class="recipe-each-name">
-										<textarea rows="1" cols="39" placeholder="예) 참기름"></textarea>
+										<textarea rows="1" cols="39" placeholder="예) 참기름" name="recipe-each-name-1-3"></textarea>
 									</div>
 									<div class="recipe-each-quant">
-										<textarea rows="1" cols="28" placeholder="예) 1T"></textarea>
+										<textarea rows="1" cols="28" placeholder="예) 1T" name="recipe-each-quant-1-3"></textarea>
 									</div>
 									<div class="recipe-each-delete" onclick="each_del(1,3)">
 										<i class="fas fa-times"></i>
@@ -1066,7 +1107,6 @@
 					<span id="cancel">취소</span>
 				</div>
 			</div>
-			<input type="text" name="test">
 			<button type="submit" id="save-go" style="visibility: hidden;"></button>
 		</form>
 	</div>

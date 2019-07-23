@@ -6,8 +6,11 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Base64;
 import java.util.Base64.Encoder;
+import java.util.Enumeration;
+import java.util.List;
 
 import javax.imageio.IIOException;
 import javax.imageio.ImageIO;
@@ -117,6 +120,33 @@ public class MainController {
 		System.out.println(rvo.getRecipe_time());
 		System.out.println(rvo.getRecipe_difficulty());
 		System.out.println(rvo.getMain_image());
+		List<String> pack = new ArrayList<String>();
+		List<List<String>> materials = new ArrayList<List<String>>();
+		Enumeration<String> enu = request.getParameterNames();
+		List<String> paraname = new ArrayList<String>();
+		while(enu.hasMoreElements()) {
+			paraname.add(enu.nextElement());
+		}
+		for (String k : paraname) {
+			if(k.matches("^ing-pack-\\d*$")) pack.add(request.getParameter(k));
+		}
+		for (int i = 0; i < pack.size(); i++) {
+			materials.add(new ArrayList<String>());
+		}
+		for (String k : paraname) {
+			if(k.matches("^recipe-each-name-.*$")) {
+				String parano = k.replace("recipe-each-name-", "");
+				materials.get(Integer.parseInt(parano.substring(0,1)) - 1).add(request.getParameter(k));
+			}
+		}
+		
+		String packstr = pack.toString();
+		System.out.println(packstr);
+		for (List<String> k : materials) {
+			System.out.println(k.toString());
+		}
+		System.out.println(materials.toString());
+		
 		return mv;
 	}
 	
