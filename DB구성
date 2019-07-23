@@ -64,6 +64,11 @@ foreign key (t_idx) references talk(t_idx)
 ========================================================================
 시퀀스 추가
 create sequence members_seq increment by 1 start with 1 nocycle;
+create sequence recipe_seq increment by 1 start with 1 nocycle;
+create sequence recipe_c_seq increment by 1 start with 1 nocycle;
+create sequence talk_seq increment by 1 start with 1 nocycle;
+create sequence talk_c_seq increment by 1 start with 1 nocycle;
+
 
 어드민 계정 임의추가
 insert into members values (members_seq.nextval, 'admin', 'admin', null, 'admin', 'male', sysdate);
