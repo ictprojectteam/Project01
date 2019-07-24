@@ -1,8 +1,9 @@
 package com.ict.service;
 
 public class RecipeVO {
-	private String recipe_title, recipe_introduce, recipe_video, ca1, ca2, ca3, ca4, recipe_quant, recipe_time, recipe_difficulty, main_image;
-
+	private String recipe_title, recipe_introduce, recipe_video, ca1, ca2, ca3, ca4, recipe_quant, recipe_time, recipe_difficulty, main_image, recipe_tip, recipe_tag;
+	private String pack, material, orderContent, finImage;
+	
 	public String getRecipe_title() {
 		return recipe_title;
 	}
@@ -68,6 +69,42 @@ public class RecipeVO {
 	}
 	public void setMain_image(String main_image) {
 		this.main_image = main_image;
+	}
+	public String getRecipe_tip() {
+		return recipe_tip;
+	}
+	public void setRecipe_tip(String recipe_tip) {
+		this.recipe_tip = recipe_tip;
+	}
+	public String getRecipe_tag() {
+		return recipe_tag;
+	}
+	public void setRecipe_tag(String recipe_tag) {
+		this.recipe_tag = recipe_tag;
+	}
+	public String getPack() {
+		return pack;
+	}
+	public void setPack(String pack) {
+		this.pack = pack;
+	}
+	public String getMaterial() {
+		return material;
+	}
+	public void setMaterial(String material) {
+		this.material = material;
+	}
+	public String getOrderContent() {
+		return orderContent;
+	}
+	public void setOrderContent(String orderContent) {
+		this.orderContent = orderContent;
+	}
+	public String getFinImage() {
+		return finImage;
+	}
+	public void setFinImage(String finImage) {
+		this.finImage = finImage;
 	}
 	
 }

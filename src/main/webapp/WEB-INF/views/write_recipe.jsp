@@ -496,18 +496,15 @@
 						$("#write-top-image-com").append("<input type='hidden' value='" + e.target.result + "' name='main_image'>")
 						$("#write-top-image-com").hide();
 						$("#write-top-image-insert").empty();
-						$("#write-top-image-insert").append("<img onclick='javascript:insert_click()' src=" + e.target.result + ">");
+						$("#write-top-image-insert").append("<img onclick='insert_click()' src=" + e.target.result + ">");
 						$("#write-top-image-insert").append("<i class='fas fa-times' onclick='del_mainimage()'></i>");
 						$("#write-top-image-insert").show();
 					} else {
-						$("#insert-main-image").val("");
-						$("#write-top-image-insert").hide();
-						$("#write-top-image-com").show();
+						del_mainimage();
 					}
 				}
 			} else {
-				$("#write-top-image-insert").hide();
-				$("#write-top-image-com").show();
+				del_mainimage();
 			}
 		});
 
@@ -520,6 +517,9 @@
 		$("#comp-image-multfile").on("change", function(){
 			var files = this.files;
 			var imgnum = 1;
+			$(".comp-image-selected").empty();
+			$(".comp-image-empty").show();
+			$("input[name^=comp-image-val-]").val("");
 			if(files){
 				for (var i = 0; i < files.length; i++) {
 					var reader = new FileReader();
@@ -533,12 +533,12 @@
 						readFile = readFile.substring(0, readFile.indexOf('/'));
 						if(readFile === "data:image" && chkcor != "77u/"){
 							cont.find(".comp-image-empty").hide();
+							cont.find("input[type=hidden]").val(e.target.result);
 							selimg.empty();
-							selimg.append("<img src=" + e.target.result + ">");
+							selimg.append("<img src=" + e.target.result + " onclick='change_compimage(" + imgnum + ")'>");
 							selimg.append("<i class='fas fa-times' onclick = 'del_compimage(" + imgnum + ")'></i>");
 							selimg.show();
 							imgnum++;
-							alert("imgnum3 = " + imgnum);
 						} else {
 							selimg.hide();
 							cont.find(".comp-image-empty").show();
@@ -557,6 +557,8 @@
 			var k = $(this).attr("id").replace("comp-image-file-", "");
 			var cont = $("#comp-image-" + k);
 			var selimg = cont.find(".comp-image-selected");
+			selimg.empty();
+			cont.find(".comp-image-empty").show();
 			if(this.files && this.files[0]){
 				var reader = new FileReader();
 				reader.readAsDataURL(this.files[0]);
@@ -566,18 +568,20 @@
 					readFile = readFile.substring(0, readFile.indexOf('/'));
 					if(readFile === "data:image" && chkcor != "77u/"){
 						cont.find(".comp-image-empty").hide();
-						selimg.empty();
-						selimg.append("<img src=" + e.target.result + ">");
+						cont.find("input[type=hidden]").val(e.target.result);
+						selimg.append("<img src=" + e.target.result + " onclick='change_compimage(" + k + ")'>");
 						selimg.append("<i class='fas fa-times' onclick = 'del_compimage(" + k + ")'></i>");
 						selimg.show();
 					} else {
 						$(this).val("");
 						selimg.hide();
+						cont.find("input[type=hidden]").val("");
 						cont.find(".comp-image-empty").show();
 					}
 				}
 			} else {
 				selimg.hide();
+				cont.find("input[type=hidden]").val("");
 				cont.find(".comp-image-empty").show();
 			}
 		});
@@ -607,16 +611,20 @@
 			}
 		});
 
-		/* $("#save").on("click", function(){
+		$("#save").on("click", function(){
 			$("input[type=file]").attr("disabled", "disabled");
 			$("#recipe-form").attr("action", "save_recipe").submit();
-		}); */
+		});
+
+		$("#cancel").on("click", function(){
+			history.go(-1);
+		});
+
+		var subm = true;
+		$(window).on("beforeunload", function(){
+			if (subm) return "작성된 레시피를 저장하지 않고 이동하시겠습니까?";
+		});
 	});
-	function save_go(f) {
-		$("input[type=file]").remove();
-		$("#recipe-form").attr("action", "save_recipe");
-		$("#save-go").click();
-	}
 	
 	function insert_click(){
 		$("#insert-main-image").click();
@@ -633,6 +641,7 @@
 	function del_mainimage(){
 		$("#insert-main-image").val('');
 		$("#write-top-image-insert").empty();
+		$("#write-top-image-com").find("input[name=main_image]").remove();
 		$("#write-top-image-com").show();
 	}
 
@@ -685,7 +694,6 @@
 
 	function mat_sort_input(pack){
 		var ing = 1;
-		alert(pack);
 		$("#recipe-pack-"+pack).find(".recipe-each-sort").each(function(){
 			$(this).attr("id", "recipe-each-" + pack + "-" + ing);
 			$(this).find(".recipe-each-name textarea").attr("name", "recipe-each-name-" + pack + "-" + ing);
@@ -742,24 +750,23 @@
 				readFile = readFile.substring(0, readFile.indexOf('/'));
 				if(readFile === "data:image" && chkcor != "77u/"){
 					$("#recipe-order-" + k + " .recipe-order-addimage i.fa-plus").hide();
+					$("#recipe-order-" + k).find("input[type=hidden]").val(e.target.result);
 					$("#recipe-order-" + k + " .recipe-order-image").empty();
-					var imgapp = "<img onclick='javascript:add_order_image(" + k + ")' src=" + e.target.result + ">";
+					var imgapp = "<img onclick='add_order_image(" + k + ")' src=" + e.target.result + ">";
 					imgapp += "<i class='fas fa-times' onclick = 'del_order_image("+ k + ")'></i>";
 					$("#recipe-order-" + k + " .recipe-order-image").append(imgapp);
 				} else {
-					$("#recipe-orderimage-" + k).val("");
-					$("#recipe-order-" + k + " .recipe-order-image").empty();
-					$("#recipe-order-" + k + " .recipe-order-addimage i.fa-plus").show();
+					del_order_image(k);
 				}
 			}
 		} else {
-			$("#recipe-order-" + k + " .recipe-order-image").empty();
-			$("#recipe-order-" + k + " .recipe-order-addimage i.fa-plus").show();
+			del_order_image(k);
 		}
 	}
 
 	function del_order_image(num){
 		$("#recipe-orderimage-" + num).val('');
+		$("#recipe-order-" + num).find("input[type=hidden]").val("");
 		$("#recipe-order-" + num + " .recipe-order-image").empty();
 		$("#recipe-order-" + num + " .recipe-order-addimage i.fa-plus").show();
 	}
@@ -773,7 +780,8 @@
 		});
 		count++;
 		var str = '<div class="recipe-order" id="recipe-order-' + count + '"><div class="recipe-order-count">Step ' + count + '</div><div class="recipe-order-content">';
-		str += '<textarea placeholder="예) 소고기는 기름기를 떼어내고 적당한 크기로 썰어주세요."></textarea></div>';
+		str += '<textarea placeholder="예) 소고기는 기름기를 떼어내고 적당한 크기로 썰어주세요." name="order-text-'+count+'"></textarea></div>';
+		str += '<input type="hidden" name="order-image-' + count + '">';
 		str += '<div class="recipe-order-addimage"><div onclick="add_order_image(' + count + ')"><i class="fas fa-plus"></i></div><div class="recipe-order-image"></div></div>';
 		str += '<input type="file" hidden="" name="recipe_orderimage' + count + '" accept="image/*" id="recipe-orderimage-' + count + '">';	
 		str += '<div class="recipe-order-button"><i class="fas fa-angle-up" onclick="order_up()"></i> <i class="fas fa-angle-down" onclick="order_down()"></i>';
@@ -787,10 +795,12 @@
 		$(".recipe-order").each(function(){
 			$(this).attr("id", "recipe-order-" + i);
 			$(this).find(".recipe-order-count").text("Step " + i);
+			$(this).find(".recipe-order-content").find("textarea").attr("name", "order-text-" + i);
+			$(this).find("input[type=hidden]").attr("name", "order-image-" + i);
 			$(this).find(".recipe-order-addimage").find("div:first-child").attr("onclick", "add_order_image(" + i + ")");
-			$(this).find("input").attr({"name":"recipe_orderimage" + i, "id":"recipe-orderimage-" + i});
-			$(this).find(".recipe-order-addimage").find(".recipe-order-image").find("img").attr("onclick", "javascript:add_order_image(" + i + ")");
-			$(this).find(".recipe-order-addimage").find(".recipe-order-image").find("i").attr("onclick", "javascript:del_order_image(" + i + ")");
+			$(this).find("input[type=file]").attr({"name":"recipe_orderimage" + i, "id":"recipe-orderimage-" + i});
+			$(this).find(".recipe-order-addimage").find(".recipe-order-image").find("img").attr("onclick", "add_order_image(" + i + ")");
+			$(this).find(".recipe-order-addimage").find(".recipe-order-image").find("i").attr("onclick", "del_order_image(" + i + ")");
 			i++;
 		});
 	}
@@ -833,7 +843,7 @@
 		order_sort();
 		content = $("#recipe-order-" + (k + 1));
 		content.find(".recipe-order-content").find("textarea").val("");
-		content.find(".recipe-order-addimage").find("input").val("");
+		content.find("input").val("");
 		content.find(".recipe-order-addimage").find(".recipe-order-image").empty();
 		content.find(" .recipe-order-addimage i.fa-plus").show();
 		$("#recipe-orderimage-" + (k + 1)).bind("change", change_order_image);
@@ -845,8 +855,13 @@
 		order_sort();
 	}
 
+	function change_compimage(num){
+		$("#comp-image-file-" + num).click();
+	}
+
 	function del_compimage(num){
 		$("#comp-image-file-" + num).val("");
+		$("#comp-image-" + num).find("input[type=hidden]").val("");
 		$("#comp-image-" + num).find(".comp-image-selected").empty();
 		$("#comp-image-" + num).find(".comp-image-empty").show();
 	}
@@ -878,39 +893,77 @@
 					<div class="write-input">
 						<select name="ca1">
 							<option>종류별</option>
-							<option>종류별</option>
-							<option>종류별</option>
-							<option>종류별</option>
-							<option>종류별</option>
-							<option>종류별</option>
-							<option>종류별</option>
+							<option>밑반찬</option>
+							<option>메인반찬</option>
+							<option>국/탕</option>
+							<option>찌개</option>
+							<option>디저트</option>
+							<option>면/만두</option>
+							<option>밥/죽/떡</option>
+							<option>퓨전</option>
+							<option>김치/젓갈/장류</option>
+							<option>양념/소스/잼</option>
+							<option>양식</option>
+							<option>샐러드</option>
+							<option>스프</option>
+							<option>빵</option>
+							<option>과자</option>
+							<option>차/음료/술</option>
+							<option>기타</option>
 						</select>
 						<select name="ca2">
 							<option>상황별</option>
-							<option>종류별</option>
-							<option>종류별</option>
-							<option>종류별</option>
-							<option>종류별</option>
-							<option>종류별</option>
-							<option>종류별</option>
+							<option>일상</option>
+							<option>초스피드</option>
+							<option>손님접대</option>
+							<option>술안주</option>
+							<option>다이어트</option>
+							<option>도시락</option>
+							<option>영양식</option>
+							<option>간식</option>
+							<option>야식</option>
+							<option>푸드스타일링</option>
+							<option>해장</option>
+							<option>명절</option>
+							<option>이유식</option>
+							<option>기타</option>
 						</select>
 						<select name="ca3">
 							<option>방법별</option>
-							<option>종류별</option>
-							<option>종류별</option>
-							<option>종류별</option>
-							<option>종류별</option>
-							<option>종류별</option>
-							<option>종류별</option>
+							<option>볶음</option>
+							<option>끓이기</option>
+							<option>부침</option>
+							<option>조림</option>
+							<option>무침</option>
+							<option>비빔</option>
+							<option>찜</option>
+							<option>절임</option>
+							<option>튀김</option>
+							<option>삶기</option>
+							<option>굽기</option>
+							<option>데치기</option>
+							<option>회</option>
+							<option>기타</option>
+							<!-- 소고기 돼지고기 닭고기 육류 채소류 해물류 달걀/유제품 가공식품류 쌀 밀가루 건어물류 버섯류 과일류 콩/견과류 곡류 기타 -->
 						</select>
 						<select name="ca4">
 							<option>재료별</option>
-							<option>종류별</option>
-							<option>종류별</option>
-							<option>종류별</option>
-							<option>종류별</option>
-							<option>종류별</option>
-							<option>종류별</option>
+							<option>소고기</option>
+							<option>돼지고기</option>
+							<option>닭고기</option>
+							<option>육류</option>
+							<option>채소류</option>
+							<option>해물류</option>
+							<option>달걀/유제품</option>
+							<option>가공식품류</option>
+							<option>쌀</option>
+							<option>밀가루</option>
+							<option>건어물류</option>
+							<option>버섯류</option>
+							<option>과일류</option>
+							<option>콩/견과류</option>
+							<option>곡류</option>
+							<option>기타</option>
 						</select>
 						<p id="cate-com">분류를 바르게 설정해주시면, 이용자들이 쉽게 레시피를 검색할 수 있어요.</p>
 					</div>
@@ -1035,7 +1088,7 @@
 				</div>
 				<div id="recipe-pack-not">※ 양념, 양념장, 소스, 드레싱, 토핑, 시럽, 육수, 밑간 등으로 구분해서 작성해주세요.</div>
 				<div id="recipe-add-pack">
-					<p onclick="javascript:add_pack()"><i class="fas fa-plus"></i> 재료/양념 묶음 추가</p>
+					<p onclick="add_pack()"><i class="fas fa-plus"></i> 재료/양념 묶음 추가</p>
 				</div>
 				<div id="recipe-order">
 					<div class="write-label">요리순서</div>
@@ -1048,7 +1101,8 @@
 					<div id="recipe-order-container">
 						<div class="recipe-order" id="recipe-order-1">
 							<div class="recipe-order-count">Step 1</div>
-							<div class="recipe-order-content"><textarea placeholder="예) 소고기는 기름기를 떼어내고 적당한 크기로 썰어주세요."></textarea></div>
+							<div class="recipe-order-content"><textarea placeholder="예) 소고기는 기름기를 떼어내고 적당한 크기로 썰어주세요." name="order-text-1"></textarea></div>
+							<input type="hidden" name="order-image-1">
 							<div class="recipe-order-addimage">
 								<div onclick="add_order_image(1)"><i class="fas fa-plus"></i></div>
 								<div class="recipe-order-image"></div>
@@ -1080,6 +1134,7 @@
 						<c:forEach var="k" begin="1" end="4">
 							<input type="file" hidden="" id="comp-image-file-${k}" accept="image/*">
 							<div class="comp-image" id="comp-image-${k}">
+								<input type="hidden" name="comp-image-val-${k}">
 								<div class="comp-image-empty">
 									<i class="fas fa-plus"></i>
 								</div>
@@ -1091,23 +1146,22 @@
 				<div id="write-tip">
 					<div class="write-label">요리팁</div>
 					<div id="write-tip-content">
-						<textarea placeholder="예) 고기요리에는 소금보다 설탕을 먼저 넣어야 단맛이 겉돌지 않고 육질이 부드러워요."></textarea>
+						<textarea placeholder="예) 고기요리에는 소금보다 설탕을 먼저 넣어야 단맛이 겉돌지 않고 육질이 부드러워요." name="recipe_tip"></textarea>
 					</div>
 				</div>
 				<div id="write-tag">
 					<div class="write-label">태그</div>
 					<div id="write-tag-content">
-						<input type="text">
+						<input type="text" name="recipe_tag">
 					</div>
 				</div>
 				<p id="taginf">주재료, 목적, 효능, 대상 등을 태그로 남겨주세요. <span>예) 돼지고기, 다이어트, 비만, 칼슘, 감기예방, 이유식, 초간단</span></p>
 				<div id="save-button">
-					<span id="save" onclick="save_go(this.form)">저장</span>
+					<span id="save">저장</span>
 					<span id="public"> 저장 후 공개하기 </span>
 					<span id="cancel">취소</span>
 				</div>
 			</div>
-			<button type="submit" id="save-go" style="visibility: hidden;"></button>
 		</form>
 	</div>
 	<footer>

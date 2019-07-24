@@ -129,6 +129,16 @@
 					<a href="#" class="category-detail-group1">디저트</a>
 					<a href="#" class="category-detail-group1">면/만두</a>
 					<a href="#" class="category-detail-group1">밥/죽/떡</a>
+					<a href="#" class="category-detail-group1">퓨전</a>
+					<a href="#" class="category-detail-group1">김치/젓갈/장류</a>
+					<a href="#" class="category-detail-group1">양념/소스/잼</a>
+					<a href="#" class="category-detail-group1">양식</a>
+					<a href="#" class="category-detail-group1">샐러드</a>
+					<a href="#" class="category-detail-group1">스프</a>
+					<a href="#" class="category-detail-group1">빵</a>
+					<a href="#" class="category-detail-group1">과자</a>
+					<a href="#" class="category-detail-group1">차/음료/술</a>
+					<a href="#" class="category-detail-group1">기타</a>
 				</div>
 				<div class="category-detail-label">
 					<a href="#" class="category-detail-group2">전체</a>
@@ -139,6 +149,13 @@
 					<a href="#" class="category-detail-group2">다이어트</a>
 					<a href="#" class="category-detail-group2">도시락</a>
 					<a href="#" class="category-detail-group2">영양식</a>
+					<a href="#" class="category-detail-group2">간식</a>
+					<a href="#" class="category-detail-group2">야식</a>
+					<a href="#" class="category-detail-group2">푸드스타일링</a>
+					<a href="#" class="category-detail-group2">해장</a>
+					<a href="#" class="category-detail-group2">명절</a>
+					<a href="#" class="category-detail-group2">이유식</a>
+					<a href="#" class="category-detail-group2">기타</a>
 				</div>
 				<div class="category-detail-label">
 					<a href="#" class="category-detail-group3">전체</a>
@@ -149,6 +166,15 @@
 					<a href="#" class="category-detail-group3">채소류</a>
 					<a href="#" class="category-detail-group3">해물류</a>
 					<a href="#" class="category-detail-group3">달걀/유제품</a>
+					<a href="#" class="category-detail-group3">가공식품류</a>
+					<a href="#" class="category-detail-group3">쌀</a>
+					<a href="#" class="category-detail-group3">밀가루</a>
+					<a href="#" class="category-detail-group3">건어물류</a>
+					<a href="#" class="category-detail-group3">버섯류</a>
+					<a href="#" class="category-detail-group3">과일류</a>
+					<a href="#" class="category-detail-group3">콩/견과류</a>
+					<a href="#" class="category-detail-group3">곡류</a>
+					<a href="#" class="category-detail-group3">기타</a>
 				</div>
 				<div class="category-detail-label">
 					<a href="#" class="category-detail-group4">전체</a>
@@ -159,13 +185,28 @@
 					<a href="#" class="category-detail-group4">무침</a>
 					<a href="#" class="category-detail-group4">비빔</a>
 					<a href="#" class="category-detail-group4">찜</a>
+					<a href="#" class="category-detail-group4">절임</a>
+					<a href="#" class="category-detail-group4">튀김</a>
+					<a href="#" class="category-detail-group4">삶기</a>
+					<a href="#" class="category-detail-group4">굽기</a>
+					<a href="#" class="category-detail-group4">데치기</a>
+					<a href="#" class="category-detail-group4">회</a>
+					<a href="#" class="category-detail-group4">기타</a>
 				</div>
 			</div>
 		</div>
 		
 		<div id="recipe-list">
 			<div id="recipe-internal">
-				<c:forEach var="k" begin="1" end="16">
+				<c:forEach var="k" items="${r_list}">
+					<div class="recipe-list-preview">
+						<div class="recipe-preview-image"><img src="${k.main_image}"></div>
+						<div class="recipe-preview-subject">${k.recipe_title}</div>
+						<div class="recipe-preview-writer">by ${k.recipe_introduce}</div>
+					</div>
+				</c:forEach>
+			
+				<%-- <c:forEach var="k" begin="1" end="16">
 					<div class="recipe-list-preview" mp="${k}">
 						<c:choose>
 							<c:when test="${k%2==0}">
@@ -179,10 +220,8 @@
 								<div class="recipe-preview-writer">by 닭갈비제작소</div>
 							</c:otherwise>
 						</c:choose>
-						
-						
 					</div>
-				</c:forEach>
+				</c:forEach> --%>
 			</div>
 			<div id="recipe-paging">페이징이 들어갈 자리</div>
 		</div>
