@@ -13,7 +13,6 @@ import java.util.Base64;
 import java.util.Base64.Encoder;
 import java.util.Enumeration;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import javax.imageio.IIOException;
@@ -106,7 +105,13 @@ public class MainController {
 		return mv;
 	}
 	
-	
+	@RequestMapping(value = "a_recipe")
+	public ModelAndView geta_recipe() {
+		ModelAndView mv = new ModelAndView("a_recipe");
+		List<MVO> list = dao.getList();
+		mv.addObject("list", list);
+		return mv;
+	}
 	
 	@RequestMapping("logout")
 	public ModelAndView getLogout(HttpServletRequest request) {
@@ -205,6 +210,7 @@ public class MainController {
 		return mv;
 	}
 	
+//	유튜브 썸네일 URI를 ajax로 받기 위한 메소드
 	@RequestMapping("thumbnail")
 	@ResponseBody
 	public String getThumbnail(@RequestParam("url")String url, HttpServletRequest request) {
@@ -223,6 +229,7 @@ public class MainController {
 				byte[] encodebyte = encoder.encode(bt);
 				String out = new String(encodebyte);
 				out = "data:image/jpg;base64,"+out;
+				fis.close();
 				return out;
 			}
 			return new String(path.getBytes());
