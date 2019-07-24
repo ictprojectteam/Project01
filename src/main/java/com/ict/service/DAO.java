@@ -16,6 +16,26 @@ public class DAO {
 		return sqlSessionTemplate.selectOne("login", mvo);
 	}
 	
+	public MVO a_getLogin(MVO mvo) {
+		return sqlSessionTemplate.selectOne("login", mvo);
+	}
+	
+	public List<MVO> getList(){
+		return sqlSessionTemplate.selectList("list");
+	}
+	
+	public int getJoin(MVO mvo) {
+		return sqlSessionTemplate.insert("join", mvo);
+	}
+	
+	public MVO findPw(String email) {
+		return sqlSessionTemplate.selectOne("findPw", email);
+	}
+	
+	public int pwUpdate(MVO mvo) {
+		return sqlSessionTemplate.update("pwUpdate", mvo);
+	}
+	
 	public void getInsert(RecipeVO rvo) {
 		sqlSessionTemplate.insert("insert_recipe", rvo);
 	}

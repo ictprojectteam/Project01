@@ -620,9 +620,9 @@
 			history.go(-1);
 		});
 
-		var subm = true;
+		var subm = false;
 		$(window).on("beforeunload", function(){
-			if (subm) return "작성된 레시피를 저장하지 않고 이동하시겠습니까?";
+			if (!subm) return "작성된 레시피를 저장하지 않고 이동하시겠습니까?";
 		});
 	});
 	
