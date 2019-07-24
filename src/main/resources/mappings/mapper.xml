@@ -19,6 +19,35 @@
 	<update id="pwUpdate" parameterType="mvo">
 		update members set pw = #{pw} where m_idx = #{m_idx}
 	</update>
+	
+	<insert id="insert_recipe" parameterType="rvo">
+		insert into testRecipe values (test_seq.nextval, #{recipe_title}, #{recipe_introduce}, #{recipe_video}, #{ca1}, #{ca2}, #{ca3}, #{ca4}, #{recipe_quant}, #{recipe_time}, #{recipe_difficulty}, #{main_image}, #{pack}, #{material}, #{orderContent}, #{finImage}, #{recipe_tip}, #{recipe_tag})
+	</insert>
+	
+	<select id="count_recipe" parameterType="map" resultType="int">
+		select count(*) from testRecipe <where>
+			<if test="ca1 != null">
+				and ca1=#{ca1}
+			</if>
+			<if test="ca2 != null">
+				and ca2=#{ca2}
+			</if>
+			<if test="ca3 != null">
+				and ca3=#{ca3}
+			</if>
+			<if test="ca4 != null">
+				and ca4=#{ca4}
+			</if>
+		</where>
+	</select>
+	
+	<select id="recipe_list" parameterType="map" resultType="rvo">
+		select * from (
+				select rownum r_num, a.* from (
+					select * from testRecipe order by r_idx
+				) a
+		) where r_num between #{begin} and #{end}
+	</select>
 </mapper>
 
 

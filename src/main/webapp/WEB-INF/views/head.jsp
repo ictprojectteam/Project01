@@ -67,6 +67,7 @@
 		border-radius: 30px;
 		width: 30px;
 		padding: 10px;
+		cursor: pointer;
 	}
 	/* 글쓰기 아이콘 */
 	.fa-pencil-alt{
@@ -117,6 +118,33 @@
 		color: #777;
 	}
 </style>
+<script src="https://kit.fontawesome.com/057ba10041.js"></script>
+<script type="text/javascript">
+	$(function(){
+		$("#profile-dropdown").fadeOut();
+		$(".fa-user-circle").click(function(){
+			if($("#loginchk").val() == null || $("#loginchk").val() == ""){
+				location.href="login";
+			} else {
+				$("#profile-dropdown").css("visibility", "visible");
+				$("#profile-dropdown").fadeToggle("fast");
+			}
+		});
+		$(window).click(function(e){
+			if(e.target.getAttribute("class") != "fas fa-user-circle"){
+				$("#profile-dropdown").fadeOut("fast");
+			}
+		});
+		$("#top-pencil-icon").on("click",function(){
+			if($("#loginchk").val() == null || $("#loginchk").val() == ""){
+				var k = confirm("로그인이 필요한 페이지입니다.\n\n로그인 하시겠습니까?\n");
+				if(k) location.href='login';
+			} else {
+				location.href="write_recipe";
+			}
+		});
+	});
+</script>
 </head>
 <body>
 	<input type="hidden" id="loginchk" value="${mvo.id}">
@@ -132,7 +160,7 @@
 			</form>
 			<div id="top-icon">
 				<a id="user-circle" href="#"><i class="fas fa-user-circle"></i></a>
-				<a href="chk_write" onclick="write_popup()" id="top-pencil-icon"><i class="fas fa-pencil-alt"></i></a>
+				<a id="top-pencil-icon"><i class="fas fa-pencil-alt"></i></a>
 				<div id="profile-dropdown">
 					<a class="profile-dropdown-menu" href="myhome">MY홈</a>
 					<a class="profile-dropdown-menu" href="myscrap">스크랩한 레시피</a>
