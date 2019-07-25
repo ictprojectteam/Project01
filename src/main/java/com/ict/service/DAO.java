@@ -37,7 +37,6 @@ public class DAO {
 	
 	public MVO findPw(String email) {
 		return sqlSessionTemplate.selectOne("findPw", email);
-		
 	}
 	
 	public int pwUpdate(MVO mvo) {
@@ -48,11 +47,15 @@ public class DAO {
 		sqlSessionTemplate.insert("insert_recipe", rvo);
 	}
 	
-	public int getCount(Map<String, String> camap) {
+	public int countRecipe(Map<String, String> camap) {
 		return sqlSessionTemplate.selectOne("count_recipe", camap);
 	}
 	
-	public List<RecipeVO> getRecipeList(Map<String, Integer> pmap) {
+	public List<RecipeVO> getRecipeList(Map<String, String> pmap) {
 		return sqlSessionTemplate.selectList("recipe_list", pmap);
+	}
+	
+	public RecipeVO viewRecipe(String r_idx) {
+		return sqlSessionTemplate.selectOne("view_recipe", r_idx);
 	}
 }

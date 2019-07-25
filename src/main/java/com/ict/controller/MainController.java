@@ -137,22 +137,28 @@ public class MainController {
 		if (ca4 == null) ca4 = "";
 		if (cPage == null) cPage = "";
 		
-		Map<String, String> camap = new HashMap<String, String>();
-		camap.put("ca1", ca1);
-		camap.put("ca2", ca2);
-		camap.put("ca3", ca3);
-		camap.put("ca4", ca4);
-		int count = dao.getCount(camap);
+		Map<String, String> listmap = new HashMap<String, String>();
+		listmap.put("ca1", ca1);
+		listmap.put("ca2", ca2);
+		listmap.put("ca3", ca3);
+		listmap.put("ca4", ca4);
+		int count = dao.countRecipe(listmap);
 		RecipePaging rp = new RecipePaging(count, cPage);
 		
-		Map<String, Integer> pmap = new HashMap<String, Integer>();
-		pmap.put("begin", rp.getBegin());
-		pmap.put("end", rp.getEnd());
+		listmap.put("begin", String.valueOf(rp.getBegin()));
+		listmap.put("end", String.valueOf(rp.getEnd()));
 		
-		List<RecipeVO> r_list = dao.getRecipeList(pmap);
+		List<RecipeVO> r_list = dao.getRecipeList(listmap);
 		mv.addObject("r_list", r_list);
 		mv.addObject("rp", rp);
 		
+		return mv;
+	}
+	
+	@RequestMapping("view")
+	public ModelAndView viewRecipe(@RequestParam String rno) {
+		ModelAndView mv = new ModelAndView("view");
+		mv.addObject("rvo", dao.viewRecipe(rno));
 		return mv;
 	}
 	

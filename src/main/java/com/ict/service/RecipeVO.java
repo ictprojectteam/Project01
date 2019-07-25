@@ -1,9 +1,15 @@
 package com.ict.service;
 
 public class RecipeVO {
-	private String recipe_title, recipe_introduce, recipe_video, ca1, ca2, ca3, ca4, recipe_quant, recipe_time, recipe_difficulty, main_image, recipe_tip, recipe_tag;
+	private String r_idx, recipe_title, recipe_introduce, recipe_video, ca1, ca2, ca3, ca4, recipe_quant, recipe_time, recipe_difficulty, main_image, recipe_tip, recipe_tag;
 	private String pack, material, orderContent, finImage;
 	
+	public String getR_idx() {
+		return r_idx;
+	}
+	public void setR_idx(String r_idx) {
+		this.r_idx = r_idx;
+	}
 	public String getRecipe_title() {
 		return recipe_title;
 	}

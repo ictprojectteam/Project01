@@ -174,12 +174,12 @@
 		<div id="top-nav">
 			<div id="top-nav-menu-bar">
 				<a class="top-nav-menu" href="/">홈</a>
-				<a class="top-nav-menu" href="recipe">레시피</a>
-				<a class="top-nav-menu" href="video">조리영상</a>
-				<a class="top-nav-menu" href="talk">토크</a>
-				<a class="top-nav-menu" href="ranking">랭킹</a>
-				<a class="top-nav-menu" href="event">이벤트</a>
-				<a class="top-nav-menu" href="myhome">MY홈</a>
+				<a class="top-nav-menu" href="/recipe">레시피</a>
+				<a class="top-nav-menu" href="/video">조리영상</a>
+				<a class="top-nav-menu" href="/talk">토크</a>
+				<a class="top-nav-menu" href="/ranking">랭킹</a>
+				<a class="top-nav-menu" href="/event">이벤트</a>
+				<a class="top-nav-menu" href="/myhome">MY홈</a>
 			</div>
 		</div>
 	</div>
