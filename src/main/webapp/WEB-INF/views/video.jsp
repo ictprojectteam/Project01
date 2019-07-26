@@ -6,8 +6,13 @@
 <head>
 <meta charset="UTF-8">
 <title>Video</title>
+<link rel="stylesheet" href="../resources/css/jquery-ui.min.css">
 <style type="text/css">
 /* ======================================== 영상 게시자 ========================================== */
+	#video-body{
+		width: 1200px;
+		margin: 30px auto 0px;
+	}
 	#video-group{
 		margin-top: 20px;
 		width: 1200px;
@@ -69,9 +74,15 @@
 /* ======================================== 인기 영상 ========================================== */
 
 </style>
+<script src="https://kit.fontawesome.com/057ba10041.js"></script>
+<script src="../resources/js/jquery-3.4.1.min.js"></script>
+<script src="../resources/js/jquery-ui.min.js"></script>
 </head>
 <body>
-	<div>
+	<header>
+		<jsp:include page="head.jsp" />
+	</header>
+	<div id="video-body">
 		<div id="video-group">
 			<c:forEach var="k" begin="1" end="9">
 				<div class="video-group-each">
@@ -83,5 +94,8 @@
 		<div id="video-request">동영상 업로드 요청</div>
 		
 	</div>
+	<footer>
+		<jsp:include page="foot.jsp" />
+	</footer>
 </body>
 </html>

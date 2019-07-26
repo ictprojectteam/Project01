@@ -1,13 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>    
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Admin</title>
+<title>Insert title here</title>
 
-<script type="text/javascript" src="../resources/js/jquery-3.4.1.min.js"></script>
 <style type="text/css">
 body, html{
 	width: 100%;
@@ -204,92 +203,9 @@ tabel td{
 		</nav>
 		<header>
 			<div id="links">
-				<a href="logout">로그아웃</a>
+				<a href="#">로그아웃</a>
 			</div>
 		</header>
-		<div id="main">
-			<div id="action-container">
-				<div id="user-action">
-					<div class="title">
-						신규 회원
-						<div id="body">
-							<table>
-								<thead>
-									<tr bgcolor="#cccccc">
-										<th>회원번호</th>
-										<th>회원이름</th>
-										<!-- <th>연착처</th> -->
-										<th>이메일</th>
-										<!-- <th>닉네임</th> -->
-										<th>성별</th>
-										<th>가입 일시</th>
-									</tr>
-								</thead>
-								<tbody>
-									<c:choose>
-										<c:when test="${empty list}">
-											<tr>
-												<td colspan="5"><h3>원하는 정보가 존재하지 않습니다</h3></td>
-											</tr>	
-										</c:when>
-										<c:otherwise>
-											<c:forEach var="k" items="${list}" begin="0" end="4">
-												<tr>
-													<td>${k.m_idx}</td>
-													<td>${k.name}</td>
-													<td>${k.email}</td>
-													<td>${k.gender}</td>
-													<td>${k.regdate}</td>
-												</tr>
-											</c:forEach>
-										</c:otherwise>
-									</c:choose>
-								</tbody>
-							</table>
-						</div>
-					</div>
-				</div>
-				<div id="action">
-				<div class="title">
-						새로 등록된 레시피
-						<div id="body">
-							<table>
-								<thead>
-									<tr>
-										<th>회원이름</th>
-										<!-- <th>연착처</th> -->
-										<th>이메일</th>
-										<th>레시피 제목</th>
-										<th>종류 구분</th>
-										<th>고유 ID</th>
-										<th>등록 일시</th>
-									</tr>
-								</thead>
-							</table>
-						</div>
-					</div>
-				</div>
-				<div id="action">
-					<div class="title">
-						신규 문의
-						<div id="body">
-							<table>
-								<thead>
-									<tr>
-										<th>회원이름</th>
-										<!-- <th>연착처</th> -->
-										<th>이메일</th>
-										<th>문의 구분</th>
-										<th>문의 내용</th>
-										<th>등록 일시</th>
-									</tr>
-								</thead>
-							</table>
-						</div>
-					</div>
-				</div>
-			</div>
-			</div>
-		</div>	
+	</div>
 </body>
 </html>

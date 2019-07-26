@@ -166,8 +166,9 @@ table, th, td {
 	border: 1px solid black;
 	border-collapse: collapse;
 	color: #2b686e;
-	text-align: center;
+	text-align: left;
 	font-size: 1.0em;
+	margin-top: 1em;
 }
 
 table{
@@ -177,6 +178,7 @@ table{
 
 table th{
 	border-spacing: 0;
+	text-align: center;
 }
 
 tabel td{
@@ -204,58 +206,81 @@ tabel td{
 		</nav>
 		<header>
 			<div id="links">
-				<a href="logout">로그아웃</a>
+				<a href="#">로그아웃</a>
 			</div>
 		</header>
 		<div id="main">
 			<div id="action-container">
 				<div id="user-action">
-					<div class="title">
-						신규 회원
+					<div>
+						<form>
+							<fieldset>
+								<legend><h2>검색하기</h2></legend>
+									<table>
+										<thead>
+											<tr>
+												<th>회원이름/
+												고유ID</th>						
+												<td>
+													<select name="name_idx">
+														<option value="name">회원이름</option>
+														<option value="idx_id">고유ID</option>
+													</select>
+													<input type="text" name="name" size="48">
+												</td>
+												<th>이메일/연락처</th>
+												<td>
+													<select name="email_number">
+														<option value="email">이메일</option>
+														<option value="number">연락처</option>
+													</select>
+														<input type="text" name="e_write" size= "48"> 
+												</td>
+											</tr>
+											<tr>
+												<th>레시피 제목</th>
+												<td colspan="3"><input type="text" name="content" size="137"></td>
+											</tr>
+											<tr>
+												<th>상태별</th>
+												<td colspan="3">
+													<input type="checkbox"  name="condition" size="50">전체								
+													<input type="checkbox"  name="condition" size="50">승인대기
+													<input type="checkbox"  name="condition" size="50">승인완료
+												</td>
+											</tr>
+											<tr>
+												<th>종류별</th>
+												<td colspan="3">
+													<input type="checkbox"  name="type" size="50">전체								
+													<input type="checkbox"  name="type" size="50">일반레시피
+													<input type="checkbox"  name="type" size="50">영상레시피
+												</td>
+											</tr>
+											<tr>
+												<th>등록일시</th>
+												<td colspan="3">
+													<input type="date" id="start" name="start" value="sysdate" min="2019-01-01" max="2019-12-31">
+													<a>~</a>
+													<input type="date" id="end" name="endt" value="sysdate" min="2019-01-01" max="2019-12-31">
+													<input type="button" id="today" value="오늘">
+													<input type="button" id="yesterday" value="어제">
+													<input type="button" id="week" value="7일">
+													<input type="button" id="month" value="1개월">
+													<input type="button" id="3month" value="3개월">
+													
+												</td>
+											</tr>
+										</thead>
+									</table>
+							</fieldset>
+						</form>
+						<div class="title">
+						레시피 관리
 						<div id="body">
 							<table>
 								<thead>
 									<tr bgcolor="#cccccc">
-										<th>회원번호</th>
-										<th>회원이름</th>
-										<!-- <th>연착처</th> -->
-										<th>이메일</th>
-										<!-- <th>닉네임</th> -->
-										<th>성별</th>
-										<th>가입 일시</th>
-									</tr>
-								</thead>
-								<tbody>
-									<c:choose>
-										<c:when test="${empty list}">
-											<tr>
-												<td colspan="5"><h3>원하는 정보가 존재하지 않습니다</h3></td>
-											</tr>	
-										</c:when>
-										<c:otherwise>
-											<c:forEach var="k" items="${list}" begin="0" end="4">
-												<tr>
-													<td>${k.m_idx}</td>
-													<td>${k.name}</td>
-													<td>${k.email}</td>
-													<td>${k.gender}</td>
-													<td>${k.regdate}</td>
-												</tr>
-											</c:forEach>
-										</c:otherwise>
-									</c:choose>
-								</tbody>
-							</table>
-						</div>
-					</div>
-				</div>
-				<div id="action">
-				<div class="title">
-						새로 등록된 레시피
-						<div id="body">
-							<table>
-								<thead>
-									<tr>
 										<th>회원이름</th>
 										<!-- <th>연착처</th> -->
 										<th>이메일</th>
@@ -269,27 +294,9 @@ tabel td{
 						</div>
 					</div>
 				</div>
-				<div id="action">
-					<div class="title">
-						신규 문의
-						<div id="body">
-							<table>
-								<thead>
-									<tr>
-										<th>회원이름</th>
-										<!-- <th>연착처</th> -->
-										<th>이메일</th>
-										<th>문의 구분</th>
-										<th>문의 내용</th>
-										<th>등록 일시</th>
-									</tr>
-								</thead>
-							</table>
-						</div>
-					</div>
-				</div>
 			</div>
-			</div>
-		</div>	
+		</div>
+	</div>
+	</div>
 </body>
 </html>
