@@ -13,6 +13,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.ict.service.DAO;
 import com.ict.service.MVO;
+import com.ict.service.TVO;
 
 @Controller
 public class MainController {
@@ -108,10 +109,34 @@ public class MainController {
 		return mv;
 	}
 	
+	
+	
 	@RequestMapping("video")
 	public ModelAndView getVideo() {
 		ModelAndView mv = new ModelAndView("index");
 		wPage = "video.jsp";
+		addw(mv);
+		return mv;
+	}
+	@RequestMapping("talk")
+	public ModelAndView getTalk() {
+		ModelAndView mv = new ModelAndView("index");
+		wPage = "talk.jsp";
+		addw(mv);
+		return mv;
+	}
+	@RequestMapping("talk_write")
+	public ModelAndView getTalk_write() {
+		ModelAndView mv = new ModelAndView("index");
+		wPage = "talk_write.jsp";
+		addw(mv);
+		return mv;
+	}
+	@RequestMapping("talk_write_ok")
+	public ModelAndView getTalkWrite(TVO tvo) {
+		ModelAndView mv = new ModelAndView("index");
+		
+		wPage = "talk.jsp";
 		addw(mv);
 		return mv;
 	}
