@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Admin</title>
+<title>Admin Recipe</title>
 
 <script type="text/javascript" src="../resources/js/jquery-3.4.1.min.js"></script>
 <style type="text/css">
@@ -28,6 +28,7 @@ body, html{
 	width: 100%;
 	height: 100%;
 	background-color: #f7f7f7;
+	overflow: auto;
 }
 
 nav{
@@ -139,6 +140,7 @@ header #links{
 	display: block;
 	text-align: left;
 	line-height: 30px;
+	padding-top: 30px;
 	margin-bottom: 1em;
 	font-size: 1.0em;
 	font-family: arial;
@@ -169,11 +171,15 @@ table, th, td {
 	text-align: left;
 	font-size: 1.0em;
 	margin-top: 1em;
+	line-height: 25px;
 }
 
 table{
 	position: relative;
 	width: 1000px;
+	margin-left: 1.0em;
+	margin-right: 1.0em;
+	margin-bottom: 1.0em;
 }
 
 table th{
@@ -185,7 +191,63 @@ tabel td{
 	font-size: 1.0em;
 }
 
+#body td{
+	text-align: center;
+}
+
+
+/* paging */
+.pageing{
+	margin: 0 auto;
+	text-align: center;
+}
+
+.paging {
+	list-style: none;
+}
+
+.paging li {
+	float: left;
+	margin-right: 8px;
+}
+
+.paging li a {
+	display: block;
+	padding: 3px 7px;
+	color: #2f313e;
+	font-weight: bold;
+}
+
+.paging li a:hover {
+	background: #00B3DC;
+	color: white;
+	font-weight: bold;
+}
+
+.disable {
+	padding: 3px 7px;
+	color: silver;
+}
+
+.now {
+	padding: 3px 7px;
+	border: 1px solid #ff4aa5;
+	background: #ff4aa5;
+	color: white;
+	font-weight: bold;
+}
+
+
+
 </style>
+<script type="text/javascript">
+	function send_one(f){
+		var searchType = $("#select_searchType option:selected").val();
+		var searchWord = $"(#searchWord").val();
+
+		window.location.href="search.do?curPage=" + page + "&searchType=" + searchType + "&searchWord=" + searchWord;
+	}
+</script>
 </head>
 <body>
 	<div id="container">
@@ -197,7 +259,7 @@ tabel td{
 				<li><a id="home" href="home">HOME</a></li>
 				<li><a id="recipe" href="a_recipe">레시피 관리</a></li>
 				<li><a id="content" href="home">게시물 등록</a></li>
-				<li><a id="user" href="home">회원 관리</a></li>
+				<li><a id="user" href="membership">회원 관리</a></li>
 				<li><a id="board" href="home">문의 관리</a></li>
 				<li><a id="event" href="home">이벤트 관리</a></li>
 				<li><a id="op" href="home">운영자 관리</a></li>
@@ -206,7 +268,7 @@ tabel td{
 		</nav>
 		<header>
 			<div id="links">
-				<a href="#">로그아웃</a>
+				<a href="m">로그아웃</a>
 			</div>
 		</header>
 		<main id="main">
@@ -214,7 +276,7 @@ tabel td{
 				<div id="user-action">
 					<div>
 						<form>
-							<fieldset>
+							<fieldset style="width: 1000px;">
 								<legend><h2>검색하기</h2></legend>
 									<table>
 										<thead>
@@ -270,6 +332,11 @@ tabel td{
 													
 												</td>
 											</tr>
+											<tr style="border: none">
+												<th colspan="4" style="border: none;">
+													<input type="button" id="search" value="검  색" style="width:160px;" onclick="send_one(this.form)">
+												</th>
+											</tr>
 										</thead>
 									</table>
 							</fieldset>
@@ -280,16 +347,77 @@ tabel td{
 							<table>
 								<thead>
 									<tr bgcolor="#cccccc">
+										<th>회원번호</th>
 										<th>회원이름</th>
 										<!-- <th>연착처</th> -->
 										<th>이메일</th>
 										<th>레시피 제목</th>
 										<th>종류 구분</th>
-										<th>고유 ID</th>
+										<!-- <th>고유 ID</th> -->
 										<th>등록 일시</th>
 									</tr>
 								</thead>
+								<tbody>
+									<c:choose>
+										<c:when test="${empty r_list }">
+											<tr>
+												<td colspan="6"><h3>원하는 정보가 존재하지 않습니다.</h3></td>
+											</tr>
+										</c:when>
+										<c:otherwise>
+											<c:forEach var="k" items="${r_list}" begin="0" end="10">
+												<tr>
+													<td>${k.m_idx}</td>
+													<td>${k.name}</td>
+													<%-- <td>${k.number}</td> --%>
+													<td>${k.email}</td>
+													<td>${k.subject}</td>
+													<td>${k.cate}</td>
+													<%-- <td>${k.secret_id}</td> --%>
+													<td>${k.regdate}</td>
+												</tr>
+											</c:forEach>
+										</c:otherwise>
+									</c:choose>
+								</tbody>
 							</table>
+							
+							<table>
+								<!-- 페이지기법 -->
+								<tfoot>
+									<div class="pageing">
+									<ol class="paging">
+									   <%-- 이전 --%>
+									    <c:choose>
+									    	<c:when test="${pageing.beginBlock <= pageing.pagePerBlock }">
+									    		<li class="disable"> 이전으로 </li>
+									    	</c:when>
+									    	<c:otherwise>
+									    		<li><a href="a_recipe.do?cPage=${pageing.beginBlock-pageing.pagePerBlock}"> 이전으로 </a></li>
+									    	</c:otherwise>
+									    </c:choose>
+									    
+										<c:forEach begin="${pageing.beginBlock}" end="${pageing.endBlock}" step="1" var="k">
+											<c:if test="${k==pageing.nowPage}">
+												<li class="now">${k}</li>
+											</c:if>
+											<c:if test="${k!=pageing.nowPage}">
+												<li><a href="a_recipe.do?cPage=${k}">${k}</a></li>
+											</c:if>
+										</c:forEach>
+										
+										<c:choose>
+									    	<c:when test="${pageing.endBlock >= pageing.totalPage }">
+									    		<li class="disable"> 다음으로 </li>
+									    	</c:when>
+									    	<c:otherwise>
+									    		<li><a href="a_recipe.do?cPage=${pageing.beginBlock+pageing.pagePerBlock}"> 다음으로 </a></li>
+									    	</c:otherwise>
+									    </c:choose>
+									</ol>
+									</div>
+								</tfoot>
+							</table>	
 						</div>
 					</div>
 				</div>

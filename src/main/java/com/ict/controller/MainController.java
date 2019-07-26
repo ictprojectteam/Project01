@@ -9,16 +9,24 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.ict.service.DAO;
 import com.ict.service.MVO;
+import com.ict.service.Pageing;
+import com.ict.service.RVO;
 
 @Controller
 public class MainController {
 	@Autowired
 	private DAO dao;
 	private String wPage;
+	@Autowired	
+	private Pageing pageing;
+	
+	String cPage;
+	
 	
 	@RequestMapping(value = "/")
 	public ModelAndView getIndex() {
@@ -76,6 +84,8 @@ public class MainController {
 			mv.setViewName("admin");
 			List<MVO> list = dao.getList();
 			mv.addObject("list", list);
+			List<RVO> r_list = dao.getr_list();
+			mv.addObject("r_list", r_list);
 		} else {
 			mv.setViewName("loginfail");
 		}
@@ -86,17 +96,97 @@ public class MainController {
 		ModelAndView mv = new ModelAndView("admin");
 		List<MVO> list = dao.getList();
 		mv.addObject("list", list);
+		List<RVO> r_list = dao.getr_list();
+		mv.addObject("r_list", r_list);
 		return mv;
 	}
-	
+		
 	@RequestMapping(value = "a_recipe")
-	public ModelAndView geta_recipe() {
+	public ModelAndView geta_recipe(HttpServletRequest request){
+		
 		ModelAndView mv = new ModelAndView("a_recipe");
-		List<MVO> list = dao.getList();
-		mv.addObject("list", list);
+		int count = dao.getCount();
+		pageing.setTotalRecord(count);
+		
+		if(pageing.getTotalRecord() <= pageing.getNumPerPage()) {
+			pageing.setTotalPage(1);
+		}else {
+			pageing.setTotalPage(pageing.getTotalRecord() / pageing.getNumPerPage());
+			if(pageing.getTotalRecord() % pageing.getNumPerPage() !=0) {
+				pageing.setTotalPage(pageing.getTotalPage()+1);
+			}
+		}
+		
+		cPage = request.getParameter("cPage");
+		if(cPage == null) {
+			pageing.setNowPage(1);
+		}else {
+			pageing.setNowPage(Integer.parseInt(cPage));
+		}
+		
+		pageing.setBegin((pageing.getNowPage()-1)*pageing.getNumPerPage()+1);
+		pageing.setEnd((pageing.getBegin()-1)+pageing.getNumPerPage());
+		
+		pageing.setBeginBlock((int)((pageing.getNowPage()-1) / pageing.getPagePerBlock()) * pageing.getPagePerBlock()+1);
+		pageing.setEndBlock(pageing.getBeginBlock()+pageing.getPagePerBlock()-1);
+		
+		if(pageing.getEndBlock() > pageing.getTotalPage()) {
+			pageing.setEndBlock(pageing.getTotalPage());
+		}
+		
+		List<RVO> r_list = dao.getr_list2(pageing.getBegin(), pageing.getEnd());
+		mv.addObject("r_list", r_list);
+		mv.addObject("pageing", pageing);
+	
 		return mv;
 	}
 	
+	@RequestMapping("search.do")
+	public ModelAndView getSearch(@RequestParam("name") String name) {
+		ModelAndView mv = new ModelAndView("search");
+		RVO rvo = dao.getSearch(name);
+		mv.addObject("rvo", rvo);
+		return mv;
+	}
+	
+	@RequestMapping(value = "membership")
+	public ModelAndView getMembership(HttpServletRequest request){
+		ModelAndView mv = new ModelAndView("membership");
+		int count = dao.getCount();
+		pageing.setTotalRecord(count);
+		
+		if(pageing.getTotalRecord() <= pageing.getNumPerPage()) {
+			pageing.setTotalPage(1);
+		}else {
+			pageing.setTotalPage(pageing.getTotalRecord() / pageing.getNumPerPage());
+			if(pageing.getTotalRecord() % pageing.getNumPerPage() !=0) {
+				pageing.setTotalPage(pageing.getTotalPage()+1);
+			}
+		}
+		
+		cPage = request.getParameter("cPage");
+		if(cPage == null) {
+			pageing.setNowPage(1);
+		}else {
+			pageing.setNowPage(Integer.parseInt(cPage));
+		}
+		
+		pageing.setBegin((pageing.getNowPage()-1)*pageing.getNumPerPage()+1);
+		pageing.setEnd((pageing.getBegin()-1)+pageing.getNumPerPage());
+		
+		pageing.setBeginBlock((int)((pageing.getNowPage()-1) / pageing.getPagePerBlock()) * pageing.getPagePerBlock()+1);
+		pageing.setEndBlock(pageing.getBeginBlock()+pageing.getPagePerBlock()-1);
+		
+		if(pageing.getEndBlock() > pageing.getTotalPage()) {
+			pageing.setEndBlock(pageing.getTotalPage());
+		}
+		
+		List<MVO> m_list = dao.getList();
+		mv.addObject("m_list", m_list);
+		mv.addObject("pageing", pageing);
+	
+		return mv;
+	}
 	
 	
 	@RequestMapping("logout")

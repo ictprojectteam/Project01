@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+	pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -7,10 +7,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>ICT PROJECT TEAM</title>
 <style type="text/css">
-	#body-content{
-		width: 1200px;
-		margin: 30px auto 0px;
-	}
+#body-content {
+	width: 1200px;
+	margin: 30px auto 0px;
+}
 </style>
 <script src="https://kit.fontawesome.com/057ba10041.js"></script>
 <script type="text/javascript" src="../resources/js/jquery-3.4.1.min.js"></script>

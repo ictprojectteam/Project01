@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>    
+	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -8,13 +8,13 @@
 <title>Insert title here</title>
 
 <style type="text/css">
-body, html{
+body, html {
 	width: 100%;
 	height: 100%;
 	overflow: hidden;
 }
 
-*{
+* {
 	margin: 0;
 	padding: 0;
 	font-family: monospace;
@@ -22,14 +22,14 @@ body, html{
 	transition: all ease-in-out .2s;
 }
 
-#container{
+#container {
 	position: absolute;
 	width: 100%;
 	height: 100%;
 	background-color: #f7f7f7;
 }
 
-nav{
+nav {
 	display: block;
 	position: absolute;
 	top: 0;
@@ -40,7 +40,7 @@ nav{
 	background-color: #333333;
 }
 
-#logo{
+#logo {
 	height: 50px;
 	background-color: #333333;
 	color: #1E90FE;
@@ -49,26 +49,27 @@ nav{
 	font-size: 1.3em;
 	font-family: arial;
 }
-#logo span{
+
+#logo span {
 	font-size: 1em;
 	font-family: monospace;
 	font-style: italic;
 	color: #f7f7f7;
 }
 
-#menu{
+#menu {
 	width: 100%;
 	background-color: #333333;
 }
 
-#menu li{
+#menu li {
 	width: 100%;
 	height: 50px;
 	line-height: 50px;
 	background-color: #333333;
 }
 
-#menu li>a{
+#menu li>a {
 	font-size: 1.05em;
 	font-family: arial;
 	width: 100%;
@@ -79,16 +80,16 @@ nav{
 	text-decoration: none;
 }
 
-#menu li:hover{
+#menu li:hover {
 	background-color: #151515;
 }
 
-#menu li>a:hover{
+#menu li>a:hover {
 	color: #1E90FF;
 	border-left: 3px solid #1E90FF;
 }
 
-header{
+header {
 	width: calc(100% - 200px);
 	height: 50px;
 	position: absolute;
@@ -100,7 +101,7 @@ header{
 	line-height: 50px;
 }
 
-header #links{
+header #links {
 	float: right;
 	height: 50px;
 	display: block;
@@ -109,7 +110,7 @@ header #links{
 	margin-right: 1em;
 }
 
-#links>a{
+#links>a {
 	color: #f7f7f7;
 	text-decoration: none;
 	padding: 0.5em;
@@ -118,21 +119,21 @@ header #links{
 	display: block;
 }
 
-#links:hover{
+#links:hover {
 	background-color: #1E90FF;
 }
 
-#actions-container{
+#actions-container {
 	width: 80%;
 	height: calc(100% -4em);
 	background-color: #dadada;
 }
 
-#main{
+#main {
 	margin-left: 20em;
 }
 
-.title{
+.title {
 	width: 100%;
 	height: 50px;
 	display: block;
@@ -144,7 +145,7 @@ header #links{
 	font-weight: bold;
 }
 
-.row{
+.row {
 	display: flex;
 	width: 100%;
 	height: 30%;
@@ -153,11 +154,11 @@ header #links{
 	padding: 1em;
 }
 
-#user-action{
+#user-action {
 	margin-top: 5em;
 }
 
-#action{
+#action {
 	margin-top: 20em;
 }
 
@@ -169,19 +170,18 @@ table, th, td {
 	font-size: 1.0em;
 }
 
-table{
+table {
 	position: relative;
 	width: 1000px;
 }
 
-table th{
+table th {
 	border-spacing: 0;
 }
 
-tabel td{
+tabel td {
 	font-size: 1.0em;
 }
-
 </style>
 </head>
 <body>
@@ -203,7 +203,7 @@ tabel td{
 		</nav>
 		<header>
 			<div id="links">
-				<a href="#">로그아웃</a>
+				<a href="m">로그아웃</a>
 			</div>
 		</header>
 	</div>
