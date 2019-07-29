@@ -99,20 +99,20 @@
 		var talklist = $("#talk-recent-preview");
 		var talk_show_num = 4;
 		var talk_num = 0;
-		var total = $(".talk-preview").length;
+		var t_total = $(".talk-preview").length;
 		var talk_width = 273;
 		if(talk_num == 0){
 			$(".talk-right").css("cursor", "pointer");
 		}
 		$(".talk-right-arrow").on("click", function(){
-			if(talk_num < (total - talk_show_num)) {
+			if(talk_num < (t_total - talk_show_num)) {
 				talk_num++;
 				talklist.stop().animate({marginLeft:-talk_width*talk_num+"px"},400);
 				$(".talk-left").css("visibility", "visible");
 				$(".talk-left").css("cursor", "pointer");
 				$(".talk-left").fadeIn("fast");
 			}
-			if(talk_num == (total - talk_show_num)){
+			if(talk_num == (t_total - talk_show_num)){
 				 $(".talk-right").fadeOut("fast");
 				 $(".talk-right").css("cursor", "default");
 			}
@@ -132,19 +132,19 @@
 		var recipelist = $("#recipe-recent-preview");
 		var recipe_show_num = 4;
 		var recipe_num = 0;
-		var total = $(".recipe-preview").length;
+		var r_total = $(".recipe-preview").length;
 		var recipe_width = 273;
 		if(recipe_num == 0){
 			$(".recipe-right").css("cursor", "pointer");
 		}
 		$(".recipe-right-arrow").on("click", function(){
-			if(recipe_num < (total - recipe_show_num)) {
+			if(recipe_num < (r_total - recipe_show_num)) {
 				recipe_num++;
 				recipelist.stop().animate({marginLeft:-recipe_width*recipe_num+"px"},400);
 				$(".recipe-left").css("visibility", "visible");
 				$(".recipe-left").fadeIn("fast");
 			}
-			if(recipe_num == (total - recipe_show_num)){
+			if(recipe_num == (r_total - recipe_show_num)){
 				 $(".recipe-right").fadeOut("fast");
 			}
 		});
@@ -163,8 +163,8 @@
 			alert(attrib);
 		});
 		$(".recipe-preview").on("click", function(p){
-			var attrib = $(this).attr("id");
-			alert(attrib);
+			var rno = $(this).attr("id").replace("recipe", "");
+			location.href = "view_recipe?rno=" + rno;
 		});
 	});
 </script>

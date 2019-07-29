@@ -70,7 +70,7 @@
 	}
 	.recipe-preview-image img{
 		width: 290px;
-		height: 290px;
+		height: 210px;
 	}
 	.recipe-preview-subject{
 		margin: 10px 5px 0px;;
@@ -238,23 +238,6 @@
 						</c:forEach>
 					</c:otherwise>
 				</c:choose>
-			
-				<%-- <c:forEach var="k" begin="1" end="16">
-					<div class="recipe-list-preview" mp="${k}">
-						<c:choose>
-							<c:when test="${k%2==0}">
-								<div class="recipe-preview-image"><img src="resources/images/gimzzi.jpg"></div>
-								<div class="recipe-preview-subject">김치찌개 간단 레시피!</div>
-								<div class="recipe-preview-writer">by 짜파게티 요리사</div>
-							</c:when>
-							<c:otherwise>
-								<div class="recipe-preview-image"><img src="resources/images/buzzi.jpg"></div>
-								<div class="recipe-preview-subject">의정부 부대찌개 따라해보기! 2줄이 넘으면 말줄임표가 나타나게 설정</div>
-								<div class="recipe-preview-writer">by 닭갈비제작소</div>
-							</c:otherwise>
-						</c:choose>
-					</div>
-				</c:forEach> --%>
 			</div>
 			<div id="recipe-paging">페이징이 들어갈 자리</div>
 		</div>

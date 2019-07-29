@@ -258,7 +258,8 @@ public class MainController {
 	@RequestMapping("view_recipe")
 	public ModelAndView viewRecipe(@RequestParam String rno) {
 		ModelAndView mv = new ModelAndView("view_recipe");
-		mv.addObject("rvo", dao.viewRecipe(rno));
+		RecipeVO rvo = dao.viewRecipe(rno);
+		mv.addObject("rvo", rvo);
 		return mv;
 	}
 	
@@ -288,7 +289,11 @@ public class MainController {
 		}
 		for (String k : paraname) {
 			if(k.matches("^ing-pack-\\d*$")) {
-				packs.add(request.getParameter(k));
+				if (request.getParameter(k) != "") {
+					packs.add(request.getParameter(k));
+				} else {
+					packs.add("재료");
+				}
 				materials.add(new ArrayList<String>());
 			}
 			if(k.matches("^order-text-.*$")) {
@@ -296,11 +301,11 @@ public class MainController {
 			}
 			if(k.matches("^recipe-each-name-.*$")) {
 				String parano = k.replace("recipe-each-name-", "");
-				if(request.getParameter(k) != "") materials.get(Integer.parseInt(parano.substring(0,1)) - 1).add(request.getParameter(k));
+				if(request.getParameter(k) != "") materials.get(Integer.parseInt(parano.substring(0,1)) - 1).add("{" + request.getParameter(k));
 			}
 			if(k.matches("^recipe-each-quant-.*$")) {
 				String parano = k.replace("recipe-each-quant-", "");
-				if(request.getParameter(k) != "") materials.get(Integer.parseInt(parano.substring(0,1)) - 1).add(request.getParameter(k));
+				if(request.getParameter(k) != "") materials.get(Integer.parseInt(parano.substring(0,1)) - 1).add(request.getParameter(k) + "}");
 			}
 			if(k.matches("^comp-image-val-.*$")) {
 				if(request.getParameter(k) != "") finImages.add(request.getParameter(k));

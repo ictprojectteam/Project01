@@ -591,7 +591,7 @@
 			if(/http[s]?:[/]{2}/.test(url)){
 				url = url.substring(url.lastIndexOf('/') + 1, url.length);
 				if(/.{11,11}/.test(url)) {
-					url = "https://img.youtube.com/vi/" + url + "/mqdefault.jpg";
+					url = "https://img.youtube.com/vi/" + url + "/maxresdefault.jpg";
 					$.ajax({
 						url : "thumbnail",
 						type : "post",

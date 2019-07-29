@@ -29,12 +29,12 @@
 		update members set pw = #{pw} where m_idx = #{m_idx}
 	</update>
 	
-	<insert id="insert_recipe" parameterType="revo">
-		insert into testRecipe values (test_seq.nextval, #{recipe_title}, #{recipe_introduce}, #{recipe_video}, #{ca1}, #{ca2}, #{ca3}, #{ca4}, #{recipe_quant}, #{recipe_time}, #{recipe_difficulty}, #{main_image}, #{pack}, #{material}, #{orderContent}, #{finImage}, #{recipe_tip}, #{recipe_tag} , 0, 0, sysdate, sysdate, #{m_idx})
+	<insert id="insert_recipe" parameterType="rvo">
+		insert into recipe values (recipe_seq.nextval, #{m_idx}, #{recipe_title}, #{recipe_introduce}, #{recipe_video}, #{ca1}, #{ca2}, #{ca3}, #{ca4}, #{recipe_quant}, #{recipe_time}, #{recipe_difficulty}, #{main_image}, #{pack}, #{material}, #{orderContent}, #{finImage}, #{recipe_tip}, #{recipe_tag} , 0, 0, sysdate, sysdate)
 	</insert>
 	
 	<select id="count_recipe" parameterType="map" resultType="int">
-		select count(*) from testRecipe <where>
+		select count(*) from recipe <where>
 			<if test="ca1 != null and ca1 != ''">
 				and ca1=#{ca1}
 			</if>
@@ -50,32 +50,32 @@
 		</where>
 	</select>
 	
-	<select id="recipe_list" parameterType="map" resultType="revo">
+	<select id="recipe_list" parameterType="map" resultType="rvo">
 		select * from (
 			select rownum as r_num, a.* from (
-				select t.*, m.name as writer from testRecipe t, members m
+				select r.*, m.name as writer from recipe r, members m
 					<where>
-						t.m_idx = m.m_idx
+						r.m_idx = m.m_idx
 						<if test="ca1 != null and ca1 != ''">
-							and t.ca1=#{ca1}
+							and r.ca1=#{ca1}
 						</if>
 						<if test="ca2 != null and ca2 != ''">
-							and t.ca2=#{ca2}
+							and r.ca2=#{ca2}
 						</if>
 						<if test="ca3 != null and ca3 != ''">
-							and t.ca3=#{ca3}
+							and r.ca3=#{ca3}
 						</if>
 						<if test="ca4 != null and ca4 != ''">
-							and t.ca4=#{ca4}
+							and r.ca4=#{ca4}
 						</if>
 					</where>
-					order by t.r_idx desc
+					order by r.r_idx desc
 			) a
 		) where r_num between #{begin} and #{end}
 	</select>
 	
-	<select id="view_recipe" parameterType="String" resultType="revo">
-		select * from testRecipe where r_idx = #{r_idx}
+	<select id="view_recipe" parameterType="String" resultType="rvo">
+		select r.*, m.name writer from recipe r, members m where r_idx = #{r_idx} and r.m_idx=m.m_idx
 	</select>
 </mapper>
 

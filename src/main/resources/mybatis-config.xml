@@ -6,8 +6,7 @@
 	<!-- 별칭사용 -->
 	<typeAliases>
 		<typeAlias type="com.ict.service.MVO" alias="mvo"/>
-		<typeAlias type="com.ict.service.RecipeVO" alias="revo"/>
-		<typeAlias type="com.ict.service.RVO" alias="rvo" />
+		<typeAlias type="com.ict.service.RecipeVO" alias="rvo"/>
 	</typeAliases>
 	<mappers>
 		<mapper resource="mappings/mapper.xml" />
