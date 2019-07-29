@@ -29,7 +29,8 @@
 	<bean id="dao" class="com.ict.service.DAO">
 		<property name="sqlSessionTemplate" ref="sqlSessionTemplate"></property>
 	</bean>
-
+	
+	<bean id="pageing" class="com.ict.service.Pageing" />
 	<!-- 이메일 관련 -->
 	<bean id="javaMailSender"
 		class="org.springframework.mail.javamail.JavaMailSenderImpl">

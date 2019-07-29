@@ -1,5 +1,6 @@
 package com.ict.service;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -33,6 +34,26 @@ public class DAO {
 	
 	public int getJoin(MVO mvo) {
 		return sqlSessionTemplate.insert("join", mvo);
+	}
+	
+	public List<RVO> getr_list() {
+		return sqlSessionTemplate.selectList("r_list");
+	}
+	
+	
+	public List<RVO> getr_list2(int begin, int end) {
+		Map<String, Integer> map = new HashMap<String, Integer>();
+		map.put("begin",begin);
+		map.put("end",end);
+		return sqlSessionTemplate.selectList("r_list", map);
+	}
+	
+	public RVO getSearch(String name) {
+		return sqlSessionTemplate.selectOne("search", name);
+	}
+	
+	public int getCount() {
+		return sqlSessionTemplate.selectOne("count");
 	}
 	
 	public MVO findPw(String email) {

@@ -84,6 +84,13 @@
 	.talk-preview:hover img, .recipe-preview:hover img{
 		opacity: 0.5;
 	}
+	.recipe-preview-content p:first-child{
+		display:-webkit-box;
+	  -webkit-line-clamp:1;
+	  -webkit-box-orient:vertical;
+		overflow: hidden;
+		text-overflow: ellipsis;
+	}
 </style>
 <script src="https://kit.fontawesome.com/057ba10041.js"></script>
 <script type="text/javascript" src="../resources/js/jquery-3.4.1.min.js"></script>
@@ -199,13 +206,13 @@
 			</div>
 			<div id="recipe-recent-preview-wrap">
 				<div id="recipe-recent-preview">
-					<c:forEach var="k" begin="1" end="8">
-						<div class="recipe-preview" id="recipe${k}">
-							<img src="../resources/images/dessert.jpg">
+					<c:forEach items="${r_list}" var="k">
+						<div class="recipe-preview" id="recipe${k.r_idx}">
+							<img src="${k.main_image}">
 							<div class="recipe-preview-content">
-								<p>제목 : ${k}</p>
-								<p>작성자 : </p>
-								<p>작성시간 : </p>
+								<p>제목 : ${k.recipe_title}</p>
+								<p>작성자 : ${k.writer}</p>
+								<p>작성시간 : ${k.regdate.substring(0,10)}</p>
 							</div>
 						</div>
 					</c:forEach>

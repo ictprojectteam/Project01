@@ -106,15 +106,16 @@
 	$(function(){
 		$(".recipe-list-preview").on("click", function(){
 			var rno = $(this).find("input").val();
-			location.href = 'view?rno=' + rno;
+			location.href = 'view_recipe?rno=' + rno;
 		});
 		$(".category-detail-label").each(function(){
 			$(this).children().each(function(){
 				$(this).on("click", function(){
-					var tex = $(this).text;
+					var tex = $(this).text();
 					var group = $(this).parent().attr("id");
-					$("input[name=" + group + "]").val("tex");
-					// 폼 아이디에 액션값에 카테고리값을 넣고 서브밋하여 처리
+					if(tex == "전체") tex = "";
+					$("input[name=" + group + "]").val(tex);
+					$("#list-form").attr("action", "recipe").submit();
 				});
 			});
 		});
@@ -181,7 +182,7 @@
 					<a class="category-detail-group2">이유식</a>
 					<a class="category-detail-group2">기타</a>
 				</div>
-				<div class="category-detail-label" id="ca3">
+				<div class="category-detail-label" id="ca4">
 					<a class="category-detail-group3">전체</a>
 					<a class="category-detail-group3">소고기</a>
 					<a class="category-detail-group3">돼지고기</a>
@@ -200,7 +201,7 @@
 					<a class="category-detail-group3">곡류</a>
 					<a class="category-detail-group3">기타</a>
 				</div>
-				<div class="category-detail-label" id="ca4">
+				<div class="category-detail-label" id="ca3">
 					<a class="category-detail-group4">전체</a>
 					<a class="category-detail-group4">볶음</a>
 					<a class="category-detail-group4">끓이기</a>
@@ -232,7 +233,7 @@
 								<input type="hidden" value="${k.r_idx}">
 								<div class="recipe-preview-image"><img src="${k.main_image}"></div>
 								<div class="recipe-preview-subject">${k.recipe_title}</div>
-								<div class="recipe-preview-writer">by ${k.recipe_introduce}</div>
+								<div class="recipe-preview-writer">by ${k.writer}</div>
 							</div>
 						</c:forEach>
 					</c:otherwise>
