@@ -202,7 +202,7 @@
 		<p id="recipe-recent-label"><a href="recipe">레시피!!</a></p>
 		<div id="recipe-recent">
 			<div class="recipe-left-arrow">
-				<a href="javascript:void(0)"><i class="fas fa-angle-left recipe-left"></i></a>
+				<i class="fas fa-angle-left recipe-left"></i>
 			</div>
 			<div id="recipe-recent-preview-wrap">
 				<div id="recipe-recent-preview">

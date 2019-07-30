@@ -301,18 +301,18 @@ public class MainController {
 			}
 			if(k.matches("^recipe-each-name-.*$")) {
 				String parano = k.replace("recipe-each-name-", "");
-				if(request.getParameter(k) != "") materials.get(Integer.parseInt(parano.substring(0,1)) - 1).add("{" + request.getParameter(k));
+				if(request.getParameter(k) != "") materials.get(Integer.parseInt(parano.substring(0,1)) - 1).add("|" + request.getParameter(k));
 			}
 			if(k.matches("^recipe-each-quant-.*$")) {
 				String parano = k.replace("recipe-each-quant-", "");
-				if(request.getParameter(k) != "") materials.get(Integer.parseInt(parano.substring(0,1)) - 1).add(request.getParameter(k) + "}");
+				if(request.getParameter(k) != "") materials.get(Integer.parseInt(parano.substring(0,1)) - 1).add(request.getParameter(k) + "|");
 			}
 			if(k.matches("^comp-image-val-.*$")) {
 				if(request.getParameter(k) != "") finImages.add(request.getParameter(k));
 			}
 		}
 		for (int i = 0; i < orders.size(); i++) {
-			orderContents.add("{" + request.getParameter("order-text-" + (i + 1)) + ", " + request.getParameter("order-image-" + (i + 1)) + "}");
+			orderContents.add("|" + request.getParameter("order-text-" + (i + 1)) + ", " + request.getParameter("order-image-" + (i + 1)) + "|");
 		}
 		materials.removeIf(k -> k.size()==0);
 		
