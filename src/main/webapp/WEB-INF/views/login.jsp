@@ -200,7 +200,7 @@
 		</form>
 		<br>
 		<p style="font-size: 10pt;">
-			<a href="test.do">아이디/비밀번호 찾기</a> | <a href="test.do">회원가입</a>
+			<a href="find">아이디/비밀번호 찾기</a> | <a href="join">회원가입</a>
 		</p>
 		<br>
 		<!-- Facebook -->

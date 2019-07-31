@@ -1,7 +1,21 @@
 package com.ict.controller;
 
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.Base64;
+import java.util.Enumeration;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Base64.Encoder;
 
+import javax.imageio.IIOException;
+import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -10,23 +24,33 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.ict.service.DAO;
 import com.ict.service.MVO;
 import com.ict.service.Pageing;
 import com.ict.service.RVO;
+import com.ict.service.RecipeVO;
 
 @Controller
 public class MainController {
 	@Autowired
 	private DAO dao;
-	private String wPage;
-	@Autowired	
+	@Autowired
 	private Pageing pageing;
 	
+	private String wPage;
 	String cPage;
 	
+	public Pageing getPageing() {
+		return pageing;
+	}
+
+	public void setPageing(Pageing pageing) {
+		this.pageing = pageing;
+	}
+
 	
 	@RequestMapping(value = "/")
 	public ModelAndView getIndex() {
@@ -87,7 +111,7 @@ public class MainController {
 			List<RVO> r_list = dao.getr_list();
 			mv.addObject("r_list", r_list);
 		} else {
-			mv.setViewName("loginfail");
+			mv.setViewName("a_loginfail");
 		}
 		return mv;
 	}
@@ -103,9 +127,8 @@ public class MainController {
 		
 	@RequestMapping(value = "a_recipe")
 	public ModelAndView geta_recipe(HttpServletRequest request){
-		
 		ModelAndView mv = new ModelAndView("a_recipe");
-		int count = dao.getCount();
+		int count = dao.getRecipeCount();
 		pageing.setTotalRecord(count);
 		
 		if(pageing.getTotalRecord() <= pageing.getNumPerPage()) {
@@ -134,25 +157,17 @@ public class MainController {
 			pageing.setEndBlock(pageing.getTotalPage());
 		}
 		
-		List<RVO> r_list = dao.getr_list2(pageing.getBegin(), pageing.getEnd());
+		List<RVO> r_list = dao.get_recipe_list(pageing.getBegin(), pageing.getEnd());
 		mv.addObject("r_list", r_list);
 		mv.addObject("pageing", pageing);
 	
 		return mv;
 	}
 	
-	@RequestMapping("search.do")
-	public ModelAndView getSearch(@RequestParam("name") String name) {
-		ModelAndView mv = new ModelAndView("search");
-		RVO rvo = dao.getSearch(name);
-		mv.addObject("rvo", rvo);
-		return mv;
-	}
-	
 	@RequestMapping(value = "membership")
 	public ModelAndView getMembership(HttpServletRequest request){
 		ModelAndView mv = new ModelAndView("membership");
-		int count = dao.getCount();
+		int count = dao.getMemberCount();
 		pageing.setTotalRecord(count);
 		
 		if(pageing.getTotalRecord() <= pageing.getNumPerPage()) {
@@ -181,12 +196,39 @@ public class MainController {
 			pageing.setEndBlock(pageing.getTotalPage());
 		}
 		
-		List<MVO> m_list = dao.getList();
+		List<MVO> m_list = dao.get_member_List(pageing.getBegin(), pageing.getEnd());
 		mv.addObject("m_list", m_list);
 		mv.addObject("pageing", pageing);
 	
 		return mv;
 	}
+	
+	@RequestMapping(value = "selectonemember.do")
+	public ModelAndView getSelectOneMember(@RequestParam("name") String name) {
+		ModelAndView mv = new ModelAndView("selectonemember");
+		MVO mvo = dao.getOneMemberList(name);
+		mv.addObject("mvo", mvo);
+		return mv;
+	}
+	
+	@RequestMapping(value = "selectonerecipe.do")
+	public ModelAndView getSelectOneRecipe(@RequestParam("name") String name) {
+		ModelAndView mv = new ModelAndView("selectonerecipe");
+		List<RVO> one_r_list = dao.getOneRecipeList(name);
+		mv.addObject("one_r_list", one_r_list);
+		return mv;
+	}
+	
+	@RequestMapping(value = "a_write_recipe")
+	public ModelAndView getAdminWriteRecipe() {
+		return new ModelAndView("a_write_recipe");
+	}
+	
+	
+	
+	
+	
+	
 	
 	
 	@RequestMapping("logout")
@@ -199,19 +241,142 @@ public class MainController {
 	}
 	
 	@RequestMapping("recipe")
-	public ModelAndView getRecipe() {
-		ModelAndView mv = new ModelAndView("index");
-		wPage = "recipe.jsp";
-		addw(mv);
+	public ModelAndView getRecipe(HttpServletRequest request) {
+		ModelAndView mv = new ModelAndView("recipe");
+		String ca1 = request.getParameter("ca1");
+		String ca2 = request.getParameter("ca2");
+		String ca3 = request.getParameter("ca3");
+		String ca4 = request.getParameter("ca4");
+		String cPage = request.getParameter("cPage");
+		
+		if (ca1 == null) ca1 = "";
+		if (ca2 == null) ca2 = "";
+		if (ca3 == null) ca3 = "";
+		if (ca4 == null) ca4 = "";
+		if (cPage == null) cPage = "";
+		
+		Map<String, String> listmap = new HashMap<String, String>();
+		listmap.put("ca1", ca1);
+		listmap.put("ca2", ca2);
+		listmap.put("ca3", ca3);
+		listmap.put("ca4", ca4);
+		int count = dao.countRecipe(listmap);
+		Pageing rp = new Pageing(count, cPage);
+		
+		listmap.put("begin", String.valueOf(rp.getBegin()));
+		listmap.put("end", String.valueOf(rp.getEnd()));
+		
+		List<RecipeVO> r_list = dao.getRecipeList(listmap);
+		mv.addObject("r_list", r_list);
+		mv.addObject("rp", rp);
+		
 		return mv;
 	}
 	
+	@RequestMapping("view")
+	public ModelAndView viewRecipe(@RequestParam String rno) {
+		ModelAndView mv = new ModelAndView("view");
+		mv.addObject("rvo", dao.viewRecipe(rno));
+		return mv;
+	}
+	
+	@RequestMapping("write_recipe")
+	public ModelAndView writeRecipe(HttpSession session) {
+		ModelAndView mv = new ModelAndView();
+		if (session.getAttribute("mvo") != null) {
+			mv.setViewName("write_recipe");
+		} else {
+			mv.setViewName("inappropriate");
+		}
+		return mv;
+	}
+	
+	@RequestMapping(value = "save_recipe", method = RequestMethod.POST)
+	public ModelAndView saveRecipe(HttpServletRequest request, RecipeVO rvo) {
+		ModelAndView mv = new ModelAndView("redirect:recipe");
+		Enumeration<String> enu = request.getParameterNames();
+		List<String> paraname = new ArrayList<String>();
+		List<String> packs = new ArrayList<String>();
+		List<List<String>> materials = new ArrayList<List<String>>();
+		List<String> orders = new ArrayList<String>();
+		List<String> orderContents = new ArrayList<String>();
+		List<String> finImages = new ArrayList<String>();
+		while(enu.hasMoreElements()) {
+			paraname.add(enu.nextElement());
+		}
+		for (String k : paraname) {
+			if(k.matches("^ing-pack-\\d*$")) {
+				packs.add(request.getParameter(k));
+				materials.add(new ArrayList<String>());
+			}
+			if(k.matches("^order-text-.*$")) orders.add(request.getParameter(k));
+			if(k.matches("^recipe-each-name-.*$")) {
+				String parano = k.replace("recipe-each-name-", "");
+				materials.get(Integer.parseInt(parano.substring(0,1)) - 1).add(request.getParameter(k));
+			}
+			if(k.matches("^comp-image-val-.*$")) finImages.add(request.getParameter(k));
+		}
+		for (int i = 0; i < orders.size(); i++) {
+			orderContents.add("{" + request.getParameter("order-text-" + (i + 1)) + ", " + request.getParameter("order-image-" + (i + 1)) + "}");
+		}
+		rvo.setPack(packs.toString());
+		rvo.setMaterial(materials.toString());
+		rvo.setOrderContent(orderContents.toString());
+		rvo.setFinImage(finImages.toString());
+		
+		dao.getInsert(rvo);
+		return mv;
+	}
+	
+	
+	
 	@RequestMapping("video")
 	public ModelAndView getVideo() {
-		ModelAndView mv = new ModelAndView("index");
-		wPage = "video.jsp";
-		addw(mv);
+		ModelAndView mv = new ModelAndView("video");
 		return mv;
+	}
+	/*
+	 * @RequestMapping("talk") public ModelAndView getTalk() { ModelAndView mv = new
+	 * ModelAndView("index"); wPage = "talk.jsp"; addw(mv); return mv; }
+	 * 
+	 * @RequestMapping("talk_write") public ModelAndView getTalk_write() {
+	 * ModelAndView mv = new ModelAndView("index"); wPage = "talk_write.jsp";
+	 * addw(mv); return mv; }
+	 * 
+	 * @RequestMapping("talk_write_ok") public ModelAndView getTalkWrite(TVO tvo) {
+	 * ModelAndView mv = new ModelAndView("index");
+	 * 
+	 * wPage = "talk.jsp"; addw(mv); return mv; }
+	 */
+	
+//	유튜브 썸네일 URI를 ajax로 받기 위한 메소드
+	@RequestMapping("thumbnail")
+	@ResponseBody
+	public String getThumbnail(@RequestParam("url")String url, HttpServletRequest request) {
+		String path = request.getSession().getServletContext().getRealPath("/resources/temp/test.jpg");
+		try {
+			URL r_url = new URL(url);
+			BufferedImage img = ImageIO.read(r_url);
+			File file = new File(path);
+			ImageIO.write(img, "jpg", file);
+			file = new File(path);
+			if(file.isFile()) {
+				byte[] bt = new byte[(int)file.length()];
+				FileInputStream fis = new FileInputStream(file);
+				fis.read(bt);
+				Encoder encoder = Base64.getEncoder();
+				byte[] encodebyte = encoder.encode(bt);
+				String out = new String(encodebyte);
+				out = "data:image/jpg;base64,"+out;
+				fis.close();
+				return out;
+			}
+			return new String(path.getBytes());
+		} catch (IIOException e){
+		} catch (MalformedURLException e) {
+		} catch (IOException e) {
+		}
+		return null;
 	}
 	
 	public void addw(ModelAndView mv) {

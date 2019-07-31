@@ -242,10 +242,8 @@ tabel td{
 </style>
 <script type="text/javascript">
 	function send_one(f){
-		var searchType = $("#select_searchType option:selected").val();
-		var searchWord = $"(#searchWord").val();
-
-		window.location.href="search.do?curPage=" + page + "&searchType=" + searchType + "&searchWord=" + searchWord;
+		f.action = "selectonerecipe.do";
+		f.submit();
 	}
 </script>
 </head>
@@ -258,7 +256,7 @@ tabel td{
 			<ul id="menu">
 				<li><a id="home" href="home">HOME</a></li>
 				<li><a id="recipe" href="a_recipe">레시피 관리</a></li>
-				<li><a id="content" href="home">게시물 등록</a></li>
+				<li><a id="content" href="a_write_recipe">게시물 등록</a></li>
 				<li><a id="user" href="membership">회원 관리</a></li>
 				<li><a id="board" href="home">문의 관리</a></li>
 				<li><a id="event" href="home">이벤트 관리</a></li>
@@ -347,6 +345,7 @@ tabel td{
 							<table>
 								<thead>
 									<tr bgcolor="#cccccc">
+										<th>번호</th>
 										<th>회원번호</th>
 										<th>회원이름</th>
 										<!-- <th>연착처</th> -->
@@ -355,6 +354,7 @@ tabel td{
 										<th>종류 구분</th>
 										<!-- <th>고유 ID</th> -->
 										<th>등록 일시</th>
+										<th>게시글 상태</th>
 									</tr>
 								</thead>
 								<tbody>
@@ -365,8 +365,9 @@ tabel td{
 											</tr>
 										</c:when>
 										<c:otherwise>
-											<c:forEach var="k" items="${r_list}" begin="0" end="10">
+											<c:forEach var="k" items="${r_list}" begin="0" end="9">
 												<tr>
+													<td>${k.r_idx}</td>
 													<td>${k.m_idx}</td>
 													<td>${k.name}</td>
 													<%-- <td>${k.number}</td> --%>
@@ -375,6 +376,7 @@ tabel td{
 													<td>${k.cate}</td>
 													<%-- <td>${k.secret_id}</td> --%>
 													<td>${k.regdate}</td>
+													<td><!--게시글 상태 --></td>
 												</tr>
 											</c:forEach>
 										</c:otherwise>
@@ -417,7 +419,7 @@ tabel td{
 									</ol>
 									</div>
 								</tfoot>
-							</table>	
+							</table>
 						</div>
 					</div>
 				</div>

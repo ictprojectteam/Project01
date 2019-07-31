@@ -37,24 +37,66 @@ public class DAO {
 		return sqlSessionTemplate.insert("join", mvo);
 	}
 	
+	public MVO findPw(String email) {
+		return sqlSessionTemplate.selectOne("findPw", email);
+	}
+	
+	public int pwUpdate(MVO mvo) {
+		return sqlSessionTemplate.update("pwUpdate", mvo);
+	}
+	
+	public void getInsert(RecipeVO rvo) {
+		sqlSessionTemplate.insert("insert_recipe", rvo);
+	}
+	
+	public int countRecipe(Map<String, String> camap) {
+		return sqlSessionTemplate.selectOne("count_recipe", camap);
+	}
+	
+	public List<RecipeVO> getRecipeList(Map<String, String> pmap) {
+		return sqlSessionTemplate.selectList("recipe_list", pmap);
+	}
+	
+	public RecipeVO viewRecipe(String r_idx) {
+		return sqlSessionTemplate.selectOne("view_recipe", r_idx);
+	}
+	
+	
+	
 	public List<RVO> getr_list() {
 		return sqlSessionTemplate.selectList("r_list");
 	}
 	
 	
-	public List<RVO> getr_list2(int begin, int end) {
+	public List<RVO> get_recipe_list(int begin, int end) {
 		Map<String, Integer> map = new HashMap<String, Integer>();
 		map.put("begin",begin);
 		map.put("end",end);
 		return sqlSessionTemplate.selectList("r_list", map);
 	}
 	
-	public RVO getSearch(String name) {
-		return sqlSessionTemplate.selectOne("search", name);
+	public List<MVO> get_member_List(int begin, int end){
+		Map<String, Integer> map = new HashMap<String, Integer>();
+		map.put("begin", begin);
+		map.put("end", end);
+		return sqlSessionTemplate.selectList("m_list", map);
 	}
 	
-	public int getCount() {
-		return sqlSessionTemplate.selectOne("count");
+	
+	public int getRecipeCount() {
+		return sqlSessionTemplate.selectOne("recipe_count");
+	}
+	
+	public int getMemberCount() {
+		return sqlSessionTemplate.selectOne("member_count");
+	}
+	
+	public MVO getOneMemberList(String name) {
+		return sqlSessionTemplate.selectOne("onememberlist", name);
+	}
+	
+	public List<RVO> getOneRecipeList(String name) {
+		return sqlSessionTemplate.selectList("onerecipelist", name);
 	}
 	
 }
