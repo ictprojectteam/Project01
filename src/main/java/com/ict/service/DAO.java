@@ -103,8 +103,14 @@ public class DAO {
 	}
 	
 	public List<RecipeVO> getRecipeList(Map<String, String> pmap) {
-		System.out.println(pmap.get("k"));
 		return sqlSessionTemplate.selectList("recipe_list", pmap);
+	}
+	
+	public List<RecipeVO> getRecipeList(int begin, int end) {
+		Map<String, Integer> pmap = new HashMap<String, Integer>();
+		pmap.put("begin", begin);
+		pmap.put("end", end);
+		return sqlSessionTemplate.selectList("a_recipe_list", pmap);
 	}
 	
 	public RecipeVO viewRecipe(String r_idx) {

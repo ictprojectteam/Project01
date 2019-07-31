@@ -52,6 +52,7 @@ public class MainController {
 		
 		listmap.put("begin", "1");
 		listmap.put("end", "8");
+		listmap.put("a_permission", "1");
 		
 		List<RecipeVO> r_list = dao.getRecipeList(listmap);
 		mv.addObject("r_list", r_list);
@@ -106,7 +107,7 @@ public class MainController {
 			mv.setViewName("admin");
 			List<MVO> list = dao.getList();
 			mv.addObject("list", list);
-			List<RVO> r_list = dao.getr_list();
+			List<RecipeVO> r_list = dao.getRecipeList(1, 5);
 			mv.addObject("r_list", r_list);
 		} else {
 			mv.setViewName("a_loginfail");
@@ -122,7 +123,7 @@ public class MainController {
 		mv.addObject("r_list", r_list);
 		return mv;
 	}
-	
+	/*
 	@RequestMapping(value = "a_recipe")
 	public ModelAndView geta_recipe(HttpServletRequest request) {
 		ModelAndView mv = new ModelAndView("a_recipe");
@@ -155,11 +156,61 @@ public class MainController {
 			pageing.setEndBlock(pageing.getTotalPage());
 		}
 		
-		List<RVO> r_list = dao.get_recipe_list(pageing.getBegin(), pageing.getEnd());
+		List<RecipeVO> r_list = dao.getRecipeList(pageing.getBegin(), pageing.getEnd());
 		mv.addObject("r_list", r_list);
 		mv.addObject("pageing", pageing);
 	
 		return mv;
+	}
+	*/
+	@RequestMapping(value = "a_recipe")
+	public ModelAndView geta_recipe() {
+		ModelAndView mv = new ModelAndView("a_recipe");
+		return mv;
+	}
+	
+	@RequestMapping(value = "admin_rlist", produces = "application/text; charset=utf8")
+	@ResponseBody
+	public String geta_recipe(HttpServletRequest request) {
+		String res = "";
+		String name_idx = request.getParameter("name_idx");
+		String name = request.getParameter("name");
+		String recipe_title = request.getParameter("recipe_title");
+		String a_permission = request.getParameter("a_permission");
+		String type = request.getParameter("type");
+		String cPage = request.getParameter("cPage");
+		if (name == null) name = "";
+		if (recipe_title == null) recipe_title = "";
+		if (a_permission == null) a_permission = "";
+		if (type == null) type = "";
+		if (cPage == null) cPage = "";
+		
+		Map<String, String> rmap = new HashMap<String, String>();
+		rmap.put("recipe_title", recipe_title);
+		rmap.put("a_permission", a_permission);
+		rmap.put("type", type);
+		if(!name.equals("")) {
+			if (name_idx.equals("name")) rmap.put("name", name);;
+			if (name_idx.equals("idx_id")) rmap.put("idx_id", name);;
+		} else {
+			int count = dao.countRecipe(rmap);
+			RecipePaging rp = new RecipePaging(count, cPage);
+			rmap.put("begin", rp.getBegin() + "");
+			rmap.put("end", rp.getEnd() + "");
+			List<RecipeVO> rlist = dao.getRecipeList(rmap);
+			if (rlist.size() > 0) {
+				for (RecipeVO k : rlist) {
+					String cond = "승인대기";
+					if(k.getA_permission().equals("1")) cond = "승인완료";
+					res += "<tr><td>" + k.getR_idx() + "</td><td>" + k.getM_idx() + "</td><td>" + k.getWriter() + "</td><td>" + k.getRecipe_title() + 
+							"</td><td>" + k.getRecipe_introduce() + "</td><td>" + k.getRegdate() + "</td><td>" + cond + "</td></tr>";
+				}
+			} else {
+				res += "<tr><td colspan='6'><h3>원하는 정보가 존재하지 않습니다.</h3></td></tr>";
+			}
+		}
+		
+		return res;
 	}
 	
 	@RequestMapping(value = "membership")
@@ -255,6 +306,7 @@ public class MainController {
 		listmap.put("ca3", ca3);
 		listmap.put("ca4", ca4);
 		listmap.put("k", k);
+		listmap.put("a_permission", "1");
 		int count = dao.countRecipe(listmap);
 		RecipePaging rp = new RecipePaging(count, cPage);
 		
@@ -427,16 +479,6 @@ public class MainController {
 			}
 		} catch (Exception e) {
 		}
-		return mv;
-	}
-	@RequestMapping("talk_write")
-	public ModelAndView getTalk_write() {
-		ModelAndView mv = new ModelAndView("talk_write");
-		return mv;
-	}
-	@RequestMapping("talk_write_ok")
-	public ModelAndView getTalkWrite(TVO tvo) {
-		ModelAndView mv = new ModelAndView("talk");
 		return mv;
 	}
 	

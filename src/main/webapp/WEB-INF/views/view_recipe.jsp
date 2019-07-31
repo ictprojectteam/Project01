@@ -367,6 +367,7 @@
 			}
 		});
 		getComList();
+		$("iframe").attr({"frameborder" : "0", "allow" : "accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture", "allowfullscreen" : ""})
 	});
 
 	function countCom() {
@@ -470,7 +471,7 @@
 					<c:set var="vidleng" value="${fn:length(videourl)}"></c:set>
 					<c:set var="videoval" value="${fn:substring(videourl,vidindex + 1,vidleng)}"></c:set>
 					<div id="play-video">
-						<iframe width="700" height="395" src="https://www.youtube.com/embed/${videoval}" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+						<iframe width="700" height="395" src="https://www.youtube.com/embed/${videoval}"></iframe>
 					</div>
 				</div>
 			</c:if>

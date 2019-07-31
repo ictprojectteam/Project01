@@ -348,7 +348,7 @@ tabel td{
 										<th>회원번호</th>
 										<th>회원이름</th>
 										<!-- <th>연착처</th> -->
-										<th>이메일</th>
+										<!-- <th>이메일</th> -->
 										<th>레시피 제목</th>
 										<th>종류 구분</th>
 										<!-- <th>고유 ID</th> -->
@@ -368,7 +368,7 @@ tabel td{
 													<td>${k.m_idx}</td>
 													<td>${k.name}</td>
 													<%-- <td>${k.number}</td> --%>
-													<td>${k.email}</td>
+													<%-- <td>${k.email}</td> --%>
 													<td>${k.subject}</td>
 													<td>${k.cate}</td>
 													<%-- <td>${k.secret_id}</td> --%>

@@ -241,9 +241,26 @@ tabel td{
 
 </style>
 <script type="text/javascript">
+	$(function(){
+		getList();	
+	});
 	function send_one(f){
 		f.action = "selectonerecipe.do";
 		f.submit();
+	}
+	function getList(){
+		$.ajax({
+			url: "admin_rlist",
+			dataType: "text",
+			type : "post",
+			success: function(data){
+				$("#tbody").empty();
+				$("#tbody").append(data);
+			},
+			error: function(){
+				alert("읽기 실패");
+			}
+		});
 	}
 </script>
 </head>
@@ -290,22 +307,22 @@ tabel td{
 												</td>
 												<th>이메일/연락처</th>
 												<td>
-													<select name="email_number">
+													<!-- <select name="email_number">
 														<option value="email">이메일</option>
 														<option value="number">연락처</option>
-														<input type="text" name="e_write" size= "48"> 
+														<input type="text" name="e_write" size= "48">  -->
 												</td>
 											</tr>
 											<tr>
 												<th>레시피 제목</th>
-												<td colspan="3"><input type="text" name="content" size="137"></td>
+												<td colspan="3"><input type="text" name="recipe_title" size="137"></td>
 											</tr>
 											<tr>
 												<th>상태별</th>
 												<td colspan="3">
-													<input type="checkbox"  name="condition" size="50">전체								
-													<input type="checkbox"  name="condition" size="50">승인대기
-													<input type="checkbox"  name="condition" size="50">승인완료
+													<input type="checkbox"  name="a_permission" size="50" value="">전체								
+													<input type="checkbox"  name="a_permission" size="50" value="0">승인대기
+													<input type="checkbox"  name="a_permission" size="50" value="1">승인완료
 												</td>
 											</tr>
 											<tr>
@@ -357,30 +374,8 @@ tabel td{
 										<th>게시글 상태</th>
 									</tr>
 								</thead>
-								<tbody>
-									<c:choose>
-										<c:when test="${empty r_list }">
-											<tr>
-												<td colspan="6"><h3>원하는 정보가 존재하지 않습니다.</h3></td>
-											</tr>
-										</c:when>
-										<c:otherwise>
-											<c:forEach var="k" items="${r_list}" begin="0" end="9">
-												<tr>
-													<td>${k.r_idx}</td>
-													<td>${k.m_idx}</td>
-													<td>${k.name}</td>
-													<%-- <td>${k.number}</td> --%>
-													<%-- <td>${k.email}</td> --%>
-													<td>${k.recipe_title}</td>
-													<td>${k.recipe_introduce}</td>
-													<%-- <td>${k.secret_id}</td> --%>
-													<td>${k.regdate}</td>
-													<td><!-- 게시글 상태 --></td>
-												</tr>
-											</c:forEach>
-										</c:otherwise>
-									</c:choose>
+								<tbody id="tbody">
+									
 								</tbody>
 							</table>
 							

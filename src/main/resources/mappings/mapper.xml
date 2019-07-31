@@ -13,9 +13,6 @@
 		insert into members
 		values(members_seq.nextval,#{id},#{pw},#{email},#{name},#{gender},sysdate)
 	</insert>
-	<select id="r_list" resultType="rvo">
-		select * from members join recipe on members.m_idx=recipe.m_idx order by recipe.regdate desc
-	</select>
 	<select id="m_list" resultType="mvo">
 		select * from members order by regdate desc
 	</select>
@@ -43,24 +40,31 @@
 	</insert>
 	
 	<select id="count_recipe" parameterType="map" resultType="int">
-		select count(*) from recipe <where>
-			a_permission=1
-			<if test="k != null and k != ''">
-				and (recipe_title like '%'||#{k}||'%' or recipe_introduce like '%'||#{k}||'%' or pack like '%'||#{k}||'%' or material like '%'||#{k}||'%' or ordercontent like '%'||#{k}||'%' or recipe_tip like '%'||#{k}||'%' or recipe_tag like '%'||#{k}||'%')
-			</if>
-			<if test="ca1 != null and ca1 != ''">
-				and ca1=#{ca1}
-			</if>
-			<if test="ca2 != null and ca2 != ''">
-				and ca2=#{ca2}
-			</if>
-			<if test="ca3 != null and ca3 != ''">
-				and ca3=#{ca3}
-			</if>
-			<if test="ca4 != null and ca4 != ''">
-				and ca4=#{ca4}
-			</if>
-		</where>
+		select count(*) from recipe
+			<where>
+				savepublic = 1
+				<if test="a_permission != null and a_permission != ''">
+					and r.a_permission=#{a_permission}
+				</if>
+				<if test="k != null and k != ''">
+					and (recipe_title like '%'||#{k}||'%' or recipe_introduce like '%'||#{k}||'%' or pack like '%'||#{k}||'%' or material like '%'||#{k}||'%' or ordercontent like '%'||#{k}||'%' or recipe_tip like '%'||#{k}||'%' or recipe_tag like '%'||#{k}||'%')
+				</if>
+				<if test="recipe_title != null and recipe_title != ''">
+					and recipe_title like '%'||#{k}||'%'
+				</if>
+				<if test="ca1 != null and ca1 != ''">
+					and ca1=#{ca1}
+				</if>
+				<if test="ca2 != null and ca2 != ''">
+					and ca2=#{ca2}
+				</if>
+				<if test="ca3 != null and ca3 != ''">
+					and ca3=#{ca3}
+				</if>
+				<if test="ca4 != null and ca4 != ''">
+					and ca4=#{ca4}
+				</if>
+			</where>
 	</select>
 	
 	<select id="recipe_list" parameterType="map" resultType="rvo">
@@ -68,9 +72,15 @@
 			select rownum as r_num, a.* from (
 				select r.*, m.name as writer from recipe r, members m
 					<where>
-						r.m_idx = m.m_idx and r.a_permission=1
+						r.m_idx = m.m_idx and savepublic = 1
+						<if test="a_permission != null and a_permission != ''">
+							and r.a_permission=#{a_permission}
+						</if>
 						<if test="k != null and k != ''">
 							and (recipe_title like '%'||#{k}||'%' or recipe_introduce like '%'||#{k}||'%' or pack like '%'||#{k}||'%' or material like '%'||#{k}||'%' or ordercontent like '%'||#{k}||'%' or recipe_tip like '%'||#{k}||'%' or recipe_tag like '%'||#{k}||'%')
+						</if>
+						<if test="recipe_title != null and recipe_title != ''">
+							and recipe_title like '%'||#{k}||'%'
 						</if>
 						<if test="ca1 != null and ca1 != ''">
 							and r.ca1=#{ca1}
