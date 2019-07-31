@@ -12,13 +12,14 @@
 		display: block;
 	}
 	.fs1{
-		left: 30%;
 		width: 600px;
 		background-color: white;
+		margin-top: 50px;
+		margin-left: 250px;
 	}
 	.bt{
+		margin-left: 350px;
 		font-size: 1em;
-		margin-left: 300px;
 	}
 </style>
 <script type="text/javascript">
@@ -30,6 +31,9 @@
 </script>
 </head>
 <body>
+	<header>
+		<jsp:include page="head.jsp" />
+	</header>
 	<div>
 		<table>
 			<fieldset class = fs1>
@@ -37,7 +41,9 @@
 			<input class="bt" type="button" value="등록">
 			</fieldset>
 		</table>
-		
 	</div>
+	<footer>
+		<jsp:include page="foot.jsp" />
+	</footer>
 </body>
 </html>
