@@ -106,7 +106,7 @@
 			var reader = new FileReader();
 			
 			reader.onload = function(e){
-				var img_html = "<img src=\"" + e.target.result + "\" />";
+				var img_html = "<a href=\"javascript:(0);\" onclick=">";
 				$(".imgs_wrap").append(img_html);
 			}
 			

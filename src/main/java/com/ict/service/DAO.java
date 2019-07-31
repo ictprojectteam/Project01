@@ -113,6 +113,7 @@ public class DAO {
 	}
 	public int getTalk_write(TVO tvo){
 		return sqlSessionTemplate.insert("talk_write", tvo);
+	}
 	
 	public void recipeHitUpdate(RecipeVO rvo) {
 		sqlSessionTemplate.update("rhitupdate", rvo);

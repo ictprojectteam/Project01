@@ -96,6 +96,7 @@
 	
 	<insert id="talk_write" parameterType="tvo">
 		insert into talk values(talk_seq.nextval, #{m_idx}, #{content}, #{file_name}, #{hit}, sysdate)
+	</insert>
 	<update id="rhitupdate" parameterType="rvo">
 		update recipe set hit = #{hit} where r_idx = #{r_idx}
 	</update>

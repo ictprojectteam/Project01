@@ -17,7 +17,6 @@ import java.util.Map;
 import javax.imageio.IIOException;
 import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,11 +30,9 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.ict.service.DAO;
 import com.ict.service.MVO;
-
 import com.ict.service.Pageing;
 import com.ict.service.RVO;
 import com.ict.service.RecipeCVO;
-import com.ict.service.TVO;
 import com.ict.service.RecipePaging;
 import com.ict.service.RecipeVO;
 import com.ict.service.TVO;
@@ -152,7 +149,7 @@ public class MainController {
 		pageing.setBegin((pageing.getNowPage()-1)*pageing.getNumPerPage()+1);
 		pageing.setEnd((pageing.getBegin()-1)+pageing.getNumPerPage());
 		
-		pageing.setBeginBlock((int)((pageing.getNowPage()-1) / pageing.getPagePerBlock()) * pageing.getPagePerBlock()+1);
+		pageing.setBeginBlock((pageing.getNowPage()-1) / pageing.getPagePerBlock() * pageing.getPagePerBlock()+1);
 		pageing.setEndBlock(pageing.getBeginBlock()+pageing.getPagePerBlock()-1);
 		
 		if(pageing.getEndBlock() > pageing.getTotalPage()) {
@@ -191,7 +188,7 @@ public class MainController {
 		pageing.setBegin((pageing.getNowPage()-1)*pageing.getNumPerPage()+1);
 		pageing.setEnd((pageing.getBegin()-1)+pageing.getNumPerPage());
 		
-		pageing.setBeginBlock((int)((pageing.getNowPage()-1) / pageing.getPagePerBlock()) * pageing.getPagePerBlock()+1);
+		pageing.setBeginBlock((pageing.getNowPage()-1) / pageing.getPagePerBlock() * pageing.getPagePerBlock()+1);
 		pageing.setEndBlock(pageing.getBeginBlock()+pageing.getPagePerBlock()-1);
 		
 		if(pageing.getEndBlock() > pageing.getTotalPage()) {
@@ -431,7 +428,6 @@ public class MainController {
 			}
 		} catch (Exception e) {
 		}
-		ModelAndView mv = new ModelAndView("talk");
 		return mv;
 	}
 	@RequestMapping("talk_write")
