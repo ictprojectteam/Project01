@@ -16,11 +16,20 @@
 	<select id="r_list" resultType="rvo">
 		select * from members join recipe on members.m_idx=recipe.m_idx order by recipe.regdate desc
 	</select>
-	<select id="search" parameterType="String" resultType="rvo">
-
+	<select id="m_list" resultType="mvo">
+		select * from members order by regdate desc
 	</select>
-	<select id="count" resultType="int">
+	<select id="recipe_count" resultType="int">
 		select count(*) from members join recipe on members.m_idx=recipe.m_idx order by recipe.regdate desc
+	</select>
+	<select id="member_count" resultType="int">
+		select count(*) from members order by regdate desc
+	</select>
+	<select id="onememberlist" parameterType="String" resultType="mvo">
+		select * from members where name = #{name}
+	</select>
+	<select id="onerecipelist" parameterType="String" resultType="rvo">
+		select * from members join recipe on members.m_idx=recipe.m_idx where name = #{name} order by recipe.regdate desc
 	</select>
 	<select id="findPw" parameterType="String" resultType="mvo">
 		select * from members where email = #{email}

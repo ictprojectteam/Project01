@@ -41,19 +41,38 @@ public class DAO {
 	}
 	
 	
-	public List<RVO> getr_list2(int begin, int end) {
+	public List<RVO> get_recipe_list(int begin, int end) {
 		Map<String, Integer> map = new HashMap<String, Integer>();
 		map.put("begin",begin);
 		map.put("end",end);
 		return sqlSessionTemplate.selectList("r_list", map);
 	}
 	
+	public List<MVO> get_member_List(int begin, int end){
+		Map<String, Integer> map = new HashMap<String, Integer>();
+		map.put("begin", begin);
+		map.put("end", end);
+		return sqlSessionTemplate.selectList("m_list", map);
+	}
+
+	public int getRecipeCount() {
+		return sqlSessionTemplate.selectOne("recipe_count");
+	}
+
+	public int getMemberCount() {
+		return sqlSessionTemplate.selectOne("member_count");
+	}
+
+	public MVO getOneMemberList(String name) {
+		return sqlSessionTemplate.selectOne("onememberlist", name);
+	}
+	
 	public RVO getSearch(String name) {
 		return sqlSessionTemplate.selectOne("search", name);
 	}
 	
-	public int getCount() {
-		return sqlSessionTemplate.selectOne("count");
+	public List<RVO> getOneRecipeList(String name) {
+		return sqlSessionTemplate.selectList("onerecipelist", name);
 	}
 	
 	public MVO findPw(String email) {

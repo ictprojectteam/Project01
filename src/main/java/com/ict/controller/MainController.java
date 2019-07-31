@@ -111,7 +111,7 @@ public class MainController {
 			List<RVO> r_list = dao.getr_list();
 			mv.addObject("r_list", r_list);
 		} else {
-			mv.setViewName("loginfail");
+			mv.setViewName("a_loginfail");
 		}
 		return mv;
 	}
@@ -128,7 +128,7 @@ public class MainController {
 	@RequestMapping(value = "a_recipe")
 	public ModelAndView geta_recipe(HttpServletRequest request) {
 		ModelAndView mv = new ModelAndView("a_recipe");
-		int count = dao.getCount();
+		int count = dao.getRecipeCount();
 		pageing.setTotalRecord(count);
 		
 		if(pageing.getTotalRecord() <= pageing.getNumPerPage()) {
@@ -157,25 +157,17 @@ public class MainController {
 			pageing.setEndBlock(pageing.getTotalPage());
 		}
 		
-		List<RVO> r_list = dao.getr_list2(pageing.getBegin(), pageing.getEnd());
+		List<RVO> r_list = dao.get_recipe_list(pageing.getBegin(), pageing.getEnd());
 		mv.addObject("r_list", r_list);
 		mv.addObject("pageing", pageing);
 	
 		return mv;
 	}
 	
-	@RequestMapping("search.do")
-	public ModelAndView getSearch(@RequestParam("name") String name) {
-		ModelAndView mv = new ModelAndView("search");
-		RVO rvo = dao.getSearch(name);
-		mv.addObject("rvo", rvo);
-		return mv;
-	}
-	
 	@RequestMapping(value = "membership")
 	public ModelAndView getMembership(HttpServletRequest request){
 		ModelAndView mv = new ModelAndView("membership");
-		int count = dao.getCount();
+		int count = dao.getMemberCount();
 		pageing.setTotalRecord(count);
 		
 		if(pageing.getTotalRecord() <= pageing.getNumPerPage()) {
@@ -204,11 +196,32 @@ public class MainController {
 			pageing.setEndBlock(pageing.getTotalPage());
 		}
 		
-		List<MVO> m_list = dao.getList();
+		List<MVO> m_list = dao.get_member_List(pageing.getBegin(), pageing.getEnd());
 		mv.addObject("m_list", m_list);
 		mv.addObject("pageing", pageing);
 	
 		return mv;
+	}
+	
+	@RequestMapping(value = "selectonemember.do")
+	public ModelAndView getSelectOneMember(@RequestParam("name") String name) {
+		ModelAndView mv = new ModelAndView("selectonemember");
+		MVO mvo = dao.getOneMemberList(name);
+		mv.addObject("mvo", mvo);
+		return mv;
+	}
+
+	@RequestMapping(value = "selectonerecipe.do")
+	public ModelAndView getSelectOneRecipe(@RequestParam("name") String name) {
+		ModelAndView mv = new ModelAndView("selectonerecipe");
+		List<RVO> one_r_list = dao.getOneRecipeList(name);
+		mv.addObject("one_r_list", one_r_list);
+		return mv;
+	}
+
+	@RequestMapping(value = "a_write_recipe")
+	public ModelAndView getAdminWriteRecipe() {
+		return new ModelAndView("a_write_recipe");
 	}
 	
 	@RequestMapping("logout")
