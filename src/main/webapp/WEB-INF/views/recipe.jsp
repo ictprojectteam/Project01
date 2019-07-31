@@ -136,6 +136,7 @@
 			<input type="hidden" name="ca3" value="${ca3}">
 			<input type="hidden" name="ca4" value="${ca4}">
 			<input type="hidden" name="order">
+			<input type="hidden" name="k" value="${k}">
 		</form>
 		<div id="category">
 			<div id="category-group">

@@ -260,9 +260,9 @@ tabel td {
 									<th>회원번호</th>
 									<th>회원이름</th>
 									<!-- <th>연착처</th> -->
-									<th>이메일</th>
+									<!-- <th>이메일</th> -->
 									<th>레시피 제목</th>
-									<th>종류 구분</th>
+									<th>레시피 소개</th>
 									<!-- <th>고유 ID</th> -->
 									<th>등록 일시</th>
 								</tr>
@@ -280,9 +280,9 @@ tabel td {
 													<td>${k.m_idx}</td>
 													<td>${k.name}</td>
 													<%-- <td>${k.number}</td> --%>
-													<td>${k.email}</td>
-													<td>${k.subject}</td>
-													<td>${k.cate}</td>
+													<%-- <td>${k.email}</td> --%>
+													<td>${k.recipe_title}</td>
+													<td>${k.recipe_introduce}</td>
 													<%-- <td>${k.secret_id}</td> --%>
 													<td>${k.regdate}</td>
 												</tr>

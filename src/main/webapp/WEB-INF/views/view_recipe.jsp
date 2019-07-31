@@ -133,16 +133,19 @@
 		z-index: -1;
 	}
 	#comp-image-pack{
-		width: 500%;
+		width: 1000%;
 	}
 	.comp-image{
 		display: inline-block;
 		width: 720px;
 		height: 480px;
+		margin: 0px;
+		padding: 0px;
 	}
 	.comp-image img{
 		width: 720px;
 		height: 480px;
+		margin: 0px;
 	}
 	#comp-left, #comp-right{
 		padding-top: 210px;
@@ -210,17 +213,21 @@
 		font-size: 13pt;
 	}
 	#comment{
-		border: 1px solid green;
 		width: 900px;
 		margin: auto;
 	}
 	#com-label{
 		margin-top: 40px;
 	}
-	#comlist{
-		border: 1px solid red;
+	#com-count{
+		margin-left: 10px;
+		color: #fa8;
 	}
-	#comwrite{
+	#comlist{
+		display: grid;
+		grid-template-columns: 80px 820px;
+	}
+	#comform{
 		display: flex;
 	}
 	#comtext{
@@ -229,8 +236,15 @@
 		height: 120px;
 		font-size: 13pt;
 		padding: 5px;
+		border: 1px #ccc;
+		border-style: solid none solid solid;
 		border-radius: 5px 0px 0px 5px;
 		display: inline-block;
+		z-index: 0;
+	}
+	#comtext:focus{
+		box-shadow: 0px 0px 4px 1px #7af;
+		z-index:1;
 	}
 	#combutton{
 		width: 10%;
@@ -241,9 +255,38 @@
 		color: #555;
 		margin: auto;
 		cursor: pointer;
+		border: 1px solid #ccc;
+		border-radius: 0px 5px 5px 0px;
+		z-index:0;
 	}
 	#combutton:active{
 		box-shadow: 0px 0px 4px 2px #7af;
+		z-index:1;
+	}
+	.com-pro{
+		height: 80px;
+	}
+	.com-content{
+		margin-left: 10px;
+	}
+	.com-writer{
+		font-size: 16pt;
+		color: #c97;
+	}
+	.com-date, .com-del{
+		margin-left: 10px;
+		color: #aaa;
+	}
+	.com-del{
+		cursor: pointer;
+	}
+	.com-text{
+		font-size: 12pt;
+		color: #555;
+	}
+	.infobar{
+		margin-left: 10px;
+		color: #ccc;
 	}
 }
 </style>
@@ -256,16 +299,28 @@
 		var i_count = $(".comp-image").length;
 		var imagenum = 0;
 		$("#comp-image-pack").append($(".comp-image:first-child").clone());
+		$("#comtext").on("focus", function(){
+			var mid = "${mvo.id}";
+			if(mid == ""){
+				var lchk = confirm("로그인이 필요합니다. 로그인 하시겠습니까?");
+				if(lchk) {
+					$("#comtext").blur();
+					location.href = "login";
+				} else {
+					$("#comtext").blur();
+				}
+			}
+		});
 		$("#comp-left").on("click", function(){
 			if(moving == false) {
 				moving = true;
 				if(imagenum == 0){
 					imagenum = i_count;
-					imagelist.css("margin-left", -720*imagenum+"px");
+					imagelist.css("margin-left", -725*imagenum+"px");
 				}
 				if(imagenum > 0) {
 					imagenum--;
-					imagelist.stop().animate({marginLeft:-720*imagenum+"px"}, 400);
+					imagelist.stop().animate({marginLeft:-725*imagenum+"px"}, 400);
 				}
 				setTimeout(function(){
 					moving = false;
@@ -275,20 +330,96 @@
 		$("#comp-right").on("click", function(){
 			if(moving == false) {
 				moving = true;
-				if(imagenum == i_count){
+				if (imagenum == i_count) {
 					imagenum = 0;
 					imagelist.css("margin-left", 0);
 				}
-				if(imagenum < i_count) {
+				if (imagenum < i_count) {
 					imagenum++;
-					imagelist.stop().animate({marginLeft:-720*imagenum+"px"}, 400);
+					imagelist.stop().animate({marginLeft:-725*imagenum+"px"}, 400);
 				}
 				setTimeout(function(){
 					moving = false;
 				}, 500);
 			}
 		});
+		$("#combutton").on("click", function(){
+			if ($("#comtext").val() == "") {
+				alert("내용을 입력해주세요.");
+			} else {
+				
+				$.ajax({
+					url : "recipe_comwrite",
+					data : $("#comform").serialize(),
+					dataType : "text",
+					type : "post",
+					success : function(data) {
+						if (data != 0) {
+							getComList();
+						} else {
+							alert("쓰기 실패1");
+						}
+					},
+					error : function() {
+						alert("쓰기 실패2");
+					}
+				});
+			}
+		});
+		getComList();
 	});
+
+	function countCom() {
+		$("#com-count").empty();
+		$.ajax({
+			url : "count_com",
+			data : "r_idx=${rvo.r_idx}",
+			dataType : "text",
+			type : "post",
+			success : function(data) {
+				$("#com-count").append(data);
+			},
+			error : function() {
+				alert("읽기 실패");
+			}
+		});
+	}
+	
+	function getComList() {
+		$("#comlist").empty();
+		var clist = "";
+		$.ajax({
+			url : "recipe_comlist",
+			data : "r_idx=${rvo.r_idx}",
+			dataType : "text",
+			type : "post",
+			success : function(data) {
+				$("#comlist").append(data);
+			},
+			error : function(){
+				alert("읽기 실패2");
+			}
+		});
+		countCom();
+	}
+
+	function com_del(n){
+		var chk = confirm("정말 삭제할까요?");
+		if (chk) {
+			$.ajax({
+				url : "recipe_comdelete",
+				data : "r_c_idx=" + n,
+				dataType : "text",
+				type : "post",
+				success : function(data) {
+					getComList();
+				},
+				error : function() {
+					alert("삭제 실패");
+				}
+			});
+		}
+	}
 </script>
 </head>
 <body>
@@ -370,9 +501,7 @@
 					<div id="comp-image-wrap">
 						<div id="comp-image-pack">
 							<c:forEach var="k" items="${finImage}">
-								<div class="comp-image">
-									<img src="${k}">
-								</div>
+								<div class="comp-image"><img src="${k}"></div>
 							</c:forEach>
 						</div>
 					</div>
@@ -405,12 +534,15 @@
 		</div>
 	</div>
 	<div id="comment">
-		<div id="com-label"><h2>댓글</h2></div>
+		<div id="com-label"><h2>댓글<span id="com-count"></span></h2></div>
 		<div id="comlist">
 			
 		</div>
 		<div id="comwrite">
-			<textarea id="comtext" placeholder="무엇이 궁금하신가요? 댓글을 남겨주세요."></textarea><span id="combutton">등록</span>
+			<form id="comform">
+				<textarea id="comtext" name="content_" placeholder="무엇이 궁금하신가요? 댓글을 남겨주세요."></textarea><span id="combutton">등록</span>
+				<input type="hidden" name="r_idx" value="${rvo.r_idx}">
+			</form>
 		</div>
 	</div>
 	<jsp:include page="foot.jsp" />

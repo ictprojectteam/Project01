@@ -627,6 +627,15 @@
 			$("#recipe-form").attr("action", "save_recipe").submit();
 		});
 
+		$("#public").on("click", function(){
+			$("input[type=file]").attr("disabled", "disabled");
+			var chkval = validateForm();
+			if(!chkval) return;
+			subm = true;
+			$("#savepublic").val("1");
+			$("#recipe-form").attr("action", "save_recipe").submit();
+		});
+
 		$("#cancel").on("click", function(){
 			history.go(-1);
 		});
@@ -1273,6 +1282,7 @@
 					<span id="public"> 저장 후 공개하기 </span>
 					<span id="cancel">취소</span>
 				</div>
+				<input type="hidden" id="savepublic" name="savepublic" value="0">
 			</div>
 		</form>
 	</div>

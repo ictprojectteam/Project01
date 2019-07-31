@@ -3,7 +3,7 @@ package com.ict.service;
 public class RecipeVO {
 	private String r_idx, recipe_title, recipe_introduce, recipe_video, ca1, ca2, ca3, ca4, recipe_quant, recipe_time, recipe_difficulty, main_image, recipe_tip, recipe_tag;
 	private String pack, material, orderContent, finImage;
-	private String m_idx, regdate, lastedit, hit, likeit, writer;
+	private String m_idx, regdate, lastedit, hit, likeit, writer, name, savepublic;
 	
 	public String getR_idx() {
 		return r_idx;
@@ -148,6 +148,18 @@ public class RecipeVO {
 	}
 	public void setWriter(String writer) {
 		this.writer = writer;
+	}
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
+	public String getSavepublic() {
+		return savepublic;
+	}
+	public void setSavepublic(String savepublic) {
+		this.savepublic = savepublic;
 	}
 	
 }

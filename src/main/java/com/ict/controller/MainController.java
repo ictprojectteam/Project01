@@ -18,6 +18,7 @@ import java.util.Map;
 import javax.imageio.IIOException;
 import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +33,7 @@ import com.ict.service.DAO;
 import com.ict.service.MVO;
 import com.ict.service.Pageing;
 import com.ict.service.RVO;
+import com.ict.service.RecipeCVO;
 import com.ict.service.TVO;
 import com.ict.service.RecipePaging;
 import com.ict.service.RecipeVO;
@@ -226,18 +228,22 @@ public class MainController {
 		String ca3 = request.getParameter("ca3");
 		String ca4 = request.getParameter("ca4");
 		String cPage = request.getParameter("cPage");
+		String k = request.getParameter("k");
 		
 		if (ca1 == null) ca1 = "";
 		if (ca2 == null) ca2 = "";
 		if (ca3 == null) ca3 = "";
 		if (ca4 == null) ca4 = "";
 		if (cPage == null) cPage = "";
+		if (k == null) k = "";
+		mv.addObject("k", k);
 		
 		Map<String, String> listmap = new HashMap<String, String>();
 		listmap.put("ca1", ca1);
 		listmap.put("ca2", ca2);
 		listmap.put("ca3", ca3);
 		listmap.put("ca4", ca4);
+		listmap.put("k", k);
 		int count = dao.countRecipe(listmap);
 		RecipePaging rp = new RecipePaging(count, cPage);
 		
@@ -249,6 +255,7 @@ public class MainController {
 		mv.addObject("ca2", ca2);
 		mv.addObject("ca3", ca3);
 		mv.addObject("ca4", ca4);
+		mv.addObject("count", count);
 		mv.addObject("r_list", r_list);
 		mv.addObject("rp", rp);
 		
@@ -259,6 +266,8 @@ public class MainController {
 	public ModelAndView viewRecipe(@RequestParam String rno) {
 		ModelAndView mv = new ModelAndView("view_recipe");
 		RecipeVO rvo = dao.viewRecipe(rno);
+		rvo.setHit(Integer.parseInt(rvo.getHit()) + 1 + "");
+		dao.recipeHitUpdate(rvo);
 		mv.addObject("rvo", rvo);
 		return mv;
 	}
@@ -330,7 +339,41 @@ public class MainController {
 		return mv;
 	}
 	
+	@RequestMapping("count_com")
+	@ResponseBody
+	public String recipeComCount(@RequestParam String r_idx) {
+		return String.valueOf(dao.countRecipeComment(r_idx));
+	}
 	
+	@RequestMapping("recipe_comwrite")
+	@ResponseBody
+	public String recipeComWrite(RecipeCVO rcvo, HttpSession session) {
+		rcvo.setM_idx(((MVO)session.getAttribute("mvo")).getM_idx());
+		return String.valueOf(dao.getInsert(rcvo));
+	}
+	
+	@RequestMapping(value = "recipe_comlist", produces = "application/text; charset=utf8")
+	@ResponseBody
+	public String recipeComList(@RequestParam String r_idx, HttpSession session) {
+		List<RecipeCVO> rcvo = dao.getCommentList(r_idx);
+		String res = "";
+		
+		if (rcvo.size() > 0) {
+			for (RecipeCVO k : rcvo) {
+				res += "<div class='com-pro'></div>"
+					+ "<div class='com-content'><div class='com-info'><span class='com-writer'>" + k.getWriter() + "</span>"
+					+ "<span class='com-date'>" + k.getRegdate();
+				if(session.getAttribute("mvo") != null) {
+					if(k.getM_idx().equals(((MVO)session.getAttribute("mvo")).getM_idx()))
+						res += "</span><span class='infobar'>|</span><span class='com-del' onclick='com_del(" + k.getR_c_idx() + ")'>삭제</span>";
+				}
+				res += "</div><div class='com-text'><pre>" + k.getContent_() + "</pre></div></div>";
+			}
+		} else {
+			return res;
+		}
+		return res;
+	}
 	
 	@RequestMapping("video")
 	public ModelAndView getVideo() {
@@ -351,6 +394,12 @@ public class MainController {
 	@RequestMapping("talk_write_ok")
 	public ModelAndView getTalkWrite(TVO tvo) {
 		ModelAndView mv = new ModelAndView("talk");
+		return mv;
+	}
+	
+	@RequestMapping("ranking")
+	public ModelAndView ranking() {
+		ModelAndView mv = new ModelAndView("ranking");
 		return mv;
 	}
 	

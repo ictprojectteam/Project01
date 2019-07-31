@@ -112,5 +112,7 @@ create table recipe (
   likes number,
   regdate date,
   lastedit date,
+  savepublic number,
+  a_permission number,
   foreign key(m_idx) references members(m_idx)
 );

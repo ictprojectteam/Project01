@@ -68,15 +68,32 @@ public class DAO {
 		sqlSessionTemplate.insert("insert_recipe", rvo);
 	}
 	
+	public int getInsert(RecipeCVO rcvo) {
+		return sqlSessionTemplate.insert("insert_recipe_comment", rcvo);
+	}
+	
 	public int countRecipe(Map<String, String> camap) {
 		return sqlSessionTemplate.selectOne("count_recipe", camap);
 	}
 	
+	public List<RecipeCVO> getCommentList(String r_idx) {
+		return sqlSessionTemplate.selectList("recipe_comment_list", r_idx);
+	}
+	
+	public int countRecipeComment(String r_idx) {
+		return sqlSessionTemplate.selectOne("count_comment", r_idx);
+	}
+	
 	public List<RecipeVO> getRecipeList(Map<String, String> pmap) {
+		System.out.println(pmap.get("k"));
 		return sqlSessionTemplate.selectList("recipe_list", pmap);
 	}
 	
 	public RecipeVO viewRecipe(String r_idx) {
 		return sqlSessionTemplate.selectOne("view_recipe", r_idx);
+	}
+	
+	public void recipeHitUpdate(RecipeVO rvo) {
+		sqlSessionTemplate.update("rhitupdate", rvo);
 	}
 }

@@ -1,7 +1,7 @@
 package com.ict.service;
 
 public class RecipeCVO {
-	private String r_c_idx, r_idx, m_idx, content_, hit, regdate;
+	private String r_c_idx, r_idx, m_idx, content_, regdate, writer;
 
 	public String getR_c_idx() {
 		return r_c_idx;
@@ -27,17 +27,17 @@ public class RecipeCVO {
 	public void setContent_(String content_) {
 		this.content_ = content_;
 	}
-	public String getHit() {
-		return hit;
-	}
-	public void setHit(String hit) {
-		this.hit = hit;
-	}
 	public String getRegdate() {
 		return regdate;
 	}
 	public void setRegdate(String regdate) {
 		this.regdate = regdate;
+	}
+	public String getWriter() {
+		return writer;
+	}
+	public void setWriter(String writer) {
+		this.writer = writer;
 	}
 	
 }

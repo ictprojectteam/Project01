@@ -30,11 +30,15 @@
 	</update>
 	
 	<insert id="insert_recipe" parameterType="rvo">
-		insert into recipe values (recipe_seq.nextval, #{m_idx}, #{recipe_title}, #{recipe_introduce}, #{recipe_video}, #{ca1}, #{ca2}, #{ca3}, #{ca4}, #{recipe_quant}, #{recipe_time}, #{recipe_difficulty}, #{main_image}, #{pack}, #{material}, #{orderContent}, #{finImage}, #{recipe_tip}, #{recipe_tag} , 0, 0, sysdate, sysdate)
+		insert into recipe values (recipe_seq.nextval, #{m_idx}, #{recipe_title}, #{recipe_introduce}, #{recipe_video}, #{ca1}, #{ca2}, #{ca3}, #{ca4}, #{recipe_quant}, #{recipe_time}, #{recipe_difficulty}, #{main_image}, #{pack}, #{material}, #{orderContent}, #{finImage}, #{recipe_tip}, #{recipe_tag} , 0, 0, sysdate, sysdate, #{savepublic}, 0)
 	</insert>
 	
 	<select id="count_recipe" parameterType="map" resultType="int">
 		select count(*) from recipe <where>
+			a_permission=1
+			<if test="k != null and k != ''">
+				and (recipe_title like '%'||#{k}||'%' or recipe_introduce like '%'||#{k}||'%' or pack like '%'||#{k}||'%' or material like '%'||#{k}||'%' or ordercontent like '%'||#{k}||'%' or recipe_tip like '%'||#{k}||'%' or recipe_tag like '%'||#{k}||'%')
+			</if>
 			<if test="ca1 != null and ca1 != ''">
 				and ca1=#{ca1}
 			</if>
@@ -55,7 +59,10 @@
 			select rownum as r_num, a.* from (
 				select r.*, m.name as writer from recipe r, members m
 					<where>
-						r.m_idx = m.m_idx
+						r.m_idx = m.m_idx and r.a_permission=1
+						<if test="k != null and k != ''">
+							and (recipe_title like '%'||#{k}||'%' or recipe_introduce like '%'||#{k}||'%' or pack like '%'||#{k}||'%' or material like '%'||#{k}||'%' or ordercontent like '%'||#{k}||'%' or recipe_tip like '%'||#{k}||'%' or recipe_tag like '%'||#{k}||'%')
+						</if>
 						<if test="ca1 != null and ca1 != ''">
 							and r.ca1=#{ca1}
 						</if>
@@ -77,6 +84,22 @@
 	<select id="view_recipe" parameterType="String" resultType="rvo">
 		select r.*, m.name writer from recipe r, members m where r_idx = #{r_idx} and r.m_idx=m.m_idx
 	</select>
+	
+	<update id="rhitupdate" parameterType="rvo">
+		update recipe set hit = #{hit} where r_idx = #{r_idx}
+	</update>
+	
+	<select id="recipe_comment_list" parameterType="String" resultType="rcvo">
+		select rc.*, m.name writer from recipe_c rc, members m where rc.m_idx = m.m_idx and r_idx = #{r_idx} order by r_c_idx desc
+	</select>
+	
+	<select id="count_comment" parameterType="String" resultType="int">
+		select count(*) from recipe_c where r_idx = #{r_idx}
+	</select>
+	
+	<insert id="insert_recipe_comment" parameterType="rcvo">
+		insert into recipe_c values (recipe_c_seq.nextval, #{r_idx}, #{m_idx}, #{content_}, 0, sysdate)
+	</insert>
 </mapper>
 
 
