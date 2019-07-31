@@ -40,7 +40,6 @@ public class DAO {
 		return sqlSessionTemplate.selectList("r_list");
 	}
 	
-	
 	public List<RVO> get_recipe_list(int begin, int end) {
 		Map<String, Integer> map = new HashMap<String, Integer>();
 		map.put("begin",begin);

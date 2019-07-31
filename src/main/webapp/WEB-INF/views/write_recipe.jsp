@@ -746,7 +746,6 @@
 		return true;
 	}
 
-	
 	function insert_click(){
 		$("#insert-main-image").click();
 	}

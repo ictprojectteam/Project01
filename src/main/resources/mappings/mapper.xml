@@ -7,11 +7,11 @@
 		select * from members where id=#{id} and pw=#{pw}
 	</select>
 	<select id="list" resultType="mvo">
-		select * from members order by m_idx
+		select * from members order by regdate desc
 	</select>
 	<insert id="join" parameterType="mvo">
 		insert into members
-			values(members_seq.nextval,#{id},#{pw},#{email},#{name},#{gender},sysdate)
+		values(members_seq.nextval,#{id},#{pw},#{email},#{name},#{gender},sysdate)
 	</insert>
 	<select id="r_list" resultType="rvo">
 		select * from members join recipe on members.m_idx=recipe.m_idx order by recipe.regdate desc

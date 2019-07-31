@@ -1,7 +1,5 @@
 package com.ict.controller;
 
-import java.util.List;
-
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileInputStream;
@@ -10,15 +8,15 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Base64;
-import java.util.Base64.Encoder;
 import java.util.Enumeration;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.Base64.Encoder;
 
 import javax.imageio.IIOException;
 import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,7 +35,6 @@ import com.ict.service.RecipeCVO;
 import com.ict.service.TVO;
 import com.ict.service.RecipePaging;
 import com.ict.service.RecipeVO;
-
 
 @Controller
 public class MainController {
@@ -445,14 +442,6 @@ public class MainController {
 		}
 		return null;
 	}
-	
-	
-	
-	
-	
-	
-	
-	
 	
 	
 }

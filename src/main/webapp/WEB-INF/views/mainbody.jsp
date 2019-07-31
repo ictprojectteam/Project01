@@ -1,83 +1,103 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <style type="text/css">
-	#mainbody{
-		margin: auto;
-	}
-	#talk-recent-label, #recipe-recent-label, #event-recent-label{
-		font-size: 25pt;
-		color: #fa8;
-		margin: 10px;
-	}
-	#recipe-recent-label{
-		margin-top: 80px;
-	}
-	#talk-recent-label a:visited, #talk-recent-label a:link, #recipe-recent-label a:visited,
-	#recipe-recent-label a:link, #event-recent-label a:visited, #event-recent-label a:link{
-		text-decoration: none;
-		color: #fa8;
-	}
-	#talk-recent, #recipe-recent{
-		display: grid;
-		width: 1200px;
-		height: 300px;
-		grid-template-columns: 50px 1100px 50px;
-	}
-	#talk-recent-preview-wrap, #recipe-recent-preview-wrap{
-		overflow: hidden;
-		position: relative;
-	}
-	#talk-recent-preview, #recipe-recent-preview{
-		width: 300%;
-	}
-	.talk-preview, .recipe-preview{
-		height: 280px;
-		display: inline-block;
-		width: 250px;
-		margin: 10px 10px;
-		cursor: pointer;
-	}
-	.talk-preview img, .recipe-preview img{
-		width: 250px;
-		height: 180px;
-	}
-	.talk-preview-content, .recipe-preview-content{
-		width: 250px;
-		height: 90px;
-		line-height: 15px;
-		color: #333;
-		text-indent: 10px;
-		font-size: 9pt;
-	}
-	.talk-left-arrow, .talk-right-arrow, .recipe-left-arrow, .recipe-right-arrow{
-		padding-top: 110px;
-		font-size: 35pt;
-		text-align: center;
-		text-decoration: none;
-		color: #fa8;
-	}
-	#talk-recent a, #recipe-recent a{
-		color: #fa8;
-	}
-	.arrow-disabled{
-		color: #555;!important;
-	}
-	.talk-left, .recipe-left{
-		visibility: hidden;
-	}
-	.talk-preview:hover .talk-preview-content, .recipe-preview:hover .recipe-preview-content{
-		background: #fb9;
-		color: #ddd;
-		opacity: 0.5;
-	}
-	.talk-preview:hover img, .recipe-preview:hover img{
-		opacity: 0.5;
-	}
+#mainbody {
+	margin: auto;
+}
+
+#talk-recent-label, #recipe-recent-label, #event-recent-label {
+	font-size: 25pt;
+	color: #fa8;
+	margin: 10px;
+}
+
+#recipe-recent-label {
+	margin-top: 80px;
+}
+
+#talk-recent-label a:visited, #talk-recent-label a:link,
+	#recipe-recent-label a:visited, #recipe-recent-label a:link,
+	#event-recent-label a:visited, #event-recent-label a:link {
+	text-decoration: none;
+	color: #fa8;
+}
+
+#talk-recent, #recipe-recent {
+	display: grid;
+	width: 1200px;
+	height: 300px;
+	grid-template-columns: 50px 1100px 50px;
+}
+
+#talk-recent-preview-wrap, #recipe-recent-preview-wrap {
+	overflow: hidden;
+	position: relative;
+}
+
+#talk-recent-preview, #recipe-recent-preview {
+	width: 300%;
+}
+
+.talk-preview, .recipe-preview {
+	height: 280px;
+	display: inline-block;
+	width: 250px;
+	margin: 10px 10px;
+	cursor: pointer;
+}
+
+.talk-preview img, .recipe-preview img {
+	width: 250px;
+	height: 180px;
+}
+
+.talk-preview-content, .recipe-preview-content {
+	width: 250px;
+	height: 90px;
+	line-height: 15px;
+	color: #333;
+	text-indent: 10px;
+	font-size: 9pt;
+}
+
+.talk-left-arrow, .talk-right-arrow, .recipe-left-arrow,
+	.recipe-right-arrow {
+	padding-top: 110px;
+	font-size: 35pt;
+	text-align: center;
+	text-decoration: none;
+	color: #fa8;
+}
+
+#talk-recent a, #recipe-recent a {
+	color: #fa8;
+}
+
+.arrow-disabled {
+	color: #555;
+	!
+	important;
+}
+
+.talk-left, .recipe-left {
+	visibility: hidden;
+}
+
+.talk-preview:hover .talk-preview-content, .recipe-preview:hover .recipe-preview-content
+	{
+	background: #fb9;
+	color: #ddd;
+	opacity: 0.5;
+}
+
+.talk-preview:hover img, .recipe-preview:hover img {
+	opacity: 0.5;
+}
 </style>
 <script type="text/javascript" src="../resources/js/jquery-3.4.1.min.js"></script>
 <script>
@@ -157,7 +177,9 @@
 </head>
 <body>
 	<div id="mainbody">
-		<p id="talk-recent-label"><a href="talk">토크!!</a><p>
+		<p id="talk-recent-label">
+			<a href="talk">토크!!</a>
+		<p>
 		<div id="talk-recent">
 			<div class="talk-left-arrow">
 				<i class="fas fa-angle-left talk-left"></i>
@@ -169,8 +191,8 @@
 							<img src="../resources/images/dessert.jpg">
 							<div class="talk-preview-content">
 								<p>제목 : ${k}</p>
-								<p>작성자 : </p>
-								<p>작성시간 : </p>
+								<p>작성자 :</p>
+								<p>작성시간 :</p>
 							</div>
 						</div>
 					</c:forEach>
@@ -180,11 +202,14 @@
 				<i class="fas fa-angle-right talk-right"></i>
 			</div>
 		</div>
-		
-		<p id="recipe-recent-label"><a href="recipe">레시피!!</a></p>
+
+		<p id="recipe-recent-label">
+			<a href="recipe">레시피!!</a>
+		</p>
 		<div id="recipe-recent">
 			<div class="recipe-left-arrow">
-				<a href="javascript:void(0)"><i class="fas fa-angle-left recipe-left"></i></a>
+				<a href="javascript:void(0)"><i
+					class="fas fa-angle-left recipe-left"></i></a>
 			</div>
 			<div id="recipe-recent-preview-wrap">
 				<div id="recipe-recent-preview">
@@ -193,8 +218,8 @@
 							<img src="../resources/images/dessert.jpg">
 							<div class="recipe-preview-content">
 								<p>제목 : ${k}</p>
-								<p>작성자 : </p>
-								<p>작성시간 : </p>
+								<p>작성자 :</p>
+								<p>작성시간 :</p>
 							</div>
 						</div>
 					</c:forEach>
@@ -204,11 +229,11 @@
 				<i class="fas fa-angle-right recipe-right"></i>
 			</div>
 		</div>
-		
-		<p id="event-recent-label"><a href="event">이벤트!!</a></p>
-		<div id="event-recent">
-			
-		</div>
+
+		<p id="event-recent-label">
+			<a href="event">이벤트!!</a>
+		</p>
+		<div id="event-recent"></div>
 	</div>
 </body>
 </html>
