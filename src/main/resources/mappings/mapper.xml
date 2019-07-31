@@ -67,6 +67,10 @@
 	<select id="view_recipe" parameterType="String" resultType="rvo">
 		select * from testRecipe where r_idx = #{r_idx}
 	</select>
+	
+	<insert id="talk_write" parameterType="tvo">
+		insert into talk values(talk_seq.nextval, #{m_idx}, #{content}, #{file_name}, #{hit}, sysdate)
+	</insert>
 </mapper>
 
 

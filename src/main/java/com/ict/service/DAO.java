@@ -58,4 +58,7 @@ public class DAO {
 	public RecipeVO viewRecipe(String r_idx) {
 		return sqlSessionTemplate.selectOne("view_recipe", r_idx);
 	}
+	public int getTalk_write(TVO tvo){
+		return sqlSessionTemplate.insert("talk_write", tvo);
+	}
 }

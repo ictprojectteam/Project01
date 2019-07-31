@@ -1,7 +1,5 @@
 package com.ict.controller;
 
-import java.util.List;
-
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileInputStream;
@@ -13,6 +11,7 @@ import java.util.Base64;
 import java.util.Base64.Encoder;
 import java.util.Enumeration;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.imageio.IIOException;
@@ -26,13 +25,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.ict.service.DAO;
 import com.ict.service.MVO;
-import com.ict.service.TVO;
 import com.ict.service.RecipePaging;
 import com.ict.service.RecipeVO;
+import com.ict.service.TVO;
 
 
 @Controller
@@ -221,24 +221,39 @@ public class MainController {
 	}
 	@RequestMapping("talk")
 	public ModelAndView getTalk() {
-		ModelAndView mv = new ModelAndView("index");
-		wPage = "talk.jsp";
-		addw(mv);
-		return mv;
+		return new ModelAndView("talk");
 	}
 	@RequestMapping("talk_write")
-	public ModelAndView getTalk_write() {
-		ModelAndView mv = new ModelAndView("index");
-		wPage = "talk_write.jsp";
-		addw(mv);
+	public ModelAndView getTalk_write(HttpSession session) {
+		ModelAndView mv = new ModelAndView();
+		if (session.getAttribute("mvo") != null) {
+			mv.setViewName("talk_write");
+		} else {
+			mv.setViewName("inappropriate");
+		}
 		return mv;
 	}
-	@RequestMapping("talk_write_ok")
-	public ModelAndView getTalkWrite(TVO tvo) {
-		ModelAndView mv = new ModelAndView("index");
-		
-		wPage = "talk.jsp";
-		addw(mv);
+	
+	@RequestMapping(value = "talk_write_ok", method = RequestMethod.POST)
+	public ModelAndView getTalkWrite(TVO tvo, HttpSession session ,HttpServletRequest request) {
+		ModelAndView mv = new ModelAndView("redirect:talk");
+		MVO mvo = (MVO)session.getAttribute("mvo");
+		tvo.setM_idx(mvo.getM_idx());
+		tvo.setHit("0");
+		try {
+			String path = request.getSession().getServletContext().getRealPath("/resources/upload");
+			MultipartFile f_name = tvo.getF_name();
+			if(f_name.isEmpty()) {
+				tvo.setFile_name("");
+			}else {
+				tvo.setFile_name(tvo.getF_name().getOriginalFilename());
+			}
+			int res = dao.getTalk_write(tvo);
+			if(res >0) {
+				f_name.transferTo(new File(path+"/"+tvo.getFile_name()));
+			}
+		} catch (Exception e) {
+		}
 		return mv;
 	}
 	

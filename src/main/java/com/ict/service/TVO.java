@@ -1,7 +1,10 @@
 package com.ict.service;
 
+import org.springframework.web.multipart.MultipartFile;
+
 public class TVO {
 	private String t_idx, m_idx, content, file_name, hit, regdate;
+	private MultipartFile f_name;
 
 	public String getT_idx() {
 		return t_idx;
@@ -49,6 +52,14 @@ public class TVO {
 
 	public void setRegdate(String regdate) {
 		this.regdate = regdate;
+	}
+
+	public MultipartFile getF_name() {
+		return f_name;
+	}
+
+	public void setF_name(MultipartFile f_name) {
+		this.f_name = f_name;
 	}
 	
 	
