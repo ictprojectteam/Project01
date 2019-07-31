@@ -345,40 +345,36 @@ tabel td{
 							<table>
 								<thead>
 									<tr bgcolor="#cccccc">
-										<th>번호</th>
 										<th>회원번호</th>
 										<th>회원이름</th>
 										<!-- <th>연착처</th> -->
-										<!-- <th>이메일</th> -->
+										<th>이메일</th>
 										<th>레시피 제목</th>
-										<th>레시피 소개</th>
+										<th>종류 구분</th>
 										<!-- <th>고유 ID</th> -->
 										<th>등록 일시</th>
-										<th>게시글 상태</th>
 									</tr>
 								</thead>
 								<tbody>
 									<c:choose>
-										<c:when test="${empty r_list }">
+										<c:when test="${empty one_r_list}">
 											<tr>
 												<td colspan="6"><h3>원하는 정보가 존재하지 않습니다.</h3></td>
 											</tr>
 										</c:when>
 										<c:otherwise>
-											<c:forEach var="k" items="${r_list}" begin="0" end="9">
+											<c:forEach var="k" items="${one_r_list}" begin="0" end="10">
 												<tr>
-													<td>${k.r_idx}</td>
 													<td>${k.m_idx}</td>
 													<td>${k.name}</td>
 													<%-- <td>${k.number}</td> --%>
-													<%-- <td>${k.email}</td> --%>
-													<td>${k.recipe_title}</td>
-													<td>${k.recipe_introduce}</td>
+													<td>${k.email}</td>
+													<td>${k.subject}</td>
+													<td>${k.cate}</td>
 													<%-- <td>${k.secret_id}</td> --%>
 													<td>${k.regdate}</td>
-													<td><!-- 게시글 상태 --></td>
 												</tr>
-											</c:forEach>
+											</c:forEach>	
 										</c:otherwise>
 									</c:choose>
 								</tbody>

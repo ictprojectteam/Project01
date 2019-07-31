@@ -17,6 +17,7 @@ import java.util.Map;
 import javax.imageio.IIOException;
 import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +31,11 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.ict.service.DAO;
 import com.ict.service.MVO;
+
+import com.ict.service.Pageing;
+import com.ict.service.RVO;
+import com.ict.service.RecipeCVO;
+import com.ict.service.TVO;
 import com.ict.service.RecipePaging;
 import com.ict.service.RecipeVO;
 import com.ict.service.TVO;
@@ -39,10 +45,20 @@ import com.ict.service.TVO;
 public class MainController {
 	@Autowired
 	private DAO dao;
+	@Autowired	
+	private Pageing pageing;
+//	String cPage;
 	
 	@RequestMapping(value = "/")
 	public ModelAndView getIndex() {
 		ModelAndView mv = new ModelAndView("index");
+		Map<String, String> listmap = new HashMap<String, String>();
+		
+		listmap.put("begin", "1");
+		listmap.put("end", "8");
+		
+		List<RecipeVO> r_list = dao.getRecipeList(listmap);
+		mv.addObject("r_list", r_list);
 		return mv;
 	}
 	
@@ -94,8 +110,10 @@ public class MainController {
 			mv.setViewName("admin");
 			List<MVO> list = dao.getList();
 			mv.addObject("list", list);
+			List<RVO> r_list = dao.getr_list();
+			mv.addObject("r_list", r_list);
 		} else {
-			mv.setViewName("loginfail");
+			mv.setViewName("a_loginfail");
 		}
 		return mv;
 	}
@@ -104,15 +122,108 @@ public class MainController {
 		ModelAndView mv = new ModelAndView("admin");
 		List<MVO> list = dao.getList();
 		mv.addObject("list", list);
+		List<RVO> r_list = dao.getr_list();
+		mv.addObject("r_list", r_list);
 		return mv;
 	}
 	
 	@RequestMapping(value = "a_recipe")
-	public ModelAndView geta_recipe() {
+	public ModelAndView geta_recipe(HttpServletRequest request) {
 		ModelAndView mv = new ModelAndView("a_recipe");
-		List<MVO> list = dao.getList();
-		mv.addObject("list", list);
+		int count = dao.getRecipeCount();
+		pageing.setTotalRecord(count);
+		
+		if(pageing.getTotalRecord() <= pageing.getNumPerPage()) {
+			pageing.setTotalPage(1);
+		}else {
+			pageing.setTotalPage(pageing.getTotalRecord() / pageing.getNumPerPage());
+			if(pageing.getTotalRecord() % pageing.getNumPerPage() !=0) {
+				pageing.setTotalPage(pageing.getTotalPage()+1);
+			}
+		}
+		
+		String cPage = request.getParameter("cPage");
+		if(cPage == null) {
+			pageing.setNowPage(1);
+		}else {
+			pageing.setNowPage(Integer.parseInt(cPage));
+		}
+		
+		pageing.setBegin((pageing.getNowPage()-1)*pageing.getNumPerPage()+1);
+		pageing.setEnd((pageing.getBegin()-1)+pageing.getNumPerPage());
+		
+		pageing.setBeginBlock((int)((pageing.getNowPage()-1) / pageing.getPagePerBlock()) * pageing.getPagePerBlock()+1);
+		pageing.setEndBlock(pageing.getBeginBlock()+pageing.getPagePerBlock()-1);
+		
+		if(pageing.getEndBlock() > pageing.getTotalPage()) {
+			pageing.setEndBlock(pageing.getTotalPage());
+		}
+		
+		List<RVO> r_list = dao.get_recipe_list(pageing.getBegin(), pageing.getEnd());
+		mv.addObject("r_list", r_list);
+		mv.addObject("pageing", pageing);
+	
 		return mv;
+	}
+	
+	@RequestMapping(value = "membership")
+	public ModelAndView getMembership(HttpServletRequest request){
+		ModelAndView mv = new ModelAndView("membership");
+		int count = dao.getMemberCount();
+		pageing.setTotalRecord(count);
+		
+		if(pageing.getTotalRecord() <= pageing.getNumPerPage()) {
+			pageing.setTotalPage(1);
+		}else {
+			pageing.setTotalPage(pageing.getTotalRecord() / pageing.getNumPerPage());
+			if(pageing.getTotalRecord() % pageing.getNumPerPage() !=0) {
+				pageing.setTotalPage(pageing.getTotalPage()+1);
+			}
+		}
+		
+		String cPage = request.getParameter("cPage");
+		if(cPage == null) {
+			pageing.setNowPage(1);
+		}else {
+			pageing.setNowPage(Integer.parseInt(cPage));
+		}
+		
+		pageing.setBegin((pageing.getNowPage()-1)*pageing.getNumPerPage()+1);
+		pageing.setEnd((pageing.getBegin()-1)+pageing.getNumPerPage());
+		
+		pageing.setBeginBlock((int)((pageing.getNowPage()-1) / pageing.getPagePerBlock()) * pageing.getPagePerBlock()+1);
+		pageing.setEndBlock(pageing.getBeginBlock()+pageing.getPagePerBlock()-1);
+		
+		if(pageing.getEndBlock() > pageing.getTotalPage()) {
+			pageing.setEndBlock(pageing.getTotalPage());
+		}
+		
+		List<MVO> m_list = dao.get_member_List(pageing.getBegin(), pageing.getEnd());
+		mv.addObject("m_list", m_list);
+		mv.addObject("pageing", pageing);
+	
+		return mv;
+	}
+	
+	@RequestMapping(value = "selectonemember.do")
+	public ModelAndView getSelectOneMember(@RequestParam("name") String name) {
+		ModelAndView mv = new ModelAndView("selectonemember");
+		MVO mvo = dao.getOneMemberList(name);
+		mv.addObject("mvo", mvo);
+		return mv;
+	}
+
+	@RequestMapping(value = "selectonerecipe.do")
+	public ModelAndView getSelectOneRecipe(@RequestParam("name") String name) {
+		ModelAndView mv = new ModelAndView("selectonerecipe");
+		List<RVO> one_r_list = dao.getOneRecipeList(name);
+		mv.addObject("one_r_list", one_r_list);
+		return mv;
+	}
+
+	@RequestMapping(value = "a_write_recipe")
+	public ModelAndView getAdminWriteRecipe() {
+		return new ModelAndView("a_write_recipe");
 	}
 	
 	@RequestMapping("logout")
@@ -132,18 +243,22 @@ public class MainController {
 		String ca3 = request.getParameter("ca3");
 		String ca4 = request.getParameter("ca4");
 		String cPage = request.getParameter("cPage");
+		String k = request.getParameter("k");
 		
 		if (ca1 == null) ca1 = "";
 		if (ca2 == null) ca2 = "";
 		if (ca3 == null) ca3 = "";
 		if (ca4 == null) ca4 = "";
 		if (cPage == null) cPage = "";
+		if (k == null) k = "";
+		mv.addObject("k", k);
 		
 		Map<String, String> listmap = new HashMap<String, String>();
 		listmap.put("ca1", ca1);
 		listmap.put("ca2", ca2);
 		listmap.put("ca3", ca3);
 		listmap.put("ca4", ca4);
+		listmap.put("k", k);
 		int count = dao.countRecipe(listmap);
 		RecipePaging rp = new RecipePaging(count, cPage);
 		
@@ -151,16 +266,24 @@ public class MainController {
 		listmap.put("end", String.valueOf(rp.getEnd()));
 		
 		List<RecipeVO> r_list = dao.getRecipeList(listmap);
+		mv.addObject("ca1", ca1);
+		mv.addObject("ca2", ca2);
+		mv.addObject("ca3", ca3);
+		mv.addObject("ca4", ca4);
+		mv.addObject("count", count);
 		mv.addObject("r_list", r_list);
 		mv.addObject("rp", rp);
 		
 		return mv;
 	}
 	
-	@RequestMapping("view")
+	@RequestMapping("view_recipe")
 	public ModelAndView viewRecipe(@RequestParam String rno) {
-		ModelAndView mv = new ModelAndView("view");
-		mv.addObject("rvo", dao.viewRecipe(rno));
+		ModelAndView mv = new ModelAndView("view_recipe");
+		RecipeVO rvo = dao.viewRecipe(rno);
+		rvo.setHit(Integer.parseInt(rvo.getHit()) + 1 + "");
+		dao.recipeHitUpdate(rvo);
+		mv.addObject("rvo", rvo);
 		return mv;
 	}
 	
@@ -190,35 +313,89 @@ public class MainController {
 		}
 		for (String k : paraname) {
 			if(k.matches("^ing-pack-\\d*$")) {
-				packs.add(request.getParameter(k));
+				if (request.getParameter(k) != "") {
+					packs.add(request.getParameter(k));
+				} else {
+					packs.add("재료");
+				}
 				materials.add(new ArrayList<String>());
 			}
-			if(k.matches("^order-text-.*$")) orders.add(request.getParameter(k));
+			if(k.matches("^order-text-.*$")) {
+				if(request.getParameter(k) != "") orders.add(request.getParameter(k));
+			}
 			if(k.matches("^recipe-each-name-.*$")) {
 				String parano = k.replace("recipe-each-name-", "");
-				materials.get(Integer.parseInt(parano.substring(0,1)) - 1).add(request.getParameter(k));
+				if(request.getParameter(k) != "") materials.get(Integer.parseInt(parano.substring(0,1)) - 1).add("|" + request.getParameter(k));
 			}
-			if(k.matches("^comp-image-val-.*$")) finImages.add(request.getParameter(k));
+			if(k.matches("^recipe-each-quant-.*$")) {
+				String parano = k.replace("recipe-each-quant-", "");
+				if(request.getParameter(k) != "") materials.get(Integer.parseInt(parano.substring(0,1)) - 1).add(request.getParameter(k) + "|");
+			}
+			if(k.matches("^comp-image-val-.*$")) {
+				if(request.getParameter(k) != "") finImages.add(request.getParameter(k));
+			}
 		}
 		for (int i = 0; i < orders.size(); i++) {
-			orderContents.add("{" + request.getParameter("order-text-" + (i + 1)) + ", " + request.getParameter("order-image-" + (i + 1)) + "}");
+			orderContents.add("|" + request.getParameter("order-text-" + (i + 1)) + ", " + request.getParameter("order-image-" + (i + 1)) + "|");
 		}
+		materials.removeIf(k -> k.size()==0);
+		
+		rvo.setM_idx(((MVO)request.getSession().getAttribute("mvo")).getM_idx());
 		rvo.setPack(packs.toString());
 		rvo.setMaterial(materials.toString());
 		rvo.setOrderContent(orderContents.toString());
-		rvo.setFinImage(finImages.toString());
+		if(finImages.size() > 0) {
+			rvo.setFinImage(finImages.toString());
+		} else {
+			rvo.setFinImage("[" + rvo.getMain_image() + "]");
+		}
 		
 		dao.getInsert(rvo);
 		return mv;
 	}
 	
+	@RequestMapping("count_com")
+	@ResponseBody
+	public String recipeComCount(@RequestParam String r_idx) {
+		return String.valueOf(dao.countRecipeComment(r_idx));
+	}
 	
+	@RequestMapping("recipe_comwrite")
+	@ResponseBody
+	public String recipeComWrite(RecipeCVO rcvo, HttpSession session) {
+		rcvo.setM_idx(((MVO)session.getAttribute("mvo")).getM_idx());
+		return String.valueOf(dao.getInsert(rcvo));
+	}
+	
+	@RequestMapping(value = "recipe_comlist", produces = "application/text; charset=utf8")
+	@ResponseBody
+	public String recipeComList(@RequestParam String r_idx, HttpSession session) {
+		List<RecipeCVO> rcvo = dao.getCommentList(r_idx);
+		String res = "";
+		
+		if (rcvo.size() > 0) {
+			for (RecipeCVO k : rcvo) {
+				res += "<div class='com-pro'></div>"
+					+ "<div class='com-content'><div class='com-info'><span class='com-writer'>" + k.getWriter() + "</span>"
+					+ "<span class='com-date'>" + k.getRegdate();
+				if(session.getAttribute("mvo") != null) {
+					if(k.getM_idx().equals(((MVO)session.getAttribute("mvo")).getM_idx()))
+						res += "</span><span class='infobar'>|</span><span class='com-del' onclick='com_del(" + k.getR_c_idx() + ")'>삭제</span>";
+				}
+				res += "</div><div class='com-text'><pre>" + k.getContent_() + "</pre></div></div>";
+			}
+		} else {
+			return res;
+		}
+		return res;
+	}
 	
 	@RequestMapping("video")
 	public ModelAndView getVideo() {
 		ModelAndView mv = new ModelAndView("video");
 		return mv;
 	}
+	
 	@RequestMapping("talk")
 	public ModelAndView getTalk() {
 		return new ModelAndView("talk");
@@ -254,6 +431,23 @@ public class MainController {
 			}
 		} catch (Exception e) {
 		}
+		ModelAndView mv = new ModelAndView("talk");
+		return mv;
+	}
+	@RequestMapping("talk_write")
+	public ModelAndView getTalk_write() {
+		ModelAndView mv = new ModelAndView("talk_write");
+		return mv;
+	}
+	@RequestMapping("talk_write_ok")
+	public ModelAndView getTalkWrite(TVO tvo) {
+		ModelAndView mv = new ModelAndView("talk");
+		return mv;
+	}
+	
+	@RequestMapping("ranking")
+	public ModelAndView ranking() {
+		ModelAndView mv = new ModelAndView("ranking");
 		return mv;
 	}
 	

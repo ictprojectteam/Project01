@@ -84,6 +84,13 @@
 	.talk-preview:hover img, .recipe-preview:hover img{
 		opacity: 0.5;
 	}
+	.recipe-preview-content p:first-child{
+		display:-webkit-box;
+	  -webkit-line-clamp:1;
+	  -webkit-box-orient:vertical;
+		overflow: hidden;
+		text-overflow: ellipsis;
+	}
 </style>
 <script src="https://kit.fontawesome.com/057ba10041.js"></script>
 <script type="text/javascript" src="../resources/js/jquery-3.4.1.min.js"></script>
@@ -92,20 +99,20 @@
 		var talklist = $("#talk-recent-preview");
 		var talk_show_num = 4;
 		var talk_num = 0;
-		var total = $(".talk-preview").length;
+		var t_total = $(".talk-preview").length;
 		var talk_width = 273;
 		if(talk_num == 0){
 			$(".talk-right").css("cursor", "pointer");
 		}
 		$(".talk-right-arrow").on("click", function(){
-			if(talk_num < (total - talk_show_num)) {
+			if(talk_num < (t_total - talk_show_num)) {
 				talk_num++;
 				talklist.stop().animate({marginLeft:-talk_width*talk_num+"px"},400);
 				$(".talk-left").css("visibility", "visible");
 				$(".talk-left").css("cursor", "pointer");
 				$(".talk-left").fadeIn("fast");
 			}
-			if(talk_num == (total - talk_show_num)){
+			if(talk_num == (t_total - talk_show_num)){
 				 $(".talk-right").fadeOut("fast");
 				 $(".talk-right").css("cursor", "default");
 			}
@@ -125,19 +132,19 @@
 		var recipelist = $("#recipe-recent-preview");
 		var recipe_show_num = 4;
 		var recipe_num = 0;
-		var total = $(".recipe-preview").length;
+		var r_total = $(".recipe-preview").length;
 		var recipe_width = 273;
 		if(recipe_num == 0){
 			$(".recipe-right").css("cursor", "pointer");
 		}
 		$(".recipe-right-arrow").on("click", function(){
-			if(recipe_num < (total - recipe_show_num)) {
+			if(recipe_num < (r_total - recipe_show_num)) {
 				recipe_num++;
 				recipelist.stop().animate({marginLeft:-recipe_width*recipe_num+"px"},400);
 				$(".recipe-left").css("visibility", "visible");
 				$(".recipe-left").fadeIn("fast");
 			}
-			if(recipe_num == (total - recipe_show_num)){
+			if(recipe_num == (r_total - recipe_show_num)){
 				 $(".recipe-right").fadeOut("fast");
 			}
 		});
@@ -156,8 +163,8 @@
 			alert(attrib);
 		});
 		$(".recipe-preview").on("click", function(p){
-			var attrib = $(this).attr("id");
-			alert(attrib);
+			var rno = $(this).attr("id").replace("recipe", "");
+			location.href = "view_recipe?rno=" + rno;
 		});
 	});
 </script>
@@ -195,17 +202,17 @@
 		<p id="recipe-recent-label"><a href="recipe">레시피!!</a></p>
 		<div id="recipe-recent">
 			<div class="recipe-left-arrow">
-				<a href="javascript:void(0)"><i class="fas fa-angle-left recipe-left"></i></a>
+				<i class="fas fa-angle-left recipe-left"></i>
 			</div>
 			<div id="recipe-recent-preview-wrap">
 				<div id="recipe-recent-preview">
-					<c:forEach var="k" begin="1" end="8">
-						<div class="recipe-preview" id="recipe${k}">
-							<img src="../resources/images/dessert.jpg">
+					<c:forEach items="${r_list}" var="k">
+						<div class="recipe-preview" id="recipe${k.r_idx}">
+							<img src="${k.main_image}">
 							<div class="recipe-preview-content">
-								<p>제목 : ${k}</p>
-								<p>작성자 : </p>
-								<p>작성시간 : </p>
+								<p>제목 : ${k.recipe_title}</p>
+								<p>작성자 : ${k.writer}</p>
+								<p>작성시간 : ${k.regdate.substring(0,10)}</p>
 							</div>
 						</div>
 					</c:forEach>

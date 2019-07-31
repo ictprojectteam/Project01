@@ -70,7 +70,7 @@
 	}
 	.recipe-preview-image img{
 		width: 290px;
-		height: 290px;
+		height: 210px;
 	}
 	.recipe-preview-subject{
 		margin: 10px 5px 0px;;
@@ -106,15 +106,16 @@
 	$(function(){
 		$(".recipe-list-preview").on("click", function(){
 			var rno = $(this).find("input").val();
-			location.href = 'view?rno=' + rno;
+			location.href = 'view_recipe?rno=' + rno;
 		});
 		$(".category-detail-label").each(function(){
 			$(this).children().each(function(){
 				$(this).on("click", function(){
-					var tex = $(this).text;
+					var tex = $(this).text();
 					var group = $(this).parent().attr("id");
-					$("input[name=" + group + "]").val("tex");
-					// 폼 아이디에 액션값에 카테고리값을 넣고 서브밋하여 처리
+					if(tex == "전체") tex = "";
+					$("input[name=" + group + "]").val(tex);
+					$("#list-form").attr("action", "recipe").submit();
 				});
 			});
 		});
@@ -135,6 +136,7 @@
 			<input type="hidden" name="ca3" value="${ca3}">
 			<input type="hidden" name="ca4" value="${ca4}">
 			<input type="hidden" name="order">
+			<input type="hidden" name="k" value="${k}">
 		</form>
 		<div id="category">
 			<div id="category-group">
@@ -181,7 +183,7 @@
 					<a class="category-detail-group2">이유식</a>
 					<a class="category-detail-group2">기타</a>
 				</div>
-				<div class="category-detail-label" id="ca3">
+				<div class="category-detail-label" id="ca4">
 					<a class="category-detail-group3">전체</a>
 					<a class="category-detail-group3">소고기</a>
 					<a class="category-detail-group3">돼지고기</a>
@@ -200,7 +202,7 @@
 					<a class="category-detail-group3">곡류</a>
 					<a class="category-detail-group3">기타</a>
 				</div>
-				<div class="category-detail-label" id="ca4">
+				<div class="category-detail-label" id="ca3">
 					<a class="category-detail-group4">전체</a>
 					<a class="category-detail-group4">볶음</a>
 					<a class="category-detail-group4">끓이기</a>
@@ -232,28 +234,11 @@
 								<input type="hidden" value="${k.r_idx}">
 								<div class="recipe-preview-image"><img src="${k.main_image}"></div>
 								<div class="recipe-preview-subject">${k.recipe_title}</div>
-								<div class="recipe-preview-writer">by ${k.recipe_introduce}</div>
+								<div class="recipe-preview-writer">by ${k.writer}</div>
 							</div>
 						</c:forEach>
 					</c:otherwise>
 				</c:choose>
-			
-				<%-- <c:forEach var="k" begin="1" end="16">
-					<div class="recipe-list-preview" mp="${k}">
-						<c:choose>
-							<c:when test="${k%2==0}">
-								<div class="recipe-preview-image"><img src="resources/images/gimzzi.jpg"></div>
-								<div class="recipe-preview-subject">김치찌개 간단 레시피!</div>
-								<div class="recipe-preview-writer">by 짜파게티 요리사</div>
-							</c:when>
-							<c:otherwise>
-								<div class="recipe-preview-image"><img src="resources/images/buzzi.jpg"></div>
-								<div class="recipe-preview-subject">의정부 부대찌개 따라해보기! 2줄이 넘으면 말줄임표가 나타나게 설정</div>
-								<div class="recipe-preview-writer">by 닭갈비제작소</div>
-							</c:otherwise>
-						</c:choose>
-					</div>
-				</c:forEach> --%>
 			</div>
 			<div id="recipe-paging">페이징이 들어갈 자리</div>
 		</div>
