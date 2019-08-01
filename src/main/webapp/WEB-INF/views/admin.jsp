@@ -219,9 +219,7 @@ tabel td {
 								<tr bgcolor="#cccccc">
 									<th>회원번호</th>
 									<th>회원이름</th>
-									<!-- <th>연착처</th> -->
 									<th>이메일</th>
-									<!-- <th>닉네임</th> -->
 									<th>성별</th>
 									<th>가입 일시</th>
 								</tr>
@@ -259,11 +257,9 @@ tabel td {
 								<tr bgcolor="#cccccc">
 									<th>회원번호</th>
 									<th>회원이름</th>
-									<!-- <th>연착처</th> -->
 									<th>이메일</th>
 									<th>레시피 제목</th>
 									<th>종류 구분</th>
-									<!-- <th>고유 ID</th> -->
 									<th>등록 일시</th>
 								</tr>
 							</thead>
@@ -279,11 +275,9 @@ tabel td {
 												<tr>
 													<td>${k.m_idx}</td>
 													<td>${k.name}</td>
-													<%-- <td>${k.number}</td> --%>
 													<td>${k.email}</td>
 													<td>${k.subject}</td>
 													<td>${k.cate}</td>
-													<%-- <td>${k.secret_id}</td> --%>
 													<td>${k.regdate}</td>
 												</tr>
 											</c:forEach>
@@ -302,7 +296,6 @@ tabel td {
 							<thead>
 								<tr>
 									<th>회원이름</th>
-									<!-- <th>연착처</th> -->
 									<th>이메일</th>
 									<th>문의 구분</th>
 									<th>문의 내용</th>

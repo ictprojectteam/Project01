@@ -41,7 +41,6 @@ public class MainController {
 	private Pageing pageing;
 	
 	private String wPage;
-	String cPage;
 	
 	public Pageing getPageing() {
 		return pageing;
@@ -128,6 +127,7 @@ public class MainController {
 	@RequestMapping(value = "a_recipe")
 	public ModelAndView geta_recipe(HttpServletRequest request){
 		ModelAndView mv = new ModelAndView("a_recipe");
+		// 전체 게시물의 수
 		int count = dao.getRecipeCount();
 		pageing.setTotalRecord(count);
 		
@@ -140,7 +140,7 @@ public class MainController {
 			}
 		}
 		
-		cPage = request.getParameter("cPage");
+		String cPage = request.getParameter("cPage");
 		if(cPage == null) {
 			pageing.setNowPage(1);
 		}else {
@@ -167,7 +167,8 @@ public class MainController {
 	@RequestMapping(value = "membership")
 	public ModelAndView getMembership(HttpServletRequest request){
 		ModelAndView mv = new ModelAndView("membership");
-		int count = dao.getMemberCount();
+		// 전체 게시물의 수
+		int count = dao.getRecipeCount();
 		pageing.setTotalRecord(count);
 		
 		if(pageing.getTotalRecord() <= pageing.getNumPerPage()) {
@@ -179,7 +180,7 @@ public class MainController {
 			}
 		}
 		
-		cPage = request.getParameter("cPage");
+		String cPage = request.getParameter("cPage");
 		if(cPage == null) {
 			pageing.setNowPage(1);
 		}else {
@@ -196,6 +197,7 @@ public class MainController {
 			pageing.setEndBlock(pageing.getTotalPage());
 		}
 		
+				
 		List<MVO> m_list = dao.get_member_List(pageing.getBegin(), pageing.getEnd());
 		mv.addObject("m_list", m_list);
 		mv.addObject("pageing", pageing);

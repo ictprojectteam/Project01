@@ -387,30 +387,26 @@ tabel td{
 									<ol class="paging">
 									   <%-- 이전 --%>
 									    <c:choose>
-									    	<c:when test="${pageing.beginBlock <= pageing.pagePerBlock }">
-									    		<li class="disable"> 이전으로 </li>
+									    	<c:when test="${pageing.beginBlock > pageing.pagePerBlock }">
+									    		<a href="a_recipe.do?cPage=${pageing.beginBlock-pageing.pagePerBlock}"></a>
 									    	</c:when>
-									    	<c:otherwise>
-									    		<li><a href="a_recipe.do?cPage=${pageing.beginBlock-pageing.pagePerBlock}"> 이전으로 </a></li>
-									    	</c:otherwise>
-									    </c:choose>
-									    
+								    	</c:choose>
+									    <!-- 페이지 번호 -->
 										<c:forEach begin="${pageing.beginBlock}" end="${pageing.endBlock}" step="1" var="k">
-											<c:if test="${k==pageing.nowPage}">
-												<li class="now">${k}</li>
-											</c:if>
-											<c:if test="${k!=pageing.nowPage}">
-												<li><a href="a_recipe.do?cPage=${k}">${k}</a></li>
-											</c:if>
+											<c:choose>
+												<c:when test="${k == pageing.nowPage}">
+													<font size = "4">${k}</font>
+												</c:when>
+												<c:otherwise>
+													<a href="a_recipe.do?cPage=${k}"><font size="4">${k}</font></a>
+												</c:otherwise>
+											</c:choose>
 										</c:forEach>
-										
+										<!-- 다음 -->
 										<c:choose>
-									    	<c:when test="${pageing.endBlock >= pageing.totalPage }">
-									    		<li class="disable"> 다음으로 </li>
+									    	<c:when test="${pageing.endBlock < pageing.totalPage}">
+									    		<a href="a_recipe.do?cPage=${pageing.beginBlock+pageing.pagePerBlock}"></a>
 									    	</c:when>
-									    	<c:otherwise>
-									    		<li><a href="a_recipe.do?cPage=${pageing.beginBlock+pageing.pagePerBlock}"> 다음으로 </a></li>
-									    	</c:otherwise>
 									    </c:choose>
 									</ol>
 									</div>
