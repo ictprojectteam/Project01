@@ -8,11 +8,11 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Base64;
+import java.util.Base64.Encoder;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Base64.Encoder;
 
 import javax.imageio.IIOException;
 import javax.imageio.ImageIO;
@@ -465,18 +465,34 @@ public class MainController {
 		MVO mvo = (MVO)session.getAttribute("mvo");
 		tvo.setM_idx(mvo.getM_idx());
 		tvo.setHit("0");
+		System.out.println(tvo.getF_name()[0].getOriginalFilename());
 		try {
 			String path = request.getSession().getServletContext().getRealPath("/resources/upload");
-			MultipartFile f_name = tvo.getF_name();
+			
+			MultipartFile f_name = tvo.getF_name()[0];
 			if(f_name.isEmpty()) {
 				tvo.setFile_name("");
 			}else {
-				tvo.setFile_name(tvo.getF_name().getOriginalFilename());
+				tvo.setFile_name(f_name.getOriginalFilename());
 			}
+			
 			int res = dao.getTalk_write(tvo);
 			if(res >0) {
 				f_name.transferTo(new File(path+"/"+tvo.getFile_name()));
 			}
+			/*
+			for (MultipartFile i : tvo.getF_name()) {
+				if(i.isEmpty()) {
+					tvo.setFile_name("");
+				}else {
+					tvo.setFile_name(tvo.getFile_name().concat(i.getOriginalFilename() + ","));
+				}
+				
+				int res = dao.getTalk_write(tvo);
+				if(res >0) {
+					i.transferTo(new File(path+"/"+tvo.getFile_name()));
+				}
+			}*/
 		} catch (Exception e) {
 		}
 		return mv;
