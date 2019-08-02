@@ -88,22 +88,12 @@
 	
 </style>
 <script type="text/javascript">
-		
+	var sel_files = [];
+	var index = 0;
+	var files;
 	function write_ok(f){
-		
 		f.action = "talk_write_ok";
 		f.submit();
-		var fileInput = document.getElementById("write_bt");
-        
-        var files = fileInput.files;
-        var file;
-         
-        for (var i = 0; i < files.length; i++) {
-             
-            file = files[i];
-
-            alert(file.name);
-        }
 	}
 	/*
 	$(document).ready( function() {
@@ -126,9 +116,6 @@
  
     });*/
 	
-	var sel_files = [];
-	var index = 0;
-
 	$(function () {
 		$('#write-image').click(function (e) {
 			e.preventDefault();
@@ -142,8 +129,7 @@
 		/* 미리보기 초기화 
 		sel_files = [];
 		$(".imgs_wrap").empty();*/
-		
-		var files = e.target.files;
+		files = e.target.files;
 		var filesArr = Array.prototype.slice.call(files);
 		
 
@@ -162,6 +148,7 @@
 								"<i onclick='del_img("+ index +")' id='img_id_"+ index +"' class='fas fa-times'></i>"
 				$(".imgs_wrap").append(img_html3);
 				index++;
+				
 			}
 			reader.readAsDataURL(f);
 		});
@@ -187,7 +174,7 @@
 				<hr>
 				<textarea rows="15" cols="75" style="font-size: 16pt;" name="content" ></textarea>
 				<hr>
-				<input type="file" name="f_name[]" id="insert_image" accept="image/*" multiple hidden="">
+				<input type="file" name="f_name" id="insert_image" accept="image/*" multiple hidden="">
 				<div id="write-image">
 					<i class="fas fa-camera"></i>
 				</div>

@@ -460,27 +460,15 @@ public class MainController {
 	}
 	
 	@RequestMapping(value = "talk_write_ok", method = RequestMethod.POST)
-	public ModelAndView getTalkWrite(TVO tvo, HttpSession session ,HttpServletRequest request) {
+	public ModelAndView getTalkWrite(TVO tvo, HttpSession session ,HttpServletRequest request, @RequestParam MultipartFile[] f_name) {
 		ModelAndView mv = new ModelAndView("redirect:talk");
 		MVO mvo = (MVO)session.getAttribute("mvo");
 		tvo.setM_idx(mvo.getM_idx());
 		tvo.setHit("0");
-		System.out.println(tvo.getF_name()[0].getOriginalFilename());
+		
 		try {
 			String path = request.getSession().getServletContext().getRealPath("/resources/upload");
-			
-			MultipartFile f_name = tvo.getF_name()[0];
-			if(f_name.isEmpty()) {
-				tvo.setFile_name("");
-			}else {
-				tvo.setFile_name(f_name.getOriginalFilename());
-			}
-			
-			int res = dao.getTalk_write(tvo);
-			if(res >0) {
-				f_name.transferTo(new File(path+"/"+tvo.getFile_name()));
-			}
-			/*
+			System.out.println(path);
 			for (MultipartFile i : tvo.getF_name()) {
 				if(i.isEmpty()) {
 					tvo.setFile_name("");
@@ -492,7 +480,7 @@ public class MainController {
 				if(res >0) {
 					i.transferTo(new File(path+"/"+tvo.getFile_name()));
 				}
-			}*/
+			}
 		} catch (Exception e) {
 		}
 		return mv;
