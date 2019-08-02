@@ -30,7 +30,6 @@
 		grid-template-columns: 400px 40px;
 		align-content: center;
 	}
-	/* 검색 텍스트 */
 	#search-bar{
 		font-size: 15pt;
 		width: 99%;
@@ -43,25 +42,27 @@
 		grid-template-columns: 60px 60px;
 		align-content: center;
 	}
-	/* 검색 버튼 */
 	#search-button{
 		display: inline-block;
-		padding: 5px 5px;
-		border-top-right-radius: 5px;
-		border-bottom-right-radius: 5px;
+		padding: 4px 7px;
+		border-radius: 0px 5px 5px 0px;
 		background: #fa8;
-	}
-	/* 검색 버튼 이미지 색 */
-	.fa-search{
+		cursor: pointer;
+		border: 1px solid #fa8;
 		font-size: 15pt;
 		color: #55c;
 	}
-	/* 프로필 아이콘 */
+	#search-button:hover{
+		box-shadow: 0px 0px 3px 0.5px #fb9;
+	}
+	#search-button:active{
+		background: #f98;
+		color: #44b;
+	}
 	.fa-user-circle{
 		font-size: 35pt;
 		color: #bbb;
 	}
-	/* 글쓰기 버튼 */
 	#top-pencil-icon{
 		background: #fa8;
 		border-radius: 30px;
@@ -69,7 +70,6 @@
 		padding: 10px;
 		cursor: pointer;
 	}
-	/* 글쓰기 아이콘 */
 	.fa-pencil-alt{
 		font-size: 20pt;
 		color: #eee;
@@ -143,6 +143,13 @@
 				location.href="write_recipe";
 			}
 		});
+		$("#search-button").on("click", function(){
+			if($("#search-bar").val() == "") {
+				location.href="recipe"
+			} else {
+				location.href="recipe?k=" + $("#search-bar").val();
+			}
+		});
 	});
 </script>
 </head>
@@ -154,9 +161,10 @@
 				<!-- 로고 이미지 -->
 				<a href="/"><img src="resources/images/coffee.png" id="logo-image"></a>
 			</div>
-			<form id="recipe-search">
-				<div><input type="text" name="search" id="search-bar"></div>
-				<a href="javascript:recipe_search(this.form)" id="search-button"><i class="fas fa-search"></i></a>
+			<form id="recipe-search" action="recipe">
+				<div><input type="text" name="k" id="search-bar"></div>
+				<!-- <a id="search-button"><i class="fas fa-search"></i></a> -->
+				<i id="search-button" class="fas fa-search"></i>
 			</form>
 			<div id="top-icon">
 				<a id="user-circle" href="#"><i class="fas fa-user-circle"></i></a>
@@ -174,10 +182,10 @@
 		<div id="top-nav">
 			<div id="top-nav-menu-bar">
 				<a class="top-nav-menu" href="/">홈</a>
-				<a class="top-nav-menu" href="/recipe">레시피</a>
-				<a class="top-nav-menu" href="/video">조리영상</a>
+				<a class="top-nav-menu" href="recipe">레시피</a>
+				<a class="top-nav-menu" href="video">조리영상</a>
 				<a class="top-nav-menu" href="/talk">토크</a>
-				<a class="top-nav-menu" href="/ranking">랭킹</a>
+				<a class="top-nav-menu" href="ranking">랭킹</a>
 				<a class="top-nav-menu" href="/event">이벤트</a>
 				<a class="top-nav-menu" href="/myhome">MY홈</a>
 			</div>

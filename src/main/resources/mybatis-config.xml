@@ -7,6 +7,9 @@
 	<typeAliases>
 		<typeAlias type="com.ict.service.MVO" alias="mvo" />
 		<typeAlias type="com.ict.service.RVO" alias="rvo" />
+		<typeAlias type="com.ict.service.TVO" alias="tvo" />
+		<typeAlias type="com.ict.service.RecipeCVO" alias="rcvo" />
+		<typeAlias type="com.ict.service.RecipeVO" alias="r_vo" />		
 	</typeAliases>
 	<mappers>
 		<mapper resource="mappings/mapper.xml" />

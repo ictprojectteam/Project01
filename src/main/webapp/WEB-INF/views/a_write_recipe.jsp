@@ -6,7 +6,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Admin Recipe Write</title>
-
+<link rel="stylesheet" href="../resources/css/jquery-ui.min.css">
 <script type="text/javascript" src="../resources/js/jquery-3.4.1.min.js"></script>
 <style type="text/css">
 body, html{
@@ -224,13 +224,13 @@ tabel td{
 	border: 1px solid #bbb;
 	float: right;
 	width: 150px;
-	height: 150px;
+	height: 130px;
 	text-align: center;
 	font-size: 1.5em;
 	cursor: pointer;
 }
 #write-top-image-com{
-	height: 250px;
+	height: 100px;
 }
 #write-top-image-insert img{
 	width: 150px;
@@ -265,106 +265,25 @@ tabel td{
 
 
 #write-body{
-	margin-top: 70px;
-	padding-left: 40px;
-}
-#write-body>p{
-	font-size: 10pt;
-	color: #999;
+	margin-top: 20px;
 }
 .recipe-sort{
 	width: 950px;
 	display: grid;
 	grid-template-columns: 30px 200px 720px;
 }
-.recipe-sort-arrow, .recipe-each-arrow{
-	color: #999;
-	text-align: center;
-	line-height: 0px;
-}
-.fa-sort-up{
-	margin-top: 10px;
-	margin-bottom: -6px;
-}
-.fa-sort-down{
-	margin-top: -6px;
-}
 .recipe-sort-pack textarea{
 	background: #eec;
 	resize: none;
-	font-size: 14pt;
+	font-size: 1.0em;
 	border: 1px solid #ccc;
 	border-radius: 5px;
-	padding: 10px 0px 10px 10px;
-}
-.recipe-delete-pack p{
-	text-align: center;
-	border: 1px solid #ccc;
-	font-size: 9pt;
-	padding: 5px;
-	color: #333;
-	cursor: pointer;
-	border-radius: 3px;
-}
-.recipe-delete-pack p:active{
-	box-shadow: 0px 0px 2px 1px #79f;
 }
 .recipe-each-sort{
 	display: grid;
-	grid-template-columns: 30px 380px 280px 30px;
-}
-.recipe-each-ing textarea{
-	resize: none;
-	font-size: 1.0em;
-	padding: 10px 0px 10px 10px;
-	border: 1px solid #ccc;
-	border-radius: 5px;
-	margin-bottom: 5px;
-}
-.recipe-each-delete>.fa-times{
-	color: #eee;
-	background: #ccc;
-	border-radius: 10px;
-	padding: 3px;
-	margin: 10px 0px 0px 10px;
-	cursor: pointer;
-	visibility: hidden;
-}
-.recipe-each-sort:hover>.recipe-each-delete>.fa-times{
-	visibility: visible;
-}
-.recipe-each-add{
-	text-align: center;
-	font-size: 10pt;
-	margin: 5px auto 20px auto;
-	cursor: pointer;
-	width: 70px;
-}
-.recipe-each-add>.fa-plus{
-	padding: 3px;
-	background: #fa8;
-	border-radius: 15px;
-}
-#recipe-add-pack{
-	text-align: center;
-}
-#recipe-add-pack>p{
-	display: inline-block;
-	border: 1px solid #ccc;
-	padding: 10px 25px;
-	border-radius: 5px;
-	cursor: pointer;
-}
-#recipe-order-not{
-	font-size: 9pt;
-	color: #999;
-	line-height: 5px;
-}
-#recipe-order-not > :first-child{
-	font-weight: bold;
-}
-#recipe-order-not > :not(:first-child){
-	text-indent: 10pt;
+	margin-left: 80px;
+	grid-template-columns: repeat(4, 1fr);
+	grid-gap: 5px;
 }
 .recipe-order{
 	width: 700px;
@@ -809,30 +728,6 @@ tabel td{
 		}
 	}
 	
-	function each_add(pack){
-		var ing = 0;
-		$("#recipe-pack-"+pack+" [id^=recipe-each-"+pack+"-]").each(function(){
-			var pre_ing = $(this).prop("id").replace("recipe-each-"+pack+"-", "");
-			var tmp_ing = parseInt(pre_ing, 10);
-			ing = Math.max(ing, tmp_ing);
-		});
-		ing++;
-		var str = '<div class="recipe-each-sort" id="recipe-each-'+pack+'-'+ing+'">';
-		str += '<div class="recipe-each-arrow"><i class="fas fa-sort-up"></i><br><i class="fas fa-sort-down"></i></div>';
-		str += '<div class="recipe-each-name"><textarea rows="1" cols="39" placeholder="예) 돼지고기" name="recipe-each-name-'+pack+'-'+ing+'"></textarea></div>';
-		str += '<div class="recipe-each-quant"><textarea rows="1" cols="28" placeholder="예) 300g" name="recipe-each-quant-'+pack+'-'+ing+'"></textarea></div>';
-		str += '<div class="recipe-each-delete" onclick="each_del('+pack+','+ing+')"><i class="fas fa-times"></i></div></div>';
-		$(str).appendTo("#recipe-pack-"+pack);
-		$(".recipe-each-ing").sortable({
-			handle: '.recipe-each-arrow'
-		});
-		$(".recipe-each-ing").on("sortstop", mat_sort);
-	}	
-
-	function each_del(pack, ing){
-		$("#recipe-each-"+pack+"-"+ing).remove();
-		mat_sort_input(pack);
-	}
 
 	function mat_sort(){
 		var pack = $(this).attr("id").replace("recipe-pack-","");
@@ -1019,6 +914,21 @@ tabel td{
 		$("#comp-image-" + num).find(".comp-image-selected").empty();
 		$("#comp-image-" + num).find(".comp-image-empty").show();
 	}
+
+
+
+	var ingredientCheckbox = document.querySelector('input[value="양념"]');
+	var recipePack2 = document.querySelector('recipe-ing-pack[id="recipe-ing-pack-2"]');
+	recipePack2.style.visibility = 'hidden';
+
+	ingredientCheckbox.onchange = function(){
+		if(recipePack2.checked){
+			recipePack2.style.visibility = 'visible';
+		}else{
+			recipePack2.style.visibility = 'hidden';
+		}
+	};
+
 </script>
 
 </head>
@@ -1063,14 +973,14 @@ tabel td{
 							</div>
 							<div class="write-input"><textarea rows="1" cols="45" name="recipe_title" placeholder="예)소고기 미역국 끓이기"></textarea></div>
 							<div class="write-label">요리소개</div>
-							<div class="write-input"><textarea rows="3" cols="45" name="recipe_introduce" placeholder="이 레시피의 탄생 배경을 적어주세요."></textarea> </div>
+							<div class="write-input"><textarea rows="1" cols="45" name="recipe_introduce" placeholder="이 레시피의 탄생 배경을 적어주세요."></textarea> </div>
 							<div id="write-top-right">
 							<input type="file" name="recipe_mainimage" hidden="" id="insert-main-image" accept="image/*">
 							
 						</div>
 							<div class="write-label">동영상</div>
 							<div class="write-input" id="write-video">
-								<textarea rows="3" cols="40" id="video-url" name="recipe_video" placeholder="동영상이 있으면 주소를 입력하세요.(Youtube만 가능) &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 예)http://youtu.be/lA0Bxo3lZmM"></textarea>
+								<textarea rows="1" cols="40" id="video-url" name="recipe_video" placeholder="동영상 주소 입력.(Youtube만 가능)예)http://youtu.be/lA0Bxo3lZmM"></textarea>
 								<div id="video-pre">
 									<i class="fab fa-youtube"></i>
 									<p>동영상 썸네일</p>
@@ -1191,75 +1101,136 @@ tabel td{
 					<!-- write body -->
 					
 					<div id="write-body">
-						<p>재료정보</p>
+						<div class="ingredient-label">재료정보</div>
 						<div id="recipe-ing">
+							<input type="checkbox" id="check_ingredient" name="recipe-ing-pack" value="재료" checked="checked"><label for="check_ingredient"> 재료 </label>
+							<input type="checkbox" id="check_season" name="recipe-ing-pack" value="양념"><label for="check_season"> 양념 </label>
+							<input type="checkbox" id="check_sause" name="recipe-ing-pack" value="소스"><label for="check_sause"> 소스 </label>
+							<input type="checkbox" id="check_broth" name="recipe-ing-pack" value="소스"><label for="check_sause"> 육수 </label>
+							<input type="checkbox" id="check_topping" name="recipe-ing-pack" value="육수"><label for="check_topping"> 토핑 </label>
+							<input type="checkbox" id="check_syrup" name="recipe-ing-pack" value="시럽"><label for="check_syrup"> 시럽 </label>
+							
 							<div class="recipe-ing-pack" id="recipe-ing-pack-1">
 								<div class="recipe-sort">
-									<div class="recipe-sort-arrow">
-										<i class="fas fa-sort-up"></i><br>
-										<i class="fas fa-sort-down"></i>
-									</div>
 									<div>
 										<div class="recipe-sort-pack">
 											<textarea rows="1" cols="8" name="ing-pack-1" wrap="soft">재료</textarea>
 										</div>
-										<div class="recipe-delete-pack">
-											<p onclick='del_pack(1)'><i class="fas fa-times"></i> 묶음삭제</p>
-										</div>
 									</div>
 									<div class="recipe-each-ing" id="recipe-pack-1">
 										<div class="recipe-each-sort" id="recipe-each-1-1">
-											<div class="recipe-each-arrow">
-												<i class="fas fa-sort-up"></i><br>
-												<i class="fas fa-sort-down"></i>
-											</div>
 											<div class="recipe-each-name">
 												<textarea rows="1" cols="20" placeholder="예) 돼지고기" name="recipe-each-name-1-1"></textarea>
 											</div>
 											<div class="recipe-each-quant">
 												<textarea rows="1" cols="10" placeholder="예) 300g" name="recipe-each-quant-1-1"></textarea>
 											</div>
-											<div class="recipe-each-delete" onclick="each_del(1,1)">
-												<i class="fas fa-times"></i>
-											</div>
 										</div>
+									</div>
+								</div>
+							</div>
+							
+							<div class="recipe-ing-pack" id="recipe-ing-pack-2" style="visibility: hidden;">
+								<div class="recipe-sort">
+									<div>
+										<div class="recipe-sort-pack">
+											<textarea rows="1" cols="8" name="ing-pack-2" wrap="soft">양념</textarea>
+										</div>
+									</div>
+									<div class="recipe-each-ing" id="recipe-pack-2">
 										<div class="recipe-each-sort" id="recipe-each-1-2">
-											<div class="recipe-each-arrow">
-												<i class="fas fa-sort-up"></i><br>
-												<i class="fas fa-sort-down"></i>
-											</div>
 											<div class="recipe-each-name">
-												<textarea rows="1" cols="20" placeholder="예) 양배추" name="recipe-each-name-1-2"></textarea>
+												<textarea rows="1" cols="20" placeholder="예) 돼지고기" name="recipe-each-name-1-2"></textarea>
 											</div>
 											<div class="recipe-each-quant">
-												<textarea rows="1" cols="10" placeholder="예) 1/2개" name="recipe-each-quant-1-2"></textarea>
-											</div>
-											<div class="recipe-each-delete" onclick="each_del(1,2)">
-												<i class="fas fa-times"></i>
-											</div>
-										</div>
-										<div class="recipe-each-sort" id="recipe-each-1-3">
-											<div class="recipe-each-arrow">
-												<i class="fas fa-sort-up"></i><br>
-												<i class="fas fa-sort-down"></i>
-											</div>
-											<div class="recipe-each-name">
-												<textarea rows="1" cols="20" placeholder="예) 참기름" name="recipe-each-name-1-3"></textarea>
-											</div>
-											<div class="recipe-each-quant">
-												<textarea rows="1" cols="10" placeholder="예) 1T" name="recipe-each-quant-1-3"></textarea>
-											</div>
-											<div class="recipe-each-delete" onclick="each_del(1,3)">
-												<i class="fas fa-times"></i>
+												<textarea rows="1" cols="10" placeholder="예) 300g" name="recipe-each-quant-1-2"></textarea>
 											</div>
 										</div>
 									</div>
 								</div>
-								<div class="recipe-each-add" onclick="each_add(1)"><i class="fas fa-plus"></i></div>
 							</div>
-						</div>
-						<div id="recipe-add-pack">
-							<p onclick="add_pack()"><i class="fas fa-plus"></i></p>
+							
+							<div class="recipe-ing-pack" id="recipe-ing-pack-3" style="visibility: hidden;">
+								<div class="recipe-sort">
+									<div>
+										<div class="recipe-sort-pack">
+											<textarea rows="1" cols="8" name="ing-pack-3" wrap="soft">소스</textarea>
+										</div>
+									</div>
+									<div class="recipe-each-ing" id="recipe-pack-3">
+										<div class="recipe-each-sort" id="recipe-each-1-3">
+											<div class="recipe-each-name">
+												<textarea rows="1" cols="20" placeholder="예) 돼지고기" name="recipe-each-name-1-3"></textarea>
+											</div>
+											<div class="recipe-each-quant">
+												<textarea rows="1" cols="10" placeholder="예) 300g" name="recipe-each-quant-1-3"></textarea>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							
+							<div class="recipe-ing-pack" id="recipe-ing-pack-4" style="visibility: hidden;">
+								<div class="recipe-sort">
+									<div>
+										<div class="recipe-sort-pack">
+											<textarea rows="1" cols="8" name="ing-pack-4" wrap="soft">육수</textarea>
+										</div>
+									</div>
+									<div class="recipe-each-ing" id="recipe-pack-4">
+										<div class="recipe-each-sort" id="recipe-each-1-4">
+											<div class="recipe-each-name">
+												<textarea rows="1" cols="20" placeholder="예) 돼지고기" name="recipe-each-name-1-4"></textarea>
+											</div>
+											<div class="recipe-each-quant">
+												<textarea rows="1" cols="10" placeholder="예) 300g" name="recipe-each-quant-1-4"></textarea>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							
+							
+							<div class="recipe-ing-pack" id="recipe-ing-pack-5" style="visibility: hidden;">
+								<div class="recipe-sort">
+									<div>
+										<div class="recipe-sort-pack">
+											<textarea rows="1" cols="8" name="ing-pack-5" wrap="soft">토핑</textarea>
+										</div>
+									</div>
+									<div class="recipe-each-ing" id="recipe-pack-5">
+										<div class="recipe-each-sort" id="recipe-each-1-5">
+											<div class="recipe-each-name">
+												<textarea rows="1" cols="20" placeholder="예) 돼지고기" name="recipe-each-name-1-5"></textarea>
+											</div>
+											<div class="recipe-each-quant">
+												<textarea rows="1" cols="10" placeholder="예) 300g" name="recipe-each-quant-1-5"></textarea>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							
+							<div class="recipe-ing-pack" id="recipe-ing-pack-6" style="visibility: hidden;">
+								<div class="recipe-sort">
+									<div>
+										<div class="recipe-sort-pack">
+											<textarea rows="1" cols="8" name="ing-pack-6" wrap="soft">시럽</textarea>
+										</div>
+									</div>
+									<div class="recipe-each-ing" id="recipe-pack-6">
+										<div class="recipe-each-sort" id="recipe-each-1-6">
+											<div class="recipe-each-name">
+												<textarea rows="1" cols="20" placeholder="예) 돼지고기" name="recipe-each-name-1-6"></textarea>
+											</div>
+											<div class="recipe-each-quant">
+												<textarea rows="1" cols="10" placeholder="예) 300g" name="recipe-each-quant-1-6"></textarea>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							
 						</div>
 					</div>
 					</div>	
@@ -1283,9 +1254,6 @@ tabel td{
 										<i class="fas fa-times" onclick="order_del()"></i>
 									</div>
 								</div>
-							</div>
-							<div id="recipe-order-add" onclick="add_order()">
-								<i class="fas fa-plus"></i> 순서추가
 							</div>
 						</div>
 					

@@ -591,7 +591,7 @@
 			if(/http[s]?:[/]{2}/.test(url)){
 				url = url.substring(url.lastIndexOf('/') + 1, url.length);
 				if(/.{11,11}/.test(url)) {
-					url = "https://img.youtube.com/vi/" + url + "/mqdefault.jpg";
+					url = "https://img.youtube.com/vi/" + url + "/maxresdefault.jpg";
 					$.ajax({
 						url : "thumbnail",
 						type : "post",
@@ -602,6 +602,14 @@
 							$("#video-thumbnail").empty();
 							$("#video-thumbnail").append("<img src='" + data + "' alt='' onerror=img_error()>");
 							$("#video-thumbnail").show();
+							if($("input[name=main_image]").val() == undefined){
+								$("#write-top-image-com").append("<input type='hidden' value='" + data + "' name='main_image'>")
+								$("#write-top-image-com").hide();
+								$("#write-top-image-insert").empty();
+								$("#write-top-image-insert").append("<img onclick='insert_click()' src=" + data + ">");
+								$("#write-top-image-insert").append("<i class='fas fa-times' onclick='del_mainimage()'></i>");
+								$("#write-top-image-insert").show();
+							}
 						}
 					});
 				} else {
@@ -613,6 +621,18 @@
 
 		$("#save").on("click", function(){
 			$("input[type=file]").attr("disabled", "disabled");
+			var chkval = validateForm();
+			if(!chkval) return;
+			subm = true;
+			$("#recipe-form").attr("action", "save_recipe").submit();
+		});
+
+		$("#public").on("click", function(){
+			$("input[type=file]").attr("disabled", "disabled");
+			var chkval = validateForm();
+			if(!chkval) return;
+			subm = true;
+			$("#savepublic").val("1");
 			$("#recipe-form").attr("action", "save_recipe").submit();
 		});
 
@@ -625,7 +645,107 @@
 			if (!subm) return "작성된 레시피를 저장하지 않고 이동하시겠습니까?";
 		});
 	});
-	
+
+	function validateForm(){
+		if($("textarea[name=recipe_title]").val() == ""){
+			alert("제목을 입력해주세요.");
+			$("textarea[name=recipe_title]").focus();
+			return false;
+		}
+		if($("textarea[name=recipe_introduce]").val() == ""){
+			alert("요리소개를 입력해주세요.");
+			$("textarea[name=recipe_title]").focus();
+			return false;
+		}
+		if($("select[name=ca1]").val() == "종류별"){
+			alert("종류별 카테고리를 선택해주세요.");
+			$("select[name=ca1]").focus();
+			return false;
+		}
+		if($("select[name=ca2]").val() == "상황별"){
+			alert("상황별 카테고리를 선택해주세요.");
+			$("select[name=ca2]").focus();
+			return false;
+		}
+		if($("select[name=ca3]").val() == "방법별"){
+			alert("방법별 카테고리를 선택해주세요.");
+			$("select[name=ca3]").focus();
+			return false;
+		}
+		if($("select[name=ca4]").val() == "재료별"){
+			alert("재료별 카테고리를 선택해주세요.");
+			$("select[name=ca4]").focus();
+			return false;
+		}
+		if($("select[name=recipe_quant]").val() == "인원"){
+			alert("인원 정보를 선택해주세요.");
+			$("select[name=recipe_quant]").focus();
+			return false;
+		}
+		if($("select[name=recipe_time]").val() == "시간"){
+			alert("시간 정보를 선택해주세요.");
+			$("select[name=recipe_time]").focus();
+			return false;
+		}
+		if($("select[name=recipe_difficulty]").val() == "난이도"){
+			alert("난이도 정보를 선택해주세요.");
+			$("select[name=recipe_difficulty]").focus();
+			return false;
+		}
+		if($("input[name=main_image]").val() == undefined){
+			alert("대표 사진을 등록해주세요.");
+			return false;
+		}
+		var matval = false;
+		var matcount = 0;
+		$(".recipe-ing-pack").each(function(){
+			if($(this).find("textarea[name^=ing-pack-]").val() == ""){
+				$(this).find(".recipe-each-sort").each(function(){
+					if($(this).find("textarea[name^=recipe-each-name-]").val() != "") matcount++;
+				});
+				if(matcount == 0) $(this).remove();
+				matcount = 0;
+			}
+			pack_sort();
+		});
+		$(".recipe-each-ing").each(function(){
+			$(this).find(".recipe-each-sort").each(function(){
+				if($(this).find("textarea[name^=recipe-each-name-]").val() != ""){
+					matcount++;
+				} else {
+					$(this).remove();
+				}
+			});
+			mat_sort_input($(this).attr("id").replace("recipe-pack-",""));
+		});
+		$(".recipe-each-ing").sortable("refresh");
+		
+		if(matcount > 0) matval = true;
+		if(!matval){
+			alert("재료는 최소 1개 이상이어야 합니다.");
+			$("textarea[name=recipe-each-name-1-1]").focus();
+			return false;
+		}
+		var ordval = false;
+		var ordcount = 0;
+		$(".recipe-order").each(function(){
+			if($(this).find("textarea").val() != "") {
+				ordcount++;
+			} else {
+				$(this).remove();
+			}
+			order_sort();
+		});
+		if(ordcount > 2) ordval = true;
+		if(!ordval){
+			alert("순서는 최소 3개 이상이어야 합니다.");
+			$("textarea[name=order-text-1]").focus();
+			return false;
+		}
+		
+		return true;
+	}
+
 	function insert_click(){
 		$("#insert-main-image").click();
 	}
@@ -1161,6 +1281,7 @@
 					<span id="public"> 저장 후 공개하기 </span>
 					<span id="cancel">취소</span>
 				</div>
+				<input type="hidden" id="savepublic" name="savepublic" value="0">
 			</div>
 		</form>
 	</div>

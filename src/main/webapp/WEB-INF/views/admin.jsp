@@ -224,7 +224,7 @@ tabel td {
 									<th>가입 일시</th>
 								</tr>
 							</thead>
-							<tbody>
+							<!-- <tbody> -->
 								<c:choose>
 									<c:when test="${empty list}">
 										<tr>
@@ -255,35 +255,35 @@ tabel td {
 						<table>
 							<thead>
 								<tr bgcolor="#cccccc">
+									<th>번호</th>
 									<th>회원번호</th>
-									<th>회원이름</th>
-									<th>이메일</th>
 									<th>레시피 제목</th>
 									<th>종류 구분</th>
 									<th>등록 일시</th>
+									<th>상태</th>
 								</tr>
 							</thead>
 							<tbody>
-									<c:choose>
-										<c:when test="${empty r_list }">
-											<tr>
-												<td colspan="6"><h3>원하는 정보가 존재하지 않습니다.</h3></td>
+								<c:choose>
+									<c:when test="${empty r_list }">
+										<tr>
+											<td colspan="6"><h3>정보가 존재하지 않습니다.</h3></td>
+										</tr>
+									</c:when>
+									<c:otherwise>
+										<c:forEach var="k" items="${r_list}" begin="0" end="4">
+											<tr onclick="location.href='admin_view_one_recipe.do?r_idx=${k.r_idx}&cPage=${pageing.nowPage}'" style="cursor:pointer">
+												<td>${k.r_idx}</td>
+												<td>${k.m_idx}</td>
+												<td>${k.recipe_title}</td>
+												<td>${k.recipe_introduce}</td>
+												<td>${k.regdate}</td>
+												<td>${k.recipe_difficulty}</td> 
 											</tr>
-										</c:when>
-										<c:otherwise>
-											<c:forEach var="k" items="${r_list}" begin="0" end="4">
-												<tr>
-													<td>${k.m_idx}</td>
-													<td>${k.name}</td>
-													<td>${k.email}</td>
-													<td>${k.subject}</td>
-													<td>${k.cate}</td>
-													<td>${k.regdate}</td>
-												</tr>
-											</c:forEach>
-										</c:otherwise>
-									</c:choose>
-								</tbody>
+										</c:forEach>
+									</c:otherwise>
+								</c:choose>
+							</tbody>
 						</table>
 					</div>
 				</div>

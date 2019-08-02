@@ -3,6 +3,7 @@ package com.ict.service;
 public class RecipeVO {
 	private String r_idx, recipe_title, recipe_introduce, recipe_video, ca1, ca2, ca3, ca4, recipe_quant, recipe_time, recipe_difficulty, main_image, recipe_tip, recipe_tag;
 	private String pack, material, orderContent, finImage;
+	private String m_idx, regdate, lastedit, hit, likeit, writer, name, savepublic, a_permission;
 	
 	public String getR_idx() {
 		return r_idx;
@@ -111,6 +112,60 @@ public class RecipeVO {
 	}
 	public void setFinImage(String finImage) {
 		this.finImage = finImage;
+	}
+	public String getM_idx() {
+		return m_idx;
+	}
+	public void setM_idx(String m_idx) {
+		this.m_idx = m_idx;
+	}
+	public String getLikeit() {
+		return likeit;
+	}
+	public void setLikeit(String likeit) {
+		this.likeit = likeit;
+	}
+	public String getRegdate() {
+		return regdate;
+	}
+	public void setRegdate(String regdate) {
+		this.regdate = regdate;
+	}
+	public String getLastedit() {
+		return lastedit;
+	}
+	public void setLastedit(String lastedit) {
+		this.lastedit = lastedit;
+	}
+	public String getHit() {
+		return hit;
+	}
+	public void setHit(String hit) {
+		this.hit = hit;
+	}
+	public String getWriter() {
+		return writer;
+	}
+	public void setWriter(String writer) {
+		this.writer = writer;
+	}
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
+	public String getSavepublic() {
+		return savepublic;
+	}
+	public void setSavepublic(String savepublic) {
+		this.savepublic = savepublic;
+	}
+	public String getA_permission() {
+		return a_permission;
+	}
+	public void setA_permission(String a_permission) {
+		this.a_permission = a_permission;
 	}
 	
 }

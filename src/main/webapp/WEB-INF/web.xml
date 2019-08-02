@@ -23,6 +23,10 @@
 		<servlet-name>appServlet</servlet-name>
 		<url-pattern>/</url-pattern>
 	</servlet-mapping>
+	<session-config>
+		<session-timeout>600</session-timeout>
+	</session-config>	
+
 
 	<filter>
 		<filter-name>encodingFilter</filter-name>
@@ -40,4 +44,5 @@
 		<filter-name>encodingFilter</filter-name>
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
+	
 </web-app>
