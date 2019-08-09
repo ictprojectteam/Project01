@@ -118,6 +118,7 @@
 	</insert>
 	<select id="t_co_list" parameterType="String" resultType="tcvo">
 		select * from talk_c where t_idx = #{t_idx}
+	</select>
 	<select id="get_talk_like" parameterType="tlvo" resultType="int">
 		select count(*) from t_like where t_idx = #{t_idx} and m_idx = #{m_idx}
 	</select>
