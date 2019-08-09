@@ -458,8 +458,8 @@ public class MainController {
 	public ModelAndView getTalk() {
 		ModelAndView mv = new ModelAndView("talk");
 		List<TVO> list = dao.getTalk_List();
-		
 		for (int i = 0; i < list.size(); i++) {
+			list.get(i).setCo_count(String.valueOf((dao.getT_co_count(list.get(i).getT_idx()))));
 			if(list.get(i).getFile_name() != null) {
 				String str = list.get(i).getFile_name();
 				String[] s_arr = str.split(",");
@@ -512,7 +512,7 @@ public class MainController {
 	public ModelAndView getTalkView(String t_idx, HttpSession session) {
 		ModelAndView mv = new ModelAndView("talk_view");
 		TVO tvo = dao.getTalk_View(t_idx);
-		
+		tvo.setCo_count(String.valueOf(dao.getT_co_count(t_idx)));
 		if(tvo.getFile_name() != null) {
 			String[] str = tvo.getFile_name().split(",");
 			for (int i = 0; i < str.length; i++) {
@@ -528,9 +528,16 @@ public class MainController {
 		session.setAttribute("tvo", tvo);
 		return mv;
 	}
+	@RequestMapping("talk_del")
+	public ModelAndView getTalk_del(HttpSession session) {
+		ModelAndView mv = new ModelAndView("redirect:talk");
+		TVO tvo = (TVO)session.getAttribute("tvo");
+		dao.getTalk_del(tvo.getT_idx());
+		return mv;
+	}
 	@RequestMapping("t_co_write")
 	public ModelAndView getT_c_write(TalkCVO tcvo, HttpSession session) {
-		ModelAndView mv = new ModelAndView("talk_view");
+		ModelAndView mv = new ModelAndView("redirect:talk_view?t_idx="+tcvo.getT_idx());
 		MVO mvo = (MVO)session.getAttribute("mvo");
 		tcvo.setM_idx(mvo.getM_idx());
 		tcvo.setName(mvo.getName());

@@ -137,6 +137,14 @@ public class DAO {
 	public List<TVO> getTalk_List(){
 		return sqlSessionTemplate.selectList("talk_list");
 	}
+	public int getTalk_del(String t_idx) {
+		sqlSessionTemplate.delete("tl_del", t_idx);
+		sqlSessionTemplate.delete("t_del", t_idx);
+		return sqlSessionTemplate.delete("talk_del", t_idx);
+	}
+	public int getT_co_count(String t_idx) {
+		return sqlSessionTemplate.selectOne("t_co_count", t_idx);
+	}
 	public TVO getTalk_View(String t_idx) {
 		return sqlSessionTemplate.selectOne("talk_view", t_idx);
 	}

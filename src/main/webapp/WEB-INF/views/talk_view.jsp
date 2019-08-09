@@ -38,7 +38,7 @@
 }
 #edit{
 	width: 700px;
-	height: 100px;
+	height: 60px;
 	margin: -30px auto 0px auto;
 	border:  1px solid;
 }
@@ -112,6 +112,7 @@
 	var c_like = new Object();
 	c_like.t_idx = "${tvo.t_idx}";
 	c_like.id = "${mvo.id}";
+	
 	$(function(){
 		$("#co_ok").on("click", function(){
 			$("#co_form").attr("action","t_co_write").submit();
@@ -205,7 +206,11 @@
 		location.href = "#";
 	};
 	function delete_go() {
-		location.href = "#";
+		if (confirm("정말 삭제하시겠습니까??") == true){ 
+			location.href = "talk_del";
+		}else{  
+		    return;
+		}
 	};
 </script>
 	<jsp:include page="head.jsp" />
@@ -231,7 +236,7 @@
 			</td>
 			<td class="haco">
 				<img src="resources/images/heart.png" style="width:30px; height: 30px;"><span id="haco">${tvo.heart}</span>  
-				<img src="resources/images/talk.png" style="width:30px; height: 30px;"> 0
+				<img src="resources/images/talk.png" style="width:30px; height: 30px;"><span>${tvo.co_count}</span>
 			</td>
 		</tr>
 	</table>
@@ -244,12 +249,10 @@
 			<th class="edit_b" onclick="update_go()"> 수정 </th>
 			<th></th>
 			<th class="edit_b" onclick="delete_go()"> 삭제 </th>
-			<th style="position: relative; bottom: -70px; left: -70px;">댓글 0</th>
 			</c:if>
 			<c:if test="${mvo.m_idx != tvo.m_idx}">
 			<th></th>
 			<th class="edit_b" onclick="delete_go()"> 신고 </th>
-			<th style="position: relative; bottom: -70px; left: -30px;">댓글 0</th>
 			</c:if>
 		</tr>
 	</table>
@@ -267,7 +270,13 @@
 						<header style="margin-top:-80px;">
 							<p style="margin-top: -20px; font-size: 14pt;">${k.name}</p>
 							<p style="margin: -37px 0px 0px 60px; font-size: 10pt; color: #747474;">${k.regdate}</p>
+							<c:if test="${k.m_idx != mvo.m_idx}">
 							<a href="#" style="text-decoration: none;"><p style="margin: -20px 0px 0px 190px; font-size: 12pt; color: #747474;"> | 신고</p></a>
+							</c:if>
+							<c:if test="${k.m_idx == mvo.m_idx}">
+							<a href="#" style="text-decoration: none;"><p style="margin: -20px 0px 0px 190px; font-size: 12pt; color: #747474;"> | 수정 </p></a>
+							<a href="#" style="text-decoration: none;"><p style="margin: -19px 0px 0px 230px; font-size: 12pt; color: #747474;"> | 삭제 </p></a>
+							</c:if>
 							<textarea rows="3" cols="50" class="co_content" readonly>${k.content}</textarea>
 						</header>
 					</td>

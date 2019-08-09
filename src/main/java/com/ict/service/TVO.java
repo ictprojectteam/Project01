@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import org.springframework.web.multipart.MultipartFile;
 
 public class TVO {
-	private String t_idx, m_idx, name, content, file_name, heart, regdate;
+	private String t_idx, m_idx, name, content, file_name, heart, regdate, co_count;
 	private MultipartFile[] f_name;
 	private ArrayList<String> f_arr = new ArrayList<String>();
 
@@ -63,6 +63,14 @@ public class TVO {
 
 	public void setRegdate(String regdate) {
 		this.regdate = regdate;
+	}
+
+	public String getCo_count() {
+		return co_count;
+	}
+
+	public void setCo_count(String co_count) {
+		this.co_count = co_count;
 	}
 
 	public MultipartFile[] getF_name() {
