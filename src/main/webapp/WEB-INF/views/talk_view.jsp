@@ -147,40 +147,43 @@
 <div id="edit">
 	<table>
 		<tr>
+			<c:if test="${mvo.m_idx == tvo.m_idx}">
 			<th></th>
 			<th class="edit_b" onclick="update_go()"> 수정 </th>
 			<th></th>
 			<th class="edit_b" onclick="delete_go()"> 삭제 </th>
 			<th style="position: relative; bottom: -70px; left: -70px;">댓글 0</th>
+			</c:if>
+			<c:if test="${mvo.m_idx != tvo.m_idx}">
+			<th></th>
+			<th class="edit_b" onclick="delete_go()"> 신고 </th>
+			<th style="position: relative; bottom: -70px; left: -30px;">댓글 0</th>
+			</c:if>
 		</tr>
 	</table>
 </div>
 <c:choose>
-	<c:when test="${!empty c_list}">
-		<div>
-			<table>
-				<tr>
-				</tr>
-			</table>
-		</div>
+	<c:when test="${empty c_list}">
 	</c:when>
-	<c:otherwise>
+	<c:when test="${!empty c_list}">
+	<c:forEach var="k" items="${c_list}">
 		<div id="co_content">
 			<table>
 				<tr>
 					<td class="prf_img">이미지</td>
 					<td>
 						<header style="margin-top:-80px;">
-							<p style="margin-top: -20px; font-size: 14pt;">${tvo.name}</p>
-							<p style="margin: -37px 0px 0px 60px; font-size: 10pt; color: #747474;">${tvo.regdate}</p>
+							<p style="margin-top: -20px; font-size: 14pt;">${k.name}</p>
+							<p style="margin: -37px 0px 0px 60px; font-size: 10pt; color: #747474;">${k.regdate}</p>
 							<a href="#" style="text-decoration: none;"><p style="margin: -20px 0px 0px 190px; font-size: 12pt; color: #747474;"> | 신고</p></a>
-							<textarea rows="3" cols="50" class="co_content" readonly>${tvo.content}</textarea>
+							<textarea rows="3" cols="50" class="co_content" readonly>${k.content}</textarea>
 						</header>
 					</td>
 				</tr>
 			</table>
 		</div>
-	</c:otherwise>
+		</c:forEach>
+	</c:when>
 </c:choose>
 <div id="comment">
 	<form method="post" id="co_form">

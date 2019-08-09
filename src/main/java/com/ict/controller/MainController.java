@@ -516,14 +516,23 @@ public class MainController {
 		}else {
 			tvo.getF_arr().add(null);
 		}
+		List<TalkCVO> c_list = dao.getT_co_list(t_idx);
+		if(c_list != null) {
+		mv.addObject("c_list", c_list);
+		}
 		session.setAttribute("tvo", tvo);
 		return mv;
 	}
 	@RequestMapping("t_co_write")
-	public ModelAndView getT_c_write(TalkCVO tcvo) {
+	public ModelAndView getT_c_write(TalkCVO tcvo, HttpSession session) {
 		ModelAndView mv = new ModelAndView("talk_view");
-		System.out.println(tcvo.getT_idx());
-		System.out.println(tcvo.getContent());
+		MVO mvo = (MVO)session.getAttribute("mvo");
+		tcvo.setM_idx(mvo.getM_idx());
+		tcvo.setName(mvo.getName());
+		dao.getT_co_write(tcvo);
+		
+		List<TalkCVO> c_list = dao.getT_co_list(tcvo.getT_idx());
+		mv.addObject("c_list", c_list);
 		return mv;
 	}
 	

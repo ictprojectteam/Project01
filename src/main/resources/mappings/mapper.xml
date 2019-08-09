@@ -113,6 +113,12 @@
 	<select id="talk_view" parameterType="String" resultType="tvo">
 		select * from talk where t_idx = #{t_idx}
 	</select>
+	<insert id="t_co_write" parameterType="String">
+		insert into talk_c values(talk_c_seq.nextval, #{m_idx}, #{t_idx}, #{name}, #{content}, 0, sysdate)
+	</insert>
+	<select id="t_co_list" parameterType="String" resultType="tcvo">
+		select * from talk_c where t_idx = #{t_idx}
+	</select>
 	<update id="rhitupdate" parameterType="rvo">
 		update recipe set hit = #{hit} where r_idx = #{r_idx}
 	</update>

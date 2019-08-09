@@ -125,7 +125,12 @@ public class DAO {
 	public TVO getTalk_View(String t_idx) {
 		return sqlSessionTemplate.selectOne("talk_view", t_idx);
 	}
-	
+	public int getT_co_write(TalkCVO tcvo) {
+		return sqlSessionTemplate.insert("t_co_write", tcvo);
+	}
+	public List<TalkCVO> getT_co_list(String t_idx){
+		return sqlSessionTemplate.selectList("t_co_list", t_idx);
+	}
 	public void recipeHitUpdate(RecipeVO rvo) {
 		sqlSessionTemplate.update("rhitupdate", rvo);
 	}
