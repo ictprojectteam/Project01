@@ -117,6 +117,23 @@ create table recipe (
   foreign key(m_idx) references members(m_idx)
 );
 
+
+===================================================================
+drop table talk_c;
+
+create table talk_c(
+t_c_idx NUMBER not null,
+m_idx NUMBER,
+t_idx NUMBER,
+name VARCHAR2(50),
+content VARCHAR2(4000),
+heart NUMBER,
+regdate date,
+PRIMARY key (t_c_idx),
+foreign key (m_idx) references members(m_idx),
+foreign key (t_idx) references talk(t_idx)
+);
+
 ===============================================================================
 talk-like 테이블 생성
 create table t_like(
