@@ -1,11 +1,16 @@
 package com.ict.controller;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.ict.service.DAO;
@@ -72,6 +77,44 @@ public class UserController {
 		} else {
 			mv.setViewName("inappropriate");
 			return mv;
+		}
+	}
+	
+	@RequestMapping("updEmail")
+	@ResponseBody
+	public String updateEmail(MVO mvo, HttpSession session) {
+		int chk = dao.chkEmail(mvo);
+		MVO r_mvo = (MVO)session.getAttribute("mvo");
+		if(chk > 0) {
+			return "duplicate";
+		} else {
+			int result = dao.updateEmail(mvo);
+			if(result > 0) {
+				r_mvo.setEmail(mvo.getEmail());
+				session.setAttribute("mvo", r_mvo);
+				return "1";
+			} else {
+				return "0";
+			}
+		}
+	}
+	
+	@RequestMapping("updName")
+	@ResponseBody
+	public String updateName(MVO mvo, HttpSession session) {
+		int chk = dao.chkName(mvo);
+		MVO r_mvo = (MVO)session.getAttribute("mvo");
+		if(chk > 0) {
+			return "duplicate";
+		} else {
+			int result = dao.updateName(mvo);
+			if(result > 0) {
+				r_mvo.setName(mvo.getName());
+				session.setAttribute("mvo", mvo);
+				return "1";
+			} else {
+				return "0";
+			}
 		}
 	}
 }

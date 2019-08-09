@@ -13,6 +13,18 @@
 		insert into members
 		values(members_seq.nextval,#{id},#{pw},#{email},#{name},#{gender},sysdate)
 	</insert>
+	<select id="chkEmail" parameterType="mvo" resultType="int">
+		select count(*) from members where email = #{email}
+	</select>
+	<update id="updateEmail" parameterType="mvo">
+		update members set email = #{email} where id = #{id} 
+	</update>
+	<select id="chkName" parameterType="mvo" resultType="int">
+		select count(*) from members where name = #{name}
+	</select>
+	<update id="updateName" parameterType="mvo">
+		update members set name = #{name} where id = #{id} 
+	</update>
 	<select id="m_list" resultType="mvo">
 		select * from members order by regdate desc
 	</select>
