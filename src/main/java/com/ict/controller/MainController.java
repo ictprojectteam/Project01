@@ -35,6 +35,7 @@ import com.ict.service.RVO;
 import com.ict.service.RecipeCVO;
 import com.ict.service.RecipePaging;
 import com.ict.service.RecipeVO;
+import com.ict.service.TLVO;
 import com.ict.service.TVO;
 import com.ict.service.TalkCVO;
 
@@ -334,6 +335,10 @@ public class MainController {
 	public ModelAndView viewRecipe(@RequestParam String rno) {
 		ModelAndView mv = new ModelAndView("view_recipe");
 		RecipeVO rvo = dao.viewRecipe(rno);
+		if (rvo.getA_permission().equals("0") || rvo.getSavepublic().equals("0")) {
+			mv.setViewName("inappropriate");
+			return mv;
+		}
 		rvo.setHit(Integer.parseInt(rvo.getHit()) + 1 + "");
 		dao.recipeHitUpdate(rvo);
 		mv.addObject("rvo", rvo);
@@ -533,6 +538,48 @@ public class MainController {
 		ModelAndView mv = new ModelAndView("ranking");
 		return mv;
 	}
+	
+	@RequestMapping("t_com_chklike")
+	@ResponseBody
+	public String chklike(HttpSession session, TLVO tlvo) {
+		tlvo.setM_idx(((MVO)session.getAttribute("mvo")).getM_idx());
+		if(dao.getTalkLike(tlvo) > 0) {
+			return "1";
+		} else {
+			return null;
+		}
+	}
+	
+	@RequestMapping("t_com_like")
+	@ResponseBody
+	public String talkLike(HttpSession session, TLVO tlvo) {
+		tlvo.setM_idx(((MVO)session.getAttribute("mvo")).getM_idx());
+		if(dao.talkLike(tlvo) > 0) {
+			dao.talkLikeUpdate(tlvo.getT_idx());
+			return "1" ;
+		} else {
+			return null;
+		}
+	}
+	
+	@RequestMapping("t_com_unlike")
+	@ResponseBody
+	public String talkUnlike(HttpSession session, TLVO tlvo) {
+		tlvo.setM_idx(((MVO)session.getAttribute("mvo")).getM_idx());
+		if(dao.talkUnlike(tlvo) > 0) {
+			dao.talkUnlikeUpdate(tlvo.getT_idx());
+			return "1" ;
+		} else {
+			return null;
+		}
+	}
+	
+	@RequestMapping("t_com_countlike")
+	@ResponseBody
+	public String talkCountLike(TLVO tlvo) {
+		return String.valueOf(dao.talkCountLike(tlvo));
+	}
+	
 	
 //	유튜브 썸네일 URI를 ajax로 받기 위한 메소드
 	@RequestMapping("thumbnail")

@@ -116,3 +116,16 @@ create table recipe (
   a_permission number,
   foreign key(m_idx) references members(m_idx)
 );
+
+===============================================================================
+talk-like 테이블 생성
+create table t_like(
+  t_l_idx number primary key,
+  m_idx number,
+  t_idx number,
+  foreign key (m_idx) references members(m_idx),
+  foreign key (t_idx) references talk(t_idx),
+  unique (m_idx, t_idx)
+);
+시퀀스
+create sequence t_l_seq increment by 1 start with 1 nocycle;
