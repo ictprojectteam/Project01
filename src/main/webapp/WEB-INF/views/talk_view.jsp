@@ -106,7 +106,7 @@
 <script type="text/javascript">
 	$(function(){
 		$("#co_ok").on("click", function(){
-			location.href = "t_co_write";
+			$("#co_form").attr("action","t_co_write").submit();
 		});
 	});
 	function update_go(){
@@ -183,7 +183,7 @@
 	</c:otherwise>
 </c:choose>
 <div id="comment">
-	<form method="post">
+	<form method="post" id="co_form">
 		<table>
 			<tr>
 				<td class="co_heart"><img src="resources/images/heart_RED.png" style="width:30px; height:30px;"></td>

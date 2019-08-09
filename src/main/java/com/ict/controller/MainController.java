@@ -520,9 +520,10 @@ public class MainController {
 		return mv;
 	}
 	@RequestMapping("t_co_write")
-	public ModelAndView getT_c_write(TalkCVO tcvo, @RequestParam("t_idx") String t_idx) {
+	public ModelAndView getT_c_write(TalkCVO tcvo) {
 		ModelAndView mv = new ModelAndView("talk_view");
-		System.out.println(t_idx);
+		System.out.println(tcvo.getT_idx());
+		System.out.println(tcvo.getContent());
 		return mv;
 	}
 	
