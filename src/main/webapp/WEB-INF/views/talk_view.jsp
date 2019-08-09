@@ -54,7 +54,7 @@
 	margin: 0px auto 0px auto;
 	border:  1px solid;
 }
-.co_heart {
+#co_heart{
 	float: left;
 	padding: 10px 10px 3px 10px;
 	max-width: 100px;
@@ -62,6 +62,11 @@
 	margin: 20px 10px 0px 50px;;
 	border:  1px solid;
 	border-radius: 70px;
+}
+#co_heart img{
+	width: 30px;
+	height: 30px;
+	cursor: pointer;
 }
 #co_write{
 	margin-top: 15px;
@@ -104,15 +109,102 @@
 }
 </style>
 <script type="text/javascript">
+	var c_like = new Object();
+	c_like.t_idx = "${tvo.t_idx}";
+	c_like.id = "${mvo.id}";
 	$(function(){
 		$("#co_ok").on("click", function(){
 			$("#co_form").attr("action","t_co_write").submit();
 		});
+
+		getLike();
 	});
-	function update_go(){
+
+	function getLike() {
+		if($("#loginchk").val() == null || $("#loginchk").val() == ""){
+			$("#co_heart").html("<img src='resources/images/heart_RED.png' id='like'>");
+			$("#like").on("click", t_like);
+		} else {
+			$.ajax({
+				url : "t_com_chklike",
+				data : c_like,
+				dataType : "text",
+				type : "post",
+				success : function(data) {
+					if (data != 1) {
+						$("#co_heart").html("<img src='resources/images/heart_RED.png' id='like'>");
+						$("#like").on("click", t_like);
+					} else {
+						$("#co_heart").html("<img src='resources/images/heart_pull.png' id='unlike'>");
+						$("#unlike").on("click", t_unlike);
+					}
+				},
+				error : function() {
+					alert("읽기 실패");
+				}
+			});
+		}
+		$.ajax({
+			url : "t_com_countlike",
+			data : c_like,
+			dataType : "text",
+			type : "post",
+			success : function(data) {
+				$("#haco").text(data);
+			},
+			error : function() {
+				alert("읽기 실패");
+			}
+		});
+	}
+	
+	function t_like() {
+		if(loginchk()) {
+			$.ajax({
+				url : "t_com_like",
+				data : c_like,
+				dataType : "text",
+				type : "post",
+				success : function(data) {
+					getLike();
+				},
+				error : function() {
+					alert("실패2");
+				}
+			});
+		}
+	}
+
+	function t_unlike() {
+		if(loginchk()){
+			$.ajax({
+				url : "t_com_unlike",
+				data : c_like,
+				dataType : "text",
+				type : "post",
+				success : function(data) {
+					getLike();
+				},
+				error : function() {
+					alert("실패");
+				}
+			});
+		}
+	}
+
+	function loginchk(){
+		if($("#loginchk").val() == null || $("#loginchk").val() == ""){
+			var k = confirm("로그인이 필요한 페이지입니다.\n\n로그인 하시겠습니까?\n");
+			if(k) location.href='login';
+		} else {
+			return true;
+		}
+	}
+	
+	function update_go() {
 		location.href = "#";
 	};
-	function delete_go(){
+	function delete_go() {
 		location.href = "#";
 	};
 </script>
@@ -138,7 +230,7 @@
 				</c:if>
 			</td>
 			<td class="haco">
-				<img src="resources/images/heart.png" style="width:30px; height: 30px;"> ${tvo.heart} 
+				<img src="resources/images/heart.png" style="width:30px; height: 30px;"><span id="haco">${tvo.heart}</span>  
 				<img src="resources/images/talk.png" style="width:30px; height: 30px;"> 0
 			</td>
 		</tr>
@@ -189,7 +281,9 @@
 	<form method="post" id="co_form">
 		<table>
 			<tr>
-				<td class="co_heart"><img src="resources/images/heart_RED.png" style="width:30px; height:30px;"></td>
+				<td id="co_heart">
+					
+				</td>
 				<td>
 					<textarea rows="2" cols="30" id="co_write" name="content"></textarea>
 					<img src="resources/images/write_bt.png" id="co_ok">

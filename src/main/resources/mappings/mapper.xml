@@ -118,6 +118,23 @@
 	</insert>
 	<select id="t_co_list" parameterType="String" resultType="tcvo">
 		select * from talk_c where t_idx = #{t_idx}
+	<select id="get_talk_like" parameterType="tlvo" resultType="int">
+		select count(*) from t_like where t_idx = #{t_idx} and m_idx = #{m_idx}
+	</select>
+	<insert id="talklike" parameterType="tlvo">
+		insert into t_like values (t_l_seq.nextval, #{m_idx}, #{t_idx})
+	</insert>
+	<delete id="talkunlike" parameterType="tlvo">
+		delete from t_like where m_idx = #{m_idx} and t_idx = #{t_idx}
+	</delete>
+	<update id="t_likeupdate" parameterType="String">
+		update talk set heart = heart + 1 where t_idx = #{t_idx}
+	</update>
+	<update id="t_unlikeupdate" parameterType="String">
+		update talk set heart = heart - 1 where t_idx = #{t_idx}
+	</update>
+	<select id="t_countlike" parameterType="tlvo" resultType="int">
+		select count(*) from t_like where t_idx = #{t_idx}
 	</select>
 	<update id="rhitupdate" parameterType="rvo">
 		update recipe set hit = #{hit} where r_idx = #{r_idx}

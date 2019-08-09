@@ -119,6 +119,21 @@ public class DAO {
 	public int getTalk_write(TVO tvo){
 		return sqlSessionTemplate.insert("talk_write", tvo);
 	}
+	public int talkLike(TLVO tlvo) {
+		return sqlSessionTemplate.insert("talklike", tlvo);
+	}
+	public int talkUnlike(TLVO tlvo) {
+		return sqlSessionTemplate.delete("talkunlike", tlvo);
+	}
+	public void talkLikeUpdate(String t_idx) {
+		sqlSessionTemplate.update("t_likeupdate", t_idx);
+	}
+	public void talkUnlikeUpdate(String t_idx) {
+		sqlSessionTemplate.update("t_unlikeupdate", t_idx);
+	}
+	public int talkCountLike(TLVO tlvo) {
+		return sqlSessionTemplate.selectOne("t_countlike", tlvo);
+	}
 	public List<TVO> getTalk_List(){
 		return sqlSessionTemplate.selectList("talk_list");
 	}
@@ -130,6 +145,9 @@ public class DAO {
 	}
 	public List<TalkCVO> getT_co_list(String t_idx){
 		return sqlSessionTemplate.selectList("t_co_list", t_idx);
+	}
+	public int getTalkLike(TLVO tlvo) {
+		return sqlSessionTemplate.selectOne("get_talk_like", tlvo);
 	}
 	public void recipeHitUpdate(RecipeVO rvo) {
 		sqlSessionTemplate.update("rhitupdate", rvo);
