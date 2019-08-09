@@ -108,7 +108,7 @@ table {
 									</td>
 								<td class="haco">
 								<img src="resources/images/heart.png" style="width:30px; height: 30px;"> ${k.heart} 
-								<img src="resources/images/talk.png" style="width:30px; height: 30px;"> 0
+								<img src="resources/images/talk.png" style="width:30px; height: 30px;"> ${k.co_count}
 								</td>
 							</tr>
 						</table>
@@ -126,7 +126,7 @@ table {
 									</td>
 								<td class="haco">
 								<img src="resources/images/heart.png" style="width:30px; height: 30px;"> ${k.heart} 
-								<img src="resources/images/talk.png" style="width:30px; height: 30px;"> 0
+								<img src="resources/images/talk.png" style="width:30px; height: 30px;"> ${k.co_count}
 								</td>
 							</tr>
 						</table>

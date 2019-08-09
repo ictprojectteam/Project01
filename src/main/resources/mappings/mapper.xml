@@ -105,17 +105,33 @@
 	</select>
 	
 	<insert id="talk_write" parameterType="tvo">
-		insert into talk values(talk_seq.nextval, #{m_idx}, #{name}, #{content}, #{file_name}, #{heart}, sysdate)
+		insert into talk values(talk_seq.nextval, #{m_idx}, #{name}, #{content}, #{file_name}, #{heart}, sysdate, 0)
 	</insert>
+	
 	<select id="talk_list" resultType="tvo">
 		select * from talk order by t_idx desc
 	</select>
+	<delete id="tl_del" parameterType="String">
+		delete from t_like where t_idx = #{t_idx}
+	</delete>
+	<delete id="t_del" parameterType="String">
+	 	delete from talk_c where t_idx = #{t_idx}
+	</delete>
+	<delete id="talk_del" parameterType="String">
+		delete from talk where t_idx = #{t_idx}
+	</delete>
+	<select id="t_co_count" parameterType="String" resultType="int">
+		select count(*) from talk_c where t_idx = #{t_idx}
+	</select>
+	
 	<select id="talk_view" parameterType="String" resultType="tvo">
 		select * from talk where t_idx = #{t_idx}
 	</select>
+	
 	<insert id="t_co_write" parameterType="String">
 		insert into talk_c values(talk_c_seq.nextval, #{m_idx}, #{t_idx}, #{name}, #{content}, 0, sysdate)
 	</insert>
+	
 	<select id="t_co_list" parameterType="String" resultType="tcvo">
 		select * from talk_c where t_idx = #{t_idx}
 	</select>
