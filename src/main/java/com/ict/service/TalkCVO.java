@@ -1,13 +1,15 @@
 package com.ict.service;
 
-import java.util.ArrayList;
+public class TalkCVO {
+	private String t_c_idx, t_idx, m_idx, name, content, heart, regdate;
 
-import org.springframework.web.multipart.MultipartFile;
+	public String getT_c_idx() {
+		return t_c_idx;
+	}
 
-public class TVO {
-	private String t_idx, m_idx, name, content, file_name, heart, regdate;
-	private MultipartFile[] f_name;
-	private ArrayList<String> f_arr = new ArrayList<String>();
+	public void setT_c_idx(String t_c_idx) {
+		this.t_c_idx = t_c_idx;
+	}
 
 	public String getT_idx() {
 		return t_idx;
@@ -41,14 +43,6 @@ public class TVO {
 		this.content = content;
 	}
 
-	public String getFile_name() {
-		return file_name;
-	}
-
-	public void setFile_name(String file_name) {
-		this.file_name = file_name;
-	}
-
 	public String getHeart() {
 		return heart;
 	}
@@ -64,26 +58,5 @@ public class TVO {
 	public void setRegdate(String regdate) {
 		this.regdate = regdate;
 	}
-
-	public MultipartFile[] getF_name() {
-		return f_name;
-	}
-
-	public void setF_name(MultipartFile[] f_name) {
-		this.f_name = f_name;
-	}
-
-	public ArrayList<String> getF_arr() {
-		return f_arr;
-	}
-
-	public void setF_arr(ArrayList<String> f_arr) {
-		this.f_arr = f_arr;
-	}
-
-	
-	
-	
-	
 	
 }

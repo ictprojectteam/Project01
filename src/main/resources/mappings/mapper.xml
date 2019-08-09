@@ -44,7 +44,7 @@
 			<where>
 				savepublic = 1
 				<if test="a_permission != null and a_permission != ''">
-					and r.a_permission=#{a_permission}
+					and a_permission=#{a_permission}
 				</if>
 				<if test="k != null and k != ''">
 					and (recipe_title like '%'||#{k}||'%' or recipe_introduce like '%'||#{k}||'%' or pack like '%'||#{k}||'%' or material like '%'||#{k}||'%' or ordercontent like '%'||#{k}||'%' or recipe_tip like '%'||#{k}||'%' or recipe_tag like '%'||#{k}||'%')
@@ -105,8 +105,14 @@
 	</select>
 	
 	<insert id="talk_write" parameterType="tvo">
-		insert into talk values(talk_seq.nextval, #{m_idx}, #{content}, #{file_name}, #{hit}, sysdate)
+		insert into talk values(talk_seq.nextval, #{m_idx}, #{name}, #{content}, #{file_name}, #{heart}, sysdate)
 	</insert>
+	<select id="talk_list" resultType="tvo">
+		select * from talk order by t_idx desc
+	</select>
+	<select id="talk_view" parameterType="String" resultType="tvo">
+		select * from talk where t_idx = #{t_idx}
+	</select>
 	<update id="rhitupdate" parameterType="rvo">
 		update recipe set hit = #{hit} where r_idx = #{r_idx}
 	</update>

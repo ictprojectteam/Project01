@@ -172,7 +172,7 @@
 				<fieldset class="fs">
 				<h3>ICT레시피 쉐프들의 자유토크</h3>
 				<hr>
-				<textarea rows="15" cols="75" style="font-size: 16pt;" name="content" ></textarea>
+				<textarea rows="15" cols="75" style="font-size: 16pt; resize: none;" name="content"  ></textarea>
 				<hr>
 				<input type="file" name="f_name" id="insert_image" accept="image/*" multiple hidden="">
 				<div id="write-image">

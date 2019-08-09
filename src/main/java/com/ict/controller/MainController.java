@@ -36,6 +36,7 @@ import com.ict.service.RecipeCVO;
 import com.ict.service.RecipePaging;
 import com.ict.service.RecipeVO;
 import com.ict.service.TVO;
+import com.ict.service.TalkCVO;
 
 @Controller
 public class MainController {
@@ -308,12 +309,16 @@ public class MainController {
 		listmap.put("k", k);
 		listmap.put("a_permission", "1");
 		int count = dao.countRecipe(listmap);
+		System.out.println(count);
 		RecipePaging rp = new RecipePaging(count, cPage);
 		
 		listmap.put("begin", String.valueOf(rp.getBegin()));
 		listmap.put("end", String.valueOf(rp.getEnd()));
 		
+		System.out.println(rp.getBegin());
+		System.out.println(rp.getEnd());
 		List<RecipeVO> r_list = dao.getRecipeList(listmap);
+		System.out.println(r_list.get(0).getRecipe_title());
 		mv.addObject("ca1", ca1);
 		mv.addObject("ca2", ca2);
 		mv.addObject("ca3", ca3);
@@ -446,8 +451,23 @@ public class MainController {
 	
 	@RequestMapping("talk")
 	public ModelAndView getTalk() {
-		return new ModelAndView("talk");
+		ModelAndView mv = new ModelAndView("talk");
+		List<TVO> list = dao.getTalk_List();
+		
+		for (int i = 0; i < list.size(); i++) {
+			if(list.get(i).getFile_name() != null) {
+				String str = list.get(i).getFile_name();
+				String[] s_arr = str.split(",");
+				for (int j = 0; j < s_arr.length; j++) {
+					list.get(i).getF_arr().add(s_arr[j]);
+				}
+			}
+		}
+		mv.addObject("list", list);
+		
+		return mv;
 	}
+	
 	@RequestMapping("talk_write")
 	public ModelAndView getTalk_write(HttpSession session) {
 		ModelAndView mv = new ModelAndView();
@@ -460,31 +480,52 @@ public class MainController {
 	}
 	
 	@RequestMapping(value = "talk_write_ok", method = RequestMethod.POST)
-	public ModelAndView getTalkWrite(TVO tvo, HttpSession session ,HttpServletRequest request, @RequestParam MultipartFile[] f_name) {
+	public ModelAndView getTalkWrite(TVO tvo, HttpSession session ,HttpServletRequest request) {
 		ModelAndView mv = new ModelAndView("redirect:talk");
 		MVO mvo = (MVO)session.getAttribute("mvo");
 		tvo.setM_idx(mvo.getM_idx());
-		tvo.setHit("0");
+		tvo.setHeart("0");
+		tvo.setName(mvo.getName());
 		
 		try {
 			String path = request.getSession().getServletContext().getRealPath("/resources/upload");
-			System.out.println(path);
+			tvo.setFile_name("");
 			for (MultipartFile i : tvo.getF_name()) {
 				if(i.isEmpty()) {
 					tvo.setFile_name("");
 				}else {
-					tvo.setFile_name(tvo.getFile_name().concat(i.getOriginalFilename() + ","));
-				}
-				
-				int res = dao.getTalk_write(tvo);
-				if(res >0) {
-					i.transferTo(new File(path+"/"+tvo.getFile_name()));
+					tvo.setFile_name(tvo.getFile_name() + i.getOriginalFilename().concat(","));
+					i.transferTo(new File(path + "/" + i.getOriginalFilename()));
 				}
 			}
+			dao.getTalk_write(tvo);
 		} catch (Exception e) {
 		}
 		return mv;
 	}
+	@RequestMapping("talk_view")
+	public ModelAndView getTalkView(String t_idx, HttpSession session) {
+		ModelAndView mv = new ModelAndView("talk_view");
+		TVO tvo = dao.getTalk_View(t_idx);
+		
+		if(tvo.getFile_name() != null) {
+			String[] str = tvo.getFile_name().split(",");
+			for (int i = 0; i < str.length; i++) {
+				tvo.getF_arr().add(str[i]);
+			}
+		}else {
+			tvo.getF_arr().add(null);
+		}
+		session.setAttribute("tvo", tvo);
+		return mv;
+	}
+	@RequestMapping("t_co_write")
+	public ModelAndView getT_c_write(TalkCVO tcvo, @RequestParam("t_idx") String t_idx) {
+		ModelAndView mv = new ModelAndView("talk_view");
+		System.out.println(t_idx);
+		return mv;
+	}
+	
 	
 	@RequestMapping("ranking")
 	public ModelAndView ranking() {

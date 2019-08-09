@@ -119,6 +119,12 @@ public class DAO {
 	public int getTalk_write(TVO tvo){
 		return sqlSessionTemplate.insert("talk_write", tvo);
 	}
+	public List<TVO> getTalk_List(){
+		return sqlSessionTemplate.selectList("talk_list");
+	}
+	public TVO getTalk_View(String t_idx) {
+		return sqlSessionTemplate.selectOne("talk_view", t_idx);
+	}
 	
 	public void recipeHitUpdate(RecipeVO rvo) {
 		sqlSessionTemplate.update("rhitupdate", rvo);
