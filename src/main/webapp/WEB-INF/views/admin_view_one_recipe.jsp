@@ -466,17 +466,18 @@ table{
 	margin-bottom: 1.0em;
 }
 
-table th{
-	border-spacing: 0;
-	text-align: center;
-}
-
 tabel td{
 	font-size: 1.0em;
 }
 
 #body td{
 	text-align: center;
+}
+
+textarea{
+    margin: 0px;
+    width: 993px;
+    height: 119px;
 }
 
 
@@ -520,13 +521,57 @@ tabel td{
 							<thead>
 								<tr>
 									<th bgcolor="#cccccc">회원이름</th>
-										<td>${r_vo.name}</td>
-									<th bgcolor="#cccccc">레시피 제목</th>
-										<td>${r_vo.recipe_title}</td>
+										<td colspan="3"><input type="text" size="50"></td>
+									<th bgcolor="#cccccc">이메일</th>
+										<td colspan="3"><input type="text" size="50"></td>
 								</tr>
 								<tr>
-									
-									
+									<th bgcolor="#cccccc">레시피 제목</th>
+										<td colspan="7"><input type="text" size="140"></td>	
+								</tr>
+								<tr>
+									<th bgcolor="#cccccc">종류</th>
+										<td colspan="3"><input type="text" size="50"></td>
+									<th bgcolor="#cccccc">상태</th>
+										<td colspan="3"><input type="text" size="50"></td>
+								</tr>
+								<tr>
+									<th bgcolor="#cccccc">고유 ID</th>
+										<td colspan="3"><input type="text" size="50"></td>
+									<th bgcolor="#cccccc">등록일시</th>
+										<td colspan="3"><input type="text" size="50"></td>
+								</tr>
+								<tr>
+									<th bgcolor="#cccccc">종류</th>
+										<td><input type="text" size="25"></td>
+									<th bgcolor="#cccccc">상황</th>
+										<td><input type="text" size="25"></td>
+									<th bgcolor="#cccccc">방법</th>
+										<td><input type="text" size="25"></td>
+									<th bgcolor="#cccccc">재료</th>
+										<td><input type="text" size="25"></td>
+								</tr>
+								<tr>
+									<th bgcolor="#cccccc">인원</th>
+										<td colspan="2"><input type="text" size="33"></td>
+									<th bgcolor="#cccccc">시간</th>
+										<td colspan="2"><input type="text" size="33"></td>
+										<th bgcolor="#cccccc">난이도</th>
+										<td><input type="text" size="34"></td>
+								</tr>
+								<tr>
+									<th bgcolor="#cccccc">동영상</th>
+										<td colspan="7"><input type="text" size="140"></td>
+								</tr>
+								<tr>
+									<th bgcolor="#cccccc">사진</th>
+										<td colspan="7"><input type="text" size="140"></td>
+								</tr>
+								<tr>
+									<th colspan="8">상세내용</td>
+								</tr>
+								<tr>
+									<td colspan="8"><textarea></textarea></td>
 								</tr>
 							</thead>
 						</table>

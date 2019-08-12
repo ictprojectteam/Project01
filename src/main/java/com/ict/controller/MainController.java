@@ -8,11 +8,11 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Base64;
+import java.util.Base64.Encoder;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Base64.Encoder;
 
 import javax.imageio.IIOException;
 import javax.imageio.ImageIO;
@@ -21,7 +21,6 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -36,15 +35,17 @@ import com.ict.service.RVO;
 import com.ict.service.RecipeCVO;
 import com.ict.service.RecipePaging;
 import com.ict.service.RecipeVO;
+import com.ict.service.TLVO;
 import com.ict.service.TVO;
+import com.ict.service.TalkCVO;
 
 @Controller
 public class MainController {
 	@Autowired
 	private DAO dao;
-	@Autowired
+	@Autowired	
 	private Pageing pageing;
-
+//	String cPage;
 	
 	@RequestMapping(value = "/")
 	public ModelAndView getIndex() {
@@ -56,39 +57,21 @@ public class MainController {
 		listmap.put("a_permission", "1");
 		
 		List<RecipeVO> r_list = dao.getRecipeList(listmap);
-		mv.addObject("r_list", r_list);
-		return mv;
-	}
-	
-	@RequestMapping(value = "login")
-	public ModelAndView getLogin() {
-		ModelAndView mv = new ModelAndView("login");
 		
-		return mv;
-	}
-	
-	@RequestMapping(value = "goLogin", method = RequestMethod.POST)
-	public ModelAndView goLogin(MVO mvo, HttpSession session) {
-		ModelAndView mv = new ModelAndView();
-		MVO r_mvo = dao.getLogin(mvo);
-		if (r_mvo != null) {
-			session.setAttribute("mvo", r_mvo);
-			mv.setViewName("redirect:/");
-		} else {
-			mv.setViewName("loginfail");
+		List<TVO> t_list = dao.getTalk_List();
+		
+		for (int i = 0; i < t_list.size(); i++) {
+			if(t_list.get(i).getFile_name() != null) {
+				String str = t_list.get(i).getFile_name();
+				String[] s_arr = str.split(",");
+				for (int j = 0; j < s_arr.length; j++) {
+					t_list.get(i).getF_arr().add(s_arr[j]);
+				}
+			}
 		}
-		return mv;
-	}
-	
-	@RequestMapping("join")
-	public ModelAndView goJoin() {
-		return new ModelAndView("join");
-	}
-	
-	@RequestMapping("join_ok")
-	public ModelAndView getInsert(MVO mvo) {
-		ModelAndView mv = new ModelAndView("redirect:/");
-		dao.getJoin(mvo);
+		mv.addObject("t_list", t_list);
+		
+		mv.addObject("r_list", r_list);
 		return mv;
 	}
 	
@@ -108,64 +91,22 @@ public class MainController {
 			mv.setViewName("admin");
 			List<MVO> list = dao.getList();
 			mv.addObject("list", list);
-			List<RecipeVO> r_list = dao.getr_list();
+			List<RecipeVO> r_list = dao.getRecipeList(1, 5);
 			mv.addObject("r_list", r_list);
 		} else {
 			mv.setViewName("a_loginfail");
 		}
 		return mv;
 	}
-	
 	@RequestMapping(value = "home")
 	public ModelAndView getAdmin() {
 		ModelAndView mv = new ModelAndView("admin");
 		List<MVO> list = dao.getList();
 		mv.addObject("list", list);
-		List<RecipeVO> r_list = dao.getr_list();
+		List<RecipeVO> r_list = dao.getRecipeList(1, 5);
 		mv.addObject("r_list", r_list);
 		return mv;
 	}
-		
-//	@RequestMapping(value = "a_recipe")
-//	public ModelAndView geta_recipe(HttpServletRequest request){
-//		ModelAndView mv = new ModelAndView("a_recipe");
-//		// 전체 게시물의 수
-//		int count = dao.getRecipeCount();
-//		pageing.setTotalRecord(count);
-//		
-//		if(pageing.getTotalRecord() <= pageing.getNumPerPage()) {
-//			pageing.setTotalPage(1);
-//		}else {
-//			pageing.setTotalPage(pageing.getTotalRecord() / pageing.getNumPerPage());
-//			if(pageing.getTotalRecord() % pageing.getNumPerPage() !=0) {
-//				pageing.setTotalPage(pageing.getTotalPage()+1);
-//			}
-//		}
-//		
-//		String cPage = request.getParameter("cPage");
-//		if(cPage == null) {
-//			pageing.setNowPage(1);
-//		}else {
-//			pageing.setNowPage(Integer.parseInt(cPage));
-//		}
-//		
-//		pageing.setBegin((pageing.getNowPage()-1)*pageing.getNumPerPage()+1);
-//		pageing.setEnd((pageing.getBegin()-1)+pageing.getNumPerPage());
-//		
-//		pageing.setBeginBlock((int)((pageing.getNowPage()-1) / pageing.getPagePerBlock()) * pageing.getPagePerBlock()+1);
-//		pageing.setEndBlock(pageing.getBeginBlock()+pageing.getPagePerBlock()-1);
-//		
-//		if(pageing.getEndBlock() > pageing.getTotalPage()) {
-//			pageing.setEndBlock(pageing.getTotalPage());
-//		}
-//		
-//		List<RVO> r_list = dao.get_recipe_list(pageing.getBegin(), pageing.getEnd());
-//		mv.addObject("r_list", r_list);
-//		mv.addObject("pageing", pageing);
-//	
-//		return mv;
-//	}
-	
 	@RequestMapping(value = "a_recipe")
 	public ModelAndView geta_recipe() {
 		ModelAndView mv = new ModelAndView("a_recipe");
@@ -262,7 +203,7 @@ public class MainController {
 		mv.addObject("mvo", mvo);
 		return mv;
 	}
-	
+
 	@RequestMapping(value = "selectonerecipe.do")
 	public ModelAndView getSelectOneRecipe(@RequestParam("name") String name) {
 		ModelAndView mv = new ModelAndView("selectonerecipe");
@@ -332,6 +273,10 @@ public class MainController {
 	public ModelAndView viewRecipe(@RequestParam String rno) {
 		ModelAndView mv = new ModelAndView("view_recipe");
 		RecipeVO rvo = dao.viewRecipe(rno);
+		if (rvo.getA_permission().equals("0") || rvo.getSavepublic().equals("0")) {
+			mv.setViewName("inappropriate");
+			return mv;
+		}
 		rvo.setHit(Integer.parseInt(rvo.getHit()) + 1 + "");
 		dao.recipeHitUpdate(rvo);
 		mv.addObject("rvo", rvo);
@@ -448,9 +393,24 @@ public class MainController {
 	}
 	
 	@RequestMapping("talk")
-	public ModelAndView getTalk() {
-		return new ModelAndView("talk");
+	public ModelAndView getTalk(HttpServletRequest request) {
+		ModelAndView mv = new ModelAndView("talk");
+		
+		List<TVO> list = dao.getTalk_List();
+		for (int i = 0; i < list.size(); i++) {
+			list.get(i).setCo_count(String.valueOf((dao.getT_co_count(list.get(i).getT_idx()))));
+			if(list.get(i).getFile_name() != null) {
+				String str = list.get(i).getFile_name();
+				String[] s_arr = str.split(",");
+				for (int j = 0; j < s_arr.length; j++) {
+					list.get(i).getF_arr().add(s_arr[j]);
+				}
+			}
+		}
+		mv.addObject("list", list);
+		return mv;
 	}
+	
 	@RequestMapping("talk_write")
 	public ModelAndView getTalk_write(HttpSession session) {
 		ModelAndView mv = new ModelAndView();
@@ -467,21 +427,62 @@ public class MainController {
 		ModelAndView mv = new ModelAndView("redirect:talk");
 		MVO mvo = (MVO)session.getAttribute("mvo");
 		tvo.setM_idx(mvo.getM_idx());
-		tvo.setHit("0");
+		tvo.setHeart("0");
+		tvo.setName(mvo.getName());
+		
 		try {
 			String path = request.getSession().getServletContext().getRealPath("/resources/upload");
-			MultipartFile f_name = tvo.getF_name();
-			if(f_name.isEmpty()) {
-				tvo.setFile_name("");
-			}else {
-				tvo.setFile_name(tvo.getF_name().getOriginalFilename());
+			tvo.setFile_name("");
+			for (MultipartFile i : tvo.getF_name()) {
+				if(i.isEmpty()) {
+					tvo.setFile_name("");
+				}else {
+					tvo.setFile_name(tvo.getFile_name() + i.getOriginalFilename().concat(","));
+					i.transferTo(new File(path + "/" + i.getOriginalFilename()));
+				}
 			}
-			int res = dao.getTalk_write(tvo);
-			if(res >0) {
-				f_name.transferTo(new File(path+"/"+tvo.getFile_name()));
-			}
+			dao.getTalk_write(tvo);
 		} catch (Exception e) {
 		}
+		return mv;
+	}
+	@RequestMapping("talk_view")
+	public ModelAndView getTalkView(String t_idx, HttpSession session) {
+		ModelAndView mv = new ModelAndView("talk_view");
+		TVO tvo = dao.getTalk_View(t_idx);
+		tvo.setCo_count(String.valueOf(dao.getT_co_count(t_idx)));
+		if(tvo.getFile_name() != null) {
+			String[] str = tvo.getFile_name().split(",");
+			for (int i = 0; i < str.length; i++) {
+				tvo.getF_arr().add(str[i]);
+			}
+		}else {
+			tvo.getF_arr().add(null);
+		}
+		List<TalkCVO> c_list = dao.getT_co_list(t_idx);
+		if(c_list != null) {
+		mv.addObject("c_list", c_list);
+		}
+		session.setAttribute("tvo", tvo);
+		return mv;
+	}
+	@RequestMapping("talk_del")
+	public ModelAndView getTalk_del(HttpSession session) {
+		ModelAndView mv = new ModelAndView("redirect:talk");
+		TVO tvo = (TVO)session.getAttribute("tvo");
+		dao.getTalk_del(tvo.getT_idx());
+		return mv;
+	}
+	@RequestMapping("t_co_write")
+	public ModelAndView getT_c_write(TalkCVO tcvo, HttpSession session) {
+		ModelAndView mv = new ModelAndView("redirect:talk_view?t_idx="+tcvo.getT_idx());
+		MVO mvo = (MVO)session.getAttribute("mvo");
+		tcvo.setM_idx(mvo.getM_idx());
+		tcvo.setName(mvo.getName());
+		dao.getT_co_write(tcvo);
+		
+		List<TalkCVO> c_list = dao.getT_co_list(tcvo.getT_idx());
+		mv.addObject("c_list", c_list);
 		return mv;
 	}
 	
@@ -489,6 +490,47 @@ public class MainController {
 	public ModelAndView ranking() {
 		ModelAndView mv = new ModelAndView("ranking");
 		return mv;
+	}
+	
+	@RequestMapping("t_com_chklike")
+	@ResponseBody
+	public String chklike(HttpSession session, TLVO tlvo) {
+		tlvo.setM_idx(((MVO)session.getAttribute("mvo")).getM_idx());
+		if(dao.getTalkLike(tlvo) > 0) {
+			return "1";
+		} else {
+			return null;
+		}
+	}
+	
+	@RequestMapping("t_com_like")
+	@ResponseBody
+	public String talkLike(HttpSession session, TLVO tlvo) {
+		tlvo.setM_idx(((MVO)session.getAttribute("mvo")).getM_idx());
+		if(dao.talkLike(tlvo) > 0) {
+			dao.talkLikeUpdate(tlvo.getT_idx());
+			return "1" ;
+		} else {
+			return null;
+		}
+	}
+	
+	@RequestMapping("t_com_unlike")
+	@ResponseBody
+	public String talkUnlike(HttpSession session, TLVO tlvo) {
+		tlvo.setM_idx(((MVO)session.getAttribute("mvo")).getM_idx());
+		if(dao.talkUnlike(tlvo) > 0) {
+			dao.talkUnlikeUpdate(tlvo.getT_idx());
+			return "1" ;
+		} else {
+			return null;
+		}
+	}
+	
+	@RequestMapping("t_com_countlike")
+	@ResponseBody
+	public String talkCountLike(TLVO tlvo) {
+		return String.valueOf(dao.talkCountLike(tlvo));
 	}
 	
 //	유튜브 썸네일 URI를 ajax로 받기 위한 메소드
@@ -521,7 +563,6 @@ public class MainController {
 		return null;
 	}
 	
-	
 	@RequestMapping("admin_view_one_recipe")
 	public ModelAndView get_admin_view_one_recipe(@RequestParam String r_idx) {
 		ModelAndView mv = new ModelAndView("admin_view_one_recipe");
@@ -530,12 +571,5 @@ public class MainController {
 		return mv;
 	}
 	
-	
-	/* 실 행 시 admin_view_one_recipe 오류발생
-	 * @RequestMapping("admin_view_one_member") public ModelAndView
-	 * get_admin_view_one_member(@RequestParam String m_idx) { ModelAndView mv = new
-	 * ModelAndView("admin_view_one_member"); MVO mvo =
-	 * dao.getAdminOneMember(m_idx); mv.addObject("mvo", mvo); return mv; }
-	 */
 	
 }

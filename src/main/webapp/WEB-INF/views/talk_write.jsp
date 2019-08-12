@@ -5,7 +5,7 @@
 <head>
 <meta charset="UTF-8">
 <title>토크 작성</title>
-<script type="text/javascript" src="../resources/js/jquery-3.4.1.min.js" charset="UTF-8"></script>
+<script type="text/javascript" src="../resources/js/jquery-3.4.1.min.js"></script>
 <style type="text/css">
 	.fs{
 		width: 600px;
@@ -56,7 +56,7 @@
 		color: #BDBDBD;
 	}
 	.btg{
-		margin-left: 250px;
+		margin-left: 300px;
 	}
 	#write_bt{
 		width:70px;
@@ -69,23 +69,53 @@
 	.imgs_wrap{
 		width: 600px;
 		margin: -130px 0px 30px 180px;
-		cursor: pointer;
 	}
 	.imgs_wrap img{
 		width: 130px;
 		height: 130px;
 		padding:3px;
-		cursor: pointer;
 	}
+	.imgs_wrap>i.fa-times{
+		color: #ccc;
+		background: #333;
+		font-size: 20pt;
+		position: relative;
+		cursor: pointer;
+		padding: 3px;
+		bottom: 105px;
+		right: 30px;
+	}
+	
 </style>
 <script type="text/javascript">
-	function write_ok(f){
+	var sel_files = [];
+	var index = 0;
+	var files;
+	function write_ok(	f){
 		f.action = "talk_write_ok";
 		f.submit();
 	}
+	/*
+	$(document).ready( function() {
+		 
+        $("input[type=file]").change(function () {
+             
+            var fileInput = document.getElementById("write_bt");
+             
+            var files = fileInput.files;
+            var file;
+             
+            for (var i = 0; i < files.length; i++) {
+                 
+                file = files[i];
+ 
+                alert(file.name);
+            }
+             
+        });
+ 
+    });*/
 	
-	var sel_files = [];
-
 	$(function () {
 		$('#write-image').click(function (e) {
 			e.preventDefault();
@@ -96,25 +126,40 @@
 		$("#insert_image").on("change", handleImgsFilesSelect);
 	});
 	function handleImgsFilesSelect(e){
-		
-		var files = e.target.files;
+		/* 미리보기 초기화 
+		sel_files = [];
+		$(".imgs_wrap").empty();*/
+		files = e.target.files;
 		var filesArr = Array.prototype.slice.call(files);
-		var index = 0;
+		
 
 		filesArr.forEach(function(f){
 			sel_files.push(f);
 			var reader = new FileReader();
 			
 			reader.onload = function(e){
-				var img_html = "<a href=\"javascript:(0);\" onclick=">";
-				$(".imgs_wrap").append(img_html);
+				/*
+				var img_html1 = "<a href='javascript:void(0)' onclick='del_img("+index+")' id='img_id_"+index+
+								"'><img src='" + e.target.result + "' data-file='"+f.name+
+								"' class='selProductFile' title='Click to remove'></a>"
+				var img_html2 = "<i href='javascript:void(0)' onclick='del_img("+index+")' id='img_id_"+index+"' class='fas fa-times'><img src='" + e.target.result +"' data-file='"+f.name+"' class='selProductFile' title='Click to remove'></i>";
+				*/			
+				var img_html3 = "<img src='"+ e.target.result + "' data-file='"+ f.name + "' class='selProductFile' title='Click to remove' id='image_id_"+index+"'>"+
+								"<i onclick='del_img("+ index +")' id='img_id_"+ index +"' class='fas fa-times'></i>"
+				$(".imgs_wrap").append(img_html3);
+				index++;
+				
 			}
-			
 			reader.readAsDataURL(f);
 		});
-	}	
-	
-	
+	}
+	function del_img(index){
+		sel_files.splice(index, 1);
+		var img_id = "#img_id_" + index;
+		var image_id = "#image_id_" + index;
+		$(img_id).remove();
+		$(image_id).remove();
+	}
 </script>
 </head>
 <body>
@@ -127,7 +172,7 @@
 				<fieldset class="fs">
 				<h3>ICT레시피 쉐프들의 자유토크</h3>
 				<hr>
-				<textarea rows="15" cols="75" style="font-size: 16pt;" name="content" ></textarea>
+				<textarea rows="15" cols="75" style="font-size: 16pt; resize: none;" name="content"  ></textarea>
 				<hr>
 				<input type="file" name="f_name" id="insert_image" accept="image/*" multiple hidden="">
 				<div id="write-image">

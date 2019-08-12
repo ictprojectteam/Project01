@@ -9,10 +9,22 @@
 	<select id="list" resultType="mvo">
 		select * from members order by regdate desc
 	</select>
-	<insert id="join" parameterType="com.ict.service.MVO">
+	<insert id="join" parameterType="mvo">
 		insert into members
 		values(members_seq.nextval,#{id},#{pw},#{email},#{name},#{gender},sysdate)
 	</insert>
+	<select id="chkEmail" parameterType="mvo" resultType="int">
+		select count(*) from members where email = #{email}
+	</select>
+	<update id="updateEmail" parameterType="mvo">
+		update members set email = #{email} where id = #{id} 
+	</update>
+	<select id="chkName" parameterType="mvo" resultType="int">
+		select count(*) from members where name = #{name}
+	</select>
+	<update id="updateName" parameterType="mvo">
+		update members set name = #{name} where id = #{id} 
+	</update>
 	<select id="m_list" resultType="mvo">
 		select * from members order by regdate desc
 	</select>
@@ -27,7 +39,7 @@
 	</select>
 	<select id="onerecipelist" parameterType="String" resultType="rvo">
 		select * from members join recipe on members.m_idx=recipe.m_idx where name = #{name} order by recipe.regdate desc
-	</select>	
+	</select>
 	<select id="findPw" parameterType="String" resultType="mvo">
 		select * from members where email = #{email}
 	</select>
@@ -44,7 +56,7 @@
 			<where>
 				savepublic = 1
 				<if test="a_permission != null and a_permission != ''">
-					and r.a_permission=#{a_permission}
+					and a_permission=#{a_permission}
 				</if>
 				<if test="k != null and k != ''">
 					and (recipe_title like '%'||#{k}||'%' or recipe_introduce like '%'||#{k}||'%' or pack like '%'||#{k}||'%' or material like '%'||#{k}||'%' or ordercontent like '%'||#{k}||'%' or recipe_tip like '%'||#{k}||'%' or recipe_tag like '%'||#{k}||'%')
@@ -103,12 +115,63 @@
 	<select id="view_recipe" parameterType="String" resultType="rvo">
 		select r.*, m.name writer from recipe r, members m where r_idx = #{r_idx} and r.m_idx=m.m_idx
 	</select>
+	
 	<insert id="talk_write" parameterType="tvo">
-		insert into talk values(talk_seq.nextval, #{m_idx}, #{content}, #{file_name}, #{hit}, sysdate)
-	</insert>	
+		insert into talk values(talk_seq.nextval, #{m_idx}, #{name}, #{content}, #{file_name}, #{heart}, sysdate, 0)
+	</insert>
+	
+	<select id="talk_list" resultType="tvo">
+		select * from talk order by t_idx desc
+	</select>
+	<select id="t_count" resultType="int">
+		select count(*) from talk
+	</select>
+	<delete id="tl_del" parameterType="String">
+		delete from t_like where t_idx = #{t_idx}
+	</delete>
+	<delete id="t_del" parameterType="String">
+	 	delete from talk_c where t_idx = #{t_idx}
+	</delete>
+	<delete id="talk_del" parameterType="String">
+		delete from talk where t_idx = #{t_idx}
+	</delete>
+	<select id="t_co_count" parameterType="String" resultType="int">
+		select count(*) from talk_c where t_idx = #{t_idx}
+	</select>
+	
+	<select id="talk_view" parameterType="String" resultType="tvo">
+		select * from talk where t_idx = #{t_idx}
+	</select>
+	
+	<insert id="t_co_write" parameterType="String">
+		insert into talk_c values(talk_c_seq.nextval, #{m_idx}, #{t_idx}, #{name}, #{content}, 0, sysdate)
+	</insert>
+	
+	<select id="t_co_list" parameterType="String" resultType="tcvo">
+		select * from talk_c where t_idx = #{t_idx}
+	</select>
+	<select id="get_talk_like" parameterType="tlvo" resultType="int">
+		select count(*) from t_like where t_idx = #{t_idx} and m_idx = #{m_idx}
+	</select>
+	<insert id="talklike" parameterType="tlvo">
+		insert into t_like values (t_l_seq.nextval, #{m_idx}, #{t_idx})
+	</insert>
+	<delete id="talkunlike" parameterType="tlvo">
+		delete from t_like where m_idx = #{m_idx} and t_idx = #{t_idx}
+	</delete>
+	<update id="t_likeupdate" parameterType="String">
+		update talk set heart = heart + 1 where t_idx = #{t_idx}
+	</update>
+	<update id="t_unlikeupdate" parameterType="String">
+		update talk set heart = heart - 1 where t_idx = #{t_idx}
+	</update>
+	<select id="t_countlike" parameterType="tlvo" resultType="int">
+		select count(*) from t_like where t_idx = #{t_idx}
+	</select>
 	<update id="rhitupdate" parameterType="rvo">
 		update recipe set hit = #{hit} where r_idx = #{r_idx}
-	</update>	
+	</update>
+	
 	<select id="recipe_comment_list" parameterType="String" resultType="rcvo">
 		select rc.*, m.name writer from recipe_c rc, members m where rc.m_idx = m.m_idx and r_idx = #{r_idx} order by r_c_idx desc
 	</select>
@@ -119,20 +182,14 @@
 	
 	<insert id="insert_recipe_comment" parameterType="rcvo">
 		insert into recipe_c values (recipe_c_seq.nextval, #{r_idx}, #{m_idx}, #{content_}, 0, sysdate)
-	</insert>	
-	
+	</insert>
 	<select id="r_list" resultType="r_vo">
 		select * from recipe order by sysdate desc
 	</select>
-	<select id="onelistrecipe" parameterType="String" resultType="r_vo">
+	<select id="onelistrecipe" parameterType="String" resultType="rvo">
 		select * from recipe where r_idx = #{r_idx}
 	</select>
 	<select id="onelistmember" parameterType="String" resultType="mvo">
 		select * from members where m_idx = #{m_idx}
-	</select>
-
+	</select>	
 </mapper>
-
-
-
-

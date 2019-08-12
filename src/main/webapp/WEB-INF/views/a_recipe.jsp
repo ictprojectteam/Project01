@@ -241,15 +241,32 @@ tabel td{
 
 </style>
 <script type="text/javascript">
+	$(function(){
+		getList();	
+	});
 	function send_one(f){
-		f.action = "search_recipe.do";
+		f.action = "selectonerecipe.do";
 		f.submit();
+	}
+	function getList(){
+		$.ajax({
+			url: "admin_rlist",
+			dataType: "text",
+			type : "post",
+			success: function(data){
+				$("#tbody").empty();
+				$("#tbody").append(data);
+			},
+			error: function(){
+				alert("읽기 실패");
+			}
+		});
 	}
 </script>
 </head>
 <body>
 	<div id="container">
-		<nav>3
+		<nav>
 			<div id="logo">
 				ICT레시피 <span>ict recipe</span>
 			</div>
@@ -279,7 +296,7 @@ tabel td{
 									<table>
 										<thead>
 											<tr>
-												<th>회원이름/
+												<th bgcolor="#cccccc">회원이름/
 												고유ID</th>						
 												<td>
 													<select name="name_idx">
@@ -288,28 +305,28 @@ tabel td{
 													</select>
 													<input type="text" name="name" size="48">
 												</td>
-												<th>이메일/연락처</th>
+												<th bgcolor="#cccccc">이메일/연락처</th>
 												<td>
 													<select name="email_number">
 														<option value="email">이메일</option>
 														<option value="number">연락처</option>
-														<input type="text" name="e_write" size= "48"> 
+														<input type="text" name="e_write" size= "48">
 												</td>
 											</tr>
 											<tr>
-												<th>레시피 제목</th>
-												<td colspan="3"><input type="text" name="content" size="137"></td>
+												<th bgcolor="#cccccc">레시피 제목</th>
+												<td colspan="3"><input type="text" name="recipe_title" size="137"></td>
 											</tr>
 											<tr>
-												<th>상태별</th>
+												<th bgcolor="#cccccc">상태별</th>
 												<td colspan="3">
-													<input type="checkbox"  name="condition" size="50">전체								
-													<input type="checkbox"  name="condition" size="50">승인대기
-													<input type="checkbox"  name="condition" size="50">승인완료
+													<input type="checkbox"  name="a_permission" size="50" value="">전체								
+													<input type="checkbox"  name="a_permission" size="50" value="0">승인대기
+													<input type="checkbox"  name="a_permission" size="50" value="1">승인완료
 												</td>
 											</tr>
 											<tr>
-												<th>종류별</th>
+												<th bgcolor="#cccccc">종류별</th>
 												<td colspan="3">
 													<input type="checkbox"  name="type" size="50">전체								
 													<input type="checkbox"  name="type" size="50">일반레시피
@@ -317,7 +334,7 @@ tabel td{
 												</td>
 											</tr>
 											<tr>
-												<th>등록일시</th>
+												<th bgcolor="#cccccc">등록일시</th>
 												<td colspan="3">
 													<input type="date" id="start" name="start" value="sysdate" min="2019-01-01" max="2019-12-31">
 													<a>~</a>
@@ -347,32 +364,18 @@ tabel td{
 									<tr bgcolor="#cccccc">
 										<th>번호</th>
 										<th>회원번호</th>
+										<th>회원이름</th>
+										<!-- <th>연착처</th> -->
+										<!-- <th>이메일</th> -->
 										<th>레시피 제목</th>
-										<th>종류 구분</th>
+										<th>레시피 소개</th>
+										<!-- <th>고유 ID</th> -->
 										<th>등록 일시</th>
-										<th>상태</th>
+										<th>게시글 상태</th>
 									</tr>
 								</thead>
-								<tbody>
-									<c:choose>
-										<c:when test="${empty r_list }">
-											<tr>
-												<td colspan="8"><h3>자료가 존재하지 않습니다.</h3></td>
-											</tr>
-										</c:when>
-										<c:otherwise>
-											<c:forEach var="k" items="${r_list}" begin="1" end="9">
-												<tr onclick="location.href='admin_view_one_recipe.do?r_idx=${k.r_idx}'" style="cursor:pointer">
-													<td>${k.r_idx}</td>
-													<td>${k.m_idx}</td>
-													<td>${k.recipe_title}</td>
-													<td>${k.recipe_introduce}</td>
-													<td>${k.regdate}</td>
-													<td>${k.recipe_difficulty}</td> 
-												</tr>
-											</c:forEach>
-										</c:otherwise>
-									</c:choose>
+								<tbody id="tbody">
+									
 								</tbody>
 							</table>
 							
@@ -383,26 +386,30 @@ tabel td{
 									<ol class="paging">
 									   <%-- 이전 --%>
 									    <c:choose>
-									    	<c:when test="${pageing.beginBlock > pageing.pagePerBlock }">
-									    		<a href="a_recipe.do?cPage=${pageing.beginBlock-pageing.pagePerBlock}"></a>
+									    	<c:when test="${pageing.beginBlock <= pageing.pagePerBlock }">
+									    		<li class="disable"> 이전으로 </li>
 									    	</c:when>
-								    	</c:choose>
-									    <!-- 페이지 번호 -->
+									    	<c:otherwise>
+									    		<li><a href="a_recipe.do?cPage=${pageing.beginBlock-pageing.pagePerBlock}"> 이전으로 </a></li>
+									    	</c:otherwise>
+									    </c:choose>
+									    
 										<c:forEach begin="${pageing.beginBlock}" end="${pageing.endBlock}" step="1" var="k">
-											<c:choose>
-												<c:when test="${k == pageing.nowPage}">
-													<font size = "4">${k}</font>
-												</c:when>
-												<c:otherwise>
-													<a href="a_recipe.do?cPage=${k}"><font size="4">${k}</font></a>
-												</c:otherwise>
-											</c:choose>
+											<c:if test="${k==pageing.nowPage}">
+												<li class="now">${k}</li>
+											</c:if>
+											<c:if test="${k!=pageing.nowPage}">
+												<li><a href="a_recipe.do?cPage=${k}">${k}</a></li>
+											</c:if>
 										</c:forEach>
-										<!-- 다음 -->
+										
 										<c:choose>
-									    	<c:when test="${pageing.endBlock < pageing.totalPage}">
-									    		<a href="a_recipe.do?cPage=${pageing.beginBlock+pageing.pagePerBlock}"></a>
+									    	<c:when test="${pageing.endBlock >= pageing.totalPage }">
+									    		<li class="disable"> 다음으로 </li>
 									    	</c:when>
+									    	<c:otherwise>
+									    		<li><a href="a_recipe.do?cPage=${pageing.beginBlock+pageing.pagePerBlock}"> 다음으로 </a></li>
+									    	</c:otherwise>
 									    </c:choose>
 									</ol>
 									</div>

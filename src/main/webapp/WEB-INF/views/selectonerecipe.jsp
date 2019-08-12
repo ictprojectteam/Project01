@@ -348,7 +348,7 @@ tabel td{
 										<th>회원번호</th>
 										<th>회원이름</th>
 										<!-- <th>연착처</th> -->
-										<th>이메일</th>
+										<!-- <th>이메일</th> -->
 										<th>레시피 제목</th>
 										<th>종류 구분</th>
 										<!-- <th>고유 ID</th> -->
@@ -368,7 +368,7 @@ tabel td{
 													<td>${k.m_idx}</td>
 													<td>${k.name}</td>
 													<%-- <td>${k.number}</td> --%>
-													<td>${k.email}</td>
+													<%-- <td>${k.email}</td> --%>
 													<td>${k.subject}</td>
 													<td>${k.cate}</td>
 													<%-- <td>${k.secret_id}</td> --%>
@@ -387,26 +387,30 @@ tabel td{
 									<ol class="paging">
 									   <%-- 이전 --%>
 									    <c:choose>
-									    	<c:when test="${pageing.beginBlock > pageing.pagePerBlock }">
-									    		<a href="a_recipe.do?cPage=${pageing.beginBlock-pageing.pagePerBlock}"></a>
+									    	<c:when test="${pageing.beginBlock <= pageing.pagePerBlock }">
+									    		<li class="disable"> 이전으로 </li>
 									    	</c:when>
-								    	</c:choose>
-									    <!-- 페이지 번호 -->
+									    	<c:otherwise>
+									    		<li><a href="a_recipe.do?cPage=${pageing.beginBlock-pageing.pagePerBlock}"> 이전으로 </a></li>
+									    	</c:otherwise>
+									    </c:choose>
+									    
 										<c:forEach begin="${pageing.beginBlock}" end="${pageing.endBlock}" step="1" var="k">
-											<c:choose>
-												<c:when test="${k == pageing.nowPage}">
-													<font size = "4">${k}</font>
-												</c:when>
-												<c:otherwise>
-													<a href="a_recipe.do?cPage=${k}"><font size="4">${k}</font></a>
-												</c:otherwise>
-											</c:choose>
+											<c:if test="${k==pageing.nowPage}">
+												<li class="now">${k}</li>
+											</c:if>
+											<c:if test="${k!=pageing.nowPage}">
+												<li><a href="a_recipe.do?cPage=${k}">${k}</a></li>
+											</c:if>
 										</c:forEach>
-										<!-- 다음 -->
+										
 										<c:choose>
-									    	<c:when test="${pageing.endBlock < pageing.totalPage}">
-									    		<a href="a_recipe.do?cPage=${pageing.beginBlock+pageing.pagePerBlock}"></a>
+									    	<c:when test="${pageing.endBlock >= pageing.totalPage }">
+									    		<li class="disable"> 다음으로 </li>
 									    	</c:when>
+									    	<c:otherwise>
+									    		<li><a href="a_recipe.do?cPage=${pageing.beginBlock+pageing.pagePerBlock}"> 다음으로 </a></li>
+									    	</c:otherwise>
 									    </c:choose>
 									</ol>
 									</div>

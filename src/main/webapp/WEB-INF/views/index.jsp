@@ -159,8 +159,8 @@
 			}
 		});
 		$(".talk-preview").on("click", function(p){
-			var attrib = $(this).attr("id");
-			alert(attrib);
+			var tno = $(this).attr("id").replace("talk", "");
+			location.href = "talk_view?t_idx=" + tno;
 		});
 		$(".recipe-preview").on("click", function(p){
 			var rno = $(this).attr("id").replace("recipe", "");
@@ -182,13 +182,13 @@
 			</div>
 			<div id="talk-recent-preview-wrap">
 				<div id="talk-recent-preview">
-					<c:forEach var="k" begin="1" end="8">
-						<div class="talk-preview" id="talk${k}">
-							<img src="../resources/images/dessert.jpg">
+					<c:forEach items="${t_list}" var="k">
+						<div class="talk-preview" id="talk${k.t_idx}">
+							<img src="resources/upload/${k.f_arr[0]}">
 							<div class="talk-preview-content">
-								<p>제목 : ${k}</p>
-								<p>작성자 : </p>
-								<p>작성시간 : </p>
+								<p>내용 : ${k.content}</p>
+								<p>작성자 : ${k.name}</p>
+								<p>작성시간 : ${k.regdate.substring(0,10)}</p>
 							</div>
 						</div>
 					</c:forEach>
@@ -206,13 +206,13 @@
 			</div>
 			<div id="recipe-recent-preview-wrap">
 				<div id="recipe-recent-preview">
-					<c:forEach var="k" begin="1" end="8">
-						<div class="recipe-preview" id="recipe${k}">
-							<img src="../resources/images/dessert.jpg">
+					<c:forEach items="${r_list}" var="k">
+						<div class="recipe-preview" id="recipe${k.r_idx}">
+							<img src="${k.main_image}">
 							<div class="recipe-preview-content">
-								<p>제목 : ${k}</p>
-								<p>작성자 : </p>
-								<p>작성시간 : </p>
+								<p>제목 : ${k.recipe_title}</p>
+								<p>작성자 : ${k.writer}</p>
+								<p>작성시간 : ${k.regdate.substring(0,10)}</p>
 							</div>
 						</div>
 					</c:forEach>

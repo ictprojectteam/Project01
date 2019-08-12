@@ -100,6 +100,7 @@ header{
 	background-color: #333333;
 	color: #f7f7f7;
 	line-height: 50px;
+	min-width: 1000px;
 }
 
 header #links{
@@ -189,13 +190,21 @@ tabel td{
 
 
 #write-top-head{
-	column-count: 2;
+	display: grid;
 	width: 1000px;
 	height: 350px;
-	column-gap: 64px;
-	column-rule: 2px solid #ccc ;
+	grid-template-columns: 480px 480px;
+	grid-column-gap: 40px;
 }
 
+#write-top{
+height: 400px;
+margin-top: 50px
+}
+#write-top-left{
+height: 400px;
+margin-top:-40px;
+}
 #write-recipe-topic{
 	column-span: all;
 	margin-bottom: 1.0em;
@@ -519,9 +528,9 @@ tabel td{
 #save-button span:last-child:active{
 	box-shadow: 0px 0px 5px 1px #79f;
 }
-
-
-
+#recipe-ing-pack-2, #recipe-ing-pack-3, #recipe-ing-pack-4, #recipe-ing-pack-5, #recipe-ing-pack-6{
+	display: none;
+}
 
 
 
@@ -691,6 +700,54 @@ tabel td{
 
 		$("#cancel").on("click", function(){
 			history.go(-1);
+		});
+
+		$("#check_ingredient").on("change", function(){
+			if($("#recipe-ing-pack-1").css("display") == "none"){
+				$("#recipe-ing-pack-1").css("display", "block");
+			} else {
+				$("#recipe-ing-pack-1").css("display", "none");
+			}
+		});
+		
+		$("#check_season").on("change", function(){
+			if($("#recipe-ing-pack-2").css("display") == "none"){
+				$("#recipe-ing-pack-2").css("display", "block");
+			} else {
+				$("#recipe-ing-pack-2").css("display", "none");
+			}
+		});
+
+		$("#check_sause").on("change", function(){
+			if($("#recipe-ing-pack-3").css("display") == "none"){
+				$("#recipe-ing-pack-3").css("display", "block");
+			} else {
+				$("#recipe-ing-pack-3").css("display", "none");
+			}
+		});
+
+		$("#check_broth").on("change", function(){
+			if($("#recipe-ing-pack-4").css("display") == "none"){
+				$("#recipe-ing-pack-4").css("display", "block");
+			} else {
+				$("#recipe-ing-pack-4").css("display", "none");
+			}
+		});
+
+		$("#check_topping").on("change", function(){
+			if($("#recipe-ing-pack-5").css("display") == "none"){
+				$("#recipe-ing-pack-5").css("display", "block");
+			} else {
+				$("#recipe-ing-pack-5").css("display", "none");
+			}
+		});
+
+		$("#check_syrup").on("change", function(){
+			if($("#recipe-ing-pack-6").css("display") == "none"){
+				$("#recipe-ing-pack-6").css("display", "block");
+			} else {
+				$("#recipe-ing-pack-6").css("display", "none");
+			}
 		});
 
 		var subm = false;
@@ -917,13 +974,13 @@ tabel td{
 
 
 
-	function showHide(){
-		if(document.getElementById('check_season').checked){
-			document.getElementById('recipe-ing-pack-2').style.visibility = 'visible';
-		}else{
-			document.getElementById('recipe-ing-pack-2').style.visibility = 'hidden';
-		}
-	}
+	//function showHide(){
+	//	if(document.getElementById('check_season').checked){
+	//		document.getElementById('recipe-ing-pack-2').style.visibility = 'visible';
+	//	}else{
+	//		document.getElementById('recipe-ing-pack-2').style.visibility = 'hidden';
+	//	}
+	//}
 
 	
 
@@ -1128,7 +1185,7 @@ tabel td{
 								</div>
 							</div>
 							
-							<div class="recipe-ing-pack" id="recipe-ing-pack-2" style="visibility: hidden;">
+							<div class="recipe-ing-pack" id="recipe-ing-pack-2">
 								<div class="recipe-sort">
 									<div>
 										<div class="recipe-sort-pack">
@@ -1148,7 +1205,7 @@ tabel td{
 								</div>
 							</div>
 							
-							<div class="recipe-ing-pack" id="recipe-ing-pack-3" style="visibility: hidden;">
+							<div class="recipe-ing-pack" id="recipe-ing-pack-3">
 								<div class="recipe-sort">
 									<div>
 										<div class="recipe-sort-pack">
@@ -1168,7 +1225,7 @@ tabel td{
 								</div>
 							</div>
 							
-							<div class="recipe-ing-pack" id="recipe-ing-pack-4" style="visibility: hidden;">
+							<div class="recipe-ing-pack" id="recipe-ing-pack-4">
 								<div class="recipe-sort">
 									<div>
 										<div class="recipe-sort-pack">
@@ -1189,7 +1246,7 @@ tabel td{
 							</div>
 							
 							
-							<div class="recipe-ing-pack" id="recipe-ing-pack-5" style="visibility: hidden;">
+							<div class="recipe-ing-pack" id="recipe-ing-pack-5">
 								<div class="recipe-sort">
 									<div>
 										<div class="recipe-sort-pack">
@@ -1209,7 +1266,7 @@ tabel td{
 								</div>
 							</div>
 							
-							<div class="recipe-ing-pack" id="recipe-ing-pack-6" style="visibility: hidden;">
+							<div class="recipe-ing-pack" id="recipe-ing-pack-6">
 								<div class="recipe-sort">
 									<div>
 										<div class="recipe-sort-pack">
@@ -1299,4 +1356,4 @@ tabel td{
 		</main>
 	</div>
 </body>
-</html>
+</

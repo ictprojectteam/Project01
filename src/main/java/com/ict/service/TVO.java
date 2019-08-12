@@ -1,10 +1,13 @@
 package com.ict.service;
 
+import java.util.ArrayList;
+
 import org.springframework.web.multipart.MultipartFile;
 
 public class TVO {
-	private String t_idx, m_idx, content, file_name, hit, regdate;
-	private MultipartFile f_name;
+	private String t_idx, m_idx, name, content, file_name, heart, regdate, co_count;
+	private MultipartFile[] f_name;
+	private ArrayList<String> f_arr = new ArrayList<String>();
 
 	public String getT_idx() {
 		return t_idx;
@@ -20,6 +23,14 @@ public class TVO {
 
 	public void setM_idx(String m_idx) {
 		this.m_idx = m_idx;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	public String getContent() {
@@ -38,12 +49,12 @@ public class TVO {
 		this.file_name = file_name;
 	}
 
-	public String getHit() {
-		return hit;
+	public String getHeart() {
+		return heart;
 	}
 
-	public void setHit(String hit) {
-		this.hit = hit;
+	public void setHeart(String heart) {
+		this.heart = heart;
 	}
 
 	public String getRegdate() {
@@ -54,13 +65,33 @@ public class TVO {
 		this.regdate = regdate;
 	}
 
-	public MultipartFile getF_name() {
+	public String getCo_count() {
+		return co_count;
+	}
+
+	public void setCo_count(String co_count) {
+		this.co_count = co_count;
+	}
+
+	public MultipartFile[] getF_name() {
 		return f_name;
 	}
 
-	public void setF_name(MultipartFile f_name) {
+	public void setF_name(MultipartFile[] f_name) {
 		this.f_name = f_name;
 	}
+
+	public ArrayList<String> getF_arr() {
+		return f_arr;
+	}
+
+	public void setF_arr(ArrayList<String> f_arr) {
+		this.f_arr = f_arr;
+	}
+
+	
+	
+	
 	
 	
 }
