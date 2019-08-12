@@ -917,17 +917,15 @@ tabel td{
 
 
 
-	var ingredientCheckbox = document.querySelector('input[value="양념"]');
-	var recipePack2 = document.querySelector('recipe-ing-pack[id="recipe-ing-pack-2"]');
-	recipePack2.style.visibility = 'hidden';
-
-	ingredientCheckbox.onchange = function(){
-		if(recipePack2.checked){
-			recipePack2.style.visibility = 'visible';
+	function showHide(){
+		if(document.getElementById('check_season').checked){
+			document.getElementById('recipe-ing-pack-2').style.visibility = 'visible';
 		}else{
-			recipePack2.style.visibility = 'hidden';
+			document.getElementById('recipe-ing-pack-2').style.visibility = 'hidden';
 		}
-	};
+	}
+
+	
 
 </script>
 

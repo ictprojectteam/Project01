@@ -530,4 +530,12 @@ public class MainController {
 		return mv;
 	}
 	
+	
+	/* 실 행 시 admin_view_one_recipe 오류발생
+	 * @RequestMapping("admin_view_one_member") public ModelAndView
+	 * get_admin_view_one_member(@RequestParam String m_idx) { ModelAndView mv = new
+	 * ModelAndView("admin_view_one_member"); MVO mvo =
+	 * dao.getAdminOneMember(m_idx); mv.addObject("mvo", mvo); return mv; }
+	 */
+	
 }

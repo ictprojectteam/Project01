@@ -328,10 +328,8 @@ tabel td{
 									<tr bgcolor="#cccccc">
 										<th>회원번호</th>
 										<th>회원이름</th>
-										<!-- <th>연착처</th> -->
 										<th>이메일</th>
 										<th>아이디</th>
-										<!-- <th>닉네임</th> -->
 										<th>성별</th>
 										<th>가입 일시</th>
 									</tr>
@@ -345,13 +343,11 @@ tabel td{
 										</c:when>
 										<c:otherwise>
 											<c:forEach var="k" items="${m_list}" begin="0" end="10">
-												<tr>
+												<tr onclick="location.href='admin_view_one_member.do?m_idx=${k.m_idx}&cPage=${pageing.nowPage}'" style="cursor:pointer">
 													<td>${k.m_idx}</td>
 													<td>${k.name}</td>
-													<%-- <td>${k.number}</td> --%>
 													<td>${k.email}</td>
 													<td>${k.id}</td>
-													<%-- <td>${k.nickname}</td> --%>
 													<td>${k.gender}</td>
 													<td>${k.regdate}</td>
 												</tr>

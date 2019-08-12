@@ -8,6 +8,20 @@
 <meta charset="UTF-8">
 <title>view recipe</title>
 <style type="text/css">
+	body, html{
+	width: 100%;
+	height: 100%;
+	overflow: hidden;
+	}
+	
+	*{
+		margin: 0;
+		padding: 0;
+		font-family: monospace;
+		box-sizing: border-box;
+		transition: all ease-in-out .2s;
+	}
+		
 	#view-recipe{
 		width: 1200px;
 		margin: 30px auto 0px;
@@ -293,544 +307,234 @@
 <script src="https://kit.fontawesome.com/057ba10041.js"></script>
 <script type="text/javascript" src="../resources/js/jquery-3.4.1.min.js"></script>
 <style type="text/css">
-	#view-recipe{
-		width: 1200px;
-		margin: 30px auto 0px;
-	}
-	#view-recipe-head{
-		width: 750px;
-		margin: auto;
-		text-align: center;
-	}
-	#main-image{
-		width: 720px;
-		margin: auto;
-	}
-	#main-image img{
-		width: 720px;
-		height: 480px;
-		margin: auto;
-	}
-	#writer{
-		display: inline-block;
-		margin: 20px auto;
-		color: #777;
-	}
-	#title{
-		font-size: 25pt;
-		line-height: 0pt;
-		color: #555;
-	}
-	#introduce{
-		width: 500px;
-		font-size: 12pt;
-		line-height: 20pt;
-		text-align: left;
-		margin: 50px auto;
-		color: #888;
-	}
-	#information{
-		margin: 20px auto;
-		width: 600px;
-		display: grid;
-		grid-template-columns: 200px 200px 200px;
-	}
-	#information i{
-		font-size: 25pt;
-		color: #ccc;
-	}
-	#information p{
-		line-height: 0pt;
-		color: #ccc;
-	}
-	#material{
-		width: 850px;
-		margin: auto;
-		line-height: 6pt;
-		color: #555;
-		font-size: 13pt;
-	}
-	#video{
-		width: 900px;
-		margin: 30px auto;
-	}
-	#video-label{
-		font-size: 16pt;
-		color: #555;
-		margin-top: 80px;
-	}
-	#play-video {
-		width: 700px;
-		margin: auto;
-	}
-	#order{
-		width: 900px;
-		margin: 80px auto 0px auto;
-		color: #333;
-	}
-	.order-content{
-		width: 900px;
-		display: grid;
-		grid-template-columns: 100px 465px 335px;
-		margin-bottom: 50px;
-	}
-	.order-number{
-		text-align: right;
-	}
-	.order-number p{
-		width: 30px;
-		padding: 10px;
-		border-radius: 30px;
-		background: #fa8;
-		color: #eee;
-		text-align: center;
-		font-size: 16pt;
-		margin: 0px 0px 0px 30px;
-	}
-	.order-text{
-		font-size: 16pt;
-		color: #555;
-		line-height: 10pt;
-	}
-	.order-text pre{
-		margin-top: 10px;
-	}
-	.order-img{
-		height: 220px;
-	}
-	.order-img img{
-		width: 335px;
-		height: 220px;
-		border-radius: 15px;
-	}
-	#comp{
-		width: 720px;
-		display: grid;
-		grid-template-columns: 90px 540px 90px;
-		margin: auto;
-	}
-	#comp-image-wrap{
-		overflow: hidden;
-		position: relative;
-		width: 720px;
-		margin: auto;
-		left: -90px;
-		z-index: -1;
-	}
-	#comp-image-pack{
-		width: 1000%;
-	}
-	.comp-image{
-		display: inline-block;
-		width: 720px;
-		height: 480px;
-		margin: 0px;
-		padding: 0px;
-	}
-	.comp-image img{
-		width: 720px;
-		height: 480px;
-		margin: 0px;
-	}
-	#comp-left, #comp-right{
-		padding-top: 210px;
-		text-align: center;
-		font-size: 30pt;
-		color: #aaa;
-		opacity: 0.5;
-		cursor: pointer;
-	}
-	#comp-left:hover, #comp-right:hover{
-		opacity: 0.7;
-	}
-	#tip{
-		width: 800px;
-		margin: auto;
-	}
-	#tip-label{
-		background: #f53;
-		color: #eee;
-		font-style: italic;
-		font-size: 20pt;
-		padding: 10px;
-		display: inline-block;
-		width: 220px;
-	}
-	#tip pre{
-		width: 750px;
-		margin: 20px auto;
-		font-size: 16pt;
-	}
-	#tag{
-		width: 720px;
-		margin: 50px auto 10px auto;
-	}
-	#tag-label{
-		background: #f85;
-		color: #eee;
-		font-size: 12pt;
-		border-radius: 15px;
-		padding: 5px;
-		display: inline-block;
-	}
-	.tag{
-		font-size: 12pt;
-		margin-left: 15px;
-		cursor: pointer;
-		color: #f85;
-	}
-	#dateinfo{
-		width: 720px;
-		margin: 30px auto;
-		border: 1px dashed #ccc;
-		padding: 15px;
-		color: #aaa;
-		font-size: 9pt;
-	}
-	#datebar{
-		margin-left: 10px;
-		margin-right: 20px;
-	}
-	#warning{
-		margin-left: 40px;
-	}
-	.fa-ban{
-		font-size: 13pt;
-	}
-	#comment{
-		width: 900px;
-		margin: auto;
-	}
-	#com-label{
-		margin-top: 40px;
-	}
-	#com-count{
-		margin-left: 10px;
-		color: #fa8;
-	}
-	#comlist{
-		display: grid;
-		grid-template-columns: 80px 820px;
-	}
-	#comform{
-		display: flex;
-	}
-	#comtext{
-		resize: none;
-		width: 90%;
-		height: 120px;
-		font-size: 13pt;
-		padding: 5px;
-		border: 1px #ccc;
-		border-style: solid none solid solid;
-		border-radius: 5px 0px 0px 5px;
-		display: inline-block;
-		z-index: 0;
-	}
-	#comtext:focus{
-		box-shadow: 0px 0px 4px 1px #7af;
-		z-index:1;
-	}
-	#combutton{
-		width: 10%;
-		height: 20px;
-		text-align: center;
-		padding: 55px 20px;
-		font-size: 13pt;
-		color: #555;
-		margin: auto;
-		cursor: pointer;
-		border: 1px solid #ccc;
-		border-radius: 0px 5px 5px 0px;
-		z-index:0;
-	}
-	#combutton:active{
-		box-shadow: 0px 0px 4px 2px #7af;
-		z-index:1;
-	}
-	.com-pro{
-		height: 80px;
-	}
-	.com-content{
-		margin-left: 10px;
-	}
-	.com-writer{
-		font-size: 16pt;
-		color: #c97;
-	}
-	.com-date, .com-del{
-		margin-left: 10px;
-		color: #aaa;
-	}
-	.com-del{
-		cursor: pointer;
-	}
-	.com-text{
-		font-size: 12pt;
-		color: #555;
-	}
-	.infobar{
-		margin-left: 10px;
-		color: #ccc;
-	}
+	#container{
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	background-color: #f7f7f7;
+	overflow: auto;
 }
+
+nav{
+	display: block;
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 200px;
+	margin-left: 0px;
+	height: 100%;
+	background-color: #333333;
+}
+
+#logo{
+	height: 50px;
+	background-color: #333333;
+	color: #1E90FE;
+	text-align: center;
+	line-height: 50px;
+	font-size: 1.3em;
+	font-family: arial;
+}
+#logo span{
+	font-size: 1em;
+	font-family: monospace;
+	font-style: italic;
+	color: #f7f7f7;
+}
+
+#menu{
+	width: 100%;
+	background-color: #333333;
+}
+
+#menu li{
+	width: 100%;
+	height: 50px;
+	line-height: 50px;
+	background-color: #333333;
+}
+
+#menu li>a{
+	font-size: 1.05em;
+	font-family: arial;
+	width: 100%;
+	height: 100%;
+	color: #f7f7f7;
+	display: block;
+	text-align: center;
+	text-decoration: none;
+}
+
+#menu li:hover{
+	background-color: #151515;
+}
+
+#menu li>a:hover{
+	color: #1E90FF;
+	border-left: 3px solid #1E90FF;
+}
+
+header{
+	width: calc(100% - 200px);
+	height: 50px;
+	position: absolute;
+	display: block;
+	top: 0;
+	left: 200px;
+	background-color: #333333;
+	color: #f7f7f7;
+	line-height: 50px;
+}
+
+header #links{
+	float: right;
+	height: 50px;
+	display: block;
+	color: #f7f7f7;
+	font-size: 1em;
+	margin-right: 1em;
+}
+
+#links>a{
+	color: #f7f7f7;
+	text-decoration: none;
+	padding: 0.5em;
+	width: 100%;
+	height: 100%;
+	display: block;
+}
+
+#links:hover{
+	background-color: #1E90FF;
+}
+
+#actions-container{
+	width: 80%;
+	height: calc(100% -4em);
+	background-color: #dadada;
+}
+
+#main{
+	margin-left: 20em;
+}
+
+.title{
+	width: 100%;
+	height: 50px;
+	display: block;
+	text-align: left;
+	line-height: 30px;
+	padding-top: 30px;
+	margin-bottom: 1em;
+	font-size: 1.0em;
+	font-family: arial;
+	font-weight: bold;
+}
+
+.row{
+	display: flex;
+	width: 100%;
+	height: 30%;
+	flex-wrap: nowrap;
+	flex-direction: row;
+	padding: 1em;
+}
+
+#user-action{
+	margin-top: 5em;
+}
+
+#action{
+	margin-top: 20em;
+}
+
+table, th, td {
+	border: 1px solid black;
+	border-collapse: collapse;
+	color: #2b686e;
+	text-align: left;
+	font-size: 1.0em;
+	margin-top: 1em;
+	line-height: 25px;
+}
+
+table{
+	position: relative;
+	width: 1000px;
+	margin-left: 1.0em;
+	margin-right: 1.0em;
+	margin-bottom: 1.0em;
+}
+
+table th{
+	border-spacing: 0;
+	text-align: center;
+}
+
+tabel td{
+	font-size: 1.0em;
+}
+
+#body td{
+	text-align: center;
+}
+
+
+
 </style>
 <script src="https://kit.fontawesome.com/057ba10041.js"></script>
 <script type="text/javascript" src="../resources/js/jquery-3.4.1.min.js"></script>
 <script>
-	$(function(){
-		var imagelist = $("#comp-image-pack");
-		var moving = false;
-		var i_count = $(".comp-image").length;
-		var imagenum = 0;
-		$("#comp-image-pack").append($(".comp-image:first-child").clone());
-		$("#comtext").on("focus", function(){
-			var mid = "${mvo.id}";
-			if(mid == ""){
-				var lchk = confirm("로그인이 필요합니다. 로그인 하시겠습니까?");
-				if(lchk) {
-					$("#comtext").blur();
-					location.href = "login";
-				} else {
-					$("#comtext").blur();
-				}
-			}
-		});
-		$("#comp-left").on("click", function(){
-			if(moving == false) {
-				moving = true;
-				if(imagenum == 0){
-					imagenum = i_count;
-					imagelist.css("margin-left", -725*imagenum+"px");
-				}
-				if(imagenum > 0) {
-					imagenum--;
-					imagelist.stop().animate({marginLeft:-725*imagenum+"px"}, 400);
-				}
-				setTimeout(function(){
-					moving = false;
-				}, 500);
-			}
-		});
-		$("#comp-right").on("click", function(){
-			if(moving == false) {
-				moving = true;
-				if (imagenum == i_count) {
-					imagenum = 0;
-					imagelist.css("margin-left", 0);
-				}
-				if (imagenum < i_count) {
-					imagenum++;
-					imagelist.stop().animate({marginLeft:-725*imagenum+"px"}, 400);
-				}
-				setTimeout(function(){
-					moving = false;
-				}, 500);
-			}
-		});
-		$("#combutton").on("click", function(){
-			if ($("#comtext").val() == "") {
-				alert("내용을 입력해주세요.");
-			} else {
-				
-				$.ajax({
-					url : "recipe_comwrite",
-					data : $("#comform").serialize(),
-					dataType : "text",
-					type : "post",
-					success : function(data) {
-						if (data != 0) {
-							getComList();
-						} else {
-							alert("쓰기 실패1");
-						}
-					},
-					error : function() {
-						alert("쓰기 실패2");
-					}
-				});
-			}
-		});
-		getComList();
-		$("iframe").attr({"frameborder" : "0", "allow" : "accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture", "allowfullscreen" : ""})
-	});
-
-	function countCom() {
-		$("#com-count").empty();
-		$.ajax({
-			url : "count_com",
-			data : "r_idx=${rvo.r_idx}",
-			dataType : "text",
-			type : "post",
-			success : function(data) {
-				$("#com-count").append(data);
-			},
-			error : function() {
-				alert("읽기 실패");
-			}
-		});
-	}
 	
-	function getComList() {
-		$("#comlist").empty();
-		var clist = "";
-		$.ajax({
-			url : "recipe_comlist",
-			data : "r_idx=${rvo.r_idx}",
-			dataType : "text",
-			type : "post",
-			success : function(data) {
-				$("#comlist").append(data);
-			},
-			error : function(){
-				alert("읽기 실패2");
-			}
-		});
-		countCom();
-	}
-
-	function com_del(n){
-		var chk = confirm("정말 삭제할까요?");
-		if (chk) {
-			$.ajax({
-				url : "recipe_comdelete",
-				data : "r_c_idx=" + n,
-				dataType : "text",
-				type : "post",
-				success : function(data) {
-					getComList();
-				},
-				error : function() {
-					alert("삭제 실패");
-				}
-			});
-		}
-	}
 </script>
 </head>
 <body>
-	<jsp:include page="head.jsp" />
-	<div id="view-recipe">
-		<div id="view-recipe-head">
-			<div id="main-image"><img src="${rvo.main_image}"></div>
-			<span id="writer">${rvo.writer}</span>
-			<p id="title">${rvo.recipe_title}</p>
-			<pre id="introduce">${rvo.recipe_introduce}</pre>
-			<div id="information">
-				<div id="quant">
-					<i class="fas fa-user-friends"></i>
-					<p>${rvo.recipe_quant}</p>
-				</div>
-				<div id="time">
-					<i class="fas fa-stopwatch"></i>
-					<p>${rvo.recipe_time}</p>
-				</div>
-				<div id="difficulty">
-					<i class="fas fa-medal"></i>
-					<p>${rvo.recipe_difficulty}</p>
-				</div>
+	<div id="container">
+		<nav>
+			<div id="logo">
+				ICT레시피 <span>ict recipe</span>
 			</div>
-			<hr width="720px">
-		</div>
-		<div id="view-recipe-body">
-			<div id="material">
-				<c:set var="pack" value="${rvo.pack.replace('[','').replace(']','').split(', ')}"></c:set>
-				<c:set var="rege" value="\|\], \[\|"></c:set>
-				<c:set var="materials" value="${rvo.material.replace('[[|', '').replace('|]]', '').split(rege)}"></c:set>
-				<c:forEach var="i" begin="0" end="${fn:length(pack) - 1}">
-					<h3>[${pack[i]}]</h3>
-					<c:set var="rege2" value="\|, \|"></c:set>
-					<c:set var="material" value="${materials[i].split(rege2)}"></c:set>
-					<p><c:forEach var="j" begin="0" end="${fn:length(material) - 1}">
-						${material[j].replace(', ', ' ')}
-						<c:if test="${j < (fn:length(material)-1)}">,</c:if> 
-					</c:forEach></p>
-					<br>
-				</c:forEach>
+			<ul id="menu">
+				<li><a id="home" href="home">HOME</a></li>
+				<li><a id="recipe" href="a_recipe">레시피 관리</a></li>
+				<li><a id="content" href="a_write_recipe">게시물 등록</a></li>
+				<li><a id="user" href="membership">회원 관리</a></li>
+				<li><a id="board" href="home">문의 관리</a></li>
+				<li><a id="event" href="home">이벤트 관리</a></li>
+				<li><a id="op" href="home">운영자 관리</a></li>
+				<li><a id="setting" href="home">설정</a></li>
+			</ul>
+		</nav>
+		<header>
+			<div id="links">
+				<a href="m">로그아웃</a>
 			</div>
-			<c:if test="${!empty rvo.recipe_video}">
-				<div id="video">
-					<p id="video-label">동영상</p>
-					<c:set var="videourl" value="${rvo.recipe_video}"></c:set>
-					<c:set var="vidindex" value="${videourl.lastIndexOf('/')}"></c:set>
-					<c:set var="vidleng" value="${fn:length(videourl)}"></c:set>
-					<c:set var="videoval" value="${fn:substring(videourl,vidindex + 1,vidleng)}"></c:set>
-					<div id="play-video">
-						<iframe width="700" height="395" src="https://www.youtube.com/embed/${videoval}"></iframe>
-					</div>
-				</div>
-			</c:if>
-			<div id="order">
-				<h2>조리순서</h2>
-				<c:set var="orders" value="${rvo.orderContent.replace('[|', '').replace('|]', '').split(rege2)}"></c:set>
-				<c:forEach var="i" begin="0" end="${fn:length(orders) - 1}">
-					<c:set var="order" value="${orders[i].split(', ')}"></c:set>
-					<div class="order-content">
-						<div class="order-number"><p>${i + 1}</p></div>
-						<div class="order-text"><pre>${order[0]}</pre></div>
-						<div class="order-img">
-							<c:if test="${!empty order[1]}">
-								<img src="${order[1]}">
-							</c:if>
+		</header>
+		<main id="main">
+			<div id="action-container">
+				<div id="user-action">
+					<div class="title">
+						레시피 관리
+						<div id="body">
+						<table>
+							<thead>
+								<tr>
+									<th bgcolor="#cccccc">회원이름</th>
+										<td>${r_vo.name}</td>
+									<th bgcolor="#cccccc">레시피 제목</th>
+										<td>${r_vo.recipe_title}</td>
+								</tr>
+								<tr>
+									
+									
+								</tr>
+							</thead>
+						</table>
 						</div>
-					</div>
-				</c:forEach>
-			</div>
-		</div>
-		<div id="view-recipe-foot">
-			<c:if test="${!empty rvo.finImage}">
-				<c:set var="finImage" value="${rvo.finImage.replace('[', '').replace(']', '').split(', ')}"></c:set>
-				<div id="comp">
-					<div id="comp-left">
-						<i class="fas fa-angle-left"></i>
-					</div>
-					<div id="comp-image-wrap">
-						<div id="comp-image-pack">
-							<c:forEach var="k" items="${finImage}">
-								<div class="comp-image"><img src="${k}"></div>
-							</c:forEach>
 						</div>
-					</div>
-					<div id="comp-right">
-						<i class="fas fa-angle-right"></i>
-					</div>
-				</div>	
-			</c:if>
-			<c:if test="${!empty rvo.recipe_tip}">
-				<div id="tip">
-					<span id="tip-label"># 팁 / 주의사항</span>
-					<pre>${rvo.recipe_tip}</pre>
-				</div>
-			</c:if>
-			<c:if test="${!empty rvo.recipe_tag}">
-				<c:set var="tags" value="${rvo.recipe_tag.split(', ')}"></c:set>
-				<div id="tag">
-					<span id="tag-label">태그 <i class="far fa-hand-point-right"></i></span>
-					<c:forEach var="k" items="${tags}">
-						<span class="tag">#${k}</span>
-					</c:forEach>
-				</div>
-			</c:if>
-			<div id="dateinfo">
-				<span id="regdate">등록일 : ${rvo.regdate.substring(0,10)}</span>
-				<span id="datebar">|</span>
-				<span id="lastedit">수정일 : ${rvo.lastedit.substring(0,10)}</span>
-				<span id="warning"><i class="fas fa-ban"></i>저작자의 사전 동의 없이 이미지 및 문구의 무단 도용 및 복제를 금합니다.</span>
-			</div>
-		</div>
-	</div>
-	<div id="comment">
-		<div id="com-label"><h2>댓글<span id="com-count"></span></h2></div>
-		<div id="comlist">
-			
-		</div>
-		<div id="comwrite">
-			<form id="comform">
-				<textarea id="comtext" name="content_" placeholder="무엇이 궁금하신가요? 댓글을 남겨주세요."></textarea><span id="combutton">등록</span>
-				<input type="hidden" name="r_idx" value="${rvo.r_idx}">
-			</form>
-		</div>
-	</div>
-	<jsp:include page="foot.jsp" />
+						</div>
+						</div>
+						</main>
+						</div>
 </body>
 </html>

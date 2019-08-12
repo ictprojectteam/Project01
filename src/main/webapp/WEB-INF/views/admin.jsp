@@ -272,7 +272,7 @@ tabel td {
 									</c:when>
 									<c:otherwise>
 										<c:forEach var="k" items="${r_list}" begin="0" end="4">
-											<tr onclick="location.href='admin_view_one_recipe.do?r_idx=${k.r_idx}&cPage=${pageing.nowPage}'" style="cursor:pointer">
+											<tr onclick="location.href='admin_view_one_recipe.do?r_idx=${k.r_idx}'" style="cursor:pointer">
 												<td>${k.r_idx}</td>
 												<td>${k.m_idx}</td>
 												<td>${k.recipe_title}</td>
