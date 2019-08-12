@@ -439,6 +439,7 @@ public class MainController {
 	@RequestMapping("talk")
 	public ModelAndView getTalk(HttpServletRequest request) {
 		ModelAndView mv = new ModelAndView("talk");
+		/*
 		// 페이징
 		Pageing pvo = new Pageing();
 		int count = dao.getT_count();		// 전체 게시물 
@@ -474,6 +475,8 @@ public class MainController {
 		}
 		
 		List<TVO> list = dao.getTalk_List(pvo.getBegin(), pvo.getEnd());
+		*/
+		List<TVO> list = dao.getTalk_List();
 		for (int i = 0; i < list.size(); i++) {
 			list.get(i).setCo_count(String.valueOf((dao.getT_co_count(list.get(i).getT_idx()))));
 			if(list.get(i).getFile_name() != null) {
@@ -485,7 +488,7 @@ public class MainController {
 			}
 		}
 		mv.addObject("list", list);
-		mv.addObject("pvo", pvo);
+		// mv.addObject("pvo", pvo);
 		return mv;
 	}
 	

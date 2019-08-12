@@ -135,31 +135,8 @@ table {
 			</c:forEach>
 		</c:if>
 	</div>
-	<div>
-		<table>
-			<tr>
-				<td colspan="4">
-					<ol class="paging">
-						<%-- 이전 --%>
-						<c:choose>
-							<c:when test="${pvo.beginBlock <= pvo.pagePerBlock}">
-								<li class="disable"> 이전으로 </li>
-							</c:when>
-							<c:otherwise>
-								<li><a href="talk?cPage=${pvo.beginBlock - pvo.pagePerBlock}"> 이전으로 </a></li>
-							</c:otherwise>
-						</c:choose>
-						
-						<!-- 블록안 페이지 번호들 -->
-						<c:forEach begin="${pvo.beginBlock}" end="${pvo.endBlock}" step="1" var="k">
-							<%-- 현재 페이지는 링크 X, 나머지는 해당 페이지로 링크 --%>
-							<c:if test="${k==pvo.nowPage }"></c:if>
-						</c:forEach>
-					</ol>
-				</td>
-			</tr>
-		</table>
-	</div>
+	
+	
 	<footer>
 		<jsp:include page="foot.jsp" />
 	</footer>
