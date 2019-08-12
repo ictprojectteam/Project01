@@ -152,3 +152,17 @@ talk 구조 수정
 ALTER TABLE talk RENAME COLUMN content_ TO content;
 ALTER TABLE talk RENAME COLUMN hit TO heart;
 alter table talk add co_count number;
+
+==============================================================
+create table talk(
+t_idx NUMBER not null,
+m_idx NUMBER,
+name VARCHAR2(50),
+content VARCHAR2(4000),
+file_name VARCHAR2(50),
+heart NUMBER,
+regdate date,
+co_count number,
+PRIMARY key (t_idx),
+foreign key (m_idx) references members(m_idx)
+);
