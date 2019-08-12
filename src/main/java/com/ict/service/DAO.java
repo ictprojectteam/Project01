@@ -36,6 +36,22 @@ public class DAO {
 		return sqlSessionTemplate.insert("join", mvo);
 	}
 	
+	public int chkEmail(MVO mvo) {
+		return sqlSessionTemplate.selectOne("chkEmail", mvo);
+	}
+	
+	public int updateEmail(MVO mvo) {
+		return sqlSessionTemplate.update("updateEmail", mvo);
+	}
+	
+	public int chkName(MVO mvo) {
+		return sqlSessionTemplate.selectOne("chkName", mvo);
+	}
+	
+	public int updateName(MVO mvo) {
+		return sqlSessionTemplate.update("updateName", mvo);
+	}
+	
 	public List<RVO> getr_list() {
 		return sqlSessionTemplate.selectList("r_list");
 	}

@@ -57,39 +57,21 @@ public class MainController {
 		listmap.put("a_permission", "1");
 		
 		List<RecipeVO> r_list = dao.getRecipeList(listmap);
-		mv.addObject("r_list", r_list);
-		return mv;
-	}
-	
-	@RequestMapping(value = "login")
-	public ModelAndView getLogin() {
-		ModelAndView mv = new ModelAndView("login");
 		
-		return mv;
-	}
-	
-	@RequestMapping(value = "goLogin", method = RequestMethod.POST)
-	public ModelAndView goLogin(MVO mvo, HttpSession session) {
-		ModelAndView mv = new ModelAndView();
-		MVO r_mvo = dao.getLogin(mvo);
-		if (r_mvo != null) {
-			session.setAttribute("mvo", r_mvo);
-			mv.setViewName("redirect:/");
-		} else {
-			mv.setViewName("loginfail");
+		List<TVO> t_list = dao.getTalk_List();
+		
+		for (int i = 0; i < t_list.size(); i++) {
+			if(t_list.get(i).getFile_name() != null) {
+				String str = t_list.get(i).getFile_name();
+				String[] s_arr = str.split(",");
+				for (int j = 0; j < s_arr.length; j++) {
+					t_list.get(i).getF_arr().add(s_arr[j]);
+				}
+			}
 		}
-		return mv;
-	}
-	
-	@RequestMapping("join")
-	public ModelAndView goJoin() {
-		return new ModelAndView("join");
-	}
-	
-	@RequestMapping("join_ok")
-	public ModelAndView getInsert(MVO mvo) {
-		ModelAndView mv = new ModelAndView("redirect:/");
-		dao.getJoin(mvo);
+		mv.addObject("t_list", t_list);
+		
+		mv.addObject("r_list", r_list);
 		return mv;
 	}
 	
@@ -582,7 +564,6 @@ public class MainController {
 		return mv;
 	}
 	
-	
 	@RequestMapping("ranking")
 	public ModelAndView ranking() {
 		ModelAndView mv = new ModelAndView("ranking");
@@ -629,7 +610,6 @@ public class MainController {
 	public String talkCountLike(TLVO tlvo) {
 		return String.valueOf(dao.talkCountLike(tlvo));
 	}
-	
 	
 //	유튜브 썸네일 URI를 ajax로 받기 위한 메소드
 	@RequestMapping("thumbnail")

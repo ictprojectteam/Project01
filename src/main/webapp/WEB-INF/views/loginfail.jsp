@@ -8,7 +8,7 @@
 <script type="text/javascript">
 	function login_fail(){
 		alert("아이디 또는 암호가 올바르지 않습니다.");
-		location.href='login';
+		history.go(-1);
 	}
 </script>
 </head>

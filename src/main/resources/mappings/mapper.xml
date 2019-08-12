@@ -13,6 +13,18 @@
 		insert into members
 		values(members_seq.nextval,#{id},#{pw},#{email},#{name},#{gender},sysdate)
 	</insert>
+	<select id="chkEmail" parameterType="mvo" resultType="int">
+		select count(*) from members where email = #{email}
+	</select>
+	<update id="updateEmail" parameterType="mvo">
+		update members set email = #{email} where id = #{id} 
+	</update>
+	<select id="chkName" parameterType="mvo" resultType="int">
+		select count(*) from members where name = #{name}
+	</select>
+	<update id="updateName" parameterType="mvo">
+		update members set name = #{name} where id = #{id} 
+	</update>
 	<select id="m_list" resultType="mvo">
 		select * from members order by regdate desc
 	</select>
@@ -141,7 +153,6 @@
 	<select id="t_co_list" parameterType="String" resultType="tcvo">
 		select * from talk_c where t_idx = #{t_idx}
 	</select>
-	
 	<select id="get_talk_like" parameterType="tlvo" resultType="int">
 		select count(*) from t_like where t_idx = #{t_idx} and m_idx = #{m_idx}
 	</select>
