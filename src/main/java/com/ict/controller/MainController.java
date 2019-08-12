@@ -455,9 +455,43 @@ public class MainController {
 	}
 	
 	@RequestMapping("talk")
-	public ModelAndView getTalk() {
+	public ModelAndView getTalk(HttpServletRequest request) {
 		ModelAndView mv = new ModelAndView("talk");
-		List<TVO> list = dao.getTalk_List();
+		// 페이징
+		Pageing pvo = new Pageing();
+		int count = dao.getT_count();		// 전체 게시물 
+		String cPage = request.getParameter("cPage");
+		pvo.setPagePerBlock(10);
+		
+		pvo.setTotalRecord(count);
+		
+		if(pvo.getTotalRecord() <= pvo.getNumPerPage()) {
+			pvo.setTotalPage(1);
+		}else {
+			pvo.setTotalPage(pvo.getTotalRecord()/pvo.getNumPerPage());
+			if(pvo.getTotalRecord()%pvo.getNumPerPage() != 0) {
+				pvo.setTotalPage(pvo.getTotalPage() +1);
+			}
+		}
+		
+		if(cPage == null) {
+			pvo.setNowPage(1);
+		}else {
+			pvo.setNowPage(Integer.parseInt(cPage));
+		}
+		
+		pvo.setBegin((pvo.getNowPage()-1) * pvo.getNumPerPage() +1);
+		pvo.setEnd((pvo.getBegin()-1) + pvo.getNumPerPage());
+		
+		pvo.setBeginBlock((pvo.getNowPage() -1)/pvo.getPagePerBlock()
+							* pvo.getPagePerBlock() +1);
+		pvo.setEndBlock(pvo.getBeginBlock() + pvo.getPagePerBlock() -1);
+		
+		if(pvo.getEndBlock() > pvo.getTotalPage()) {
+			pvo.setEndBlock(pvo.getTotalPage());
+		}
+		
+		List<TVO> list = dao.getTalk_List(pvo.getBegin(), pvo.getEnd());
 		for (int i = 0; i < list.size(); i++) {
 			list.get(i).setCo_count(String.valueOf((dao.getT_co_count(list.get(i).getT_idx()))));
 			if(list.get(i).getFile_name() != null) {
@@ -469,7 +503,7 @@ public class MainController {
 			}
 		}
 		mv.addObject("list", list);
-		
+		mv.addObject("pvo", pvo);
 		return mv;
 	}
 	

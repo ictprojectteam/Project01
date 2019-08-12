@@ -108,8 +108,14 @@
 		insert into talk values(talk_seq.nextval, #{m_idx}, #{name}, #{content}, #{file_name}, #{heart}, sysdate, 0)
 	</insert>
 	
-	<select id="talk_list" resultType="tvo">
-		select * from talk order by t_idx desc
+	<select id="talk_list" parameterType="Map" resultType="tvo">
+		select * from (
+			select rownum r_num, a.* from(
+				select * from talk order by t_idx desc ) a
+			) where r_num between #{begin} and #{end}
+	</select>
+	<select id="t_count" resultType="int">
+		select count(*) from talk
 	</select>
 	<delete id="tl_del" parameterType="String">
 		delete from t_like where t_idx = #{t_idx}

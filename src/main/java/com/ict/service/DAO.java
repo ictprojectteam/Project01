@@ -134,8 +134,14 @@ public class DAO {
 	public int talkCountLike(TLVO tlvo) {
 		return sqlSessionTemplate.selectOne("t_countlike", tlvo);
 	}
-	public List<TVO> getTalk_List(){
-		return sqlSessionTemplate.selectList("talk_list");
+	public List<TVO> getTalk_List(int begin, int end){
+		Map<String, Integer> map = new HashMap<String, Integer>();
+		map.put("begin", begin);
+		map.put("end", end);
+		return sqlSessionTemplate.selectList("talk_list", map);
+	}
+	public int getT_count() {
+		return sqlSessionTemplate.selectOne("t_count");
 	}
 	public int getTalk_del(String t_idx) {
 		sqlSessionTemplate.delete("tl_del", t_idx);

@@ -100,15 +100,15 @@ table {
 									<a href="talk_view?t_idx=${k.t_idx}">
 									<p style="width: 430px; height: 60px;">${k.content}</p>
 									<footer>
-									<c:forEach var="i" items="${k.f_arr}">
-									<img src="<c:url value='/resources/upload/${i}'/>" style="width:100px; height: 100px;">
-									</c:forEach>
+										<c:forEach var="i" items="${k.f_arr}">
+											<img src="<c:url value='/resources/upload/${i}'/>" style="width:100px; height: 100px;">	
+										</c:forEach>	
 									</footer>
 									</a>
 									</td>
 								<td class="haco">
-								<img src="resources/images/heart.png" style="width:30px; height: 30px;"> ${k.heart} 
-								<img src="resources/images/talk.png" style="width:30px; height: 30px;"> ${k.co_count}
+									<img src="resources/images/heart.png" style="width:30px; height: 30px;"> ${k.heart} 
+									<img src="resources/images/talk.png" style="width:30px; height: 30px;"> ${k.co_count}
 								</td>
 							</tr>
 						</table>
@@ -117,16 +117,16 @@ table {
 						<table class="content">
 							<tr>
 								<td class="prf_img">이미지</td>
-								<td><header
-										style="margin-top: -20px;">
+								<td>
+									<header style="margin-top: -20px;">
 										<h5>${k.name}</h5>
 										<h6 style="margin-top: -20px;">${k.regdate}</h6>
 									</header>
 									<a href="talk_view?t_idx=${k.t_idx}""><p style="width: 430px; height: 100px;">${k.content}</p></a>
 									</td>
 								<td class="haco">
-								<img src="resources/images/heart.png" style="width:30px; height: 30px;"> ${k.heart} 
-								<img src="resources/images/talk.png" style="width:30px; height: 30px;"> ${k.co_count}
+									<img src="resources/images/heart.png" style="width:30px; height: 30px;"> ${k.heart} 
+									<img src="resources/images/talk.png" style="width:30px; height: 30px;"> ${k.co_count}
 								</td>
 							</tr>
 						</table>
@@ -134,6 +134,31 @@ table {
 				</c:choose>
 			</c:forEach>
 		</c:if>
+	</div>
+	<div>
+		<table>
+			<tr>
+				<td colspan="4">
+					<ol class="paging">
+						<%-- 이전 --%>
+						<c:choose>
+							<c:when test="${pvo.beginBlock <= pvo.pagePerBlock}">
+								<li class="disable"> 이전으로 </li>
+							</c:when>
+							<c:otherwise>
+								<li><a href="talk?cPage=${pvo.beginBlock - pvo.pagePerBlock}"> 이전으로 </a></li>
+							</c:otherwise>
+						</c:choose>
+						
+						<!-- 블록안 페이지 번호들 -->
+						<c:forEach begin="${pvo.beginBlock}" end="${pvo.endBlock}" step="1" var="k">
+							<%-- 현재 페이지는 링크 X, 나머지는 해당 페이지로 링크 --%>
+							<c:if test="${k==pvo.nowPage }"></c:if>
+						</c:forEach>
+					</ol>
+				</td>
+			</tr>
+		</table>
 	</div>
 	<footer>
 		<jsp:include page="foot.jsp" />
