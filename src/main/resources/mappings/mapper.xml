@@ -25,6 +25,12 @@
 	<update id="updateName" parameterType="mvo">
 		update members set name = #{name} where id = #{id} 
 	</update>
+	<select id="chkPw" parameterType="mvo" resultType="int">
+		select count(*) from members where id = #{id} and pw = #{pw}
+	</select>
+	<update id="updatePw" parameterType="mvo">
+		update members set pw = #{pw} where id = #{id}
+	</update>
 	<select id="m_list" resultType="mvo">
 		select * from members order by regdate desc
 	</select>

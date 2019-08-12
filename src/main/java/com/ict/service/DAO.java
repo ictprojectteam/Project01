@@ -52,6 +52,14 @@ public class DAO {
 		return sqlSessionTemplate.update("updateName", mvo);
 	}
 	
+	public int chkPw(MVO mvo) {
+		return sqlSessionTemplate.selectOne("chkPw", mvo);
+	}
+	
+	public int updatePw(MVO mvo) {
+		return sqlSessionTemplate.update("updatePw", mvo);
+	}
+	
 	public List<RVO> getr_list() {
 		return sqlSessionTemplate.selectList("r_list");
 	}
