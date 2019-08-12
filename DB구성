@@ -146,3 +146,9 @@ create table t_like(
 );
 시퀀스
 create sequence t_l_seq increment by 1 start with 1 nocycle;
+
+========================================================================
+talk 구조 수정
+ALTER TABLE talk RENAME COLUMN content_ TO content;
+ALTER TABLE talk RENAME COLUMN hit TO heart;
+alter table talk add co_count number;
