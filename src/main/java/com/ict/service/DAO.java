@@ -193,4 +193,7 @@ public class DAO {
 	public void recipeHitUpdate(RecipeVO rvo) {
 		sqlSessionTemplate.update("rhitupdate", rvo);
 	}
+	public RecipeVO getAdminOneRecipe(String r_idx) {
+		return sqlSessionTemplate.selectOne("onelistrecipe", r_idx);
+	}
 }

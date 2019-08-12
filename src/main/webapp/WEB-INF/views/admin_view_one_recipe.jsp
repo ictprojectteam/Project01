@@ -1,0 +1,473 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>view recipe</title>
+<style type="text/css">
+	body, html{
+	width: 100%;
+	height: 100%;
+	overflow: hidden;
+	}
+	
+	*{
+		margin: 0;
+		padding: 0;
+		font-family: monospace;
+		box-sizing: border-box;
+		transition: all ease-in-out .2s;
+	}
+	
+	#container{
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	background-color: #f7f7f7;
+	overflow: auto;
+	}
+	
+	nav{
+		display: block;
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 200px;
+		margin-left: 0px;
+		height: 100%;
+		background-color: #333333;
+	}
+	
+	#logo{
+		height: 50px;
+		background-color: #333333;
+		color: #1E90FE;
+		text-align: center;
+		line-height: 50px;
+		font-size: 1.3em;
+		font-family: arial;
+	}
+	#logo span{
+		font-size: 1em;
+		font-family: monospace;
+		font-style: italic;
+		color: #f7f7f7;
+	}
+	
+	#menu{
+		width: 100%;
+		background-color: #333333;
+	}
+	
+	#menu li{
+		width: 100%;
+		height: 50px;
+		line-height: 50px;
+		background-color: #333333;
+	}
+	
+	#menu li>a{
+		font-size: 1.05em;
+		font-family: arial;
+		width: 100%;
+		height: 100%;
+		color: #f7f7f7;
+		display: block;
+		text-align: center;
+		text-decoration: none;
+	}
+	
+	#menu li:hover{
+		background-color: #151515;
+	}
+	
+	#menu li>a:hover{
+		color: #1E90FF;
+		border-left: 3px solid #1E90FF;
+	}
+	
+	header{
+		width: calc(100% - 200px);
+		height: 50px;
+		position: absolute;
+		display: block;
+		top: 0;
+		left: 200px;
+		background-color: #333333;
+		color: #f7f7f7;
+		line-height: 50px;
+	}
+	
+	header #links{
+		float: right;
+		height: 50px;
+		display: block;
+		color: #f7f7f7;
+		font-size: 1em;
+		margin-right: 1em;
+	}
+	
+	#links>a{
+		color: #f7f7f7;
+		text-decoration: none;
+		padding: 0.5em;
+		width: 100%;
+		height: 100%;
+		display: block;
+	}
+	
+	#links:hover{
+		background-color: #1E90FF;
+	}
+	
+	#main{
+		margin-left: 16em;
+		margin-top: 5em;
+	}
+	
+	#title{
+		font-size: 1.7em;
+		margin-left: 1em;
+	}
+	
+	#table{
+		margin-top: 1em;
+		border: 1px solid #999;
+		width: 1200px; 
+	}
+	
+	.regular{
+		display: grid;
+		grid-template-columns: 150px 450px 150px 450px;
+	}
+	
+	.one{
+		display: grid;
+		grid-template-columns: 150px 1050px;
+	}
+	.quad{
+		display: grid;
+		grid-template-columns: 150px 150px 150px 150px 150px 150px 150px 150px;
+	}
+	.tri{
+		display: grid;
+		grid-template-columns: 150px 250px 150px 250px 150px 250px;
+	}
+	
+	.label{
+		background: #bbb;
+		padding: 5px;
+		border: 1px solid #999;
+	}
+	
+	.content{
+		border: 1px solid #999;
+	}
+	
+	.content-detail{
+		width: 1100px;
+		margin: 10px auto;
+	}
+	
+	#inf-box{
+		border: 0.5px solid #999;
+	}
+	
+	#inf-title{
+		border: 0.5px solid #999;
+		border-radius: 8px;
+		background: #bbb;
+		margin: 5px;
+		padding: 5px; 
+	}
+	
+	#inf-content{
+		margin: 5px;
+		padding: 0px 10px;
+	}
+	
+	#div-box{
+		display: grid;
+		grid-template-columns: 500px 500px;
+		grid-column-gap: 40px;
+		border: 0.5px solid #999;
+		margin-top: 5px;
+	}
+	
+	.ing{
+		margin: 5px 10px;
+	}
+	
+	.ing-title{
+		border: 1px solid #999;
+		background: #bbb;
+		display: inline-block;
+		width: 120px;
+		border-radius: 5px;
+		padding: 5px;
+		text-align: center;
+	}
+	.ing p{
+		border-bottom: 0.5px solid #999;
+		text-align: center;
+		margin-top: 3px;
+	}
+	
+	#step{
+		margin-top: 5px;
+		border: 0.5px solid #999;
+	}
+	
+	.step-each{
+		display: grid;
+		grid-template-columns: 100px 850px;
+		margin-top: 5px;
+		margin-left: 10px;
+		margin-right: 15px;
+		border: 0.5px solid #999;
+		border-radius: 8px;
+	}
+	
+	.step-title{
+		border: 0.5px solid #999;
+		background: #bbb;
+		border-radius: 8px;
+		padding: 25px;
+		text-align: center;
+	}
+	
+	.step-content{
+		padding-left: 20px;
+		padding-top: 5px;
+	}
+	
+	#tag{
+		margin-top: 5px;
+		border: 0.5px solid #999;
+	}
+	
+	#tag-title{
+		border: 0.5px solid #999;
+		border-radius: 8px;
+		background: #bbb;
+		margin: 5px;
+		padding: 5px; 
+	}
+	
+	#tag-content{
+		margin: 5px;
+		padding: 0px 10px;
+	}
+	
+	#ad-memo{
+		width: 1150px;
+		margin: 5px auto;
+	}
+	
+	.each-memo{
+		margin-top: 5px;
+		border-bottom: 0.5px solid #999;
+	}
+	
+	.memo-name{
+		font-size: 13pt;
+		font-weight: bolder;
+	}
+	
+	.memo-date{
+		font-size: 8pt;
+		margin-left: 10px;
+	}
+	
+	.memo-content{
+		margin-top: 5px;
+	}
+	
+	#memo-write{
+		width: 1150px;
+		margin: 5px auto;
+		display: grid;
+		grid-template-columns: 1050px 100px;
+	}
+	
+	#memo-write input{
+		width: 100%;
+		border-radius: 5px 0px 0px 5px;
+		border: 1px solid #999;
+		padding: 3px;
+	}
+	
+	#ad-memo-write{
+		padding: 5px;
+		text-align: center;
+		background: #bbb;
+		border: 0.5px solid #999;
+		border-radius: 0px 5px 5px 0px;
+	}
+	
+	#button-bar{
+		width: 300px;
+		margin: 5px auto;
+		display: grid;
+		grid-template-columns: 150px 150px;
+	}
+	
+	#accept{
+		border: 2px solid #44f;
+		margin: 5px 20px;
+		text-align: center;
+		padding: 5px;
+		border-radius: 5px;
+	}
+	
+	#deny{
+		border: 2px solid #f94;
+		margin: 5px 20px;
+		text-align: center;
+		padding: 5px;
+		border-radius: 5px;
+	}
+</style>
+<script src="https://kit.fontawesome.com/057ba10041.js"></script>
+<script type="text/javascript" src="../resources/js/jquery-3.4.1.min.js"></script>
+<script>
+	
+</script>
+</head>
+<body>
+	<div id="container">
+		<nav>
+			<div id="logo">
+				ICT레시피 <span>ict recipe</span>
+			</div>
+			<ul id="menu">
+				<li><a id="home" href="home">HOME</a></li>
+				<li><a id="recipe" href="a_recipe">레시피 관리</a></li>
+				<li><a id="content" href="a_write_recipe">게시물 등록</a></li>
+				<li><a id="user" href="membership">회원 관리</a></li>
+				<li><a id="board" href="admin_qna">문의 관리</a></li>
+				<li><a id="event" href="home">이벤트 관리</a></li>
+				<li><a id="op" href="home">운영자 관리</a></li>
+				<li><a id="setting" href="home">설정</a></li>
+			</ul>
+		</nav>
+		<header>
+			<div id="links">
+				<a href="m">로그아웃</a>
+			</div>
+		</header>
+		
+		<div id="main">
+			<p id="title">레시피 관리</p>
+			<div id="table">
+				<div class="regular">
+					<div class="label">회원이름</div>
+					<div class="content"></div>
+					<div class="label">이메일</div>
+					<div class="content"></div>
+				</div>
+				<div class="one">
+					<div class="label">레시피 제목</div>
+					<div class="content"></div>
+				</div>
+				<div class="regular">
+					<div class="label">종류</div>
+					<div class="content"></div>
+					<div class="label">상태</div>
+					<div class="content"></div>
+				</div>
+				<div class="regular">
+					<div class="label">고유ID</div>
+					<div class="content"></div>
+					<div class="label">등록일시</div>
+					<div class="content"></div>
+				</div>
+				<div class="quad">
+					<div class="label">종류</div>
+					<div class="content"></div>
+					<div class="label">상황</div>
+					<div class="content"></div>
+					<div class="label">방법</div>
+					<div class="content"></div>
+					<div class="label">재료</div>
+					<div class="content"></div>
+				</div>
+				<div class="tri">
+					<div class="label">인원</div>
+					<div class="content"></div>
+					<div class="label">시간</div>
+					<div class="content"></div>
+					<div class="label">난이도</div>
+					<div class="content"></div>
+				</div>
+				<div class="one">
+					<div class="label">동영상</div>
+					<div class="content"></div>
+				</div>
+				<div class="one">
+					<div class="label">사진</div>
+					<div class="content"></div>
+				</div>
+				<div class="label">상세내용</div>
+				<div class="content-detail">
+					<div id="inf-box">
+						<div id="inf-title">요리소개</div>
+						<div id="inf-content"><pre>example
+						no</pre></div>
+					</div>
+					<div id="div-box">
+						<div class="ing">
+							<div class="ing-title">재료</div>
+							<p>재료1</p>
+							<p>재료2</p>
+							<p>재료3</p>
+						</div>
+						<div class="ing">
+							<div class="ing-title">양념</div>
+							<p>양념1</p>
+							<p>양념2</p>
+							<p>양념3</p>
+							<p>양념4</p>
+						</div>
+					</div>
+					<div id="step">
+						<div class="step-each">
+							<div class="step-title">Step1</div>
+							<div class="step-content">첫 번째 단계</div>
+						</div>
+						<div class="step-each">
+							<div class="step-title">Step2</div>
+							<div class="step-content">두 번째 단계</div>
+						</div>
+					</div>
+					<div id="tag">
+						<div id="tag-title">태그</div>
+						<div id="tag-content">#일태그#이태그#삼태그</div>
+					</div>
+				</div>
+				<div class="label">관리자 메모</div>
+				<div id="ad-memo">
+					<div class="each-memo">
+						<div class="memo-title"><span class="memo-name">홍길동</span><span class="memo-date">2019.08.13 15:32</span></div>
+						<div class="memo-content">간단한 기록</div>
+					</div>
+				</div>
+				<div id="memo-write">
+					<input type="text" name="ad-note">
+					<div id="ad-memo-write">입력</div>
+				</div>
+				<div id="button-bar">
+					<div id="accept">승인</div>
+					<div id="deny">승인거절</div>
+				</div>
+			</div>
+			
+		</div>
+		
+	</div>
+		
+</body>
+</html>
