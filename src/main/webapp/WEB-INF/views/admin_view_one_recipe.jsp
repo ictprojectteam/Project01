@@ -21,473 +21,337 @@
 		box-sizing: border-box;
 		transition: all ease-in-out .2s;
 	}
-		
-	#view-recipe{
-		width: 1200px;
-		margin: 30px auto 0px;
-	}
-	#view-recipe-head{
-		width: 750px;
-		margin: auto;
-		text-align: center;
-	}
-	#main-image{
-		width: 720px;
-		margin: auto;
-	}
-	#main-image img{
-		width: 720px;
-		height: 480px;
-		margin: auto;
-	}
-	#writer{
-		display: inline-block;
-		margin: 20px auto;
-		color: #777;
-	}
-	#title{
-		font-size: 25pt;
-		line-height: 0pt;
-		color: #555;
-	}
-	#introduce{
-		width: 500px;
-		font-size: 12pt;
-		line-height: 20pt;
-		text-align: left;
-		margin: 50px auto;
-		color: #888;
-	}
-	#information{
-		margin: 20px auto;
-		width: 600px;
-		display: grid;
-		grid-template-columns: 200px 200px 200px;
-	}
-	#information i{
-		font-size: 25pt;
-		color: #ccc;
-	}
-	#information p{
-		line-height: 0pt;
-		color: #ccc;
-	}
-	#material{
-		width: 850px;
-		margin: auto;
-		line-height: 6pt;
-		color: #555;
-		font-size: 13pt;
-	}
-	#video{
-		width: 900px;
-		margin: 30px auto;
-	}
-	#video-label{
-		font-size: 16pt;
-		color: #555;
-		margin-top: 80px;
-	}
-	#play-video {
-		width: 700px;
-		margin: auto;
-	}
-	#order{
-		width: 900px;
-		margin: 80px auto 0px auto;
-		color: #333;
-	}
-	.order-content{
-		width: 900px;
-		display: grid;
-		grid-template-columns: 100px 465px 335px;
-		margin-bottom: 50px;
-	}
-	.order-number{
-		text-align: right;
-	}
-	.order-number p{
-		width: 30px;
-		padding: 10px;
-		border-radius: 30px;
-		background: #fa8;
-		color: #eee;
-		text-align: center;
-		font-size: 16pt;
-		margin: 0px 0px 0px 30px;
-	}
-	.order-text{
-		font-size: 16pt;
-		color: #555;
-		line-height: 10pt;
-	}
-	.order-text pre{
-		margin-top: 10px;
-	}
-	.order-img{
-		height: 220px;
-	}
-	.order-img img{
-		width: 335px;
-		height: 220px;
-		border-radius: 15px;
-	}
-	#comp{
-		width: 720px;
-		display: grid;
-		grid-template-columns: 90px 540px 90px;
-		margin: auto;
-	}
-	#comp-image-wrap{
-		overflow: hidden;
-		position: relative;
-		width: 720px;
-		margin: auto;
-		left: -90px;
-		z-index: -1;
-	}
-	#comp-image-pack{
-		width: 1000%;
-	}
-	.comp-image{
-		display: inline-block;
-		width: 720px;
-		height: 480px;
-		margin: 0px;
-		padding: 0px;
-	}
-	.comp-image img{
-		width: 720px;
-		height: 480px;
-		margin: 0px;
-	}
-	#comp-left, #comp-right{
-		padding-top: 210px;
-		text-align: center;
-		font-size: 30pt;
-		color: #aaa;
-		opacity: 0.5;
-		cursor: pointer;
-	}
-	#comp-left:hover, #comp-right:hover{
-		opacity: 0.7;
-	}
-	#tip{
-		width: 800px;
-		margin: auto;
-	}
-	#tip-label{
-		background: #f53;
-		color: #eee;
-		font-style: italic;
-		font-size: 20pt;
-		padding: 10px;
-		display: inline-block;
-		width: 220px;
-	}
-	#tip pre{
-		width: 750px;
-		margin: 20px auto;
-		font-size: 16pt;
-	}
-	#tag{
-		width: 720px;
-		margin: 50px auto 10px auto;
-	}
-	#tag-label{
-		background: #f85;
-		color: #eee;
-		font-size: 12pt;
-		border-radius: 15px;
-		padding: 5px;
-		display: inline-block;
-	}
-	.tag{
-		font-size: 12pt;
-		margin-left: 15px;
-		cursor: pointer;
-		color: #f85;
-	}
-	#dateinfo{
-		width: 720px;
-		margin: 30px auto;
-		border: 1px dashed #ccc;
-		padding: 15px;
-		color: #aaa;
-		font-size: 9pt;
-	}
-	#datebar{
-		margin-left: 10px;
-		margin-right: 20px;
-	}
-	#warning{
-		margin-left: 40px;
-	}
-	.fa-ban{
-		font-size: 13pt;
-	}
-	#comment{
-		width: 900px;
-		margin: auto;
-	}
-	#com-label{
-		margin-top: 40px;
-	}
-	#com-count{
-		margin-left: 10px;
-		color: #fa8;
-	}
-	#comlist{
-		display: grid;
-		grid-template-columns: 80px 820px;
-	}
-	#comform{
-		display: flex;
-	}
-	#comtext{
-		resize: none;
-		width: 90%;
-		height: 120px;
-		font-size: 13pt;
-		padding: 5px;
-		border: 1px #ccc;
-		border-style: solid none solid solid;
-		border-radius: 5px 0px 0px 5px;
-		display: inline-block;
-		z-index: 0;
-	}
-	#comtext:focus{
-		box-shadow: 0px 0px 4px 1px #7af;
-		z-index:1;
-	}
-	#combutton{
-		width: 10%;
-		height: 20px;
-		text-align: center;
-		padding: 55px 20px;
-		font-size: 13pt;
-		color: #555;
-		margin: auto;
-		cursor: pointer;
-		border: 1px solid #ccc;
-		border-radius: 0px 5px 5px 0px;
-		z-index:0;
-	}
-	#combutton:active{
-		box-shadow: 0px 0px 4px 2px #7af;
-		z-index:1;
-	}
-	.com-pro{
-		height: 80px;
-	}
-	.com-content{
-		margin-left: 10px;
-	}
-	.com-writer{
-		font-size: 16pt;
-		color: #c97;
-	}
-	.com-date, .com-del{
-		margin-left: 10px;
-		color: #aaa;
-	}
-	.com-del{
-		cursor: pointer;
-	}
-	.com-text{
-		font-size: 12pt;
-		color: #555;
-	}
-	.infobar{
-		margin-left: 10px;
-		color: #ccc;
-	}
-}
-</style>
-<script src="https://kit.fontawesome.com/057ba10041.js"></script>
-<script type="text/javascript" src="../resources/js/jquery-3.4.1.min.js"></script>
-<style type="text/css">
+	
 	#container{
 	position: absolute;
 	width: 100%;
 	height: 100%;
 	background-color: #f7f7f7;
 	overflow: auto;
-}
-
-nav{
-	display: block;
-	position: absolute;
-	top: 0;
-	left: 0;
-	width: 200px;
-	margin-left: 0px;
-	height: 100%;
-	background-color: #333333;
-}
-
-#logo{
-	height: 50px;
-	background-color: #333333;
-	color: #1E90FE;
-	text-align: center;
-	line-height: 50px;
-	font-size: 1.3em;
-	font-family: arial;
-}
-#logo span{
-	font-size: 1em;
-	font-family: monospace;
-	font-style: italic;
-	color: #f7f7f7;
-}
-
-#menu{
-	width: 100%;
-	background-color: #333333;
-}
-
-#menu li{
-	width: 100%;
-	height: 50px;
-	line-height: 50px;
-	background-color: #333333;
-}
-
-#menu li>a{
-	font-size: 1.05em;
-	font-family: arial;
-	width: 100%;
-	height: 100%;
-	color: #f7f7f7;
-	display: block;
-	text-align: center;
-	text-decoration: none;
-}
-
-#menu li:hover{
-	background-color: #151515;
-}
-
-#menu li>a:hover{
-	color: #1E90FF;
-	border-left: 3px solid #1E90FF;
-}
-
-header{
-	width: calc(100% - 200px);
-	height: 50px;
-	position: absolute;
-	display: block;
-	top: 0;
-	left: 200px;
-	background-color: #333333;
-	color: #f7f7f7;
-	line-height: 50px;
-}
-
-header #links{
-	float: right;
-	height: 50px;
-	display: block;
-	color: #f7f7f7;
-	font-size: 1em;
-	margin-right: 1em;
-}
-
-#links>a{
-	color: #f7f7f7;
-	text-decoration: none;
-	padding: 0.5em;
-	width: 100%;
-	height: 100%;
-	display: block;
-}
-
-#links:hover{
-	background-color: #1E90FF;
-}
-
-#actions-container{
-	width: 80%;
-	height: calc(100% -4em);
-	background-color: #dadada;
-}
-
-#main{
-	margin-left: 20em;
-}
-
-.title{
-	width: 100%;
-	height: 50px;
-	display: block;
-	text-align: left;
-	line-height: 30px;
-	padding-top: 30px;
-	margin-bottom: 1em;
-	font-size: 1.0em;
-	font-family: arial;
-	font-weight: bold;
-}
-
-.row{
-	display: flex;
-	width: 100%;
-	height: 30%;
-	flex-wrap: nowrap;
-	flex-direction: row;
-	padding: 1em;
-}
-
-#user-action{
-	margin-top: 5em;
-}
-
-#action{
-	margin-top: 20em;
-}
-
-table, th, td {
-	border: 1px solid black;
-	border-collapse: collapse;
-	color: #2b686e;
-	text-align: left;
-	font-size: 1.0em;
-	margin-top: 1em;
-	line-height: 25px;
-}
-
-table{
-	position: relative;
-	width: 1000px;
-	margin-left: 1.0em;
-	margin-right: 1.0em;
-	margin-bottom: 1.0em;
-}
-
-tabel td{
-	font-size: 1.0em;
-}
-
-#body td{
-	text-align: center;
-}
-
-textarea{
-    margin: 0px;
-    width: 993px;
-    height: 119px;
-}
-
-
-
+	}
+	
+	nav{
+		display: block;
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 200px;
+		margin-left: 0px;
+		height: 100%;
+		background-color: #333333;
+	}
+	
+	#logo{
+		height: 50px;
+		background-color: #333333;
+		color: #1E90FE;
+		text-align: center;
+		line-height: 50px;
+		font-size: 1.3em;
+		font-family: arial;
+	}
+	#logo span{
+		font-size: 1em;
+		font-family: monospace;
+		font-style: italic;
+		color: #f7f7f7;
+	}
+	
+	#menu{
+		width: 100%;
+		background-color: #333333;
+	}
+	
+	#menu li{
+		width: 100%;
+		height: 50px;
+		line-height: 50px;
+		background-color: #333333;
+	}
+	
+	#menu li>a{
+		font-size: 1.05em;
+		font-family: arial;
+		width: 100%;
+		height: 100%;
+		color: #f7f7f7;
+		display: block;
+		text-align: center;
+		text-decoration: none;
+	}
+	
+	#menu li:hover{
+		background-color: #151515;
+	}
+	
+	#menu li>a:hover{
+		color: #1E90FF;
+		border-left: 3px solid #1E90FF;
+	}
+	
+	header{
+		width: calc(100% - 200px);
+		height: 50px;
+		position: absolute;
+		display: block;
+		top: 0;
+		left: 200px;
+		background-color: #333333;
+		color: #f7f7f7;
+		line-height: 50px;
+	}
+	
+	header #links{
+		float: right;
+		height: 50px;
+		display: block;
+		color: #f7f7f7;
+		font-size: 1em;
+		margin-right: 1em;
+	}
+	
+	#links>a{
+		color: #f7f7f7;
+		text-decoration: none;
+		padding: 0.5em;
+		width: 100%;
+		height: 100%;
+		display: block;
+	}
+	
+	#links:hover{
+		background-color: #1E90FF;
+	}
+	
+	#main{
+		margin-left: 16em;
+		margin-top: 5em;
+	}
+	
+	#title{
+		font-size: 1.7em;
+		margin-left: 1em;
+	}
+	
+	#table{
+		margin-top: 1em;
+		border: 1px solid #999;
+		width: 1200px; 
+	}
+	
+	.regular{
+		display: grid;
+		grid-template-columns: 150px 450px 150px 450px;
+	}
+	
+	.one{
+		display: grid;
+		grid-template-columns: 150px 1050px;
+	}
+	.quad{
+		display: grid;
+		grid-template-columns: 150px 150px 150px 150px 150px 150px 150px 150px;
+	}
+	.tri{
+		display: grid;
+		grid-template-columns: 150px 250px 150px 250px 150px 250px;
+	}
+	
+	.label{
+		background: #bbb;
+		padding: 5px;
+		border: 1px solid #999;
+	}
+	
+	.content{
+		border: 1px solid #999;
+		padding: 5px;
+		font-weight: bold;
+		color: #999999;
+	}
+	
+	.content-detail{
+		width: 1100px;
+		margin: 10px auto;
+	}
+	
+	#inf-box{
+		border: 0.5px solid #999;
+	}
+	
+	#inf-title{
+		border: 0.5px solid #999;
+		border-radius: 8px;
+		background: #bbb;
+		margin: 5px;
+		padding: 5px; 
+	}
+	
+	#inf-content{
+		margin: 5px;
+		padding: 0px 10px;
+	}
+	
+	#div-box{
+		display: grid;
+		grid-template-columns: 500px 500px;
+		grid-column-gap: 40px;
+		border: 0.5px solid #999;
+		margin-top: 5px;
+	}
+	
+	.ing{
+		margin: 5px 10px;
+	}
+	
+	.ing-title{
+		border: 1px solid #999;
+		background: #bbb;
+		display: inline-block;
+		width: 120px;
+		border-radius: 5px;
+		padding: 5px;
+		text-align: center;
+	}
+	.ing p{
+		border-bottom: 0.5px solid #999;
+		text-align: center;
+		margin-top: 3px;
+	}
+	
+	#step{
+		margin-top: 5px;
+		border: 0.5px solid #999;
+	}
+	
+	.step-each{
+		display: grid;
+		grid-template-columns: 100px 850px;
+		margin-top: 5px;
+		margin-left: 10px;
+		margin-right: 15px;
+		border: 0.5px solid #999;
+		border-radius: 8px;
+	}
+	
+	.step-title{
+		border: 0.5px solid #999;
+		background: #bbb;
+		border-radius: 8px;
+		padding: 25px;
+		text-align: center;
+	}
+	
+	.step-content{
+		padding-left: 20px;
+		padding-top: 5px;
+	}
+	
+	#tag{
+		margin-top: 5px;
+		border: 0.5px solid #999;
+	}
+	
+	#tag-title{
+		border: 0.5px solid #999;
+		border-radius: 8px;
+		background: #bbb;
+		margin: 5px;
+		padding: 5px; 
+	}
+	
+	#tag-content{
+		margin: 5px;
+		padding: 0px 10px;
+	}
+	
+	#ad-memo{
+		width: 1150px;
+		margin: 5px auto;
+	}
+	
+	.each-memo{
+		margin-top: 5px;
+		border-bottom: 0.5px solid #999;
+	}
+	
+	.memo-name{
+		font-size: 13pt;
+		font-weight: bolder;
+	}
+	
+	.memo-date{
+		font-size: 8pt;
+		margin-left: 10px;
+	}
+	
+	.memo-content{
+		margin-top: 5px;
+	}
+	
+	#memo-write{
+		width: 1150px;
+		margin: 5px auto;
+		display: grid;
+		grid-template-columns: 1050px 100px;
+	}
+	
+	#memo-write input{
+		width: 100%;
+		border-radius: 5px 0px 0px 5px;
+		border: 1px solid #999;
+		padding: 3px;
+	}
+	
+	#ad-memo-write{
+		padding: 5px;
+		text-align: center;
+		background: #bbb;
+		border: 0.5px solid #999;
+		border-radius: 0px 5px 5px 0px;
+	}
+	
+	#button-bar{
+		width: 300px;
+		margin: 5px auto;
+		display: grid;
+		grid-template-columns: 150px 150px;
+	}
+	#button-bar div{
+		cursor: pointer;
+	}
+	#accept{
+		border: 2px solid #44f;
+		margin: 5px 20px;
+		text-align: center;
+		padding: 5px;
+		border-radius: 5px;
+	}
+	
+	#deny{
+		border: 2px solid #f94;
+		margin: 5px 20px;
+		text-align: center;
+		padding: 5px;
+		border-radius: 5px;
+	}
 </style>
 <script src="https://kit.fontawesome.com/057ba10041.js"></script>
 <script type="text/javascript" src="../resources/js/jquery-3.4.1.min.js"></script>
-<script>
+<script type="text/javascript">
+	$(function(){
+		$("#accept").on("click", function(){
+			alert("상태 : 승인완료 _로 변경 및 프론트에 노출")
+		});
+		
+		$("#deny").on("click", function(){
+			alert("승인 거절 사유 작성 페이지 노출 및 상태 : 승인거절_로 변경")
+		})	
+	});
 	
+
 </script>
+	
 </head>
 <body>
 	<div id="container">
@@ -511,75 +375,116 @@ textarea{
 				<a href="m">로그아웃</a>
 			</div>
 		</header>
-		<main id="main">
-			<div id="action-container">
-				<div id="user-action">
-					<div class="title">
-						레시피 관리
-						<div id="body">
-						<table>
-							<thead>
-								<tr>
-									<th bgcolor="#cccccc">회원이름</th>
-										<td colspan="3"><input type="text" size="50"></td>
-									<th bgcolor="#cccccc">이메일</th>
-										<td colspan="3"><input type="text" size="50"></td>
-								</tr>
-								<tr>
-									<th bgcolor="#cccccc">레시피 제목</th>
-										<td colspan="7"><input type="text" size="140"></td>	
-								</tr>
-								<tr>
-									<th bgcolor="#cccccc">종류</th>
-										<td colspan="3"><input type="text" size="50"></td>
-									<th bgcolor="#cccccc">상태</th>
-										<td colspan="3"><input type="text" size="50"></td>
-								</tr>
-								<tr>
-									<th bgcolor="#cccccc">고유 ID</th>
-										<td colspan="3"><input type="text" size="50"></td>
-									<th bgcolor="#cccccc">등록일시</th>
-										<td colspan="3"><input type="text" size="50"></td>
-								</tr>
-								<tr>
-									<th bgcolor="#cccccc">종류</th>
-										<td><input type="text" size="25"></td>
-									<th bgcolor="#cccccc">상황</th>
-										<td><input type="text" size="25"></td>
-									<th bgcolor="#cccccc">방법</th>
-										<td><input type="text" size="25"></td>
-									<th bgcolor="#cccccc">재료</th>
-										<td><input type="text" size="25"></td>
-								</tr>
-								<tr>
-									<th bgcolor="#cccccc">인원</th>
-										<td colspan="2"><input type="text" size="33"></td>
-									<th bgcolor="#cccccc">시간</th>
-										<td colspan="2"><input type="text" size="33"></td>
-										<th bgcolor="#cccccc">난이도</th>
-										<td><input type="text" size="34"></td>
-								</tr>
-								<tr>
-									<th bgcolor="#cccccc">동영상</th>
-										<td colspan="7"><input type="text" size="140"></td>
-								</tr>
-								<tr>
-									<th bgcolor="#cccccc">사진</th>
-										<td colspan="7"><input type="text" size="140"></td>
-								</tr>
-								<tr>
-									<th colspan="8">상세내용</td>
-								</tr>
-								<tr>
-									<td colspan="8"><textarea></textarea></td>
-								</tr>
-							</thead>
-						</table>
+		
+		<div id="main">
+			<p id="title">레시피 관리</p>
+			<div id="table">
+				<div class="regular">
+					<div class="label">회원이름</div>
+					<div class="content"></div>
+					<div class="label">이메일</div>
+					<div class="content"></div>
+				</div>
+				<div class="one">
+					<div class="label">레시피 제목</div>
+					<div class="content">${rvo.recipe_title}</div>
+				</div>
+				<div class="regular">
+					<div class="label">종류</div>
+					<div class="content"></div>
+					<div class="label">상태</div>
+					<div class="content"></div>
+				</div>
+				<div class="regular">
+					<div class="label">고유ID</div>
+					<div class="content"></div>
+					<div class="label">등록일시</div>
+					<div class="content"></div>
+				</div>
+				<div class="quad">
+					<div class="label">종류</div>
+					<div class="content">${rvo.ca1}</div>
+					<div class="label">상황</div>
+					<div class="content">${rvo.ca2}</div>
+					<div class="label">방법</div>
+					<div class="content">${rvo.ca3}</div>
+					<div class="label">재료</div>
+					<div class="content">${rvo.ca4}</div>
+				</div>
+				<div class="tri">
+					<div class="label">인원</div>
+					<div class="content">${rvo.recipe_quant}</div>
+					<div class="label">시간</div>
+					<div class="content">${rvo.recipe_time}</div>
+					<div class="label">난이도</div>
+					<div class="content">${rvo.recipe_difficulty}</div>
+				</div>
+				<div class="one">
+					<div class="label">동영상</div>
+					<div class="content">${rvo.recipe_video}</div>
+				</div>
+				<div class="one">
+					<div class="label">사진</div>
+					<div class="content"></div>
+				</div>
+				<div class="label">상세내용</div>
+				<div class="content-detail">
+					<div id="inf-box">
+						<div id="inf-title">요리소개</div>
+						<div id="inf-content">
+							<pre>${rvo.recipe_introduce}</pre>
 						</div>
+					</div>
+					<div id="div-box">
+						<div class="ing">
+							<div class="ing-title">재료</div>
+							<p>${rvo.pack}</p>
+							<p>재료2</p>
+							<p>재료3</p>
 						</div>
+						<div class="ing">
+							<div class="ing-title">양념</div>
+							<p>양념1</p>
+							<p>양념2</p>
+							<p>양념3</p>
+							<p>양념4</p>
 						</div>
+					</div>
+					<div id="step">
+						<div class="step-each">
+							<div class="step-title">Step1</div>
+							<div class="step-content">첫 번째 단계</div>
 						</div>
-						</main>
+						<div class="step-each">
+							<div class="step-title">Step2</div>
+							<div class="step-content">두 번째 단계</div>
 						</div>
+					</div>
+					<div id="tag">
+						<div id="tag-title">태그</div>
+						<div id="tag-content">#일태그#이태그#삼태그</div>
+					</div>
+				</div>
+				<div class="label">관리자 메모</div>
+				<div id="ad-memo">
+					<div class="each-memo">
+						<div class="memo-title"><span class="memo-name">홍길동</span><span class="memo-date">2019.08.13 15:32</span></div>
+						<div class="memo-content">간단한 기록</div>
+					</div>
+				</div>
+				<div id="memo-write">
+					<input type="text" name="ad-note">
+					<div id="ad-memo-write">입력</div>
+				</div>
+				<div id="button-bar">
+					<div id="accept">승인</div>
+					<div id="deny">승인거절</div>
+				</div>
+			</div>
+			
+		</div>
+		
+	</div>
+		
 </body>
 </html>
