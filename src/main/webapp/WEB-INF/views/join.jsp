@@ -40,14 +40,12 @@
 
 #alert-success {
 	width: 15%;
-	background-color: #7DFE74;
-	color: #000;
+	color: #7DFE74;
 }
 
 #alert-danger {
 	width: 20%;
-	background-color: red;
-	color: #000;
+	color: red;
 }
 </style>
 

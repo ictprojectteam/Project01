@@ -123,6 +123,12 @@
 	<select id="talk_list" resultType="tvo">
 		select * from talk order by t_idx desc
 	</select>
+	<select id="talk_p_list" parameterType="Map" resultType="tvo">
+		select * from (
+			select rownum r_num, a.* from(
+				select * from talk order by t_idx desc ) a
+			) where r_num between #{begin} and #{end}
+	</select>
 	<select id="t_count" resultType="int">
 		select count(*) from talk
 	</select>
@@ -146,6 +152,10 @@
 	<insert id="t_co_write" parameterType="String">
 		insert into talk_c values(talk_c_seq.nextval, #{m_idx}, #{t_idx}, #{name}, #{content}, 0, sysdate)
 	</insert>
+	
+	<delete id="t_c_del" parameterType="String">
+		delete from talk_c where t_c_idx = #{t_c_idx}
+	</delete>
 	
 	<select id="t_co_list" parameterType="String" resultType="tcvo">
 		select * from talk_c where t_idx = #{t_idx}

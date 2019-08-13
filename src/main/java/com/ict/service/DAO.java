@@ -153,12 +153,12 @@ public class DAO {
 	public List<TVO> getTalk_List(){
 		return sqlSessionTemplate.selectList("talk_list");
 	}
-	/*public List<TVO> getTalk_List(int begin, int end){
+	public List<TVO> getTalk_p_List(int begin, int end){
 		Map<String, Integer> map = new HashMap<String, Integer>();
 		map.put("begin", begin);
 		map.put("end", end);
-		return sqlSessionTemplate.selectList("talk_list", map);
-	}*/
+		return sqlSessionTemplate.selectList("talk_p_list", map);
+	}
 	public int getT_count() {
 		return sqlSessionTemplate.selectOne("t_count");
 	}
@@ -175,6 +175,9 @@ public class DAO {
 	}
 	public int getT_co_write(TalkCVO tcvo) {
 		return sqlSessionTemplate.insert("t_co_write", tcvo);
+	}
+	public int getT_c_del(String t_c_idx) {
+		return sqlSessionTemplate.delete("t_c_del", t_c_idx);
 	}
 	public List<TalkCVO> getT_co_list(String t_idx){
 		return sqlSessionTemplate.selectList("t_co_list", t_idx);
