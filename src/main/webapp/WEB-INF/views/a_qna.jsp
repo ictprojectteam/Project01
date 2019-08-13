@@ -133,8 +133,10 @@ header #links{
 
 .label{
 	border: 0.5px solid #999;
-	background: #bbb;
+	background: #ccc;
 	padding: 5px 10px;
+	font-weight: bolder;
+	color: #2b686e;
 }
 
 .content{
@@ -156,7 +158,6 @@ header #links{
 #button{
 	width: 160px;
 	margin: 5px auto;
-	border: 0.5px solid #999;
 }
 
 #button input{
@@ -165,6 +166,7 @@ header #links{
 
 #main{
 	margin-left: 20em;
+	margin-top: 5em;
 }
 
 .row{
@@ -176,21 +178,20 @@ header #links{
 	padding: 1em;
 }
 
-#user-action{
-	margin-top: 5em;
-}
-
-#action{
-	margin-top: 20em;
-}
-
 #body{
-	border: 1px solid red;
-	width: 1000px;
+	border: 1px solid #999;
+	width: 1002px;
 	margin: 10px 5px;
 	display: grid;
-	grid-template-columns: 90px 120px 150px 90px 280px 150px 120px;
+	grid-template-columns: 90px 100px 150px 90px 280px 100px 120px 70px;
 	text-align: center;
+}
+
+#empty{
+	width: 1002px;
+	text-align: center;
+	font-size: 12pt;
+	padding: 10px;
 }
 
 .title{
@@ -198,6 +199,13 @@ header #links{
 	font-size: 10pt;
 	font-weight: bolder;
 	padding: 5px;
+	background: #ccc;
+	color: #2b686e;
+}
+
+.body-content{
+	padding: 5px;
+	border: 0.5px solid #bbb;
 }
 
 legend{
@@ -207,31 +215,27 @@ legend{
 
 
 /* paging */
-.pageing{
-	margin: 0 auto;
+.paging{
+	width: 1000px;
 	text-align: center;
+	margin: 5px;
 }
 
-.paging {
-	list-style: none;
-}
-
-.paging li {
-	float: left;
+.paging .now{
 	margin-right: 8px;
 }
 
-.paging li a {
-	display: block;
+.paging [class^=page]{
 	padding: 3px 7px;
 	color: #2f313e;
 	font-weight: bold;
 }
 
-.paging li a:hover {
+.paging [class^=page]:hover {
 	background: #00B3DC;
 	color: white;
 	font-weight: bold;
+	cursor: pointer;
 }
 
 .disable {
@@ -284,9 +288,43 @@ legend{
 			date.setMonth(date.getMonth() - 3);
 			$("#start").val(date.toISOString().substring(0, 10));
 		});
-	});
-	function send_one(f){
+
+		$("#start").on("change", function(){
+			if($("#end").val() < $("#start").val()) $("#end").val($("#start").val());
+			$("#end").attr("min", $("#start").val());
+			$("#start").attr("max", $("#end").val());
+		});
+
+		$("#end").on("change", function(){
+			if($("#start").val() > $("#end").val()) $("#start").val($("#end").val());
+			$("#end").attr("min", $("#start").val());
+			$("#start").attr("max", $("#end").val());
+		});
+
+		$("[class^=page]").on("click", function(){
+			var p = $(this).text();
+			var l = window.location.href;
+			if (l.match(/cPage/)) {
+				l = l.substring(0, l.length - 1);
+				l = l + p;
+			} else if (l.match(/\?/)) {
+				l = l + "&cPage=" + p;
+			} else {
+				l = l + "?cPage=" + p;
+			}
+			location.href = l;
+		});
 		
+		$("#month").click();
+	});
+
+	function comp_qna(e) {
+		location.href = "admin_complete?q_idx=" + e;
+	}
+	
+	function send_one(f){
+		f.action = "admin_qna";
+		f.submit();
 	}
 </script>
 </head>
@@ -313,96 +351,103 @@ legend{
 			</div>
 		</header>
 		<div id="main">
-			<div id="user-action">
-				<form>
-					<fieldset style="width: 1000px;">
-						<legend>문의관리</legend>
-						<div id="search-table">
-							<div id="double">
-								<div class="label">아이디/닉네임<br>회원번호</div>
-								<div class="content">
-									<select name="name_idx">
-										<option value="id">아이디</option>
-										<option value="name">닉네임</option>
-										<option value="m_idx">회원번호</option>
-									</select>
-									<input type="text" name="name">
-								</div>
-								<div class="label">이메일/연락처</div>
-								<div class="content">
-									<select name="email_number">
-										<option value="email">이메일</option>
-										<option value="number">연락처</option>
-									</select>
-									<input type="text" name="e_write">
-								</div>
+			<form>
+				<fieldset style="width: 1000px;">
+					<legend>문의관리</legend>
+					<div id="search-table">
+						<div id="double">
+							<div class="label">아이디/닉네임<br>회원번호</div>
+							<div class="content">
+								<select name="name_idx">
+									<option value="id">아이디</option>
+									<option value="name">닉네임</option>
+									<option value="m_idx">회원번호</option>
+								</select>
+								<input type="text" name="name">
 							</div>
-							<div id="date">
-								<div class="label">등록일시</div>
-								<div class="content">
-									<input type="date" id="start" name="start" min="2019-01-01" max="2019-12-31">
-									<a>~</a>
-									<input type="date" id="end" name="endt" min="2019-01-01" max="2019-12-31">
-									<input type="button" id="today" value="오늘">
-									<input type="button" id="yesterday" value="어제">
-									<input type="button" id="week" value="7일">
-									<input type="button" id="month" value="1개월">
-									<input type="button" id="3month" value="3개월">
-								</div>
-							</div>
-							<div id="button">
-								<input type="button" id="search" value="검  색" onclick="send_one(this.form)">
+							<div class="label">이메일</div>
+							<div class="content">
+								<input type="text" name="email">
 							</div>
 						</div>
-					</fieldset>
-				</form>
-				<div id="body">
-					<div class="title">회원이름</div>
-					<div class="title">연락처</div>
-					<div class="title">이메일</div>
-					<div class="title">문의 구분</div>
-					<div class="title">문의 내용</div>
-					<div class="title">등록 일시</div>
-					<div class="title">답변 상태</div>
-					
-					<table>
-						<!-- 페이지기법 -->
-						<tfoot>
-							<div class="pageing">
-							<ol class="paging">
-							   <%-- 이전 --%>
-							    <c:choose>
-							    	<c:when test="${pageing.beginBlock <= pageing.pagePerBlock }">
-							    		<li class="disable"> 이전으로 </li>
-							    	</c:when>
-							    	<c:otherwise>
-							    		<li><a href="membership.do?cPage=${pageing.beginBlock-pageing.pagePerBlock}"> 이전으로 </a></li>
-							    	</c:otherwise>
-							    </c:choose>
-							    
-								<c:forEach begin="${pageing.beginBlock}" end="${pageing.endBlock}" step="1" var="k">
-									<c:if test="${k==pageing.nowPage}">
-										<li class="now">${k}</li>
-									</c:if>
-									<c:if test="${k!=pageing.nowPage}">
-										<li><a href="membership.do?cPage=${k}">${k}</a></li>
-									</c:if>
-								</c:forEach>
-								
-								<c:choose>
-							    	<c:when test="${pageing.endBlock >= pageing.totalPage }">
-							    		<li class="disable"> 다음으로 </li>
-							    	</c:when>
-							    	<c:otherwise>
-							    		<li><a href="membership.do?cPage=${pageing.beginBlock+pageing.pagePerBlock}"> 다음으로 </a></li>
-							    	</c:otherwise>
-							    </c:choose>
-							</ol>
+						<div id="date">
+							<div class="label">등록일시</div>
+							<div class="content">
+								<input type="date" id="start" name="start" min="2019-01-01" max="2019-12-31">
+								<a>~</a>
+								<input type="date" id="end" name="endt" min="2019-01-01" max="2019-12-31">
+								<input type="button" id="today" value="오늘">
+								<input type="button" id="yesterday" value="어제">
+								<input type="button" id="week" value="7일">
+								<input type="button" id="month" value="1개월">
+								<input type="button" id="3month" value="3개월">
 							</div>
-						</tfoot>
-					</table>	
-				</div>
+						</div>
+						<div id="button">
+							<input type="button" id="search" value="검  색" onclick="send_one(this.form)">
+						</div>
+					</div>
+				</fieldset>
+			</form>
+			<div id="body">
+				<div class="title">회원이름</div>
+				<div class="title">아이디</div>
+				<div class="title">이메일</div>
+				<div class="title">문의 구분</div>
+				<div class="title">문의 내용</div>
+				<div class="title">등록 일시</div>
+				<div class="title">처리 상태</div>
+				<div class="title">처리</div>
+				<c:choose>
+					<c:when test="${!empty q_list}">
+						<c:forEach items="${q_list}" var="k">
+							<div class="body-content">${k.name}</div>
+							<div class="body-content">${k.id}</div>
+							<div class="body-content">${k.email}</div>
+							<div class="body-content">${k.q_def}</div>
+							<div class="body-content">${k.content}</div>
+							<div class="body-content">${k.regdate}</div>
+							<div class="body-content">${k.status}</div>
+							<div class="body-content">
+								<c:if test="${k.status eq '처리 대기중'}">
+									<button onclick="comp_qna(${k.q_idx})">완료</button>
+								</c:if>
+							</div>
+						</c:forEach>
+					</c:when>
+					<c:otherwise>
+						<div id="empty">표시할 내용이 없습니다.</div>
+					</c:otherwise>
+				</c:choose>
 			</div>
+			<div class="paging">
+			    <c:choose>
+			    	<c:when test="${qp.beginBlock <= qp.pagePerBlock}">
+			    		<span class="disable"> 이전으로 </span>
+			    	</c:when>
+			    	<c:otherwise>
+			    		<span><a href="admin_qna?cPage=${qp.beginBlock-qp.pagePerBlock}"> 이전으로 </a></span>
+			    	</c:otherwise>
+			    </c:choose>
+			    
+				<c:forEach begin="${qp.beginBlock}" end="${qp.endBlock}" step="1" var="k">
+					<c:if test="${k==qp.nowPage}">
+						<span class="now">${k}</span>
+					</c:if>
+					<c:if test="${k!=qp.nowPage}">
+						<span class="page${k}">${k}</span>
+					</c:if>
+				</c:forEach>
+				
+				<c:choose>
+			    	<c:when test="${qp.endBlock >= qp.totalPage }">
+			    		<span class="disable"> 다음으로 </span>
+			    	</c:when>
+			    	<c:otherwise>
+			    		<span><a href="admin_qna?cPage=${qp.beginBlock+qp.pagePerBlock}"> 다음으로 </a></span>
+			    	</c:otherwise>
+			    </c:choose>
+			</div>	
 		</div>
 	</div>
 </body>

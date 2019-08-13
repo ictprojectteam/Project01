@@ -69,6 +69,7 @@
 		width: 30px;
 		padding: 10px;
 		cursor: pointer;
+		box-sizing: content-box;
 	}
 	.fa-pencil-alt{
 		font-size: 20pt;

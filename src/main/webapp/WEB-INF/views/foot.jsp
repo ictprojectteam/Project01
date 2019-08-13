@@ -7,6 +7,10 @@
 <meta charset="UTF-8">
 <title>Foot - Recently, Company, SNS, Report, Counting</title>
 <style type="text/css">
+a{
+	cursor: pointer;
+}
+
 #footer {
 	margin: 100px auto 0px;
 }
@@ -116,6 +120,38 @@
 }
 </style>
 <script src="https://kit.fontawesome.com/057ba10041.js"></script>
+<script>
+	$(function(){
+		$("#send-report").on("click", function(){
+			if($("#loginchk").val() != "" && $("#loginchk").val() != null){
+				if($("#report-content").val() == ""){
+					alert("의견을 입력해주세요.");
+				} else {
+					$.ajax({
+						url : "report",
+						data : $("#report-form").serialize(),
+						dataType : "text",
+						type : "post",
+						success : function(data) {
+							if (data != 0) {
+								alert("의견이 접수되었습니다. 감사합니다.");
+								$("#report-content").val("");
+							} else {
+								alert("쓰기 실패1");
+							}
+						},
+						error : function() {
+							alert("쓰기 실패2");
+						}
+					});
+				}
+			} else {
+				var k = confirm("로그인 후에 이용할 수 있는 기능입니다.\n\n로그인 하시겠습니까?\n");
+				if(k) location.href='login';
+			}
+		});
+	});
+</script>
 </head>
 <body>
 	<div id="footer">
@@ -158,13 +194,11 @@
 					src="resources/images/youtube_logo.png"></a>
 			</div>
 			<div id="footer-report">
-				<form method="post">
+				<form method="post" id="report-form">
 					<div>
-						<textarea rows="8" cols="35" id="report-content"
-							placeholder="전하고 싶은 의견을 남겨주세요. 회원님의 의견에 항상 귀 기울이겠습니다."></textarea>
+						<textarea rows="8" cols="35" id="report-content" name="content" placeholder="전하고 싶은 의견을 남겨주세요. 회원님의 의견에 항상 귀 기울이겠습니다."></textarea>
 					</div>
-					<a href="javascript:send_report(this.form)" id="send-report">의견
-						제출</a>
+					<a id="send-report">의견 제출</a>
 				</form>
 			</div>
 		</div>
@@ -174,8 +208,7 @@
 					<a href="/"><img src="resources/images/footlogo.png"></a>
 				</div>
 				<div id="footer-counting">
-					<a href="recipe"><i class="fas fa-carrot"></i></a> <i
-						class="fas fa-users"></i> <i class="fas fa-book-reader"></i>
+					<a href="recipe"><i class="fas fa-carrot"></i></a> <i class="fas fa-users"></i> <i class="fas fa-book-reader"></i>
 					<div>
 						<p class="footer-counting-label">총 레시피수</p>
 						<p class="footer-counting-number">2,019</p>

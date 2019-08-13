@@ -6,9 +6,11 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.Base64.Encoder;
+import java.util.Date;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
@@ -31,6 +33,8 @@ import org.springframework.web.servlet.ModelAndView;
 import com.ict.service.DAO;
 import com.ict.service.MVO;
 import com.ict.service.Pageing;
+import com.ict.service.QVO;
+import com.ict.service.QnAPaging;
 import com.ict.service.RVO;
 import com.ict.service.RecipeCVO;
 import com.ict.service.RecipePaging;
@@ -226,6 +230,17 @@ public class MainController {
 		return new ModelAndView("redirect:" + str);
 	}
 	
+	@RequestMapping("report")
+	@ResponseBody
+	public String report(QVO qvo, HttpServletRequest request) {
+		String str = request.getHeader("REFERER");
+		str = str.substring(str.lastIndexOf("/") + 1, str.length());
+		qvo.setM_idx(((MVO)request.getSession().getAttribute("mvo")).getM_idx());
+		qvo.setQ_def("의견제출");
+		int res = dao.insertReport(qvo);
+		return String.valueOf(res);
+	}
+	
 	@RequestMapping("recipe")
 	public ModelAndView getRecipe(HttpServletRequest request) {
 		ModelAndView mv = new ModelAndView("recipe");
@@ -252,16 +267,12 @@ public class MainController {
 		listmap.put("k", k);
 		listmap.put("a_permission", "1");
 		int count = dao.countRecipe(listmap);
-		System.out.println(count);
 		RecipePaging rp = new RecipePaging(count, cPage);
 		
 		listmap.put("begin", String.valueOf(rp.getBegin()));
 		listmap.put("end", String.valueOf(rp.getEnd()));
 		
-		System.out.println(rp.getBegin());
-		System.out.println(rp.getEnd());
 		List<RecipeVO> r_list = dao.getRecipeList(listmap);
-		System.out.println(r_list.get(0).getRecipe_title());
 		mv.addObject("ca1", ca1);
 		mv.addObject("ca2", ca2);
 		mv.addObject("ca3", ca3);
@@ -379,8 +390,11 @@ public class MainController {
 					+ "<div class='com-content'><div class='com-info'><span class='com-writer'>" + k.getWriter() + "</span>"
 					+ "<span class='com-date'>" + k.getRegdate();
 				if(session.getAttribute("mvo") != null) {
-					if(k.getM_idx().equals(((MVO)session.getAttribute("mvo")).getM_idx()))
+					if(k.getM_idx().equals(((MVO)session.getAttribute("mvo")).getM_idx())) {
 						res += "</span><span class='infobar'>|</span><span class='com-del' onclick='com_del(" + k.getR_c_idx() + ")'>삭제</span>";
+					} else {
+						res += "</span><span class='infobar'>|</span><span class='com-rep' onclick='com_rep(" + k.getR_c_idx() + ")'>신고</span>";
+					}
 				}
 				res += "</div><div class='com-text'><pre>" + k.getContent_() + "</pre></div></div>";
 			}
@@ -574,6 +588,30 @@ public class MainController {
 		return String.valueOf(dao.talkCountLike(tlvo));
 	}
 	
+	@RequestMapping("rep_com_recipe")
+	@ResponseBody
+	public String reportRecipeComment(QVO qvo, HttpSession session) {
+		String con = "";
+		String[] tg = qvo.getTg().split(",");
+		con += tg[0] + "번 글, " + tg[1] + "번 댓글, ";
+		switch (qvo.getRea()) {
+			case "1": con += "사유 : 광고/홍보"; break;
+			case "2": con += "사유 : 음란/선정성"; break;
+			case "3": con += "사유 : 욕설/비방"; break;
+			case "4": con += "사유 : 안 맞는 글"; break;
+			case "5": con += "사유 : 도배글"; break;
+			case "6": con += "사유 : 중복글"; break;
+			case "7": con += "사유 : 저작권 위배"; break;
+			case "8": con += "사유 : 개인정보 노출"; break;
+			case "9": con += "사유 : " + qvo.getEtc(); break;
+		}
+		qvo.setContent(con);
+		qvo.setM_idx(((MVO)session.getAttribute("mvo")).getM_idx());
+		qvo.setQ_def("댓글신고");
+		int res = dao.insertReport(qvo);
+		return String.valueOf(res);
+	}
+	
 //	유튜브 썸네일 URI를 ajax로 받기 위한 메소드
 	@RequestMapping("thumbnail")
 	@ResponseBody
@@ -613,10 +651,45 @@ public class MainController {
 	}
 	
 	@RequestMapping("admin_qna")
-	public ModelAndView qna() {
+	public ModelAndView qna(QVO qvo) {
 		ModelAndView mv = new ModelAndView("a_qna");
-		
+		String sel = qvo.getName_idx();
+		if(qvo.getName() == null || qvo.getName().equals("")) {
+		} else {
+			if (sel.equals("id")) {
+				qvo.setId(qvo.getName());
+				qvo.setName("");
+			} else if (sel.equals("name")) {
+				qvo.setName(qvo.getName());
+			} else if (sel.equals("m_idx")) {
+				qvo.setM_idx(qvo.getName());
+				qvo.setName("");
+			}
+		}
+		if (qvo.getStart() == null)	qvo.setStart(new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
+		if (qvo.getEndt() == null) qvo.setEndt(new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
+		if (qvo.getcPage() == null) qvo.setcPage("");
+		QnAPaging qp = new QnAPaging(dao.getQCount(qvo), qvo.getcPage());
+		qvo.setBegin(String.valueOf(qp.getBegin()));
+		qvo.setEnd(String.valueOf(qp.getEnd()));
+		List<QVO> q_list = dao.getQList(qvo);
+		for (QVO k : q_list) {
+			k.setRegdate(k.getRegdate().substring(0, 10));
+			if (k.getStatus().equals("0")) {
+				k.setStatus("처리 대기중");
+			} else {
+				k.setStatus("처리 완료");
+			}
+		}
+		mv.addObject("q_list", q_list);
+		mv.addObject("qp", qp);
 		return mv;
 	}
 	
+	@RequestMapping("admin_complete")
+	public ModelAndView compQnA(QVO qvo) {
+		ModelAndView mv = new ModelAndView("redirect: admin_qna");
+		dao.compQnA(qvo);
+		return mv;
+	}
 }

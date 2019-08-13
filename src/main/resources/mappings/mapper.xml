@@ -6,55 +6,78 @@
 	<select id="login" parameterType="mvo" resultType="mvo">
 		select * from members where id=#{id} and pw=#{pw}
 	</select>
+	
 	<select id="list" resultType="mvo">
 		select * from members order by regdate desc
 	</select>
+	
 	<insert id="join" parameterType="mvo">
 		insert into members
 		values(members_seq.nextval,#{id},#{pw},#{email},#{name},#{gender},sysdate)
 	</insert>
+	
 	<select id="chkEmail" parameterType="mvo" resultType="int">
 		select count(*) from members where email = #{email}
 	</select>
+	
 	<update id="updateEmail" parameterType="mvo">
 		update members set email = #{email} where id = #{id} 
 	</update>
+	
 	<select id="chkName" parameterType="mvo" resultType="int">
 		select count(*) from members where name = #{name}
 	</select>
+	
 	<update id="updateName" parameterType="mvo">
 		update members set name = #{name} where id = #{id} 
 	</update>
+	
 	<select id="chkPw" parameterType="mvo" resultType="int">
 		select count(*) from members where id = #{id} and pw = #{pw}
 	</select>
+	
 	<update id="updatePw" parameterType="mvo">
 		update members set pw = #{pw} where id = #{id}
 	</update>
+	
 	<select id="m_list" resultType="mvo">
 		select * from members order by regdate desc
 	</select>
+	
 	<select id="recipe_count" resultType="int">
 		select count(*) from members join recipe on members.m_idx=recipe.m_idx order by recipe.regdate desc
 	</select>
+	
 	<select id="member_count" resultType="int">
 		select count(*) from members order by regdate desc
 	</select>
+	
 	<select id="onememberlist" parameterType="String" resultType="mvo">
 		select * from members where name = #{name}
 	</select>
+	
 	<select id="onerecipelist" parameterType="String" resultType="rvo">
 		select * from members join recipe on members.m_idx=recipe.m_idx where name = #{name} order by recipe.regdate desc
 	</select>
+	
 	<select id="findPw" parameterType="String" resultType="mvo">
 		select * from members where email = #{email}
 	</select>
+	
 	<update id="pwUpdate" parameterType="mvo">
 		update members set pw = #{pw} where m_idx = #{m_idx}
 	</update>
 	
+	<insert id="insertReport">
+		insert into qna values (q_seq.nextval, #{m_idx}, #{q_def}, #{content}, to_char(sysdate, 'YYYY-MM-DD'), 0)
+	</insert>
+	
 	<insert id="insert_recipe" parameterType="rvo">
 		insert into recipe values (recipe_seq.nextval, #{m_idx}, #{recipe_title}, #{recipe_introduce}, #{recipe_video}, #{ca1}, #{ca2}, #{ca3}, #{ca4}, #{recipe_quant}, #{recipe_time}, #{recipe_difficulty}, #{main_image}, #{pack}, #{material}, #{orderContent}, #{finImage}, #{recipe_tip}, #{recipe_tag} , 0, 0, sysdate, sysdate, #{savepublic}, 0)
+	</insert>
+	
+	<insert id="repCom" parameterType="qvo">
+		insert into qna values (q_seq.nextval, #{m_idx}, #{q_def}, #{content}, sysdate, 0, null)
 	</insert>
 	
 	<select id="count_recipe" parameterType="map" resultType="int">
@@ -198,6 +221,53 @@
 	<select id="onelistmember" parameterType="String" resultType="mvo">
 		select * from members where m_idx = #{m_idx}
 	</select>
+	
+	<select id="qCount" parameterType="qvo" resultType="int">
+		select count(*) from qna q, members m
+			<where>
+				<![CDATA[q.regdate >= #{start} and q.regdate <= #{endt} and q.m_idx = m.m_idx]]>
+				<if test="id != null and id != ''">
+					and m.id = #{id}
+				</if>
+				<if test="name != null and name != ''">
+					and m.name = #{name}
+				</if>
+				<if test="m_idx != null and m_idx != ''">
+					and q.m_idx = #{m_idx}
+				</if>
+				<if test="email != null and email != ''">
+					and m.email like '%'||#{email}||'%'
+				</if>
+			</where>
+	</select>
+	
+	<select id="qlist" parameterType="qvo" resultType="qvo">
+		select * from (
+			select rownum as r_num, a.* from (
+				select q.*, m.name, m.id, m.email from qna q, members m
+					<where>
+						<![CDATA[q.regdate >= #{start} and q.regdate <= #{endt} and q.m_idx = m.m_idx]]>
+						<if test="id != null and id != ''">
+							and m.id = #{id}
+						</if>
+						<if test="name != null and name != ''">
+							and m.name = #{name}
+						</if>
+						<if test="m_idx != null and m_idx != ''">
+							and q.m_idx = #{m_idx}
+						</if>
+						<if test="email != null and email != ''">
+							and m.email like '%'||#{email}||'%'
+						</if>
+					</where>
+				order by q_idx desc
+			) a
+		) where r_num between #{begin} and #{end}
+	</select>
+	
+	<update id="compQnA" parameterType="qvo">
+		update qna set status = 1 where q_idx = #{q_idx}
+	</update>
 </mapper>
 
 
