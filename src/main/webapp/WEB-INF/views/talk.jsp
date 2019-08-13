@@ -50,9 +50,6 @@ table {
 	margin: 3px 10px 100px 3px;
 	border:  2px solid;
 	border-radius: 70px;
-	-moz-border-radius: 70px;
-	-khtml-border-radius: 70px;
-	-webkit-border-radius: 70px;
 	text-align: center;
 }
 
@@ -119,7 +116,11 @@ table {
 					<c:when test="${k.file_name != null}">
 						<table class="content">
 							<tr>
-								<td class="prf_img">이미지</td>
+								<c:if test="${k.prf_img == null}">
+									<td class="prf_img">
+										<img src="resources/images/no_image.png" style="width:30px; height:30px">
+									</td>
+								</c:if>
 								<td><header
 										style="margin-top: -20px;">
 										<h5>${k.name}</h5>
@@ -144,8 +145,11 @@ table {
 					<c:otherwise>
 						<table class="content">
 							<tr>
-								<td class="prf_img">이미지</td>
-								<td>
+								<c:if test="${k.prf_img == null}">
+									<td class="prf_img">
+										<img src="resources/images/no_image.png" style="width:30px; height:30px; border: solid;">
+									</td>
+								</c:if>
 									<header style="margin-top: -20px;">
 										<h5>${k.name}</h5>
 										<h6 style="margin-top: -20px;">${k.regdate}</h6>

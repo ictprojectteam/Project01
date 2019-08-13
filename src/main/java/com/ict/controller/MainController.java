@@ -435,6 +435,8 @@ public class MainController {
 		List<TVO> list = dao.getTalk_p_List(pvo.getBegin(), pvo.getEnd());
 		
 		for (int i = 0; i < list.size(); i++) {
+			String prf_img = dao.getPrf_img(list.get(i).getM_idx());
+			list.get(i).setPrf_img(prf_img);
 			list.get(i).setCo_count(String.valueOf((dao.getT_co_count(list.get(i).getT_idx()))));
 			if(list.get(i).getFile_name() != null) {
 				String str = list.get(i).getFile_name();
@@ -582,6 +584,14 @@ public class MainController {
 	@ResponseBody
 	public String talkCountLike(TLVO tlvo) {
 		return String.valueOf(dao.talkCountLike(tlvo));
+	}
+	
+	@RequestMapping("myhome")
+	public ModelAndView getMyHome(HttpSession session){
+		ModelAndView mv = new ModelAndView("myhome");
+		MVO mvo = (MVO)session.getAttribute("mvo");
+		mv.addObject("mvo", mvo);
+		return mv;
 	}
 	
 //	유튜브 썸네일 URI를 ajax로 받기 위한 메소드

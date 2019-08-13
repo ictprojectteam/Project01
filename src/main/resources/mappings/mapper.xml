@@ -135,6 +135,9 @@
 				select * from talk order by t_idx desc ) a
 			) where r_num between #{begin} and #{end}
 	</select>
+	<select id="talk_prf_img" parameterType="String" resultType="String">
+		select prf_img from members where m_idx = 1
+	</select>
 	<select id="t_count" resultType="int">
 		select count(*) from talk
 	</select>
