@@ -411,12 +411,11 @@ public class MainController {
 	}
 	
 	@RequestMapping("talk")
-	public ModelAndView getTalk(HttpServletRequest request) {
+	public ModelAndView getTalk(HttpServletRequest request, HttpSession session) {
 		ModelAndView mv = new ModelAndView("talk");
-		/*
 		// 페이징
 		Pageing pvo = new Pageing();
-		int count = dao.getT_count();		// 전체 게시물 
+		int count = dao.getT_count();
 		String cPage = request.getParameter("cPage");
 		pvo.setPagePerBlock(10);
 		
@@ -440,17 +439,15 @@ public class MainController {
 		pvo.setBegin((pvo.getNowPage()-1) * pvo.getNumPerPage() +1);
 		pvo.setEnd((pvo.getBegin()-1) + pvo.getNumPerPage());
 		
-		pvo.setBeginBlock((pvo.getNowPage() -1)/pvo.getPagePerBlock()
+		pvo.setBeginBlock((pvo.getNowPage() -1)/ pvo.getPagePerBlock()
 							* pvo.getPagePerBlock() +1);
 		pvo.setEndBlock(pvo.getBeginBlock() + pvo.getPagePerBlock() -1);
 		
 		if(pvo.getEndBlock() > pvo.getTotalPage()) {
 			pvo.setEndBlock(pvo.getTotalPage());
 		}
+		List<TVO> list = dao.getTalk_p_List(pvo.getBegin(), pvo.getEnd());
 		
-		List<TVO> list = dao.getTalk_List(pvo.getBegin(), pvo.getEnd());
-		*/
-		List<TVO> list = dao.getTalk_List();
 		for (int i = 0; i < list.size(); i++) {
 			list.get(i).setCo_count(String.valueOf((dao.getT_co_count(list.get(i).getT_idx()))));
 			if(list.get(i).getFile_name() != null) {
@@ -461,8 +458,9 @@ public class MainController {
 				}
 			}
 		}
+		session.setAttribute("cPage", cPage);
 		mv.addObject("list", list);
-		// mv.addObject("pvo", pvo);
+		mv.addObject("pvo", pvo);
 		return mv;
 	}
 	
@@ -519,6 +517,11 @@ public class MainController {
 		mv.addObject("c_list", c_list);
 		}
 		session.setAttribute("tvo", tvo);
+		String cPage = (String)session.getAttribute("cPage");
+		if(cPage == null) {
+			cPage = "1";
+		}
+		mv.addObject("cPage", cPage);
 		return mv;
 	}
 	@RequestMapping("talk_del")
@@ -538,6 +541,13 @@ public class MainController {
 		
 		List<TalkCVO> c_list = dao.getT_co_list(tcvo.getT_idx());
 		mv.addObject("c_list", c_list);
+		return mv;
+	}
+	@RequestMapping("talk_c_del")
+	public ModelAndView getT_c_del(HttpSession session, String t_c_idx){
+		TVO tvo = (TVO)session.getAttribute("tvo");
+		ModelAndView mv = new ModelAndView("redirect:talk_view?t_idx=" + tvo.getT_idx());
+		dao.getT_c_del(t_c_idx);
 		return mv;
 	}
 	
