@@ -150,7 +150,7 @@ public class MainController {
 				for (RecipeVO k : rlist) {
 					String cond = "승인대기";
 					if(k.getA_permission().equals("1")) cond = "승인완료";
-					res += "<tr><td>" + k.getR_idx() + "</td><td>" + k.getM_idx() + "</td><td>" + k.getWriter() + "</td><td>" + k.getRecipe_title() + 
+					res += "<tr class='content-inf' onclick='view(" + k.getR_idx() + ")'><td>" + k.getR_idx() + "</td><td>" + k.getM_idx() + "</td><td>" + k.getWriter() + "</td><td>" + k.getRecipe_title() + 
 							"</td><td>" + k.getRecipe_introduce() + "</td><td>" + k.getRegdate() + "</td><td>" + cond + "</td></tr>";
 				}
 			} else {
