@@ -65,9 +65,10 @@
 	color: #f44;
 	display: none;
 }
-#mailbox, #nickbox, #pwbox{
+#mailbox, #nickbox, #pwbox, #outbox{
 	clear: both;
 	margin-top: 20px;
+	height: 21px;
 }
 </style>
 <script type="text/javascript">
@@ -151,27 +152,7 @@
 			$("#pw-input").css("display", "block");
 		});
 		
-		$("#subPw").on("click", function(){
-			var nowpw = $("#nowpw").val();
-			if(nowpw != "") {
-				$.ajax({
-					url : "updName",
-					data : {"id":"${mvo.id}", "name":name},
-					dataType : "text",
-					type : "post",
-					success : function(data) {
-						
-					},
-					error : function(){
-						alert("읽기 실패2");
-					}
-				});
-			} else {
-				$("#nickwarning").css("display", "block");
-				$("#nickwarning").text("닉네임을 입력해주세요.");
-			}
-		});
-
+		var chknowpw = false;
 		$("#nowpw").on("blur", function(){
 			var nowpw = $("#nowpw").val();
 			if(nowpw != "") {
@@ -181,17 +162,96 @@
 					dataType : "text",
 					type : "post",
 					success : function(data) {
-						if(data == 'duplicate'){
-							$("#nickwarning").css("display", "block");
-							$("#nickwarning").text("이미 사용중인 닉네임입니다.");
-						} else if(data == '1') {
+						if(data == '1'){
+							$("#nowpwwarning").css({"display":"block", "color":"#4f4"});
+							$("#nowpwwarning").text("확인되었습니다.");
+							chknowpw = true;
+						} else {
+							$("#nowpwwarning").css({"display":"block", "color":"#f44"});
+							$("#nowpwwarning").text("비밀번호가 일치하지 않습니다.");
+							chknowpw = false;
+						}
+					},
+					error : function(){
+						alert("읽기 실패2");
+					}
+				});
+			} else {
+				$("#nowpwwarning").css({"display":"block", "color":"#f44"});
+				$("#nowpwwarning").text("현재 비밀번호를 입력해주세요.");
+				chkpw = false;
+			}
+		});
+
+		var chknewpw = false;
+		$("#newpw").on("blur", function(){
+			var newpw = $("#newpw").val();
+			var pwchk = $("#pwchk").val();
+			if (newpw != "") {
+				$("#newpwwarning").css({"display":"block", "color":"#4f4"});
+				$("#newpwwarning").text("새 비밀번호 입력 완료");
+				if (pwchk != ""){
+					if (newpw == pwchk) {
+						$("#newpwchkwarning").css({"display":"block", "color":"#4f4"});
+						$("#newpwchkwarning").text("비밀번호 확인 완료");
+						chknewpw = true;
+					} else {
+						$("#newpwchkwarning").css({"display":"block", "color":"#f44"});
+						$("#newpwchkwarning").text("비밀번호가 일치하지 않습니다.");
+						chknewpw = false;
+					}
+				}
+			} else {
+				$("#newpwwarning").css({"display":"block", "color":"#f44"});
+				$("#newpwwarning").text("새 비밀번호를 입력해주세요.");
+				chknewpw = false;
+			}
+		});
+
+		$("#pwchk").on("blur", function(){
+			var newpw = $("#newpw").val();
+			var pwchk = $("#pwchk").val();
+			if (pwchk != "") {
+				if (newpw == pwchk) {
+					$("#newpwchkwarning").css({"display":"block", "color":"#4f4"});
+					$("#newpwchkwarning").text("비밀번호 확인 완료");
+					chknewpw = true;
+				} else {
+					$("#newpwchkwarning").css({"display":"block", "color":"#f44"});
+					$("#newpwchkwarning").text("비밀번호가 일치하지 않습니다.");
+					chknewpw = false;
+				}
+			} else {
+				$("#newpwchkwarning").css({"display":"block", "color":"#f44"});
+				$("#newpwchkwarning").text("비밀번호 확인을 입력해주세요.");
+				chknewpw = false;
+			}
+		});
+
+		
+
+		$("#subPw").on("click", function(){
+			if(chknowpw && chknewpw) {
+				var newpw = $("#newpw").val();
+				$.ajax({
+					url : "updPw",
+					data : {"id":"${mvo.id}", "pw":newpw},
+					dataType : "text",
+					type : "post",
+					success : function(data) {
+						if (data == '1') {
 							alert("변경 완료");
-							$("#namewarning").text("");
-							$("#viewnick").text(name);
-							$("#nick").val("");
-							$("#nickwarning").css("display", "none");
-							$("#nick-input").css("display", "none");
-						} else{
+							$("#newpwchkwarning").text("");
+							$("#nowpwwarning").text("");
+							$("#newpwwarning").text("");
+							$("#nowpw").val("");
+							$("#newpw").val("");
+							$("#pwchk").val("");
+							$("#newpwchkwarning").css("display", "none");
+							$("#nowpwwarning").css("display", "none");
+							$("#newpwwarning").css("display", "none");
+							$("#pw-input").css("display", "none");
+						} else {
 							alert("실패");
 						}
 					},
@@ -200,8 +260,8 @@
 					}
 				});
 			} else {
-				$("#nowpwwarning").css("display", "block");
-				$("#nowpwwarning").text("현재 비밀번호를 입력해주세요.");
+				alert(chknowpw + "2");
+				alert(chknewpw + "2");
 			}
 		});
 
@@ -238,12 +298,16 @@
 			<div id="pw-input" class="hid-box">
 				<input type="password" id="nowpw" class="input" placeholder="현재 비밀번호">
 				<p id='nowpwwarning' class="warning"></p>
-				<input type="password" id="newpw" class="input" placeholder="새로운 비밀번호">
+				<input type="password" id="newpw" name= "pw" class="input" placeholder="새로운 비밀번호">
 				<p id='newpwwarning' class="warning"></p>
 				<input type="password" id="pwchk" class="input" placeholder="새 비밀번호 확인">
-				<p id='pwchkwarning' class="warning"></p>
+				<p id='newpwchkwarning' class="warning"></p>
 				<button id="subPw" class="sub">변경</button>
 			</div>
+		</div>
+		<div id="outbox">
+			<span id="viewnick">회원탈퇴</span>
+			<button id="out" class="updButton">탈퇴하기</button>
 		</div>
 	</div>
 </body>

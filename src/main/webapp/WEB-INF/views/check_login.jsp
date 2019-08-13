@@ -41,7 +41,7 @@
 	}
 </script>
 </head>
-<body onload="renderButton()">
+<body>
 	<div class="top">
 		<h1>ICT 레시피</h1>
 		<h2>ICT RECIPE</h2>

@@ -197,7 +197,7 @@ tabel td {
 				<li><a id="recipe" href="a_recipe">레시피 관리</a></li>
 				<li><a id="content" href="a_write_recipe">게시물 등록</a></li>
 				<li><a id="user" href="membership">회원 관리</a></li>
-				<li><a id="board" href="home">문의 관리</a></li>
+				<li><a id="board" href="admin_qna">문의 관리</a></li>
 				<li><a id="event" href="home">이벤트 관리</a></li>
 				<li><a id="op" href="home">운영자 관리</a></li>
 				<li><a id="setting" href="home">설정</a></li>
@@ -219,14 +219,12 @@ tabel td {
 								<tr bgcolor="#cccccc">
 									<th>회원번호</th>
 									<th>회원이름</th>
-									<!-- <th>연착처</th> -->
 									<th>이메일</th>
-									<!-- <th>닉네임</th> -->
 									<th>성별</th>
 									<th>가입 일시</th>
 								</tr>
 							</thead>
-							<tbody>
+							<!-- <tbody> -->
 								<c:choose>
 									<c:when test="${empty list}">
 										<tr>
@@ -257,39 +255,35 @@ tabel td {
 						<table>
 							<thead>
 								<tr bgcolor="#cccccc">
+									<th>번호</th>
 									<th>회원번호</th>
-									<th>회원이름</th>
-									<!-- <th>연착처</th> -->
-									<!-- <th>이메일</th> -->
 									<th>레시피 제목</th>
-									<th>레시피 소개</th>
-									<!-- <th>고유 ID</th> -->
+									<th>종류 구분</th>
 									<th>등록 일시</th>
+									<th>상태</th>
 								</tr>
 							</thead>
 							<tbody>
-									<c:choose>
-										<c:when test="${empty r_list }">
-											<tr>
-												<td colspan="6"><h3>원하는 정보가 존재하지 않습니다.</h3></td>
+								<c:choose>
+									<c:when test="${empty r_list }">
+										<tr>
+											<td colspan="6"><h3>정보가 존재하지 않습니다.</h3></td>
+										</tr>
+									</c:when>
+									<c:otherwise>
+										<c:forEach var="k" items="${r_list}" begin="0" end="4">
+											<tr onclick="location.href='admin_view_one_recipe.do?r_idx=${k.r_idx}'" style="cursor:pointer">
+												<td>${k.r_idx}</td>
+												<td>${k.m_idx}</td>
+												<td>${k.recipe_title}</td>
+												<td>${k.recipe_introduce}</td>
+												<td>${k.regdate}</td>
+												<td>${k.recipe_difficulty}</td> 
 											</tr>
-										</c:when>
-										<c:otherwise>
-											<c:forEach var="k" items="${r_list}" begin="0" end="4">
-												<tr>
-													<td>${k.m_idx}</td>
-													<td>${k.name}</td>
-													<%-- <td>${k.number}</td> --%>
-													<%-- <td>${k.email}</td> --%>
-													<td>${k.recipe_title}</td>
-													<td>${k.recipe_introduce}</td>
-													<%-- <td>${k.secret_id}</td> --%>
-													<td>${k.regdate}</td>
-												</tr>
-											</c:forEach>
-										</c:otherwise>
-									</c:choose>
-								</tbody>
+										</c:forEach>
+									</c:otherwise>
+								</c:choose>
+							</tbody>
 						</table>
 					</div>
 				</div>
@@ -302,7 +296,6 @@ tabel td {
 							<thead>
 								<tr>
 									<th>회원이름</th>
-									<!-- <th>연착처</th> -->
 									<th>이메일</th>
 									<th>문의 구분</th>
 									<th>문의 내용</th>

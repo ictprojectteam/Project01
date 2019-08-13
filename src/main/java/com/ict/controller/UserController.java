@@ -117,4 +117,19 @@ public class UserController {
 			}
 		}
 	}
+	
+	@RequestMapping("pwchk")
+	@ResponseBody
+	public String chkPw(MVO mvo, HttpSession session) {
+		mvo.setId(((MVO)session.getAttribute("mvo")).getId());
+		int chk = dao.chkPw(mvo);
+		return String.valueOf(chk);
+	}
+	
+	@RequestMapping("updPw")
+	@ResponseBody
+	public String updatePw(MVO mvo) {
+		int result = dao.updatePw(mvo);
+		return String.valueOf(result);
+	}
 }

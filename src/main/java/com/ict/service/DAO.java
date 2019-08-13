@@ -52,6 +52,14 @@ public class DAO {
 		return sqlSessionTemplate.update("updateName", mvo);
 	}
 	
+	public int chkPw(MVO mvo) {
+		return sqlSessionTemplate.selectOne("chkPw", mvo);
+	}
+	
+	public int updatePw(MVO mvo) {
+		return sqlSessionTemplate.update("updatePw", mvo);
+	}
+	
 	public List<RVO> getr_list() {
 		return sqlSessionTemplate.selectList("r_list");
 	}
@@ -187,5 +195,8 @@ public class DAO {
 	}
 	public void recipeHitUpdate(RecipeVO rvo) {
 		sqlSessionTemplate.update("rhitupdate", rvo);
+	}
+	public RecipeVO getAdminOneRecipe(String r_idx) {
+		return sqlSessionTemplate.selectOne("onelistrecipe", r_idx);
 	}
 }

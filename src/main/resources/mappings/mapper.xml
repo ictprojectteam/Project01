@@ -25,6 +25,12 @@
 	<update id="updateName" parameterType="mvo">
 		update members set name = #{name} where id = #{id} 
 	</update>
+	<select id="chkPw" parameterType="mvo" resultType="int">
+		select count(*) from members where id = #{id} and pw = #{pw}
+	</select>
+	<update id="updatePw" parameterType="mvo">
+		update members set pw = #{pw} where id = #{id}
+	</update>
 	<select id="m_list" resultType="mvo">
 		select * from members order by regdate desc
 	</select>
@@ -193,6 +199,15 @@
 	<insert id="insert_recipe_comment" parameterType="rcvo">
 		insert into recipe_c values (recipe_c_seq.nextval, #{r_idx}, #{m_idx}, #{content_}, 0, sysdate)
 	</insert>
+	<select id="r_list" resultType="r_vo">
+		select * from recipe order by sysdate desc
+	</select>
+	<select id="onelistrecipe" parameterType="String" resultType="rvo">
+		select * from recipe where r_idx = #{r_idx}
+	</select>
+	<select id="onelistmember" parameterType="String" resultType="mvo">
+		select * from members where m_idx = #{m_idx}
+	</select>
 </mapper>
 
 

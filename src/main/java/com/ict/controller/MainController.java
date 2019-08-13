@@ -103,50 +103,10 @@ public class MainController {
 		ModelAndView mv = new ModelAndView("admin");
 		List<MVO> list = dao.getList();
 		mv.addObject("list", list);
-		List<RVO> r_list = dao.getr_list();
+		List<RecipeVO> r_list = dao.getRecipeList(1, 5);
 		mv.addObject("r_list", r_list);
 		return mv;
 	}
-	/*
-	@RequestMapping(value = "a_recipe")
-	public ModelAndView geta_recipe(HttpServletRequest request) {
-		ModelAndView mv = new ModelAndView("a_recipe");
-		int count = dao.getRecipeCount();
-		pageing.setTotalRecord(count);
-		
-		if(pageing.getTotalRecord() <= pageing.getNumPerPage()) {
-			pageing.setTotalPage(1);
-		}else {
-			pageing.setTotalPage(pageing.getTotalRecord() / pageing.getNumPerPage());
-			if(pageing.getTotalRecord() % pageing.getNumPerPage() !=0) {
-				pageing.setTotalPage(pageing.getTotalPage()+1);
-			}
-		}
-		
-		String cPage = request.getParameter("cPage");
-		if(cPage == null) {
-			pageing.setNowPage(1);
-		}else {
-			pageing.setNowPage(Integer.parseInt(cPage));
-		}
-		
-		pageing.setBegin((pageing.getNowPage()-1)*pageing.getNumPerPage()+1);
-		pageing.setEnd((pageing.getBegin()-1)+pageing.getNumPerPage());
-		
-		pageing.setBeginBlock((pageing.getNowPage()-1) / pageing.getPagePerBlock() * pageing.getPagePerBlock()+1);
-		pageing.setEndBlock(pageing.getBeginBlock()+pageing.getPagePerBlock()-1);
-		
-		if(pageing.getEndBlock() > pageing.getTotalPage()) {
-			pageing.setEndBlock(pageing.getTotalPage());
-		}
-		
-		List<RecipeVO> r_list = dao.getRecipeList(pageing.getBegin(), pageing.getEnd());
-		mv.addObject("r_list", r_list);
-		mv.addObject("pageing", pageing);
-	
-		return mv;
-	}
-	*/
 	@RequestMapping(value = "a_recipe")
 	public ModelAndView geta_recipe() {
 		ModelAndView mv = new ModelAndView("a_recipe");
@@ -654,5 +614,19 @@ public class MainController {
 		return null;
 	}
 	
+	@RequestMapping("admin_view_one_recipe")
+	public ModelAndView get_admin_view_one_recipe(@RequestParam String r_idx) {
+		ModelAndView mv = new ModelAndView("admin_view_one_recipe");
+		RecipeVO rvo = dao.getAdminOneRecipe(r_idx);
+		mv.addObject("rvo", rvo);
+		return mv;
+	}
+	
+	@RequestMapping("admin_qna")
+	public ModelAndView qna() {
+		ModelAndView mv = new ModelAndView("a_qna");
+		
+		return mv;
+	}
 	
 }

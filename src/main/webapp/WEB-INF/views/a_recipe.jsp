@@ -275,7 +275,7 @@ tabel td{
 				<li><a id="recipe" href="a_recipe">레시피 관리</a></li>
 				<li><a id="content" href="a_write_recipe">게시물 등록</a></li>
 				<li><a id="user" href="membership">회원 관리</a></li>
-				<li><a id="board" href="home">문의 관리</a></li>
+				<li><a id="board" href="admin_qna">문의 관리</a></li>
 				<li><a id="event" href="home">이벤트 관리</a></li>
 				<li><a id="op" href="home">운영자 관리</a></li>
 				<li><a id="setting" href="home">설정</a></li>
@@ -296,7 +296,7 @@ tabel td{
 									<table>
 										<thead>
 											<tr>
-												<th>회원이름/
+												<th bgcolor="#cccccc">회원이름/
 												고유ID</th>						
 												<td>
 													<select name="name_idx">
@@ -305,20 +305,20 @@ tabel td{
 													</select>
 													<input type="text" name="name" size="48">
 												</td>
-												<th>이메일/연락처</th>
+												<th bgcolor="#cccccc">이메일/연락처</th>
 												<td>
-													<!-- <select name="email_number">
+													<select name="email_number">
 														<option value="email">이메일</option>
 														<option value="number">연락처</option>
-														<input type="text" name="e_write" size= "48">  -->
+														<input type="text" name="e_write" size= "48">
 												</td>
 											</tr>
 											<tr>
-												<th>레시피 제목</th>
+												<th bgcolor="#cccccc">레시피 제목</th>
 												<td colspan="3"><input type="text" name="recipe_title" size="137"></td>
 											</tr>
 											<tr>
-												<th>상태별</th>
+												<th bgcolor="#cccccc">상태별</th>
 												<td colspan="3">
 													<input type="checkbox"  name="a_permission" size="50" value="">전체								
 													<input type="checkbox"  name="a_permission" size="50" value="0">승인대기
@@ -326,7 +326,7 @@ tabel td{
 												</td>
 											</tr>
 											<tr>
-												<th>종류별</th>
+												<th bgcolor="#cccccc">종류별</th>
 												<td colspan="3">
 													<input type="checkbox"  name="type" size="50">전체								
 													<input type="checkbox"  name="type" size="50">일반레시피
@@ -334,7 +334,7 @@ tabel td{
 												</td>
 											</tr>
 											<tr>
-												<th>등록일시</th>
+												<th bgcolor="#cccccc">등록일시</th>
 												<td colspan="3">
 													<input type="date" id="start" name="start" value="sysdate" min="2019-01-01" max="2019-12-31">
 													<a>~</a>

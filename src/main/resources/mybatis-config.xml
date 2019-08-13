@@ -11,6 +11,7 @@
 		<typeAlias type="com.ict.service.TVO" alias="tvo" />
 		<typeAlias type="com.ict.service.TalkCVO" alias="tcvo" />
 		<typeAlias type="com.ict.service.TLVO" alias="tlvo" />
+		<typeAlias type="com.ict.service.RVO" alias="r_vo" />
 	</typeAliases>
 	<mappers>
 		<mapper resource="mappings/mapper.xml" />
