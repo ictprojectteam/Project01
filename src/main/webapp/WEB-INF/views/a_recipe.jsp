@@ -237,12 +237,18 @@ tabel td{
 	font-weight: bold;
 }
 
+.content-inf{
+	cursor: pointer;
+}
 
+.content-inf:hover{
+	background: #ddd;
+}
 
 </style>
 <script type="text/javascript">
 	$(function(){
-		getList();	
+		getList();
 	});
 	function send_one(f){
 		f.action = "selectonerecipe.do";
@@ -261,6 +267,9 @@ tabel td{
 				alert("읽기 실패");
 			}
 		});
+	}
+	function view(e) {
+		location.href="admin_view_one_recipe?r_idx=" + e;
 	}
 </script>
 </head>
@@ -365,11 +374,8 @@ tabel td{
 										<th>번호</th>
 										<th>회원번호</th>
 										<th>회원이름</th>
-										<!-- <th>연착처</th> -->
-										<!-- <th>이메일</th> -->
 										<th>레시피 제목</th>
 										<th>레시피 소개</th>
-										<!-- <th>고유 ID</th> -->
 										<th>등록 일시</th>
 										<th>게시글 상태</th>
 									</tr>

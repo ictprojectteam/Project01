@@ -171,3 +171,20 @@ foreign key (m_idx) references members(m_idx)
 members 추가
 
 alter table members add prf_img CLOB;
+
+===============================================================================
+qna 테이블 생성 - 의견 제출, 댓글 신고를 위한 테이블
+create table qna(
+q_idx NUMBER not null,
+m_idx NUMBER,
+q_def varchar2(50),
+content VARCHAR2(4000),
+regdate date,
+status varchar2(50),
+PRIMARY key (q_idx),
+foreign key (m_idx) references members(m_idx)
+);
+
+시퀀스
+create sequence q_seq increment by 1 start with 1 nocycle;
+===============================================================================

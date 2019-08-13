@@ -60,6 +60,10 @@ public class DAO {
 		return sqlSessionTemplate.update("updatePw", mvo);
 	}
 	
+	public int insertReport(QVO qvo) {
+		return sqlSessionTemplate.insert("insertReport", qvo);
+	}
+	
 	public List<RVO> getr_list() {
 		return sqlSessionTemplate.selectList("r_list");
 	}
@@ -201,5 +205,17 @@ public class DAO {
 	}
 	public RecipeVO getAdminOneRecipe(String r_idx) {
 		return sqlSessionTemplate.selectOne("onelistrecipe", r_idx);
+	}
+	
+	public int getQCount(QVO qvo) {
+		return sqlSessionTemplate.selectOne("qCount", qvo);
+	}
+	
+	public List<QVO> getQList(QVO qvo) {
+		return sqlSessionTemplate.selectList("qlist", qvo);
+	}
+	
+	public void compQnA(QVO qvo) {
+		sqlSessionTemplate.update("compQnA", qvo);
 	}
 }
