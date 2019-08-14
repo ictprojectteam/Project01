@@ -80,7 +80,7 @@
 		insert into qna values (q_seq.nextval, #{m_idx}, #{q_def}, #{content}, sysdate, 0, null)
 	</insert>
 	
-	<select id="count_recipe" parameterType="map" resultType="int">
+	<select id="count_recipe" parameterType="rvo" resultType="int">
 		select count(*) from recipe
 			<where>
 				savepublic = 1
@@ -91,7 +91,7 @@
 					and (recipe_title like '%'||#{k}||'%' or recipe_introduce like '%'||#{k}||'%' or pack like '%'||#{k}||'%' or material like '%'||#{k}||'%' or ordercontent like '%'||#{k}||'%' or recipe_tip like '%'||#{k}||'%' or recipe_tag like '%'||#{k}||'%')
 				</if>
 				<if test="recipe_title != null and recipe_title != ''">
-					and recipe_title like '%'||#{k}||'%'
+					and recipe_title like '%'||#{recipe_title}||'%'
 				</if>
 				<if test="ca1 != null and ca1 != ''">
 					and ca1=#{ca1}
@@ -121,7 +121,7 @@
 							and (recipe_title like '%'||#{k}||'%' or recipe_introduce like '%'||#{k}||'%' or pack like '%'||#{k}||'%' or material like '%'||#{k}||'%' or ordercontent like '%'||#{k}||'%' or recipe_tip like '%'||#{k}||'%' or recipe_tag like '%'||#{k}||'%')
 						</if>
 						<if test="recipe_title != null and recipe_title != ''">
-							and recipe_title like '%'||#{k}||'%'
+							and recipe_title like '%'||#{recipe_title}||'%'
 						</if>
 						<if test="ca1 != null and ca1 != ''">
 							and r.ca1=#{ca1}
@@ -134,6 +134,77 @@
 						</if>
 						<if test="ca4 != null and ca4 != ''">
 							and r.ca4=#{ca4}
+						</if>
+					</where>
+					order by r.r_idx desc
+			) a
+		) where r_num between #{begin} and #{end}
+	</select>
+	
+	<select id="a_count_recipe" parameterType="rvo" resultType="int">
+		select count(*) from recipe r, members m
+			<where>
+				r.m_idx = m.m_idx and savepublic = 1 and <![CDATA[r.regdate >= #{start} and r.regdate <= #{endt}]]>
+				<if test="name != null and name != ''">
+					and m.name like '%'||#{name}||'%'
+				</if>
+				<if test="id != null and id != ''">
+					and m.id like '%'||#{id}||'%'
+				</if>
+				<if test="r_idx != null and r_idx != ''">
+					and r_idx = #{r_idx}
+				</if>
+				<if test="email != null and email != ''">
+					and m.email like '%'||#{email}||'%'
+				</if>
+				<if test="recipe_title != null and recipe_title != ''">
+					and recipe_title like '%'||#{recipe_title}||'%'
+				</if>
+				<if test="a_permission != null and a_permission != ''">
+					and a_permission=#{a_permission}
+				</if>
+				<if test="type != null and type != ''">
+					<if test="type == 1">
+						and recipe_video is null
+					</if>
+					<if test="type == 2">
+						and recipe_video is not null
+					</if>
+				</if>
+			</where>
+	</select>
+	
+	<select id="a_recipe_list" parameterType="map" resultType="rvo">
+		select * from (
+			select rownum as r_num, a.* from (
+				select r.*, m.name, m.id, m.email from recipe r, members m
+					<where>
+						r.m_idx = m.m_idx and savepublic = 1 and <![CDATA[r.regdate >= #{start} and r.regdate <= #{endt}]]>
+						<if test="name != null and name != ''">
+							and m.name like '%'||#{name}||'%'
+						</if>
+						<if test="id != null and id != ''">
+							and m.id like '%'||#{id}||'%'
+						</if>
+						<if test="r_idx != null and r_idx != ''">
+							and r_idx = #{r_idx}
+						</if>
+						<if test="email != null and email != ''">
+							and m.email like '%'||#{email}||'%'
+						</if>
+						<if test="recipe_title != null and recipe_title != ''">
+							and recipe_title like '%'||#{recipe_title}||'%'
+						</if>
+						<if test="a_permission != null and a_permission != ''">
+							and a_permission=#{a_permission}
+						</if>
+						<if test="type != null and type != ''">
+							<if test="type == 1">
+								and recipe_video is null
+							</if>
+							<if test="type == 2">
+								and recipe_video is not null
+							</if>
 						</if>
 					</where>
 					order by r.r_idx desc

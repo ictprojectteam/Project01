@@ -122,6 +122,10 @@ public class DAO {
 		return sqlSessionTemplate.selectOne("count_recipe", camap);
 	}
 	
+	public int a_countRecipe(RecipeVO rvo) {
+		return sqlSessionTemplate.selectOne("a_count_recipe", rvo);
+	}
+	
 	public List<RecipeCVO> getCommentList(String r_idx) {
 		return sqlSessionTemplate.selectList("recipe_comment_list", r_idx);
 	}
@@ -132,6 +136,10 @@ public class DAO {
 	
 	public List<RecipeVO> getRecipeList(Map<String, String> pmap) {
 		return sqlSessionTemplate.selectList("recipe_list", pmap);
+	}
+	
+	public List<RecipeVO> aRecipeList(RecipeVO rvo) {
+		return sqlSessionTemplate.selectList("a_recipe_list", rvo);
 	}
 	
 	public List<RecipeVO> getRecipeList(int begin, int end) {

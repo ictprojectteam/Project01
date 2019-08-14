@@ -3,7 +3,9 @@ package com.ict.service;
 public class RecipeVO {
 	private String r_idx, recipe_title, recipe_introduce, recipe_video, ca1, ca2, ca3, ca4, recipe_quant, recipe_time, recipe_difficulty, main_image, recipe_tip, recipe_tag;
 	private String pack, material, orderContent, finImage;
-	private String m_idx, regdate, lastedit, hit, likeit, writer, name, savepublic, a_permission;
+	private String m_idx, regdate, lastedit, hit, likeit, writer, name, id, savepublic, a_permission;
+	private String name_idx, email, type, start, endt;
+	private String begin, end, cPage, k;
 	
 	public String getR_idx() {
 		return r_idx;
@@ -155,6 +157,12 @@ public class RecipeVO {
 	public void setName(String name) {
 		this.name = name;
 	}
+	public String getId() {
+		return id;
+	}
+	public void setId(String id) {
+		this.id = id;
+	}
 	public String getSavepublic() {
 		return savepublic;
 	}
@@ -166,6 +174,60 @@ public class RecipeVO {
 	}
 	public void setA_permission(String a_permission) {
 		this.a_permission = a_permission;
+	}
+	public String getName_idx() {
+		return name_idx;
+	}
+	public void setName_idx(String name_idx) {
+		this.name_idx = name_idx;
+	}
+	public String getEmail() {
+		return email;
+	}
+	public void setEmail(String email) {
+		this.email = email;
+	}
+	public String getType() {
+		return type;
+	}
+	public void setType(String type) {
+		this.type = type;
+	}
+	public String getStart() {
+		return start;
+	}
+	public void setStart(String start) {
+		this.start = start;
+	}
+	public String getEndt() {
+		return endt;
+	}
+	public void setEndt(String endt) {
+		this.endt = endt;
+	}
+	public String getBegin() {
+		return begin;
+	}
+	public void setBegin(String begin) {
+		this.begin = begin;
+	}
+	public String getEnd() {
+		return end;
+	}
+	public void setEnd(String end) {
+		this.end = end;
+	}
+	public String getcPage() {
+		return cPage;
+	}
+	public void setcPage(String cPage) {
+		this.cPage = cPage;
+	}
+	public String getK() {
+		return k;
+	}
+	public void setK(String k) {
+		this.k = k;
 	}
 	
 }

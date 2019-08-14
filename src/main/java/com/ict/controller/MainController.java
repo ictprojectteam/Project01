@@ -10,6 +10,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.Base64.Encoder;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Enumeration;
 import java.util.HashMap;
@@ -119,46 +120,69 @@ public class MainController {
 	
 	@RequestMapping(value = "admin_rlist", produces = "application/text; charset=utf8")
 	@ResponseBody
-	public String geta_recipe(HttpServletRequest request) {
-		String res = "";
-		String name_idx = request.getParameter("name_idx");
-		String name = request.getParameter("name");
-		String recipe_title = request.getParameter("recipe_title");
-		String a_permission = request.getParameter("a_permission");
-		String type = request.getParameter("type");
-		String cPage = request.getParameter("cPage");
-		if (name == null) name = "";
-		if (recipe_title == null) recipe_title = "";
-		if (a_permission == null) a_permission = "";
-		if (type == null) type = "";
-		if (cPage == null) cPage = "";
-		
-		Map<String, String> rmap = new HashMap<String, String>();
-		rmap.put("recipe_title", recipe_title);
-		rmap.put("a_permission", a_permission);
-		rmap.put("type", type);
-		if(!name.equals("")) {
-			if (name_idx.equals("name")) rmap.put("name", name);;
-			if (name_idx.equals("idx_id")) rmap.put("idx_id", name);;
-		} else {
-			int count = dao.countRecipe(rmap);
-			RecipePaging rp = new RecipePaging(count, cPage);
-			rmap.put("begin", rp.getBegin() + "");
-			rmap.put("end", rp.getEnd() + "");
-			List<RecipeVO> rlist = dao.getRecipeList(rmap);
-			if (rlist.size() > 0) {
-				for (RecipeVO k : rlist) {
-					String cond = "승인대기";
-					if(k.getA_permission().equals("1")) cond = "승인완료";
-					res += "<tr class='content-inf' onclick='view(" + k.getR_idx() + ")'><td>" + k.getR_idx() + "</td><td>" + k.getM_idx() + "</td><td>" + k.getWriter() + "</td><td>" + k.getRecipe_title() + 
-							"</td><td>" + k.getRecipe_introduce() + "</td><td>" + k.getRegdate() + "</td><td>" + cond + "</td></tr>";
+	public String geta_recipe(HttpServletRequest request, RecipeVO rvo) {
+		StringBuffer res = new StringBuffer();
+		Calendar today = Calendar.getInstance();
+		if (rvo.getEndt() == null) rvo.setEndt(new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
+		today.add(Calendar.MONTH, -1);
+		if (rvo.getStart() == null)	rvo.setStart(new SimpleDateFormat("yyyy-MM-dd").format(new Date(today.getTimeInMillis())));
+		int count = dao.a_countRecipe(rvo);
+		RecipePaging rp = new RecipePaging(10, count, rvo.getcPage());
+		rvo.setBegin(String.valueOf(rp.getBegin()));
+		rvo.setEnd(String.valueOf(rp.getEnd()));
+		List<RecipeVO> rlist = dao.aRecipeList(rvo);
+		if (rlist.size() > 0) {
+			for (RecipeVO k : rlist) {
+				String cond = "승인대기";
+				if(k.getA_permission().equals("1")) cond = "승인완료";
+				String type = "일반";
+				if (k.getRecipe_video() != null && !k.getRecipe_video().equals("")) type = "영상";
+				res.append("<div class='each-content' onclick='view(" + k.getR_idx() + ")'><div class='body-content'>" + k.getR_idx() + "</div><div class='body-content'>" + 
+						k.getName() + "</div><div class='body-content'>" + k.getId() + "</div><div class='body-content'>" + k.getEmail() + "</div><div class='body-content'>" + 
+						k.getRecipe_title() + "</div><div class='body-content'>" + type + "</div><div class='body-content'>" + k.getRegdate().substring(0, 10));
+				if(cond.equals("승인완료")) {
+					res.append("</div><div class='body-content comp'>" + cond + "</div></div>");
+				} else {
+					res.append("</div><div class='body-content waiting'>" + cond + "</div></div>");
 				}
+			}
+		} else {
+			res.append("원하는 정보가 존재하지 않습니다.");
+		}
+		return res.toString();
+	}
+	
+	@RequestMapping(value = "admin_rpage", produces = "application/text; charset=utf-8")
+	@ResponseBody
+	public String test(RecipeVO rvo) {
+		StringBuffer res = new StringBuffer();
+		Calendar today = Calendar.getInstance();
+		if (rvo.getEndt() == null) rvo.setEndt(new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
+		today.add(Calendar.MONTH, -1);
+		if (rvo.getStart() == null)	rvo.setStart(new SimpleDateFormat("yyyy-MM-dd").format(new Date(today.getTimeInMillis())));
+		int count = dao.a_countRecipe(rvo);
+		RecipePaging rp = new RecipePaging(10, count, rvo.getcPage());
+		
+		if (rp.getBeginBlock() <= rp.getPagePerBlock()) {
+			res.append("<span class='disable'> 이전으로 </span>");
+		} else {
+			res.append("<span class='pre-block'> 이전으로 </span");
+		}
+		
+		for (int i = rp.getBeginBlock(); i < rp.getEndBlock() + 1; i++) {
+			if (i == rp.getNowPage()) {
+				res.append("<span class='now'>" + i + "</span>");
 			} else {
-				res += "<tr><td colspan='6'><h3>원하는 정보가 존재하지 않습니다.</h3></td></tr>";
+				res.append("<span class='page'>" + i + "</span>");
 			}
 		}
 		
-		return res;
+		if (rp.getEndBlock() >= rp.getTotalPage()) {
+			res.append("<span class='disable'> 다음으로 </span>");
+		} else {
+			res.append("<span class='next-block'> 다음으로 </span>");
+		}
+		return res.toString();
 	}
 	
 	@RequestMapping(value = "membership")
@@ -676,8 +700,10 @@ public class MainController {
 				qvo.setName("");
 			}
 		}
-		if (qvo.getStart() == null)	qvo.setStart(new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
+		Calendar today = Calendar.getInstance();
 		if (qvo.getEndt() == null) qvo.setEndt(new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
+		today.add(Calendar.MONTH, -1);
+		if (qvo.getStart() == null)	qvo.setStart(new SimpleDateFormat("yyyy-MM-dd").format(new Date(today.getTimeInMillis())));
 		if (qvo.getcPage() == null) qvo.setcPage("");
 		QnAPaging qp = new QnAPaging(dao.getQCount(qvo), qvo.getcPage());
 		qvo.setBegin(String.valueOf(qp.getBegin()));
