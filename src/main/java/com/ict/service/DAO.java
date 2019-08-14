@@ -173,6 +173,9 @@ public class DAO {
 	public List<TVO> getTalk_List(){
 		return sqlSessionTemplate.selectList("talk_list");
 	}
+	public String getPrf_img(String m_idx) {
+		return  sqlSessionTemplate.selectOne("talk_prf_img", m_idx);
+	}
 	public List<TVO> getTalk_p_List(int begin, int end){
 		Map<String, Integer> map = new HashMap<String, Integer>();
 		map.put("begin", begin);
