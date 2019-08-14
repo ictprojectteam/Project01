@@ -222,7 +222,7 @@ public class DAO {
 	public MVO getAdminOneMember(String m_idx) {
 		return sqlSessionTemplate.selectOne("onelistmember", m_idx);
 	}
-	
+
 	public int getQCount(QVO qvo) {
 		return sqlSessionTemplate.selectOne("qCount", qvo);
 	}

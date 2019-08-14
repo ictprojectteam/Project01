@@ -9,9 +9,9 @@ import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Base64;
+import java.util.Date;
 import java.util.Base64.Encoder;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
@@ -187,7 +187,7 @@ public class MainController {
 	
 	@RequestMapping(value = "membership")
 	public ModelAndView getMembership(HttpServletRequest request){
-		ModelAndView mv = new ModelAndView("membership");
+		ModelAndView mv = new ModelAndView("a_membership");
 		int count = dao.getMemberCount();
 		pageing.setTotalRecord(count);
 		
@@ -226,7 +226,7 @@ public class MainController {
 	
 	@RequestMapping(value = "selectonemember.do")
 	public ModelAndView getSelectOneMember(@RequestParam("name") String name) {
-		ModelAndView mv = new ModelAndView("selectonemember");
+		ModelAndView mv = new ModelAndView("a_selectonemember");
 		MVO mvo = dao.getOneMemberList(name);
 		mv.addObject("mvo", mvo);
 		return mv;
@@ -234,7 +234,7 @@ public class MainController {
 
 	@RequestMapping(value = "selectonerecipe.do")
 	public ModelAndView getSelectOneRecipe(@RequestParam("name") String name) {
-		ModelAndView mv = new ModelAndView("selectonerecipe");
+		ModelAndView mv = new ModelAndView("a_selectonerecipe");
 		List<RVO> one_r_list = dao.getOneRecipeList(name);
 		mv.addObject("one_r_list", one_r_list);
 		return mv;
@@ -624,7 +624,6 @@ public class MainController {
 		return String.valueOf(dao.talkCountLike(tlvo));
 	}
 	
-
 	@RequestMapping("myhome")
 	public ModelAndView getMyHome(HttpSession session){
 		ModelAndView mv = new ModelAndView("myhome");

@@ -50,9 +50,6 @@ table {
 	margin: 3px 10px 100px 3px;
 	border:  2px solid;
 	border-radius: 70px;
-	-moz-border-radius: 70px;
-	-khtml-border-radius: 70px;
-	-webkit-border-radius: 70px;
 	text-align: center;
 }
 
@@ -177,10 +174,10 @@ table {
 					<ul class="paging">
 						<c:choose>
 							<c:when test="${pvo.beginBlock <= pvo.pagePerBlock}">
-								<li class="disable"style="display: none;"> << </li>
+								<li class="disable"style="display: none;"></li>
 							</c:when>
 							<c:otherwise>
-								<li><a href="talk?cPage=${pvo.beginBlock - pvo.pagePerBlock}"> << </a></li>
+								<li><a href="talk?cPage=${pvo.beginBlock - pvo.pagePerBlock}"></a></li>
 							</c:otherwise>
 						</c:choose>
 						
@@ -214,33 +211,3 @@ table {
 	</footer>
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
