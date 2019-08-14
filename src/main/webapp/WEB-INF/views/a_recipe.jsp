@@ -158,7 +158,6 @@ header #links{
 .reg{
 	display: grid;
 	grid-template-columns: 140px 860px;
-	
 }
 
 #button{
@@ -235,33 +234,6 @@ header #links{
 legend{
 	font-size: 16pt;
 	font-weight: bolder;
-}
-
-table, th, td {
-	border: 1px solid black;
-	border-collapse: collapse;
-	color: #2b686e;
-	text-align: left;
-	font-size: 1.0em;
-	margin-top: 1em;
-	line-height: 25px;
-}
-
-table{
-	position: relative;
-	width: 1000px;
-	margin-left: 1.0em;
-	margin-right: 1.0em;
-	margin-bottom: 1.0em;
-}
-
-table th{
-	border-spacing: 0;
-	text-align: center;
-}
-
-tabel td{
-	font-size: 1.0em;
 }
 
 #body td{
@@ -370,14 +342,6 @@ tabel td{
 			load_list(rvo);
 		});
 
-		$("[class^=page]").on("click", function(){
-			var p = $(this).text();
-			rvo.cPage = p;
-			load_list(rvo);
-			rvo.k = 
-			load_page(rvo);
-		});
-		
 		$("#month").click();
 		getList();
 		load_page(1);
@@ -418,11 +382,9 @@ tabel td{
 		var r_title = $("[name=recipe_title]").val();
 		if(r_title != "") rvo.recipe_title = r_title;
 
-		var per = $("[name=a_permission]:checked").val();
-		if(per != "") rvo.a_permission = per;
+		rvo.a_permission = $("[name=a_permission]:checked").val();
 
-		var type = $("[name=type]:checked").val();
-		if(type != "") rvo.type = type;
+		rvo.type = $("[name=type]:checked").val();
 
 		rvo.start = $("#start").val();
 		rvo.endt = $("#end").val();
@@ -430,6 +392,11 @@ tabel td{
 		load_list(rvo);
 	}
 
+	function move_page(e) {
+		rvo.cPage = e;
+		load_list(rvo);
+	}
+	
 	function load_list(e) {
 		$.ajax({
 			url: "admin_rlist",
@@ -444,6 +411,7 @@ tabel td{
 				alert("읽기 실패");
 			}
 		});
+		load_page(e);
 	}
 
 	function load_page(cPage) {
@@ -461,7 +429,7 @@ tabel td{
 			}
 		});
 	}
-	
+
 	function view(e) {
 		location.href="admin_view_one_recipe?r_idx=" + e;
 	}

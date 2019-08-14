@@ -147,10 +147,10 @@ table {
 							<tr>
 								<c:if test="${k.prf_img == null}">
 									<td class="prf_img">
-										<img src="resources/images/no_image.png" style="width:30px; height:30px; border: solid;">
+										<img src="resources/images/no_image.png" style="width:30px; height:30px;">
 									</td>
 								</c:if>
-									<header style="margin-top: -20px;">
+									<td><header style="margin-top: -20px;">
 										<h5>${k.name}</h5>
 										<h6 style="margin-top: -20px;">${k.regdate}</h6>
 									</header>

@@ -173,7 +173,7 @@ public class MainController {
 			if (i == rp.getNowPage()) {
 				res.append("<span class='now'>" + i + "</span>");
 			} else {
-				res.append("<span class='page'>" + i + "</span>");
+				res.append("<span class='page' onclick='move_page(" + i + ")'>" + i + "</span>");
 			}
 		}
 		
@@ -631,6 +631,7 @@ public class MainController {
 		MVO mvo = (MVO)session.getAttribute("mvo");
 		mv.addObject("mvo", mvo);
 		return mv;
+	}
 
 	@RequestMapping("rep_com_recipe")
 	@ResponseBody
