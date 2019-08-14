@@ -703,6 +703,14 @@ public class MainController {
 		return mv;
 	}
 	
+	@RequestMapping("admin_view_one_member")
+	public ModelAndView get_admin_view_one_member(@RequestParam String m_idx) {
+		ModelAndView mv = new ModelAndView("admin_view_one_member");
+		MVO mvo = dao.getAdminOneMember(m_idx);
+		mv.addObject("mvo", mvo);
+		return mv;
+	}
+	
 	@RequestMapping("admin_qna")
 	public ModelAndView qna(QVO qvo) {
 		ModelAndView mv = new ModelAndView("a_qna");

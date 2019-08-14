@@ -172,6 +172,7 @@ tabel td{
 	grid-template-columns: 480px 480px;
 	grid-column-gap: 40px;
 }
+
 #write-top{
 height: 400px;
 margin-top: 50px
@@ -499,9 +500,15 @@ margin-top:-40px;
 #recipe-ing-pack-2, #recipe-ing-pack-3, #recipe-ing-pack-4, #recipe-ing-pack-5, #recipe-ing-pack-6{
 	display: none;
 }
+
 textarea{
 	resize: none;
 }
+
+
+
+
+
 </style>
 <script type="text/javascript">
 	function send_one(f){
@@ -659,6 +666,7 @@ textarea{
 		$("#cancel").on("click", function(){
 			history.go(-1);
 		});
+
 		$("#check_ingredient").on("change", function(){
 			if($("#recipe-ing-pack-1").css("display") == "none"){
 				$("#recipe-ing-pack-1").css("display", "block");
@@ -674,6 +682,7 @@ textarea{
 				$("#recipe-ing-pack-2").css("display", "none");
 			}
 		});
+
 		$("#check_sause").on("change", function(){
 			if($("#recipe-ing-pack-3").css("display") == "none"){
 				$("#recipe-ing-pack-3").css("display", "block");
@@ -681,6 +690,7 @@ textarea{
 				$("#recipe-ing-pack-3").css("display", "none");
 			}
 		});
+
 		$("#check_broth").on("change", function(){
 			if($("#recipe-ing-pack-4").css("display") == "none"){
 				$("#recipe-ing-pack-4").css("display", "block");
@@ -688,6 +698,7 @@ textarea{
 				$("#recipe-ing-pack-4").css("display", "none");
 			}
 		});
+
 		$("#check_topping").on("change", function(){
 			if($("#recipe-ing-pack-5").css("display") == "none"){
 				$("#recipe-ing-pack-5").css("display", "block");
@@ -695,6 +706,7 @@ textarea{
 				$("#recipe-ing-pack-5").css("display", "none");
 			}
 		});
+
 		$("#check_syrup").on("change", function(){
 			if($("#recipe-ing-pack-6").css("display") == "none"){
 				$("#recipe-ing-pack-6").css("display", "block");
@@ -702,6 +714,7 @@ textarea{
 				$("#recipe-ing-pack-6").css("display", "none");
 			}
 		});
+
 		var subm = false;
 		$(window).on("beforeunload", function(){
 			if (!subm) return "작성된 레시피를 저장하지 않고 이동하시겠습니까?";
@@ -735,6 +748,7 @@ textarea{
 		}
 	}
 	
+
 	function mat_sort(){
 		var pack = $(this).attr("id").replace("recipe-pack-","");
 		var ing = 1;
@@ -909,6 +923,9 @@ textarea{
 		$("#comp-image-" + num).find(".comp-image-selected").empty();
 		$("#comp-image-" + num).find(".comp-image-empty").show();
 	}
+
+
+
 	//function showHide(){
 	//	if(document.getElementById('check_season').checked){
 	//		document.getElementById('recipe-ing-pack-2').style.visibility = 'visible';
@@ -916,7 +933,9 @@ textarea{
 	//		document.getElementById('recipe-ing-pack-2').style.visibility = 'hidden';
 	//	}
 	//}
+
 	
+
 </script>
 
 </head>

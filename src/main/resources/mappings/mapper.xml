@@ -10,7 +10,6 @@
 	<select id="list" resultType="mvo">
 		select * from members order by regdate desc
 	</select>
-	
 	<insert id="join" parameterType="mvo">
 		insert into members
 		values(members_seq.nextval,#{id},#{pw},#{email},#{name},#{gender},sysdate)
@@ -356,7 +355,3 @@
 		update qna set status = 1 where q_idx = #{q_idx}
 	</update>
 </mapper>
-
-
-
-

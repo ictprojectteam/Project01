@@ -50,6 +50,9 @@ table {
 	margin: 3px 10px 100px 3px;
 	border:  2px solid;
 	border-radius: 70px;
+	-moz-border-radius: 70px;
+	-khtml-border-radius: 70px;
+	-webkit-border-radius: 70px;
 	text-align: center;
 }
 

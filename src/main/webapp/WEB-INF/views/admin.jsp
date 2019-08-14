@@ -62,6 +62,7 @@ nav {
 #menu {
 	width: 100%;
 	background-color: #333333;
+	min-height: 1500px;
 }
 
 #menu li {
@@ -184,6 +185,10 @@ table th {
 tabel td {
 	font-size: 1.0em;
 }
+tbody tr :hover{
+	background-color: #4CAAEF;
+}
+
 </style>
 </head>
 <body>
@@ -233,7 +238,7 @@ tabel td {
 									</c:when>
 									<c:otherwise>
 										<c:forEach var="k" items="${list}" begin="0" end="4">
-											<tr>
+											<tr onclick="location.href='admin_view_one_member.do?m_idx=${k.m_idx}'" style="cursor:pointer">
 												<td>${k.m_idx}</td>
 												<td>${k.name}</td>
 												<td>${k.email}</td>
@@ -278,7 +283,12 @@ tabel td {
 												<td>${k.recipe_title}</td>
 												<td>${k.recipe_introduce}</td>
 												<td>${k.regdate}</td>
-												<td>${k.recipe_difficulty}</td> 
+												<c:if test="${k.a_permission == 0}">
+													<td>승인대기</td>
+												</c:if>
+												<c:if test="${k.a_permission == 1}">
+													<td>승인완료</td>
+												</c:if>
 											</tr>
 										</c:forEach>
 									</c:otherwise>
