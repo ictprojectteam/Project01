@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Admin</title>
+<title>Admin Recipe</title>
 
 <script type="text/javascript" src="../resources/js/jquery-3.4.1.min.js"></script>
 <style type="text/css">
@@ -196,10 +196,54 @@ tabel td{
 	text-align: center;
 }
 
+
+/* paging */
+.pageing{
+	margin: 0 auto;
+	text-align: center;
+}
+
+.paging {
+	list-style: none;
+}
+
+.paging li {
+	float: left;
+	margin-right: 8px;
+}
+
+.paging li a {
+	display: block;
+	padding: 3px 7px;
+	color: #2f313e;
+	font-weight: bold;
+}
+
+.paging li a:hover {
+	background: #00B3DC;
+	color: white;
+	font-weight: bold;
+}
+
+.disable {
+	padding: 3px 7px;
+	color: silver;
+}
+
+.now {
+	padding: 3px 7px;
+	border: 1px solid #ff4aa5;
+	background: #ff4aa5;
+	color: white;
+	font-weight: bold;
+}
+
+
+
 </style>
 <script type="text/javascript">
 	function send_one(f){
-		f.action = "selectonemember.do";
+		f.action = "selectonerecipe.do";
 		f.submit();
 	}
 </script>
@@ -215,7 +259,7 @@ tabel td{
 				<li><a id="recipe" href="a_recipe">레시피 관리</a></li>
 				<li><a id="content" href="a_write_recipe">게시물 등록</a></li>
 				<li><a id="user" href="membership">회원 관리</a></li>
-				<li><a id="board" href="home">문의 관리</a></li>
+				<li><a id="board" href="admin_qna">문의 관리</a></li>
 				<li><a id="event" href="home">이벤트 관리</a></li>
 				<li><a id="op" href="home">운영자 관리</a></li>
 				<li><a id="setting" href="home">설정</a></li>
@@ -236,26 +280,45 @@ tabel td{
 									<table>
 										<thead>
 											<tr>
-												<th style="text-align: left; padding-left: 5px;">회원이름/닉네임<br>
-												회원번호</th>						
+												<th>회원이름/
+												고유ID</th>						
 												<td>
 													<select name="name_idx">
 														<option value="name">회원이름</option>
-														<option value="nickname">닉네임</option>
-														<option value="m_idx">회원번호</option>
+														<option value="idx_id">고유ID</option>
 													</select>
-													<input type="text" name="name" size="45">
+													<input type="text" name="name" size="48">
 												</td>
-												<th style="text-align: left; padding-left: 5px;">이메일/연락처</th>
+												<th>이메일/연락처</th>
 												<td>
 													<select name="email_number">
 														<option value="email">이메일</option>
 														<option value="number">연락처</option>
-														<input type="text" name="e_write" size= "45"> 
+														<input type="text" name="e_write" size= "48"> 
 												</td>
 											</tr>
 											<tr>
-												<th style="text-align: left; padding-left: 5px;">가입일시</th>
+												<th>레시피 제목</th>
+												<td colspan="3"><input type="text" name="content" size="137"></td>
+											</tr>
+											<tr>
+												<th>상태별</th>
+												<td colspan="3">
+													<input type="checkbox"  name="condition" size="50">전체								
+													<input type="checkbox"  name="condition" size="50">승인대기
+													<input type="checkbox"  name="condition" size="50">승인완료
+												</td>
+											</tr>
+											<tr>
+												<th>종류별</th>
+												<td colspan="3">
+													<input type="checkbox"  name="type" size="50">전체								
+													<input type="checkbox"  name="type" size="50">일반레시피
+													<input type="checkbox"  name="type" size="50">영상레시피
+												</td>
+											</tr>
+											<tr>
+												<th>등록일시</th>
 												<td colspan="3">
 													<input type="date" id="start" name="start" value="sysdate" min="2019-01-01" max="2019-12-31">
 													<a>~</a>
@@ -278,7 +341,7 @@ tabel td{
 							</fieldset>
 						</form>
 						<div class="title">
-						회원 관리
+						레시피 관리
 						<div id="body">
 							<table>
 								<thead>
@@ -286,34 +349,73 @@ tabel td{
 										<th>회원번호</th>
 										<th>회원이름</th>
 										<!-- <th>연착처</th> -->
-										<th>이메일</th>
-										<th>아이디</th>
-										<!-- <th>닉네임</th> -->
-										<th>성별</th>
-										<th>가입 일시</th>
+										<!-- <th>이메일</th> -->
+										<th>레시피 제목</th>
+										<th>종류 구분</th>
+										<!-- <th>고유 ID</th> -->
+										<th>등록 일시</th>
 									</tr>
 								</thead>
 								<tbody>
 									<c:choose>
-										<c:when test="${empty mvo}">
+										<c:when test="${empty one_r_list}">
 											<tr>
 												<td colspan="6"><h3>원하는 정보가 존재하지 않습니다.</h3></td>
 											</tr>
 										</c:when>
 										<c:otherwise>
-											<tr>
-												<td>${mvo.m_idx}</td>
-												<td>${mvo.name}</td>
-												<%-- <td>${mvo.number}</td> --%>
-												<td>${mvo.email}</td>
-												<td>${mvo.id}</td>
-												<%-- <td>${mvo.nickname}</td> --%>
-												<td>${mvo.gender}</td>
-												<td>${mvo.regdate}</td>
-											</tr>
+											<c:forEach var="k" items="${one_r_list}" begin="0" end="10">
+												<tr>
+													<td>${k.m_idx}</td>
+													<td>${k.name}</td>
+													<%-- <td>${k.number}</td> --%>
+													<%-- <td>${k.email}</td> --%>
+													<td>${k.subject}</td>
+													<td>${k.cate}</td>
+													<%-- <td>${k.secret_id}</td> --%>
+													<td>${k.regdate}</td>
+												</tr>
+											</c:forEach>	
 										</c:otherwise>
 									</c:choose>
 								</tbody>
+							</table>
+							
+							<table>
+								<!-- 페이지기법 -->
+								<tfoot>
+									<div class="pageing">
+									<ol class="paging">
+									   <%-- 이전 --%>
+									    <c:choose>
+									    	<c:when test="${pageing.beginBlock <= pageing.pagePerBlock }">
+									    		<li class="disable"> 이전으로 </li>
+									    	</c:when>
+									    	<c:otherwise>
+									    		<li><a href="a_recipe.do?cPage=${pageing.beginBlock-pageing.pagePerBlock}"> 이전으로 </a></li>
+									    	</c:otherwise>
+									    </c:choose>
+									    
+										<c:forEach begin="${pageing.beginBlock}" end="${pageing.endBlock}" step="1" var="k">
+											<c:if test="${k==pageing.nowPage}">
+												<li class="now">${k}</li>
+											</c:if>
+											<c:if test="${k!=pageing.nowPage}">
+												<li><a href="a_recipe.do?cPage=${k}">${k}</a></li>
+											</c:if>
+										</c:forEach>
+										
+										<c:choose>
+									    	<c:when test="${pageing.endBlock >= pageing.totalPage }">
+									    		<li class="disable"> 다음으로 </li>
+									    	</c:when>
+									    	<c:otherwise>
+									    		<li><a href="a_recipe.do?cPage=${pageing.beginBlock+pageing.pagePerBlock}"> 다음으로 </a></li>
+									    	</c:otherwise>
+									    </c:choose>
+									</ol>
+									</div>
+								</tfoot>
 							</table>
 						</div>
 					</div>

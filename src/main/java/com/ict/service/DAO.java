@@ -52,6 +52,18 @@ public class DAO {
 		return sqlSessionTemplate.update("updateName", mvo);
 	}
 	
+	public int chkPw(MVO mvo) {
+		return sqlSessionTemplate.selectOne("chkPw", mvo);
+	}
+	
+	public int updatePw(MVO mvo) {
+		return sqlSessionTemplate.update("updatePw", mvo);
+	}
+	
+	public int insertReport(QVO qvo) {
+		return sqlSessionTemplate.insert("insertReport", qvo);
+	}
+	
 	public List<RVO> getr_list() {
 		return sqlSessionTemplate.selectList("r_list");
 	}
@@ -153,6 +165,15 @@ public class DAO {
 	public List<TVO> getTalk_List(){
 		return sqlSessionTemplate.selectList("talk_list");
 	}
+	public String getPrf_img(String m_idx) {
+		return  sqlSessionTemplate.selectOne("talk_prf_img", m_idx);
+	}
+	public List<TVO> getTalk_p_List(int begin, int end){
+		Map<String, Integer> map = new HashMap<String, Integer>();
+		map.put("begin", begin);
+		map.put("end", end);
+		return sqlSessionTemplate.selectList("talk_p_list", map);
+	}
 	public int getT_count() {
 		return sqlSessionTemplate.selectOne("t_count");
 	}
@@ -169,6 +190,9 @@ public class DAO {
 	}
 	public int getT_co_write(TalkCVO tcvo) {
 		return sqlSessionTemplate.insert("t_co_write", tcvo);
+	}
+	public int getT_c_del(String t_c_idx) {
+		return sqlSessionTemplate.delete("t_c_del", t_c_idx);
 	}
 	public List<TalkCVO> getT_co_list(String t_idx){
 		return sqlSessionTemplate.selectList("t_co_list", t_idx);
@@ -190,5 +214,16 @@ public class DAO {
 	
 	public MVO getAdminOneMember(String m_idx) {
 		return sqlSessionTemplate.selectOne("onelistmember", m_idx);
+	}
+	public int getQCount(QVO qvo) {
+		return sqlSessionTemplate.selectOne("qCount", qvo);
+	}
+	
+	public List<QVO> getQList(QVO qvo) {
+		return sqlSessionTemplate.selectList("qlist", qvo);
+	}
+	
+	public void compQnA(QVO qvo) {
+		sqlSessionTemplate.update("compQnA", qvo);
 	}
 }

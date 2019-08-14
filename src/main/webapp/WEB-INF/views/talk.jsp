@@ -50,9 +50,6 @@ table {
 	margin: 3px 10px 100px 3px;
 	border:  2px solid;
 	border-radius: 70px;
-	-moz-border-radius: 70px;
-	-khtml-border-radius: 70px;
-	-webkit-border-radius: 70px;
 	text-align: center;
 }
 
@@ -62,13 +59,41 @@ table {
 	height: 100px;
 	margin: 3px 3px 80px 30px;
 }
+.p{
+	width: 100%;
+	margin: 0 auto;
+}
+.paging{
+	width: 1200px;
+	margin: 10 auto;
+	text-align: center;
+}
+.paging li{
+	display: inline-block;
+	text-align: center;
+}
+.now{
+	color: red;
+	
+}
 </style>
 <script type="text/javascript">
 	$(function() {
 		$(".bt").on("click", function() {
-			location.href = "talk_write";
+			if(loginchk()){
+				location.href = "talk_write";
+			}
 		});
 	});
+
+	function loginchk(){
+		if($("#loginchk").val() == null || $("#loginchk").val() == ""){
+			var k = confirm("로그인이 필요한 페이지입니다.\n\n로그인 하시겠습니까?\n");
+			if(k) location.href='login';
+		} else {
+			return true;
+		}
+	}
 </script>
 </head>
 <body>
@@ -91,20 +116,24 @@ table {
 					<c:when test="${k.file_name != null}">
 						<table class="content">
 							<tr>
-								<td class="prf_img">이미지</td>
+								<c:if test="${k.prf_img == null}">
+									<td class="prf_img">
+										<img src="resources/images/no_image.png" style="width:30px; height:30px">
+									</td>
+								</c:if>
 								<td><header
 										style="margin-top: -20px;">
 										<h5>${k.name}</h5>
 										<h6 style="margin-top: -20px;">${k.regdate}</h6>
 									</header>
-									<a href="talk_view?t_idx=${k.t_idx}">
-									<p style="width: 430px; height: 60px;">${k.content}</p>
 									<footer>
+									<a href="talk_view?t_idx=${k.t_idx}&cPage=${pvo.nowPage}">
+									<span style="width: 430px; height: 60px;">${k.content}</span>
 										<c:forEach var="i" items="${k.f_arr}">
 											<img src="<c:url value='/resources/upload/${i}'/>" style="width:100px; height: 100px;">	
 										</c:forEach>	
-									</footer>
 									</a>
+									</footer>
 									</td>
 								<td class="haco">
 									<img src="resources/images/heart.png" style="width:30px; height: 30px;"> ${k.heart} 
@@ -116,13 +145,16 @@ table {
 					<c:otherwise>
 						<table class="content">
 							<tr>
-								<td class="prf_img">이미지</td>
-								<td>
+								<c:if test="${k.prf_img == null}">
+									<td class="prf_img">
+										<img src="resources/images/no_image.png" style="width:30px; height:30px; border: solid;">
+									</td>
+								</c:if>
 									<header style="margin-top: -20px;">
 										<h5>${k.name}</h5>
 										<h6 style="margin-top: -20px;">${k.regdate}</h6>
 									</header>
-									<a href="talk_view?t_idx=${k.t_idx}""><p style="width: 430px; height: 100px;">${k.content}</p></a>
+									<a href="talk_view?t_idx=${k.t_idx}"><span style="display:block; width: 430px; height: 100px;">${k.content}</span></a>
 									</td>
 								<td class="haco">
 									<img src="resources/images/heart.png" style="width:30px; height: 30px;"> ${k.heart} 
@@ -135,38 +167,47 @@ table {
 			</c:forEach>
 		</c:if>
 	</div>
+	<div class="p">
+		<table>
+			<tr>
+				<td>
+					<ul class="paging">
+						<c:choose>
+							<c:when test="${pvo.beginBlock <= pvo.pagePerBlock}">
+								<li class="disable"style="display: none;"> << </li>
+							</c:when>
+							<c:otherwise>
+								<li><a href="talk?cPage=${pvo.beginBlock - pvo.pagePerBlock}"> << </a></li>
+							</c:otherwise>
+						</c:choose>
+						
+						<c:forEach begin="${pvo.beginBlock}" end="${pvo.endBlock}" step="1" var="k">
+							<c:if test="${pvo.endBlock > 1}">
+							<c:if test="${k==pvo.nowPage}">
+								<li class="now">${k}</li>
+							</c:if>
+							<c:if test="${k != pvo.nowPage}">
+								<li class="now"><a href="talk?cPage=${k}">${k}</a></li>
+							</c:if>
+							</c:if>
+						</c:forEach>
+						
+						<c:choose>
+							<c:when test="${pvo.endBlock >= pvo.totalPage}">
+								<li class="disable" style="display: none;"> >> </li>
+							</c:when>
+							<c:otherwise>
+								<li><a href="talk?cPage=${pvo.beginBlock + pvo.pagePerBlock}"> >> </a></li>
+							</c:otherwise>
+						</c:choose>
+					</ul>
+				</td>
+			</tr>
+		</table>
+	</div>
+	
 	<footer>
 		<jsp:include page="foot.jsp" />
 	</footer>
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
