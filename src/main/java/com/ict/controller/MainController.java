@@ -688,6 +688,13 @@ public class MainController {
 		return null;
 	}
 	
+	@RequestMapping(value = "admin_accept", method = RequestMethod.GET)
+	public ModelAndView admin_status_accept(@RequestParam String r_idx) {
+		ModelAndView mv = new ModelAndView("redirect: a_recipe");
+		dao.getAdminAccept(r_idx);
+		return mv;
+	}
+	
 	@RequestMapping("admin_view_one_recipe")
 	public ModelAndView get_admin_view_one_recipe(@RequestParam String r_idx) {
 		ModelAndView mv = new ModelAndView("admin_view_one_recipe");

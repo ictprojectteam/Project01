@@ -14,7 +14,6 @@ body, html{
 	height: 100%;
 	overflow: hidden;
 }
-
 *{
 	margin: 0;
 	padding: 0;
@@ -22,7 +21,6 @@ body, html{
 	box-sizing: border-box;
 	transition: all ease-in-out .2s;
 }
-
 #container{
 	position: absolute;
 	width: 100%;
@@ -30,7 +28,6 @@ body, html{
 	background-color: #f7f7f7;
 	overflow: auto;
 }
-
 nav{
 	display: block;
 	position: absolute;
@@ -41,7 +38,6 @@ nav{
 	height: 100%;
 	background-color: #333333;
 }
-
 #logo{
 	height: 50px;
 	background-color: #333333;
@@ -57,19 +53,17 @@ nav{
 	font-style: italic;
 	color: #f7f7f7;
 }
-
 #menu{
 	width: 100%;
 	background-color: #333333;
+	min-height: 1500px;
 }
-
 #menu li{
 	width: 100%;
 	height: 50px;
 	line-height: 50px;
 	background-color: #333333;
 }
-
 #menu li>a{
 	font-size: 1.05em;
 	font-family: arial;
@@ -80,16 +74,13 @@ nav{
 	text-align: center;
 	text-decoration: none;
 }
-
 #menu li:hover{
 	background-color: #151515;
 }
-
 #menu li>a:hover{
 	color: #1E90FF;
 	border-left: 3px solid #1E90FF;
 }
-
 header{
 	width: calc(100% - 200px);
 	height: 50px;
@@ -102,7 +93,6 @@ header{
 	line-height: 50px;
 	min-width: 1000px;
 }
-
 header #links{
 	float: right;
 	height: 50px;
@@ -111,7 +101,6 @@ header #links{
 	font-size: 1em;
 	margin-right: 1em;
 }
-
 #links>a{
 	color: #f7f7f7;
 	text-decoration: none;
@@ -120,12 +109,9 @@ header #links{
 	height: 100%;
 	display: block;
 }
-
 #links:hover{
 	background-color: #1E90FF;
 }
-
-
 #main{
 	margin-left: 20em;
 	width: 100%;
@@ -139,7 +125,6 @@ header #links{
 	font-family: arial;
 	font-weight: bold;
 }
-
 .row{
 	display: flex;
 	width: 100%;
@@ -148,15 +133,12 @@ header #links{
 	flex-direction: row;
 	padding: 1em;
 }
-
 #user-action{
 	margin-top: 5em;
 }
-
 #action{
 	margin-top: 20em;
 }
-
 table, th, td {
 	border: 1px solid black;
 	border-collapse: collapse;
@@ -166,7 +148,6 @@ table, th, td {
 	margin-top: 1em;
 	line-height: 25px;
 }
-
 table{
 	position: relative;
 	width: 1000px;
@@ -174,21 +155,16 @@ table{
 	margin-right: 1.0em;
 	margin-bottom: 1.0em;
 }
-
 table th{
 	border-spacing: 0;
 	text-align: center;
 }
-
 tabel td{
 	font-size: 1.0em;
 }
-
 #body td{
 	text-align: center;
 }
-
-
 #write-top-head{
 	display: grid;
 	width: 1000px;
@@ -196,7 +172,6 @@ tabel td{
 	grid-template-columns: 480px 480px;
 	grid-column-gap: 40px;
 }
-
 #write-top{
 height: 400px;
 margin-top: 50px
@@ -209,11 +184,9 @@ margin-top:-40px;
 	column-span: all;
 	margin-bottom: 1.0em;
 }
-
 #recipe-order{
 	border-top: 2px solid #ccc;
 }
-
 #write-video{
 	display: grid;
 	grid-template-columns: 250px 200px;
@@ -223,12 +196,11 @@ margin-top:-40px;
 	color: #999;
 	line-height: 0px;
 }
-
 #video-thumbnail img{
-	width: 176px;
-	height: 99px;
+	margin-left: 30px;
+	width: 200px;
+	height: 50px;
 }
-
 #write-top-image{
 	border: 1px solid #bbb;
 	float: right;
@@ -269,10 +241,6 @@ margin-top:-40px;
 #write-top-image p{
 	color: #999;
 }
-
-
-
-
 #write-body{
 	margin-top: 20px;
 }
@@ -531,13 +499,9 @@ margin-top:-40px;
 #recipe-ing-pack-2, #recipe-ing-pack-3, #recipe-ing-pack-4, #recipe-ing-pack-5, #recipe-ing-pack-6{
 	display: none;
 }
-
-
-
-
-
-
-
+textarea{
+	resize: none;
+}
 </style>
 <script type="text/javascript">
 	function send_one(f){
@@ -589,13 +553,11 @@ margin-top:-40px;
 				del_mainimage();
 			}
 		});
-
 		$("[id^=recipe-orderimage-]").on("change", change_order_image);
 		
 		$("#comp-image-oneclick").on("click", function(){
 			$("#comp-image-multfile").click();
 		});
-
 		$("#comp-image-multfile").on("change", function(){
 			var files = this.files;
 			var imgnum = 1;
@@ -634,7 +596,6 @@ margin-top:-40px;
 			var k = $(this).parent().attr("id").replace("comp-image-", "");
 			$("#comp-image-file-" + k).click();
 		});
-
 		$("[id^=comp-image-file-").on("change", function(){
 			var k = $(this).attr("id").replace("comp-image-file-", "");
 			var cont = $("#comp-image-" + k);
@@ -667,12 +628,11 @@ margin-top:-40px;
 				cont.find(".comp-image-empty").show();
 			}
 		});
-
 		$("#video-url").on("focusout", function(){
 			var url = $("#video-url").val();
 			if(/http[s]?:[/]{2}/.test(url)){
 				url = url.substring(url.lastIndexOf('/') + 1, url.length);
-				if(/.{11,11}/.test(url)) {
+				if(/.{8,8}/.test(url)) {
 					url = "https://img.youtube.com/vi/" + url + "/mqdefault.jpg";
 					$.ajax({
 						url : "thumbnail",
@@ -692,16 +652,13 @@ margin-top:-40px;
 				}
 			}
 		});
-
 		$("#save").on("click", function(){
 			$("input[type=file]").attr("disabled", "disabled");
 			$("#recipe-form").attr("action", "save_recipe").submit();
 		});
-
 		$("#cancel").on("click", function(){
 			history.go(-1);
 		});
-
 		$("#check_ingredient").on("change", function(){
 			if($("#recipe-ing-pack-1").css("display") == "none"){
 				$("#recipe-ing-pack-1").css("display", "block");
@@ -717,7 +674,6 @@ margin-top:-40px;
 				$("#recipe-ing-pack-2").css("display", "none");
 			}
 		});
-
 		$("#check_sause").on("change", function(){
 			if($("#recipe-ing-pack-3").css("display") == "none"){
 				$("#recipe-ing-pack-3").css("display", "block");
@@ -725,7 +681,6 @@ margin-top:-40px;
 				$("#recipe-ing-pack-3").css("display", "none");
 			}
 		});
-
 		$("#check_broth").on("change", function(){
 			if($("#recipe-ing-pack-4").css("display") == "none"){
 				$("#recipe-ing-pack-4").css("display", "block");
@@ -733,7 +688,6 @@ margin-top:-40px;
 				$("#recipe-ing-pack-4").css("display", "none");
 			}
 		});
-
 		$("#check_topping").on("change", function(){
 			if($("#recipe-ing-pack-5").css("display") == "none"){
 				$("#recipe-ing-pack-5").css("display", "block");
@@ -741,7 +695,6 @@ margin-top:-40px;
 				$("#recipe-ing-pack-5").css("display", "none");
 			}
 		});
-
 		$("#check_syrup").on("change", function(){
 			if($("#recipe-ing-pack-6").css("display") == "none"){
 				$("#recipe-ing-pack-6").css("display", "block");
@@ -749,7 +702,6 @@ margin-top:-40px;
 				$("#recipe-ing-pack-6").css("display", "none");
 			}
 		});
-
 		var subm = false;
 		$(window).on("beforeunload", function(){
 			if (!subm) return "작성된 레시피를 저장하지 않고 이동하시겠습니까?";
@@ -759,7 +711,6 @@ margin-top:-40px;
 	function insert_click(){
 		$("#insert-main-image").click();
 	}
-
 	function img_error(){
 		$("#video-thumbnail").empty();
 		$("#video-thumbnail").hide();
@@ -774,7 +725,6 @@ margin-top:-40px;
 		$("#write-top-image-com").find("input[name=main_image]").remove();
 		$("#write-top-image-com").show();
 	}
-
 	function del_pack(pack){
 		var k = $(".recipe-ing-pack");
 		if(k.length < 2){
@@ -785,7 +735,6 @@ margin-top:-40px;
 		}
 	}
 	
-
 	function mat_sort(){
 		var pack = $(this).attr("id").replace("recipe-pack-","");
 		var ing = 1;
@@ -797,7 +746,6 @@ margin-top:-40px;
 			ing++;
 		});
 	}
-
 	function mat_sort_input(pack){
 		var ing = 1;
 		$("#recipe-pack-"+pack).find(".recipe-each-sort").each(function(){
@@ -840,11 +788,9 @@ margin-top:-40px;
 		each_add(pack);
 		each_add(pack);
 	}
-
 	function add_order_image(num){
 		$("#recipe-orderimage-" + num).click();
 	}
-
 	function change_order_image(){
 		var k = $(this).attr("id").replace("recipe-orderimage-", "");
 		if(this.files && this.files[0]){
@@ -869,14 +815,12 @@ margin-top:-40px;
 			del_order_image(k);
 		}
 	}
-
 	function del_order_image(num){
 		$("#recipe-orderimage-" + num).val('');
 		$("#recipe-order-" + num).find("input[type=hidden]").val("");
 		$("#recipe-order-" + num + " .recipe-order-image").empty();
 		$("#recipe-order-" + num + " .recipe-order-addimage i.fa-plus").show();
 	}
-
 	function add_order(){
 		var count = 0;
 		$(".recipe-order").each(function(){
@@ -895,7 +839,6 @@ margin-top:-40px;
 		$("#recipe-order-container").append(str);
 		$("#recipe-orderimage-" + count).bind("change", change_order_image);
 	}
-
 	function order_sort(){
 		var i = 1;
 		$(".recipe-order").each(function(){
@@ -922,7 +865,6 @@ margin-top:-40px;
 			$("#recipe-orderimage-" + (k - 1)).bind("change", change_order_image);
 		}
 	}
-
 	function order_down(){
 		var k = event.target.parentElement.parentElement.id.replace("recipe-order-","");
 		k = parseInt(k, 10);
@@ -940,7 +882,6 @@ margin-top:-40px;
 			$("#recipe-orderimage-" + (k + 1)).bind("change", change_order_image);
 		}
 	}
-
 	function order_after(){
 		var k = event.target.parentElement.parentElement.id.replace("recipe-order-","");
 		k = parseInt(k, 10);
@@ -954,26 +895,20 @@ margin-top:-40px;
 		content.find(" .recipe-order-addimage i.fa-plus").show();
 		$("#recipe-orderimage-" + (k + 1)).bind("change", change_order_image);
 	}
-
 	function order_del(){
 		var k = event.target.parentElement.parentElement.id.replace("recipe-order-","");
 		$("#recipe-order-" + k).remove();
 		order_sort();
 	}
-
 	function change_compimage(num){
 		$("#comp-image-file-" + num).click();
 	}
-
 	function del_compimage(num){
 		$("#comp-image-file-" + num).val("");
 		$("#comp-image-" + num).find("input[type=hidden]").val("");
 		$("#comp-image-" + num).find(".comp-image-selected").empty();
 		$("#comp-image-" + num).find(".comp-image-empty").show();
 	}
-
-
-
 	//function showHide(){
 	//	if(document.getElementById('check_season').checked){
 	//		document.getElementById('recipe-ing-pack-2').style.visibility = 'visible';
@@ -981,9 +916,7 @@ margin-top:-40px;
 	//		document.getElementById('recipe-ing-pack-2').style.visibility = 'hidden';
 	//	}
 	//}
-
 	
-
 </script>
 
 </head>
@@ -998,7 +931,7 @@ margin-top:-40px;
 				<li><a id="recipe" href="a_recipe">레시피 관리</a></li>
 				<li><a id="content" href="home">게시물 등록</a></li>
 				<li><a id="user" href="membership">회원 관리</a></li>
-				<li><a id="board" href="admin_qna">문의 관리</a></li>
+				<li><a id="board" href="home">문의 관리</a></li>
 				<li><a id="event" href="home">이벤트 관리</a></li>
 				<li><a id="op" href="home">운영자 관리</a></li>
 				<li><a id="setting" href="home">설정</a></li>
@@ -1028,14 +961,14 @@ margin-top:-40px;
 							</div>
 							<div class="write-input"><textarea rows="1" cols="45" name="recipe_title" placeholder="예)소고기 미역국 끓이기"></textarea></div>
 							<div class="write-label">요리소개</div>
-							<div class="write-input"><textarea rows="1" cols="45" name="recipe_introduce" placeholder="이 레시피의 탄생 배경을 적어주세요."></textarea> </div>
+							<div class="write-input"><textarea rows="2" cols="45" name="recipe_introduce" placeholder="이 레시피의 탄생 배경을 적어주세요."></textarea> </div>
 							<div id="write-top-right">
 							<input type="file" name="recipe_mainimage" hidden="" id="insert-main-image" accept="image/*">
 							
 						</div>
 							<div class="write-label">동영상</div>
 							<div class="write-input" id="write-video">
-								<textarea rows="1" cols="40" id="video-url" name="recipe_video" placeholder="동영상 주소 입력.(Youtube만 가능)예)http://youtu.be/lA0Bxo3lZmM"></textarea>
+								<textarea rows="3" cols="40" id="video-url" name="recipe_video" placeholder="동영상 주소 입력.(Youtube만 가능)예)http://youtu.be/lA0Bxo3lZmM"></textarea>
 								<div id="video-pre">
 									<i class="fab fa-youtube"></i>
 									<p>동영상 썸네일</p>
@@ -1356,4 +1289,4 @@ margin-top:-40px;
 		</main>
 	</div>
 </body>
-</
+</html>

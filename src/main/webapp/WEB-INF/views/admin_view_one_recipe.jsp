@@ -165,6 +165,9 @@
 	
 	.content{
 		border: 1px solid #999;
+		padding: 5px;
+		font-weight: bold;
+		color: #999999;
 	}
 	
 	.content-detail{
@@ -314,7 +317,9 @@
 		display: grid;
 		grid-template-columns: 150px 150px;
 	}
-	
+	#button-bar div{
+		cursor: pointer;
+	}
 	#accept{
 		border: 2px solid #44f;
 		margin: 5px 20px;
@@ -333,9 +338,19 @@
 </style>
 <script src="https://kit.fontawesome.com/057ba10041.js"></script>
 <script type="text/javascript" src="../resources/js/jquery-3.4.1.min.js"></script>
-<script>
+<script type="text/javascript">
+	$(function(){
+		$("#accept").on("click", function(){
+			location.href = "admin_accept?r_idx=${rvo.r_idx}";
+		});
+		
+		$("#deny").on("click", function(){
+			alert("승인 거절 사유 작성 페이지 노출 및 상태 : 승인거절_로 변경")
+		});
+	});
 	
 </script>
+	
 </head>
 <body>
 	<div id="container">
@@ -348,7 +363,7 @@
 				<li><a id="recipe" href="a_recipe">레시피 관리</a></li>
 				<li><a id="content" href="a_write_recipe">게시물 등록</a></li>
 				<li><a id="user" href="membership">회원 관리</a></li>
-				<li><a id="board" href="admin_qna">문의 관리</a></li>
+				<li><a id="board" href="home">문의 관리</a></li>
 				<li><a id="event" href="home">이벤트 관리</a></li>
 				<li><a id="op" href="home">운영자 관리</a></li>
 				<li><a id="setting" href="home">설정</a></li>
@@ -371,41 +386,44 @@
 				</div>
 				<div class="one">
 					<div class="label">레시피 제목</div>
-					<div class="content"></div>
+					<div class="content">${rvo.recipe_title}</div>
 				</div>
 				<div class="regular">
 					<div class="label">종류</div>
 					<div class="content"></div>
 					<div class="label">상태</div>
-					<div class="content"></div>
+					<div class="content">
+						<c:if test="${rvo.a_permission == 0}">승인대기</c:if>
+						<c:if test="${rvo.a_permission == 1}">승인완료</c:if>
+					</div>
 				</div>
 				<div class="regular">
 					<div class="label">고유ID</div>
 					<div class="content"></div>
 					<div class="label">등록일시</div>
-					<div class="content"></div>
+					<div class="content">${rvo.regdate}</div>
 				</div>
 				<div class="quad">
 					<div class="label">종류</div>
-					<div class="content"></div>
+					<div class="content">${rvo.ca1}</div>
 					<div class="label">상황</div>
-					<div class="content"></div>
+					<div class="content">${rvo.ca2}</div>
 					<div class="label">방법</div>
-					<div class="content"></div>
+					<div class="content">${rvo.ca3}</div>
 					<div class="label">재료</div>
-					<div class="content"></div>
+					<div class="content">${rvo.ca4}</div>
 				</div>
 				<div class="tri">
 					<div class="label">인원</div>
-					<div class="content"></div>
+					<div class="content">${rvo.recipe_quant}</div>
 					<div class="label">시간</div>
-					<div class="content"></div>
+					<div class="content">${rvo.recipe_time}</div>
 					<div class="label">난이도</div>
-					<div class="content"></div>
+					<div class="content">${rvo.recipe_difficulty}</div>
 				</div>
 				<div class="one">
 					<div class="label">동영상</div>
-					<div class="content"></div>
+					<div class="content">${rvo.recipe_video}</div>
 				</div>
 				<div class="one">
 					<div class="label">사진</div>
@@ -415,8 +433,9 @@
 				<div class="content-detail">
 					<div id="inf-box">
 						<div id="inf-title">요리소개</div>
-						<div id="inf-content"><pre>example
-						no</pre></div>
+						<div id="inf-content">
+							<pre>${rvo.recipe_introduce}</pre>
+						</div>
 					</div>
 					<div id="div-box">
 						<div class="ing">
@@ -464,10 +483,7 @@
 					<div id="deny">승인거절</div>
 				</div>
 			</div>
-			
 		</div>
-		
 	</div>
-		
 </body>
 </html>
