@@ -496,26 +496,19 @@ input{
 	outline: none;
 }
 
-#edit-button{
+#back-button{
 	width: 300px;
 	margin: 5px auto;
 	display: grid;
 	grid-template-columns: 150px 150px;
 }
 
-#edit-button div{
+#back-button div{
 	cursor: pointer;
 }
 
-#edit{
-	border: 2px solid #44f;
-	margin: 5px 20px;
-	text-align: center;
-	padding: 5px;
-	border-radius: 5px;
-}
-#cancel{
-	border: 2px solid #44f;
+#back{
+	border: 2px solid #660033;
 	margin: 5px 20px;
 	text-align: center;
 	padding: 5px;
@@ -527,13 +520,9 @@ input{
 <script type="text/javascript" src="../resources/js/jquery-3.4.1.min.js"></script>
 <script>
 	$(function(){
-		$("#edit").on("click", function(){
-			alert("수정페이지 노출")
-		});
-		
-		$("#cancel").on("click", function(){
+		$("#back").on("click", function(){
 			history.go(-1);
-		})	
+		});
 	});
 		
 </script>
@@ -595,9 +584,8 @@ input{
 								</tr>
 							</thead>
 						</table>
-						<div id="edit-button">
-							<div id="edit">수정</div>
-							<div id="cancel">취소</div>
+						<div id="back-button">
+							<div id="back">뒤로가기</div>
 						</div>
 					</div>
 				</div>

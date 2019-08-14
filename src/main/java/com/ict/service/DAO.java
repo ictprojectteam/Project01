@@ -183,6 +183,11 @@ public class DAO {
 	public RecipeVO getAdminOneRecipe(String r_idx) {
 		return sqlSessionTemplate.selectOne("onelistrecipe", r_idx);
 	}
+	
+	public int getAdminAccept(String r_idx) {
+		return sqlSessionTemplate.update("admin_accept", r_idx);
+	}
+	
 	public MVO getAdminOneMember(String m_idx) {
 		return sqlSessionTemplate.selectOne("onelistmember", m_idx);
 	}

@@ -283,7 +283,12 @@ tbody tr :hover{
 												<td>${k.recipe_title}</td>
 												<td>${k.recipe_introduce}</td>
 												<td>${k.regdate}</td>
-												<td>${k.recipe_difficulty}</td> 
+												<c:if test="${k.a_permission == 0}">
+													<td>승인대기</td>
+												</c:if>
+												<c:if test="${k.a_permission == 1}">
+													<td>승인완료</td>
+												</c:if>
 											</tr>
 										</c:forEach>
 									</c:otherwise>

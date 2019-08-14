@@ -189,6 +189,9 @@
 	<select id="onelistrecipe" parameterType="String" resultType="rvo">
 		select * from recipe where r_idx = #{r_idx}
 	</select>
+	<update id="admin_accept" parameterType="String">
+		update recipe set a_permission = 1 where r_idx = #{r_idx}	
+	</update>
 	<select id="onelistmember" parameterType="String" resultType="mvo">
 		select * from members where m_idx = #{m_idx}
 	</select>	

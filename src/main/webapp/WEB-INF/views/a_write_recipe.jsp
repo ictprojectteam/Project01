@@ -226,8 +226,9 @@ margin-top:-40px;
 }
 
 #video-thumbnail img{
-	width: 176px;
-	height: 99px;
+	margin-left: 30px;
+	width: 200px;
+	height: 50px;
 }
 
 #write-top-image{
@@ -533,7 +534,9 @@ margin-top:-40px;
 	display: none;
 }
 
-
+textarea{
+	resize: none;
+}
 
 
 
@@ -673,7 +676,7 @@ margin-top:-40px;
 			var url = $("#video-url").val();
 			if(/http[s]?:[/]{2}/.test(url)){
 				url = url.substring(url.lastIndexOf('/') + 1, url.length);
-				if(/.{11,11}/.test(url)) {
+				if(/.{8,8}/.test(url)) {
 					url = "https://img.youtube.com/vi/" + url + "/mqdefault.jpg";
 					$.ajax({
 						url : "thumbnail",
@@ -1029,14 +1032,14 @@ margin-top:-40px;
 							</div>
 							<div class="write-input"><textarea rows="1" cols="45" name="recipe_title" placeholder="예)소고기 미역국 끓이기"></textarea></div>
 							<div class="write-label">요리소개</div>
-							<div class="write-input"><textarea rows="1" cols="45" name="recipe_introduce" placeholder="이 레시피의 탄생 배경을 적어주세요."></textarea> </div>
+							<div class="write-input"><textarea rows="2" cols="45" name="recipe_introduce" placeholder="이 레시피의 탄생 배경을 적어주세요."></textarea> </div>
 							<div id="write-top-right">
 							<input type="file" name="recipe_mainimage" hidden="" id="insert-main-image" accept="image/*">
 							
 						</div>
 							<div class="write-label">동영상</div>
 							<div class="write-input" id="write-video">
-								<textarea rows="1" cols="40" id="video-url" name="recipe_video" placeholder="동영상 주소 입력.(Youtube만 가능)예)http://youtu.be/lA0Bxo3lZmM"></textarea>
+								<textarea rows="3" cols="40" id="video-url" name="recipe_video" placeholder="동영상 주소 입력.(Youtube만 가능)예)http://youtu.be/lA0Bxo3lZmM"></textarea>
 								<div id="video-pre">
 									<i class="fab fa-youtube"></i>
 									<p>동영상 썸네일</p>

@@ -237,6 +237,10 @@ tabel td{
 	font-weight: bold;
 }
 
+tbody tr :hover{
+	background-color: #4CAAEF;
+}
+
 
 
 </style>
@@ -345,7 +349,7 @@ tabel td{
 										</c:when>
 										<c:otherwise>
 											<c:forEach var="k" items="${m_list}" begin="0" end="10">
-												<tr>
+												<tr onclick="location.href='admin_view_one_member.do?m_idx=${k.m_idx}'" style="cursor:pointer">
 													<td>${k.m_idx}</td>
 													<td>${k.name}</td>
 													<%-- <td>${k.number}</td> --%>

@@ -341,12 +341,12 @@
 <script type="text/javascript">
 	$(function(){
 		$("#accept").on("click", function(){
-			alert("상태 : 승인완료 _로 변경 및 프론트에 노출")
+			location.href = "admin_accept?r_idx=${rvo.r_idx}";
 		});
 		
 		$("#deny").on("click", function(){
 			alert("승인 거절 사유 작성 페이지 노출 및 상태 : 승인거절_로 변경")
-		})	
+		});
 	});
 	
 
@@ -393,13 +393,16 @@
 					<div class="label">종류</div>
 					<div class="content"></div>
 					<div class="label">상태</div>
-					<div class="content"></div>
+					<div class="content">
+						<c:if test="${rvo.a_permission == 0}">승인대기</c:if>
+						<c:if test="${rvo.a_permission == 1}">승인완료</c:if>
+					</div>
 				</div>
 				<div class="regular">
 					<div class="label">고유ID</div>
 					<div class="content"></div>
 					<div class="label">등록일시</div>
-					<div class="content"></div>
+					<div class="content">${rvo.regdate}</div>
 				</div>
 				<div class="quad">
 					<div class="label">종류</div>
@@ -438,7 +441,7 @@
 					<div id="div-box">
 						<div class="ing">
 							<div class="ing-title">재료</div>
-							<p>${rvo.pack}</p>
+							<p>재료1</p>
 							<p>재료2</p>
 							<p>재료3</p>
 						</div>

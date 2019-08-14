@@ -238,6 +238,11 @@ tabel td{
 	font-weight: bold;
 }
 
+tbody tr :hover{
+	background-color: #4CAAEF;
+	cursor: pointer;
+}
+
 
 
 </style>
