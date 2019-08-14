@@ -315,7 +315,7 @@
 		width: 300px;
 		margin: 5px auto;
 		display: grid;
-		grid-template-columns: 150px 150px;
+		grid-template-columns: 150px 150px 150px;
 	}
 	#button-bar div{
 		cursor: pointer;
@@ -335,6 +335,14 @@
 		padding: 5px;
 		border-radius: 5px;
 	}
+	
+	#view-recipe{
+		border: 2px solid #aaa;
+		margin: 5px 20px;
+		text-align: center;
+		padding: 5px;
+		border-radius: 5px;
+	}
 </style>
 <script src="https://kit.fontawesome.com/057ba10041.js"></script>
 <script type="text/javascript" src="../resources/js/jquery-3.4.1.min.js"></script>
@@ -346,6 +354,10 @@
 		
 		$("#deny").on("click", function(){
 			alert("승인 거절 사유 작성 페이지 노출 및 상태 : 승인거절_로 변경")
+		});
+
+		$("#view-recipe").on("click", function(){
+			location.href = "view_recipe?rno=${rvo.r_idx}";
 		});
 	});
 	
@@ -381,9 +393,9 @@
 			<div id="table">
 				<div class="regular">
 					<div class="label">회원이름</div>
-					<div class="content"></div>
+					<div class="content">${rvo.name}</div>
 					<div class="label">이메일</div>
-					<div class="content"></div>
+					<div class="content">${rvo.email}</div>
 				</div>
 				<div class="one">
 					<div class="label">레시피 제목</div>
@@ -400,7 +412,7 @@
 				</div>
 				<div class="regular">
 					<div class="label">고유ID</div>
-					<div class="content"></div>
+					<div class="content">${rvo.r_idx}</div>
 					<div class="label">등록일시</div>
 					<div class="content">${rvo.regdate}</div>
 				</div>
@@ -439,29 +451,29 @@
 						</div>
 					</div>
 					<div id="div-box">
-						<div class="ing">
-							<div class="ing-title">재료</div>
-							<p>재료1</p>
-							<p>재료2</p>
-							<p>재료3</p>
-						</div>
-						<div class="ing">
-							<div class="ing-title">양념</div>
-							<p>양념1</p>
-							<p>양념2</p>
-							<p>양념3</p>
-							<p>양념4</p>
-						</div>
+						<c:set var="pack" value="${rvo.pack.replace('[','').replace(']','').split(', ')}"></c:set>
+						<c:set var="rege" value="\|\], \[\|"></c:set>
+						<c:set var="materials" value="${rvo.material.replace('[[|', '').replace('|]]', '').split(rege)}"></c:set>
+						<c:forEach var="i" begin="0" end="${fn:length(pack) -1}">
+							<div class="ing">
+								<div class="ing-title">${pack[i]}</div>
+								<c:set var="rege2" value="\|, \|"></c:set>
+								<c:set var="material" value="${materials[i].split(rege2)}"></c:set>
+								<c:forEach var="j" begin="0" end="${fn:length(material) - 1}">
+									<p>${material[j].replace(', ','')}</p>
+								</c:forEach>
+							</div>
+						</c:forEach>
 					</div>
 					<div id="step">
-						<div class="step-each">
-							<div class="step-title">Step1</div>
-							<div class="step-content">첫 번째 단계</div>
-						</div>
-						<div class="step-each">
-							<div class="step-title">Step2</div>
-							<div class="step-content">두 번째 단계</div>
-						</div>
+						<c:set var="orders" value="${rvo.orderContent.replace('[|', '').replace('|]', '').split(rege2)}"></c:set>
+						<c:forEach var="i" begin="0" end="${fn:length(orders) - 1}">
+							<c:set var="order" value="${orders[i].split(', ')}"></c:set>
+							<div class="step-each">
+								<div class="step-title">Step${i+1}</div>
+								<div class="step-content">${order[0]}</div>
+							</div>
+						</c:forEach>
 					</div>
 					<div id="tag">
 						<div id="tag-title">태그</div>
@@ -479,9 +491,15 @@
 					<input type="text" name="ad-note">
 					<div id="ad-memo-write">입력</div>
 				</div>
+				
 				<div id="button-bar">
-					<div id="accept">승인</div>
-					<div id="deny">승인거절</div>
+					<c:choose>
+						<c:when test="${rvo.a_permission != 1}">
+							<div id="accept">승인</div>
+							<div id="deny">승인거절</div>
+						</c:when>
+					</c:choose>
+					<div id="view-recipe">게시물 보기</div>
 				</div>
 			</div>
 		</div>

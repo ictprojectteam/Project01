@@ -316,7 +316,7 @@
 	</select>
 	
 	<select id="onelistrecipe" parameterType="String" resultType="rvo">
-		select * from recipe where r_idx = #{r_idx}
+		select r.*, m.name, m.email from recipe r, members m where r_idx = #{r_idx} and r.m_idx = m.m_idx
 	</select>
 	
 	<update id="admin_accept" parameterType="String">

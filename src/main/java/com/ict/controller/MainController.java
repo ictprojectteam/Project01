@@ -309,10 +309,10 @@ public class MainController {
 	}
 	
 	@RequestMapping("view_recipe")
-	public ModelAndView viewRecipe(@RequestParam String rno) {
+	public ModelAndView viewRecipe(@RequestParam String rno, HttpSession session) {
 		ModelAndView mv = new ModelAndView("view_recipe");
 		RecipeVO rvo = dao.viewRecipe(rno);
-		if (rvo.getA_permission().equals("0") || rvo.getSavepublic().equals("0")) {
+		if ((rvo.getA_permission().equals("0") || rvo.getSavepublic().equals("0")) && !(((MVO)session.getAttribute("mvo")).getId().equals("admin"))) {
 			mv.setViewName("inappropriate");
 			return mv;
 		}
