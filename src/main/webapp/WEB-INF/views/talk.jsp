@@ -8,64 +8,76 @@
 <title>Insert title here</title>
 <script type="text/javascript" src="../resources/js/jquery-3.4.1.min.js"></script>
 <style type="text/css">
-table {
-	margin: 0 auto;
-	display: block;
+#talk_head{
+	margin-top: 30px;
+	margin-bottom: 10px;
 }
-
-.fs1 {
-	width: 700px;
-	background-color: #FFA873;
+#write_form{
+	border: 1px solid #D87A38;
+	background-color: #F2C297;
+	width: 60%;
+	height: 50px;
 	margin: 0 auto;
 }
-
-.bt {
+#write_text{
+	display: inline-block;
+	font-size: 18pt;
+	font: bold;
+	color: #D87A38;
+	width: 400px;
+	margin: 10px 0px 0px 5px;
+}
+#write_bt{
+	float:right;
+	width: 60pt;
+	height: 30pt;
+	font-size: 1.2em;
+	margin: 5px 20px 0px 0px;
 	color: white;
-	background-color: #BC602B;
-	margin-left: 450px;
-	font-size: 1em;
+	background-color: #6B3915;
+	border-radius: 5px;
 }
-
-#body {
-	width: 700px;
+#talk_body{
+	border: 1px solid #FBE0A1;
+	width: 60%;
 	margin: 0 auto;
 }
-
-#body h2 {
-	text-align: center;
-	border: 1px solid #000;
-	padding: 0px 10px;
-}
-
-#body table {
-	margin-top: 5px;
-	border: 1px solid #000;
-}
-
-#body table .prf_img {
+#user_img{
 	float: left;
-	padding: 30px 20px 30px 20px;
-	max-width: 100px;
-	max-height: 100px;
-	margin: 3px 10px 100px 3px;
-	border:  2px solid;
+	border: 1px solid;
 	border-radius: 70px;
-	text-align: center;
+	width: 60px;
+	height: 60px;
+	margin: 10px 40px 10px 20px;
 }
-
-#body table .haco {
+#talk_content{
+	display: block;
+	width: 500px;
+	height: 60px;
+	margin-left: 80px;
+	overflow: hidden;
+	overflow: auto;
+	overflow: scroll;
+}
+ul{
+	margin-top: 5px;
+}
+ul li{
+	list-style: none;
+}
+.haco{
+	position: relative;
+	margin: 5px 5px 0px 0px;
 	float: right;
-	width: 100px;
-	height: 100px;
-	margin: 3px 3px 80px 30px;
 }
 .p{
-	width: 100%;
+	width: 60%;
 	margin: 0 auto;
 }
 .paging{
-	width: 1200px;
-	margin: 10 auto;
+	width: 650px;
+	margin-top: 20px;
+	margin: 20 auto;
 	text-align: center;
 }
 .paging li{
@@ -74,18 +86,49 @@ table {
 }
 .now{
 	color: red;
-	
+}
+#talk_body a:link{
+	text-decoration: none;
+	color: #000000;
+}
+#talk_body a:visited{
+	text-decoration: none;
+	color: #000000;
+}
+#talk_body a:active{
+	text-decoration: none;
+	color: #000000;
+}
+#talk_body a:hover{
+	text-decoration: none;
+	color: #000000;
+}
+.paging a:link{
+	text-decoration: none;
+	color: #000000;
+}
+.paging a:visited{
+	text-decoration: none;
+	color: #000000;
+}
+.paging a:active{
+	text-decoration: none;
+	color: #000000;
+}
+.paging a:hover{
+	text-decoration: none;
+	color: #000000;
 }
 </style>
 <script type="text/javascript">
 	$(function() {
-		$(".bt").on("click", function() {
+		$("#write_bt").on("click", function() {
 			if(loginchk()){
 				location.href = "talk_write";
 			}
 		});
 	});
-
+	
 	function loginchk(){
 		if($("#loginchk").val() == null || $("#loginchk").val() == ""){
 			var k = confirm("로그인이 필요한 페이지입니다.\n\n로그인 하시겠습니까?\n");
@@ -100,77 +143,43 @@ table {
 	<header>
 		<jsp:include page="head.jsp" />
 	</header>
-	<br>
-	<br>
-	<div>
-		<table>
-			<fieldset class="fs1">
-				ICT레시피 쉐프들의 자유토크 <input class="bt" type="button" value="등록">
-			</fieldset>
-		</table>
+	<div id="talk_head">
+		<header id="write_form">
+		<span id="write_text">ICT레시피 쉐프들의 자유 토크</span>
+		<input id="write_bt" type="button" value="등록">
+		</header>
 	</div>
-	<div id="body">
-		<c:if test="${!empty list}">
-			<c:forEach var="k" items="${list}">
-				<c:choose>
-					<c:when test="${k.file_name != null}">
-						<table class="content">
-							<tr>
-								<c:if test="${k.prf_img == null}">
-									<td class="prf_img">
-										<img src="resources/images/no_image.png" style="width:30px; height:30px">
-									</td>
-								</c:if>
-								<td><header
-										style="margin-top: -20px;">
-										<h5>${k.name}</h5>
-										<h6 style="margin-top: -20px;">${k.regdate}</h6>
-									</header>
-									<footer>
-									<a href="talk_view?t_idx=${k.t_idx}&cPage=${pvo.nowPage}">
-									<span style="width: 430px; height: 60px;">${k.content}</span>
-										<c:forEach var="i" items="${k.f_arr}">
-											<img src="<c:url value='/resources/upload/${i}'/>" style="width:100px; height: 100px;">	
-										</c:forEach>	
-									</a>
-									</footer>
-									</td>
-								<td class="haco">
-									<img src="resources/images/heart.png" style="width:30px; height: 30px;"> ${k.heart} 
-									<img src="resources/images/talk.png" style="width:30px; height: 30px;"> ${k.co_count}
-								</td>
-							</tr>
-						</table>
-					</c:when>
-					<c:otherwise>
-						<table class="content">
-							<tr>
-								<c:if test="${k.prf_img == null}">
-									<td class="prf_img">
-
-										<img class="prf_img" src="resources/images/no_image.png" style="width:30px; height:30px;">
-
-										<img src="resources/images/no_image.png" style="width:30px; height:30px;">
-
-									</td>
-								</c:if>
-									<td><header style="margin-top: -20px;">
-										<h5>${k.name}</h5>
-										<h6 style="margin-top: -20px;">${k.regdate}</h6>
-									</header>
-									<a href="talk_view?t_idx=${k.t_idx}"><span style="display:block; width: 430px; height: 100px;">${k.content}</span></a>
-									</td>
-								<td class="haco">
-									<img src="resources/images/heart.png" style="width:30px; height: 30px;"> ${k.heart} 
-									<img src="resources/images/talk.png" style="width:30px; height: 30px;"> ${k.co_count}
-								</td>
-							</tr>
-						</table>
-					</c:otherwise>
-				</c:choose>
-			</c:forEach>
-		</c:if>
-	</div>
+	<c:if test="${!empty list}">
+		<c:forEach var="k" items="${list}">
+			<div id="talk_body">
+				<img id="user_img" src="resources/images/no_image.png">
+				<div class="haco">
+					<img src="resources/images/heart.png" style="width:30px; height: 30px;"> ${k.heart} 
+					<img src="resources/images/talk.png" style="width:30px; height: 30px;"> ${k.co_count}
+				</div>
+				<ul>
+					<li>${k.name}</li>
+					<li style="font-size: 12pt; color: #BEBEBE">${k.regdate}</li>
+					<li style="margin-top: 10px;">
+						<span id="talk_content">
+							<a href="talk_view?t_idx=${k.t_idx}&cPage=${pvo.nowPage}">${k.content}</a>
+						</span>
+					</li>
+				</ul>
+				<c:if test="${k.file_name == null}">
+				</c:if>
+				<c:if test="${k.file_name != null}">
+					<div style="margin-left: 100px;">
+						<c:forEach var="i" items="${k.f_arr}">
+							<a href="talk_view?t_idx=${k.t_idx}&cPage=${pvo.nowPage}">
+							<img src="<c:url value='/resources/upload/${i}'/>" style="width:100px; height: 100px;">
+							</a>
+						</c:forEach>
+					</div>
+				</c:if>
+			</div>
+		</c:forEach>
+	</c:if>
 	<div class="p">
 		<table>
 			<tr>
@@ -209,9 +218,38 @@ table {
 			</tr>
 		</table>
 	</div>
-	
-	<footer>
-		<jsp:include page="foot.jsp" />
-	</footer>
 </body>
+<footer>
+	<jsp:include page="foot.jsp" />
+</footer>
 </html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
