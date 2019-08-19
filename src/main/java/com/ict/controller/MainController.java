@@ -9,9 +9,9 @@ import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Base64;
-import java.util.Date;
 import java.util.Base64.Encoder;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
@@ -33,6 +33,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.ict.service.DAO;
 import com.ict.service.MVO;
+import com.ict.service.MemberPaging;
 import com.ict.service.Pageing;
 import com.ict.service.QVO;
 import com.ict.service.QnAPaging;
@@ -50,7 +51,6 @@ public class MainController {
 	@Autowired
 	private DAO dao;
 	@Autowired	
-	private Pageing pageing;
 //	String cPage;
 	
 	@RequestMapping(value = "/")
@@ -186,48 +186,75 @@ public class MainController {
 		return res.toString();
 	}
 	
-	@RequestMapping(value = "membership")
-	public ModelAndView getMembership(HttpServletRequest request){
+	@RequestMapping(value = "a_membership")
+	public ModelAndView geta_member() {
 		ModelAndView mv = new ModelAndView("a_membership");
-		int count = dao.getMemberCount();
-		pageing.setTotalRecord(count);
-		
-		if(pageing.getTotalRecord() <= pageing.getNumPerPage()) {
-			pageing.setTotalPage(1);
-		}else {
-			pageing.setTotalPage(pageing.getTotalRecord() / pageing.getNumPerPage());
-			if(pageing.getTotalRecord() % pageing.getNumPerPage() !=0) {
-				pageing.setTotalPage(pageing.getTotalPage()+1);
-			}
-		}
-		
-		String cPage = request.getParameter("cPage");
-		if(cPage == null) {
-			pageing.setNowPage(1);
-		}else {
-			pageing.setNowPage(Integer.parseInt(cPage));
-		}
-		
-		pageing.setBegin((pageing.getNowPage()-1)*pageing.getNumPerPage()+1);
-		pageing.setEnd((pageing.getBegin()-1)+pageing.getNumPerPage());
-		
-		pageing.setBeginBlock((pageing.getNowPage()-1) / pageing.getPagePerBlock() * pageing.getPagePerBlock()+1);
-		pageing.setEndBlock(pageing.getBeginBlock()+pageing.getPagePerBlock()-1);
-		
-		if(pageing.getEndBlock() > pageing.getTotalPage()) {
-			pageing.setEndBlock(pageing.getTotalPage());
-		}
-		
-		List<MVO> m_list = dao.get_member_List(pageing.getBegin(), pageing.getEnd());
-		mv.addObject("m_list", m_list);
-		mv.addObject("pageing", pageing);
-	
 		return mv;
 	}
 	
+	@RequestMapping(value = "admin_mlist", produces = "application/text; charset=utf8")
+	@ResponseBody
+	public String geta_member(HttpServletRequest request, MVO mvo) {
+		StringBuffer res = new StringBuffer();
+		Calendar today = Calendar.getInstance();
+		if (mvo.getEndt() == null) mvo.setEndt(new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
+		today.add(Calendar.MONTH, -6);
+		if (mvo.getStart() == null)	mvo.setStart(new SimpleDateFormat("yyyy-MM-dd").format(new Date(today.getTimeInMillis())));
+		int count = dao.a_countMember(mvo);
+		MemberPaging mp = new MemberPaging(10, count, mvo.getcPage());
+		mvo.setBegin(String.valueOf(mp.getBegin()));
+		mvo.setEnd(String.valueOf(mp.getEnd()));
+		List<MVO> mlist = dao.aMemberList(mvo);
+		if (mlist.size() > 0) {
+			for (MVO k : mlist) {
+				res.append("<div class='each-content' onclick='view(" + k.getM_idx() + ")'><div class='body-content'>" + k.getM_idx() +
+						"</div><div class='body-content'>" + k.getName() + "</div><div class='body-content'>" + k.getEmail() +
+						"</div><div class='body-content'>" + k.getId() +  "</div><div class='body-content'>" + k.getGender() + 
+						"</div><div class='body-content'>" + k.getRegdate()+ "</div></div>");
+			}
+		} else {
+			res.append("원하는 정보가 존재하지 않습니다.");
+		}
+		return res.toString();
+	}
+	
+	@RequestMapping(value = "admin_mpage", produces = "application/text; charset=utf-8")
+	@ResponseBody
+	public String test(MVO mvo) {
+		StringBuffer res = new StringBuffer();
+		Calendar today = Calendar.getInstance();
+		if (mvo.getEndt() == null) mvo.setEndt(new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
+		today.add(Calendar.MONTH, -1);
+		if (mvo.getStart() == null)	mvo.setStart(new SimpleDateFormat("yyyy-MM-dd").format(new Date(today.getTimeInMillis())));
+		int count = dao.a_countMember(mvo);
+		MemberPaging mp = new MemberPaging(10, count, mvo.getcPage());
+		
+		if (mp.getBeginBlock() <= mp.getPagePerBlock()) {
+			res.append("<span class='disable'> 이전으로 </span>");
+		} else {
+			res.append("<span class='pre-block'> 이전으로 </span");
+		}
+		
+		for (int i = mp.getBeginBlock(); i < mp.getEndBlock() + 1; i++) {
+			if (i == mp.getNowPage()) {
+				res.append("<span class='now'>" + i + "</span>");
+			} else {
+				res.append("<span class='page' onclick='move_page(" + i + ")'>" + i + "</span>");
+			}
+		}
+		
+		if (mp.getEndBlock() >= mp.getTotalPage()) {
+			res.append("<span class='disable'> 다음으로 </span>");
+		} else {
+			res.append("<span class='next-block'> 다음으로 </span>");
+		}
+		return res.toString();
+	}
+	
+	
 	@RequestMapping(value = "selectonemember.do")
 	public ModelAndView getSelectOneMember(@RequestParam("name") String name) {
-		ModelAndView mv = new ModelAndView("a_selectonemember");
+		ModelAndView mv = new ModelAndView("selectonemember");
 		MVO mvo = dao.getOneMemberList(name);
 		mv.addObject("mvo", mvo);
 		return mv;
@@ -235,7 +262,7 @@ public class MainController {
 
 	@RequestMapping(value = "selectonerecipe.do")
 	public ModelAndView getSelectOneRecipe(@RequestParam("name") String name) {
-		ModelAndView mv = new ModelAndView("a_selectonerecipe");
+		ModelAndView mv = new ModelAndView("selectonerecipe");
 		List<RVO> one_r_list = dao.getOneRecipeList(name);
 		mv.addObject("one_r_list", one_r_list);
 		return mv;

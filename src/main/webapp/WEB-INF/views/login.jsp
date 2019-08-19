@@ -23,17 +23,14 @@
 	color: white;
 	cursor: pointer;
 }
-
 .body {
 	text-align: center;
 }
-
 #bar {
 	margin-bottom: 10pt;
 	width: 350pt;
 	height: 30pt;
 }
-
 #my-signin2 {
 	display: inline-block;
 }
@@ -42,34 +39,28 @@
 	width: 101%;
 	margin: 100px auto 0px;
 }
-
 #first-footer {
 	width: 1300px;
 	margin: auto;
 	display: grid;
 	grid-template-columns: 400px 550px 350px;
 }
-
 #footer-company {
 	font-size: 9pt;
 	color: #888;
 	line-height: 5pt;
 }
-
 #footer-link a:link, #footer-link a:visited {
 	color: #888;
 }
-
 #footer-sns img {
 	margin-top: 50px;
 	width: 70px;
 	height: 70px;
 }
-
 #report-content {
 	margin-left: 50px;
 }
-
 #send-report {
 	display: block;
 	text-decoration: none;
@@ -78,7 +69,6 @@
 	margin: auto;
 	text-align: center;
 }
-
 #second-footer {
 	background: #fa8;
 	width: 100vw;
@@ -86,7 +76,6 @@
 	margin: -8px;
 	margin-top: 20px;
 }
-
 #second-footer-content {
 	width: 1300px;
 	display: grid;
@@ -94,11 +83,9 @@
 	height: 170px;
 	margin: auto;
 }
-
 #footer-logo {
 	padding: 40px;
 }
-
 #footer-counting {
 	display: grid;
 	grid-template-columns: auto auto auto;
@@ -107,19 +94,15 @@
 	color: #e86;
 	font-size: 35pt;
 }
-
 #footer-counting i {
 	margin-top: 25px;
 }
-
 #footer-counting a:link, #footer-counting a:visited {
 	color: #e86;
 }
-
 #footer-mailto-round {
 	padding: 40px;
 }
-
 #footer-mailto {
 	margin: auto;
 	height: 80px;
@@ -130,17 +113,14 @@
 	font-size: 30pt;
 	text-align: center;
 }
-
 #footer-mailto i {
 	margin-top: 20px;
 }
-
 .footer-counting-label {
 	margin-top: -10px;
 	font-size: 9pt;
 	color: #eee;
 }
-
 .footer-counting-number {
 	margin-top: -10px;
 	font-size: 16pt;

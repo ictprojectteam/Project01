@@ -242,7 +242,7 @@ public class DAO {
 	public MVO getAdminOneMember(String m_idx) {
 		return sqlSessionTemplate.selectOne("onelistmember", m_idx);
 	}
-
+	
 	public int getQCount(QVO qvo) {
 		return sqlSessionTemplate.selectOne("qCount", qvo);
 	}
@@ -253,5 +253,12 @@ public class DAO {
 	
 	public void compQnA(QVO qvo) {
 		sqlSessionTemplate.update("compQnA", qvo);
+	}
+	
+	public int a_countMember(MVO mvo) {
+		return sqlSessionTemplate.selectOne("a_count_member", mvo);
+	}
+	public List<MVO> aMemberList(MVO mvo) {
+		return sqlSessionTemplate.selectList("a_member_list", mvo);
 	}
 }

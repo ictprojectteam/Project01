@@ -13,36 +13,29 @@
 	color: white;
 	cursor: pointer;
 }
-
 .body {
 	margin-left: 100px;
 }
-
 .join_bt {
 	width: 460px;
 	height: 30px;
 }
-
 .inpo_box {
 	width: 460px;
 	height: 30px;
 }
-
 #pw1 {
 	width: 460px;
 	height: 30px;
 }
-
 #pw2 {
 	width: 460px;
 	height: 30px;
 }
-
 #alert-success {
 	width: 15%;
 	color: #7DFE74;
 }
-
 #alert-danger {
 	width: 20%;
 	color: red;
@@ -62,7 +55,6 @@
 			location.href="/";
 		});
 	});
-
 	$(function(){
 		$(".join_bt").on("click", function(){
 			var id = $("#id").val();
@@ -74,7 +66,6 @@
 			var join_chk = $("input[name='join_chk']:checked").length
 			var gender1 = $("input[name='gender']:checked").val();
 			
-
 			/* 
 			var id = $("#id").val();  생략하고 
 			if($("#id").val() == ""){  이런식으로 사용 가능 
@@ -82,7 +73,6 @@
 				$("#id").focus();
 				return false;
 			} */
-
 			if(id == ""){
 				alert("아이디를 입력하세요");
 				$("#id").focus();
@@ -120,7 +110,6 @@
 			}
 		});
 	});
-
 	$(function(){
 		$("#alert-success").hide();
 		$("#alert-danger").hide();

@@ -187,7 +187,6 @@
 		ca_adc("ca3");
 		ca_adc("ca4");
 	});
-
 	function ca_adc(e){
 		var eval = $("input[name=" + e + "]").val();
 		if(eval != ""){

@@ -13,7 +13,6 @@
 	color: white;
 	cursor: pointer;
 }
-
 .body {
 	text-align: center;
 }
