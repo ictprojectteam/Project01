@@ -169,15 +169,6 @@ header #links{
 	margin-top: 5em;
 }
 
-.row{
-	display: flex;
-	width: 100%;
-	height: 30%;
-	flex-wrap: nowrap;
-	flex-direction: row;
-	padding: 1em;
-}
-
 #body{
 	border: 1px solid #999;
 	width: 1002px;
@@ -208,6 +199,24 @@ header #links{
 	border: 0.5px solid #bbb;
 }
 
+.body-content button{
+	display: block;
+	width: 100%;
+	height: 100%;
+}
+
+.body-content button:hover{
+	color: #4f4;
+}
+
+.comp{
+	background: #9f9;
+}
+
+.waiting{
+	background: #f99;
+}
+
 legend{
 	font-size: 16pt;
 	font-weight: bolder;
@@ -223,6 +232,11 @@ legend{
 
 .paging .now{
 	margin-right: 8px;
+	padding: 3px 7px;
+	border: 1px solid #ff4aa5;
+	background: #ff4aa5;
+	color: white;
+	font-weight: bold;
 }
 
 .paging [class^=page]{
@@ -242,15 +256,7 @@ legend{
 	padding: 3px 7px;
 	color: silver;
 }
-
-.now {
-	padding: 3px 7px;
-	border: 1px solid #ff4aa5;
-	background: #ff4aa5;
-	color: white;
-	font-weight: bold;
-}
-
+	
 </style>
 <script type="text/javascript" src="../resources/js/jquery-3.4.1.min.js"></script>
 <script type="text/javascript">
@@ -407,12 +413,8 @@ legend{
 							<div class="body-content">${k.q_def}</div>
 							<div class="body-content">${k.content}</div>
 							<div class="body-content">${k.regdate}</div>
-							<div class="body-content">${k.status}</div>
-							<div class="body-content">
-								<c:if test="${k.status eq '처리 대기중'}">
-									<button onclick="comp_qna(${k.q_idx})">완료</button>
-								</c:if>
-							</div>
+							<div class="body-content<c:choose><c:when test="${k.status eq '처리 대기중'}"> waiting</c:when><c:otherwise> comp</c:otherwise></c:choose>">${k.status}</div>
+							<div class="body-content"><c:if test="${k.status eq '처리 대기중'}"><button onclick="comp_qna(${k.q_idx})">완료</button></c:if></div>
 						</c:forEach>
 					</c:when>
 					<c:otherwise>
@@ -447,7 +449,7 @@ legend{
 			    		<span><a href="admin_qna?cPage=${qp.beginBlock+qp.pagePerBlock}"> 다음으로 </a></span>
 			    	</c:otherwise>
 			    </c:choose>
-			</div>	
+			</div>
 		</div>
 	</div>
 </body>

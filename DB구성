@@ -40,7 +40,7 @@ foreign key (r_idx) references recipe(r_idx)
 create table talk(
 t_idx NUMBER not null,
 m_idx NUMBER,
-subject VARCHAR2(50), // 삭제
+subject VARCHAR2(50),	// 삭제
 content_ VARCHAR2(4000),
 file_name VARCHAR2(50),
 hit NUMBER,

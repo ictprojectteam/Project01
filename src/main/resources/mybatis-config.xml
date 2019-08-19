@@ -18,4 +18,3 @@
 		<mapper resource="mappings/mapper.xml" />
 	</mappers>
 </configuration>
-

@@ -441,7 +441,6 @@
 				}, 500);
 			}
 		});
-
 		$("#combutton").on("click", function(){
 			if ($("#comtext").val() == "") {
 				alert("내용을 입력해주세요.");

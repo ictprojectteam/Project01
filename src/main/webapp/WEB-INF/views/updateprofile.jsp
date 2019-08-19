@@ -260,8 +260,7 @@
 					}
 				});
 			} else {
-				alert(chknowpw + "2");
-				alert(chknewpw + "2");
+				alert("변경 실패");
 			}
 		});
 

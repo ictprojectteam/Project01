@@ -147,10 +147,14 @@ table {
 							<tr>
 								<c:if test="${k.prf_img == null}">
 									<td class="prf_img">
+
 										<img class="prf_img" src="resources/images/no_image.png" style="width:30px; height:30px;">
+
+										<img src="resources/images/no_image.png" style="width:30px; height:30px;">
+
 									</td>
 								</c:if>
-									<header style="margin-top: -20px;">
+									<td><header style="margin-top: -20px;">
 										<h5>${k.name}</h5>
 										<h6 style="margin-top: -20px;">${k.regdate}</h6>
 									</header>
@@ -174,10 +178,10 @@ table {
 					<ul class="paging">
 						<c:choose>
 							<c:when test="${pvo.beginBlock <= pvo.pagePerBlock}">
-								<li class="disable"style="display: none;"> << </li>
+								<li class="disable"style="display: none;"></li>
 							</c:when>
 							<c:otherwise>
-								<li><a href="talk?cPage=${pvo.beginBlock - pvo.pagePerBlock}"> << </a></li>
+								<li><a href="talk?cPage=${pvo.beginBlock - pvo.pagePerBlock}"></a></li>
 							</c:otherwise>
 						</c:choose>
 						
@@ -211,33 +215,3 @@ table {
 	</footer>
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

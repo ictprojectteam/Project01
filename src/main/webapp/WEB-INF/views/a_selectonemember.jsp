@@ -61,6 +61,7 @@ nav{
 #menu{
 	width: 100%;
 	background-color: #333333;
+	min-height: 1500px;
 }
 
 #menu li{
@@ -197,6 +198,56 @@ tabel td{
 
 </style>
 <script type="text/javascript">
+	$(function(){
+		$("#today").on("click", function(){
+			var date = new Date();
+			$("#start").val(date.toISOString().substring(0, 10));
+			$("#end").val(date.toISOString().substring(0, 10));
+		});
+
+		$("#yesterday").on("click", function(){
+			var date = new Date();
+			$("#end").val(date.toISOString().substring(0, 10));
+			date.setDate(date.getDate()-1);
+			$("#start").val(date.toISOString().substring(0, 10));
+		});
+
+		$("#week").on("click", function(){
+			var date = new Date();
+			$("#end").val(date.toISOString().substring(0, 10));
+			date.setDate(date.getDate()-7);
+			$("#start").val(date.toISOString().substring(0, 10));
+		});
+
+		$("#month").on("click", function(){
+			var date = new Date();
+			$("#end").val(date.toISOString().substring(0, 10));
+			date.setMonth(date.getMonth()-1);
+			$("#start").val(date.toISOString().substring(0, 10));
+		});
+
+		$("#3month").on("click", function(){
+			var date = new Date();
+			$("#end").val(date.toISOString().substring(0, 10));
+			date.setMonth(date.getMonth()-3);
+			$("#start").val(date.toISOString().substring(0, 10));
+		});
+
+		$("#start").on("change", function(){
+			if($("#end").val() < $("#start").val()) $("#end").val($("#start").val());
+			$("#end").attr("min", $("#start").val());
+			$("#start")attr("max", $("#end").val());
+		});
+
+		$("#end").on("change", function(){
+			if($("#start").val() > $("#end").val()) $("#start").val($("#end").val());
+			$("#end").attr("min", $("#start").val());
+			$("#start").attr("max", $("#end").val());
+		});
+		
+	});
+
+
 	function send_one(f){
 		f.action = "selectonemember.do";
 		f.submit();
@@ -214,7 +265,7 @@ tabel td{
 				<li><a id="recipe" href="a_recipe">레시피 관리</a></li>
 				<li><a id="content" href="a_write_recipe">게시물 등록</a></li>
 				<li><a id="user" href="membership">회원 관리</a></li>
-				<li><a id="board" href="home">문의 관리</a></li>
+				<li><a id="board" href="admin_qna">문의 관리</a></li>
 				<li><a id="event" href="home">이벤트 관리</a></li>
 				<li><a id="op" href="home">운영자 관리</a></li>
 				<li><a id="setting" href="home">설정</a></li>
@@ -225,57 +276,48 @@ tabel td{
 				<a href="m">로그아웃</a>
 			</div>
 		</header>
-		<main id="main">
-			<div id="action-container">
-				<div id="user-action">
-					<div>
-						<form>
-							<fieldset style="width: 1000px;">
-								<legend><h2>검색하기</h2></legend>
-									<table>
-										<thead>
-											<tr>
-												<th style="text-align: left; padding-left: 5px;">회원이름/닉네임<br>
-												회원번호</th>						
-												<td>
-													<select name="name_idx">
-														<option value="name">회원이름</option>
-														<option value="nickname">닉네임</option>
-														<option value="m_idx">회원번호</option>
-													</select>
-													<input type="text" name="name" size="45">
-												</td>
-												<th style="text-align: left; padding-left: 5px;">이메일/연락처</th>
-												<td>
-													<select name="email_number">
-														<option value="email">이메일</option>
-														<option value="number">연락처</option>
-														<input type="text" name="e_write" size= "45"> 
-												</td>
-											</tr>
-											<tr>
-												<th style="text-align: left; padding-left: 5px;">가입일시</th>
-												<td colspan="3">
-													<input type="date" id="start" name="start" value="sysdate" min="2019-01-01" max="2019-12-31">
-													<a>~</a>
-													<input type="date" id="end" name="endt" value="sysdate" min="2019-01-01" max="2019-12-31">
-													<input type="button" id="today" value="오늘">
-													<input type="button" id="yesterday" value="어제">
-													<input type="button" id="week" value="7일">
-													<input type="button" id="month" value="1개월">
-													<input type="button" id="3month" value="3개월">
-													
-												</td>
-											</tr>
-											<tr style="border: none">
-												<th colspan="4" style="border: none;">
-													<input type="button" id="search" value="검  색" style="width:160px;" onclick="send_one(this.form)">
-												</th>
-											</tr>
-										</thead>
-									</table>
-							</fieldset>
+		<div id="main">
+			<form>
+				<fieldset style="width: 1000px;">
+					<legend>검색하기</legend>
+						<div id="search-table">
+							<div id="double">
+								<div class="label">회원이름/닉네임<br>회원번호</div>
+								<div class="content">
+									<select name="name_idx">
+										<option value="name">회원이름</option>
+										<option value="nickname">닉네임</option>
+										<option value="m_idx">회원번호</option>
+									</select>
+									<input type="text" name="name">
+								</div>
+								<div class="label">이메일/연락처</div>
+								<div class="content">
+									<select name="email_phone">
+										<option value="email">이메일</option>
+										<option value="phone">연락처</option>
+									</select>
+									<input type="text" name="email">
+								</div>
+								<div id="date">
+									<div class="label">가입일시</div>
+									<div class="content">
+										<input type="date" id="start" name="start" min="2019-01-01" max="2019-12-31">
+										<a>~</a>
+										<input type="date" id="end" name="endt" value="sysdate" min="2019-01-01" max="2019-12-31">
+										<input type="button" id="today" value="오늘">
+										<input type="button" id="yesterday" value="어제">
+										<input type="button" id="week" value="7일">
+										<input type="button" id="month" value="1개월">
+										<input type="button" id="3month" value="3개월">
+									</div>
+								</div>
+								<div id="button">
+									<input type="button" id="search" value="검 색" onclick="send_one(this.form)">
+								</div>
+							</div>
 						</form>
+						
 						<div class="title">
 						회원 관리
 						<div id="body">

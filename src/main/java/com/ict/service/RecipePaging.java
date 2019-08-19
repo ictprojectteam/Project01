@@ -16,7 +16,32 @@ public class RecipePaging {
 	private int count;
 	
 	public RecipePaging(int count, String cPage) {
-		this.count = count;
+		totalRecord = count;
+		if (totalRecord <= numPerPage) {
+			totalPage = 1;
+		} else {
+			totalPage = totalRecord / numPerPage;
+			if (totalRecord % numPerPage != 0) {
+				totalPage += 1;
+			}
+		}
+		
+		if (cPage == null || cPage.equals("")) {
+			nowPage = 1;
+		} else {
+			nowPage = Integer.parseInt(cPage);
+		}
+		
+		begin = (nowPage - 1) * numPerPage + 1;
+		end = begin - 1 + numPerPage;
+		
+		beginBlock = (int)((nowPage - 1) / pagePerBlock) * pagePerBlock + 1;
+		endBlock = beginBlock + pagePerBlock - 1;
+		
+		if (endBlock > totalPage) endBlock = totalPage;
+	}
+	
+	public RecipePaging(int numPerPage, int count, String cPage) {
 		totalRecord = count;
 		if (totalRecord <= numPerPage) {
 			totalPage = 1;
