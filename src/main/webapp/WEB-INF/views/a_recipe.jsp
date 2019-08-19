@@ -204,11 +204,6 @@ legend{
 	font-size: 16pt;
 	font-weight: bolder;
 }
-#body td{
-	text-align: center;
-	font-size: 12pt;
-	padding: 10px;
-}
 /* paging */
 .paging{
 	width: 1000px;

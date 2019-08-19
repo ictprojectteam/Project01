@@ -475,10 +475,14 @@
 
 		$("#rep-noti .fa-times").on("click", function(){
 			$("#rep-modal").css({"display":"none"});
+			$("#rep-hid").css("display", "none").find("input").val("");
+			$("input[name=rep-rea]").attr("checked", "false").removeAttr("checked");
 		});
 
 		$("#rep-cancel").on("click", function(){
 			$("#rep-modal").css({"display":"none"});
+			$("#rep-hid").css("display", "none").find("input").val("");
+			$("input[name=rep-rea]").attr("checked", "false").removeAttr("checked");
 		});
 
 		$("#rep-submit").on("click", function(){
@@ -498,6 +502,9 @@
 					success : function(data) {
 						if (data != 0) {
 							alert("신고가 접수되었습니다.");
+							$("#rep-modal").css({"display":"none"});
+							$("#rep-hid").css("display", "none").find("input").val("");
+							$("input[name=rep-rea]").attr("checked", "false").removeAttr("checked");
 						} else {
 							alert("쓰기 실패1");
 						}
@@ -507,6 +514,11 @@
 					}
 				});
 			}
+		});
+
+		$(".tag").on("click", function(){
+			var text = $(this).text().replace("#", "");
+			location.href = "recipe?k=" + text;
 		});
 
 		$(this).on("click", function(){

@@ -166,7 +166,7 @@ header #links{
 	width: 980px;
 }
 .each-content{
-	width: 980px;
+	width: 950px;
 	display: grid;
 	grid-template-columns: 100px 150px 300px 150px 100px 150px;
 	text-align: center;
