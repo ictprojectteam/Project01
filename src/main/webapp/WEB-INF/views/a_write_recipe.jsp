@@ -976,18 +976,6 @@ textarea{
 		$("#comp-image-" + num).find(".comp-image-empty").show();
 	}
 
-
-
-	//function showHide(){
-	//	if(document.getElementById('check_season').checked){
-	//		document.getElementById('recipe-ing-pack-2').style.visibility = 'visible';
-	//	}else{
-	//		document.getElementById('recipe-ing-pack-2').style.visibility = 'hidden';
-	//	}
-	//}
-
-	
-
 </script>
 
 </head>
@@ -1001,7 +989,7 @@ textarea{
 				<li><a id="home" href="home">HOME</a></li>
 				<li><a id="recipe" href="a_recipe">레시피 관리</a></li>
 				<li><a id="content" href="home">게시물 등록</a></li>
-				<li><a id="user" href="membership">회원 관리</a></li>
+				<li><a id="user" href="a_membership">회원 관리</a></li>
 				<li><a id="board" href="admin_qna">문의 관리</a></li>
 				<li><a id="event" href="home">이벤트 관리</a></li>
 				<li><a id="op" href="home">운영자 관리</a></li>

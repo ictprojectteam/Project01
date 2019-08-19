@@ -54,7 +54,10 @@
 		margin: 20px auto;
 		color: #fa8;
 	}
-	
+	.category-selected{
+		background: #fa8;
+		color: #eee;
+	}
 /* ======================================== 레시피리스트 ========================================== */
 	#recipe-list{
 	}
@@ -119,7 +122,21 @@
 				});
 			});
 		});
+		ca_adc("ca1");
+		ca_adc("ca2");
+		ca_adc("ca3");
+		ca_adc("ca4");
 	});
+	function ca_adc(e){
+		var eval = $("input[name=" + e + "]").val();
+		if(eval != ""){
+			$("#" + e).find("a").each(function(){
+				if($(this).text() == eval) $(this).addClass("category-selected");
+			});
+		} else {
+			$("#" + e + " a:first-child").addClass("category-selected");
+		}
+	}
 </script>
 </head>
 <body>

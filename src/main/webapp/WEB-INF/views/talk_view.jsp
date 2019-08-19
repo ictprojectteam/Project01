@@ -42,11 +42,21 @@
 	margin: -30px auto 0px auto;
 	border:  1px solid;
 }
+#edit ul{
+	list-style: none;
+	display: inline-block;
+	margin: 0px 0px 0px -30px;
+}
+#edit li{
+	float: left;
+	
+}
 .edit_b{
 	font-size: 10pt;
 	border: 1px solid;
 	border-radius: 7px;
 	padding: 5px;
+	cursor: pointer;
 }
 #comment{
 	width: 700px;
@@ -107,20 +117,28 @@
 	border: none;
 	margin-top: 10px;
 }
+.share_img{
+	border-radius: 70px;
+}
 </style>
 <script type="text/javascript">
 	var c_like = new Object();
+	var cPage = "${cPage}";
 	c_like.t_idx = "${tvo.t_idx}";
 	c_like.id = "${mvo.id}";
 	
 	$(function(){
 		$("#co_ok").on("click", function(){
-			$("#co_form").attr("action","t_co_write").submit();
+			if(loginchk()){
+				if($("#co_write").val() != ""){
+					$("#co_form").attr("action","t_co_write").submit();
+				}else{
+					alert("내용이 없습니다");
+				}
+			}
 		});
-
 		getLike();
 	});
-
 	function getLike() {
 		if($("#loginchk").val() == null || $("#loginchk").val() == ""){
 			$("#co_heart").html("<img src='resources/images/heart_RED.png' id='like'>");
@@ -175,7 +193,6 @@
 			});
 		}
 	}
-
 	function t_unlike() {
 		if(loginchk()){
 			$.ajax({
@@ -192,7 +209,6 @@
 			});
 		}
 	}
-
 	function loginchk(){
 		if($("#loginchk").val() == null || $("#loginchk").val() == ""){
 			var k = confirm("로그인이 필요한 페이지입니다.\n\n로그인 하시겠습니까?\n");
@@ -201,7 +217,9 @@
 			return true;
 		}
 	}
-	
+	function talk_go() {
+		location.href = "talk?cPage="+cPage;
+	};
 	function update_go() {
 		location.href = "#";
 	};
@@ -225,7 +243,7 @@
 					<h5>${tvo.name}</h5>
 					<h6 style="margin-top: -20px;">${tvo.regdate}</h6>
 				</header>
-				<p style="width: 430px; height: 60px;">${tvo.content}</p>
+				<p style="width: 450px;">${tvo.content}</p>
 				<c:if test="${tvo.file_name != null}">
 					<footer>
 						<c:forEach var="i" items="${tvo.f_arr}">
@@ -242,20 +260,31 @@
 	</table>
 </div>
 <div id="edit">
-	<table>
-		<tr>
-			<c:if test="${mvo.m_idx == tvo.m_idx}">
-			<th></th>
-			<th class="edit_b" onclick="update_go()"> 수정 </th>
-			<th></th>
-			<th class="edit_b" onclick="delete_go()"> 삭제 </th>
-			</c:if>
-			<c:if test="${mvo.m_idx != tvo.m_idx}">
-			<th></th>
-			<th class="edit_b" onclick="delete_go()"> 신고 </th>
-			</c:if>
-		</tr>
-	</table>
+	<ul>
+		<c:if test="${mvo.m_idx == tvo.m_idx}">
+			<li class="edit_b" onclick="talk_go()"> 목록 </li>
+			<li class="edit_b" onclick="update_go()"> 수정 </li>
+			<li class="edit_b" onclick="delete_go()"> 삭제 </li>
+		</c:if>
+		<c:if test="${mvo.m_idx != tvo.m_idx}">
+			<li class="edit_b" onclick="talk_go()"> 목록 </li>
+			<li class="edit_b" onclick="delete_go()"> 신고 </li>
+		</c:if>
+	</ul>
+	<ul style="margin-left: 450px; margin-top: 10px;">
+		<li>
+			<a href="#" onclick="javascript:window.open('https://story.kakao.com/s/share?url=' +encodeURIComponent(document.URL), 'kakaostorysharedialog', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes, height=400,width=600');return false;" target="_blank" >
+			<img src="resources/images/sns_kakao.png" width="30" class="share_img" alt="카스 공유하기"></a>
+		</li>
+		<li>
+			<a href="#" onclick="javascript:window.open('https://www.facebook.com/sharer/sharer.php?u=' +encodeURIComponent(document.URL)+'&t='+encodeURIComponent(document.title), 'facebooksharedialog', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=300,width=600');return false;" target="_blank" >
+			<img src="resources/images/sns_face.png" width="30" class="share_img" alt="페이스북 공유하기"></a>
+		</li>
+		<li>
+			<a href="#" onclick="javascript:window.open('https://twitter.com/intent/tweet?text=[%EA%B3%B5%EC%9C%A0]%20' +encodeURIComponent(document.URL)+'%20-%20'+encodeURIComponent(document.title), 'twittersharedialog', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=300,width=600');return false;" target="_blank">
+			<img src="resources/images/sns_tw.png" width="30" class="share_img" alt="트위터 공유하기"></a>
+		</li>
+	</ul>
 </div>
 <c:choose>
 	<c:when test="${empty c_list}">
@@ -275,7 +304,7 @@
 							</c:if>
 							<c:if test="${k.m_idx == mvo.m_idx}">
 							<a href="#" style="text-decoration: none;"><p style="margin: -20px 0px 0px 190px; font-size: 12pt; color: #747474;"> | 수정 </p></a>
-							<a href="#" style="text-decoration: none;"><p style="margin: -19px 0px 0px 230px; font-size: 12pt; color: #747474;"> | 삭제 </p></a>
+							<a href="talk_c_del?t_c_idx=${k.t_c_idx}" style="text-decoration: none;"><p style="margin: -19px 0px 0px 230px; font-size: 12pt; color: #747474;"> | 삭제 </p></a>
 							</c:if>
 							<textarea rows="3" cols="50" class="co_content" readonly>${k.content}</textarea>
 						</header>
@@ -291,7 +320,6 @@
 		<table>
 			<tr>
 				<td id="co_heart">
-					
 				</td>
 				<td>
 					<textarea rows="2" cols="30" id="co_write" name="content"></textarea>

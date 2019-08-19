@@ -122,6 +122,10 @@ public class DAO {
 		return sqlSessionTemplate.selectOne("count_recipe", camap);
 	}
 	
+	public int a_countRecipe(RecipeVO rvo) {
+		return sqlSessionTemplate.selectOne("a_count_recipe", rvo);
+	}
+	
 	public List<RecipeCVO> getCommentList(String r_idx) {
 		return sqlSessionTemplate.selectList("recipe_comment_list", r_idx);
 	}
@@ -132,6 +136,10 @@ public class DAO {
 	
 	public List<RecipeVO> getRecipeList(Map<String, String> pmap) {
 		return sqlSessionTemplate.selectList("recipe_list", pmap);
+	}
+	
+	public List<RecipeVO> aRecipeList(RecipeVO rvo) {
+		return sqlSessionTemplate.selectList("a_recipe_list", rvo);
 	}
 	
 	public List<RecipeVO> getRecipeList(int begin, int end) {
@@ -203,7 +211,6 @@ public class DAO {
 	public void recipeHitUpdate(RecipeVO rvo) {
 		sqlSessionTemplate.update("rhitupdate", rvo);
 	}
-	
 	public RecipeVO getAdminOneRecipe(String r_idx) {
 		return sqlSessionTemplate.selectOne("onelistrecipe", r_idx);
 	}
@@ -215,6 +222,7 @@ public class DAO {
 	public MVO getAdminOneMember(String m_idx) {
 		return sqlSessionTemplate.selectOne("onelistmember", m_idx);
 	}
+	
 	public int getQCount(QVO qvo) {
 		return sqlSessionTemplate.selectOne("qCount", qvo);
 	}
@@ -225,5 +233,12 @@ public class DAO {
 	
 	public void compQnA(QVO qvo) {
 		sqlSessionTemplate.update("compQnA", qvo);
+	}
+	
+	public int a_countMember(MVO mvo) {
+		return sqlSessionTemplate.selectOne("a_count_member", mvo);
+	}
+	public List<MVO> aMemberList(MVO mvo) {
+		return sqlSessionTemplate.selectList("a_member_list", mvo);
 	}
 }
