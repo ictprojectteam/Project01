@@ -147,7 +147,7 @@ table {
 							<tr>
 								<c:if test="${k.prf_img == null}">
 									<td class="prf_img">
-										<img src="resources/images/no_image.png" style="width:30px; height:30px; border: solid;">
+										<img class="prf_img" src="resources/images/no_image.png" style="width:30px; height:30px;">
 									</td>
 								</c:if>
 									<header style="margin-top: -20px;">
