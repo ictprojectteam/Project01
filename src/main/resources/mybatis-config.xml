@@ -8,6 +8,7 @@
 		<typeAlias type="com.ict.service.MVO" alias="mvo"/>
 		<typeAlias type="com.ict.service.RecipeVO" alias="rvo"/>
 		<typeAlias type="com.ict.service.RecipeCVO" alias="rcvo"/>
+		<typeAlias type="com.ict.service.R_RankVO" alias="rrvo"/>
 		<typeAlias type="com.ict.service.TVO" alias="tvo" />
 		<typeAlias type="com.ict.service.TalkCVO" alias="tcvo" />
 		<typeAlias type="com.ict.service.TLVO" alias="tlvo" />

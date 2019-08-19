@@ -37,6 +37,7 @@ import com.ict.service.Pageing;
 import com.ict.service.QVO;
 import com.ict.service.QnAPaging;
 import com.ict.service.RVO;
+import com.ict.service.R_RankVO;
 import com.ict.service.RecipeCVO;
 import com.ict.service.RecipePaging;
 import com.ict.service.RecipeVO;
@@ -318,6 +319,16 @@ public class MainController {
 		}
 		rvo.setHit(Integer.parseInt(rvo.getHit()) + 1 + "");
 		dao.recipeHitUpdate(rvo);
+		R_RankVO rrvo = new R_RankVO();
+		rrvo.setR_idx(rvo.getR_idx());
+		rrvo.setR_date(new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
+		if (dao.chkRank(rrvo) != null) {
+			rrvo = dao.chkRank(rrvo);
+			rrvo.setR_count(Integer.parseInt(rrvo.getR_count()) + 1 + "");
+			dao.updateCount(rrvo);
+		} else {
+			dao.insertCount(rrvo);
+		}
 		mv.addObject("rvo", rvo);
 		return mv;
 	}
@@ -580,6 +591,7 @@ public class MainController {
 	@RequestMapping("ranking")
 	public ModelAndView ranking() {
 		ModelAndView mv = new ModelAndView("ranking");
+		
 		return mv;
 	}
 	

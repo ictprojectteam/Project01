@@ -211,6 +211,18 @@ public class DAO {
 	public void recipeHitUpdate(RecipeVO rvo) {
 		sqlSessionTemplate.update("rhitupdate", rvo);
 	}
+	public R_RankVO chkRank(R_RankVO rrvo) {
+		return sqlSessionTemplate.selectOne("chkRank", rrvo);
+	}
+	
+	public void updateCount(R_RankVO rrvo) {
+		sqlSessionTemplate.update("updateCount", rrvo);
+	}
+	
+	public void insertCount(R_RankVO rrvo) {
+		sqlSessionTemplate.insert("insertCount", rrvo);
+	}
+	
 	public RecipeVO getAdminOneRecipe(String r_idx) {
 		return sqlSessionTemplate.selectOne("onelistrecipe", r_idx);
 	}

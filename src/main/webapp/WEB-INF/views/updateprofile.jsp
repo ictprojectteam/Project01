@@ -28,6 +28,7 @@
 	width: 120px;
 	height: 30px;
 	float: right;
+	margin-bottom: 10px;
 }
 .hid-box{
 	display: none;
@@ -68,7 +69,7 @@
 #mailbox, #nickbox, #pwbox, #outbox{
 	clear: both;
 	margin-top: 20px;
-	height: 21px;
+	min-height: 21px;
 }
 </style>
 <script type="text/javascript">
