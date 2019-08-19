@@ -643,7 +643,6 @@ public class MainController {
 		mv.addObject("mvo", mvo);
 		return mv;
 	}
-
 	@RequestMapping("rep_com_recipe")
 	@ResponseBody
 	public String reportRecipeComment(QVO qvo, HttpSession session) {

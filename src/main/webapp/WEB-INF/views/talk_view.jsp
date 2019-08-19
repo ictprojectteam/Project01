@@ -246,7 +246,7 @@
 					<h5>${tvo.name}</h5>
 					<h6 style="margin-top: -20px;">${tvo.regdate}</h6>
 				</header>
-				<p style="width: 430px; height: 60px;">${tvo.content}</p>
+				<p style="width: 450px;">${tvo.content}</p>
 				<c:if test="${tvo.file_name != null}">
 					<footer>
 						<c:forEach var="i" items="${tvo.f_arr}">
