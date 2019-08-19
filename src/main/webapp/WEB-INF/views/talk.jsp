@@ -57,7 +57,6 @@
 	margin-left: 80px;
 	overflow: hidden;
 	overflow: auto;
-	overflow: scroll;
 }
 ul{
 	margin-top: 5px;

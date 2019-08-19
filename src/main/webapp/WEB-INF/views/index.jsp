@@ -59,6 +59,7 @@
 		color: #333;
 		text-indent: 10px;
 		font-size: 9pt;
+		overflow: hidden;
 	}
 	.talk-left-arrow, .talk-right-arrow, .recipe-left-arrow, .recipe-right-arrow{
 		padding-top: 110px;

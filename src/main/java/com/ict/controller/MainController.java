@@ -533,6 +533,7 @@ public class MainController {
 			}
 			dao.getTalk_write(tvo);
 		} catch (Exception e) {
+			System.out.println(e);
 		}
 		return mv;
 	}
@@ -591,7 +592,20 @@ public class MainController {
 	@RequestMapping("ranking")
 	public ModelAndView ranking() {
 		ModelAndView mv = new ModelAndView("ranking");
-		
+		R_RankVO rrvo = new R_RankVO();
+		rrvo.setR_date(new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
+		List<R_RankVO> rr = dao.todayRecipe(rrvo);
+		Calendar today = Calendar.getInstance();
+		Map<String, String> rmap = new HashMap<String, String>();
+		today.set(Calendar.DAY_OF_MONTH, 1);
+		rmap.put("start", new SimpleDateFormat("yyyy-MM-dd").format(new Date(today.getTimeInMillis())));
+		today.set(Calendar.DAY_OF_MONTH, today.getActualMaximum(Calendar.DAY_OF_MONTH));
+		rmap.put("endt", new SimpleDateFormat("yyyy-MM-dd").format(new Date(today.getTimeInMillis())));
+		System.out.println(rmap.get("start"));
+		System.out.println(rmap.get("endt"));
+		List<R_RankVO> mrr = dao.monthRecipe(rmap);
+		mv.addObject("rr", rr);
+		mv.addObject("mrr", mrr);
 		return mv;
 	}
 	
@@ -643,6 +657,7 @@ public class MainController {
 		mv.addObject("mvo", mvo);
 		return mv;
 	}
+
 	@RequestMapping("rep_com_recipe")
 	@ResponseBody
 	public String reportRecipeComment(QVO qvo, HttpSession session) {

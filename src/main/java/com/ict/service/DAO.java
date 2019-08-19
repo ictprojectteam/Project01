@@ -223,6 +223,14 @@ public class DAO {
 		sqlSessionTemplate.insert("insertCount", rrvo);
 	}
 	
+	public List<R_RankVO> todayRecipe(R_RankVO rrvo) {
+		return sqlSessionTemplate.selectList("todayRecipe", rrvo);
+	}
+	
+	public List<R_RankVO> monthRecipe(Map<String, String> rmap) {
+		return sqlSessionTemplate.selectList("monthRecipe", rmap);
+	}
+	
 	public RecipeVO getAdminOneRecipe(String r_idx) {
 		return sqlSessionTemplate.selectOne("onelistrecipe", r_idx);
 	}

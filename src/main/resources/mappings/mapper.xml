@@ -221,7 +221,7 @@
 	</insert>
 	
 	<select id="talk_list" resultType="tvo">
-		select * from talk order by t_idx desc
+		select * from (select * from talk order by t_idx desc) <![CDATA[where rownum >= 1 and rownum <= 8]]>
 	</select>
 	
 	<select id="talk_p_list" parameterType="Map" resultType="tvo">
@@ -320,7 +320,15 @@
 	</insert>
 	
 	<select id="todayRecipe" parameterType="rrvo" resultType="rrvo">
-		select * from (select name, r_count from r_rank rr, recipe r, members m where r_date = #{r_date} and rr.r_idx = r.r_idx and r.m_idx = m.m_idx order by r_count desc) a where rownum >= 1 and rownum <= 5;
+		select * from (select rr.r_idx, name, recipe_title, r_count from r_rank rr, recipe r, members m where r_date = #{r_date} and rr.r_idx = r.r_idx and r.m_idx = m.m_idx order by r_count desc) a <![CDATA[where rownum >= 1 and rownum <= 5]]>
+	</select>
+	
+	<select id="monthRecipe" parameterType="Map" resultType="rrvo">
+		select * from (
+			select t.*, name, recipe_title from (
+				select r_idx, sum(r_count) r_count from r_rank where <![CDATA[r_date >= #{start} and r_date <= #{endt}]]> group by r_idx
+			) t, recipe r, members m where t.r_idx = r.r_idx and m.m_idx = r.m_idx order by r_count desc
+		) where <![CDATA[rownum >= 1 and rownum <= 5]]>
 	</select>
 	
 	<insert id="insert_recipe_comment" parameterType="rcvo">
