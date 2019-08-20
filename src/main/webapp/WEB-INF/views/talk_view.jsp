@@ -139,7 +139,6 @@
 		});
 		getLike();
 	});
-
 	function getLike() {
 		if($("#loginchk").val() == null || $("#loginchk").val() == ""){
 			$("#co_heart").html("<img src='resources/images/heart_RED.png' id='like'>");
@@ -194,7 +193,6 @@
 			});
 		}
 	}
-
 	function t_unlike() {
 		if(loginchk()){
 			$.ajax({
@@ -211,7 +209,6 @@
 			});
 		}
 	}
-
 	function loginchk(){
 		if($("#loginchk").val() == null || $("#loginchk").val() == ""){
 			var k = confirm("로그인이 필요한 페이지입니다.\n\n로그인 하시겠습니까?\n");

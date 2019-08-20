@@ -2,6 +2,8 @@ package com.ict.service;
 
 public class MVO {
 	private String m_idx, id, pw, email, name, gender, regdate;
+	private String start, endt;
+	private String begin, end, cPage, k;
 
 	public String getM_idx() {
 		return m_idx;
@@ -45,5 +47,43 @@ public class MVO {
 	public void setRegdate(String regdate) {
 		this.regdate = regdate;
 	}
+	public String getStart() {
+		return start;
+	}
+	public void setStart(String start) {
+		this.start = start;
+	}
+	public String getEndt() {
+		return endt;
+	}
+	public void setEndt(String endt) {
+		this.endt = endt;
+	}
+	public String getBegin() {
+		return begin;
+	}
+	public void setBegin(String begin) {
+		this.begin = begin;
+	}
+	public String getEnd() {
+		return end;
+	}
+	public void setEnd(String end) {
+		this.end = end;
+	}
+	public String getcPage() {
+		return cPage;
+	}
+	public void setcPage(String cPage) {
+		this.cPage = cPage;
+	}
+	public String getK() {
+		return k;
+	}
+	public void setK(String k) {
+		this.k = k;
+	}
+	
+	
 
 }

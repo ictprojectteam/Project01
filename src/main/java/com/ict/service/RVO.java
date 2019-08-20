@@ -3,8 +3,6 @@ package com.ict.service;
 public class RVO {
 	private String r_idx, m_idx, id, pw, email, name, subject, content, file_name, cate, mate, view, hit, regdate;
 
-	
-	
 	public String getR_idx() {
 		return r_idx;
 	}

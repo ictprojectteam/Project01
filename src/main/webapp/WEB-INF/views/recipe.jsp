@@ -7,102 +7,147 @@
 <meta charset="UTF-8">
 <title>Recipe</title>
 <style type="text/css">
-	#recipebody{ 
-		width: 1200px;
-		margin: 30px auto 0px;
-	}
-	
+#recipebody {
+	width: 1200px;
+	margin: 30px auto 0px;
+}
+
 /* ======================================== 카테고리 ========================================== */
-	#category{
-		margin-top: -10px;
-		display: grid;
-		grid-template-columns: 100px 1000px;
-	}
-	.category-group-label{
-		height: 20px;
-		padding-top: 5px;
-		text-align: center;
-		border: 1px solid #fa8;
-		margin: 15px 20px;
-		border-radius: 25px;
-		color: #fa8;
-		font-size: 9pt;
-	}
-	#category-detail a{
-		display: inline-block;
-		margin: -3px;
-		cursor: pointer;
-		font-size: 9pt;
-		border-radius: 5px;
-		padding: 4px;
-	}
-	.category-detail-label{
-		margin: 15px 20px;
-		padding-top: 3px;
-		height: 22px;
-	}
-	.category-detail-label a:link, .category-detail-label a:visited{
-		text-decoration: none;
-		font-size: 9pt;
-		margin-left: 10px;
-		color: #555;
-	}
-	.category-detail-label a:hover{
-		color: #fb9;
-	}
-	#category-label{
-		margin: 20px auto;
-		color: #fa8;
-	}
-	.category-selected{
-		background: #fa8;
-		color: #eee;
-	}
+#category {
+	margin-top: -10px;
+	display: grid;
+	grid-template-columns: 100px 1000px;
+}
+
+.category-group-label {
+	height: 20px;
+	padding-top: 5px;
+	text-align: center;
+	border: 1px solid #fa8;
+	margin: 15px 20px;
+	border-radius: 25px;
+	color: #fa8;
+	font-size: 9pt;
+}
+
+#category-detail a {
+	display: inline-block;
+	margin: -3px;
+	cursor: pointer;
+	font-size: 9pt;
+	border-radius: 5px;
+	padding: 4px;
+}
+
+.category-detail-label {
+	margin: 15px 20px;
+	padding-top: 3px;
+	height: 22px;
+}
+
+.category-detail-label a:link, .category-detail-label a:visited {
+	text-decoration: none;
+	font-size: 9pt;
+	margin-left: 10px;
+	color: #555;
+}
+
+.category-detail-label a:hover {
+	color: #fb9;
+}
+
+#category-label {
+	margin: 20px auto;
+	color: #fa8;
+}
+
+.category-selected {
+	background: #fa8;
+	color: #eee;
+}
 /* ======================================== 레시피리스트 ========================================== */
-	#recipe-list{
-	}
-	#recipe-internal{
-		display: grid;
-		grid-template-columns:290px 290px 290px 290px;
-		grid-gap: 13px;
-	}
-	.recipe-list-preview{
-		height: 400px;
-		margin-top: 20px;
-		cursor: pointer;
-	}
-	.recipe-preview-image img{
-		width: 290px;
-		height: 210px;
-	}
-	.recipe-preview-subject{
-		margin: 10px 5px 0px;;
-		font-size: 15pt;
-		color: #444;
-		height: 50px;
-		display:-webkit-box;
-	  -webkit-line-clamp:2;
-	  -webkit-box-orient:vertical;
-		overflow: hidden;
-		text-overflow: ellipsis;
-		
-	}
-	.recipe-preview-writer{
-		margin: 20px 5px 0px;
-		font-size: 12pt;
-		color: #888;
-		text-align: right;
-	}
-	#recipe-paging{
+#recipe-list {
+	
+}
+
+#recipe-internal {
+	display: grid;
+	grid-template-columns: 290px 290px 290px 290px;
+	grid-gap: 13px;
+}
+
+.recipe-list-preview {
+	height: 400px;
+	margin-top: 20px;
+	cursor: pointer;
+}
+
+.recipe-preview-image img {
+	width: 290px;
+	height: 210px;
+}
+
+.recipe-preview-subject {
+	margin: 10px 5px 0px;;
+	font-size: 15pt;
+	color: #444;
+	height: 50px;
+	display: -webkit-box;
+	-webkit-line-clamp: 2;
+	-webkit-box-orient: vertical;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+.recipe-preview-writer {
+	margin: 20px 5px 0px;
+	font-size: 12pt;
+	color: #888;
+	text-align: right;
+}
+/* #recipe-paging{
 		width: 500px;
 		margin: 20px auto;
 		border: 1px solid blue;
 		text-align: center;
 		background: #fa8;
-	}
-	.recipe-list-preview:hover img{
-		opacity: 0.5;
-	}
+	} */
+#recipe-paging {
+	width: 1000px;
+	text-align: center;
+	margin: 5px;
+}
+
+#recipe-paging .now {
+	margin-right: 8px;
+	padding: 3px 7px;
+	border: 1px solid #d86;
+	background: #fa8;
+	color: white;
+	font-weight: bold;
+}
+
+#recipe-paging [class^=page] {
+	padding: 3px 7px;
+	color: #2f313e;
+	font-weight: bold;
+}
+
+#recipe-paging [class^=page]:hover {
+	background: #00B3DC;
+	color: white;
+	font-weight: bold;
+	cursor: pointer;
+}
+
+.disable {
+	padding: 3px 7px;
+	visibility:hidden;
+}
+
+.recipe-list-preview:hover img {
+	opacity: 0.5;
+}
 </style>
 <script type="text/javascript" src="../resources/js/jquery-3.4.1.min.js"></script>
 <script>
@@ -123,12 +168,25 @@
 			});
 		});
 
+		$("[class^=page]").on("click", function(){
+			var p = $(this).text();
+			var l = window.location.href;
+			if (l.match(/cPage/)) {
+				l = l.substring(0, l.length - 1);
+				l = l + p;
+			} else if (l.match(/\?/)) {
+				l = l + "&cPage=" + p;
+			} else {
+				l = l + "?cPage=" + p;
+			}
+			location.href = l;
+		});
+
 		ca_adc("ca1");
 		ca_adc("ca2");
 		ca_adc("ca3");
 		ca_adc("ca4");
 	});
-
 	function ca_adc(e){
 		var eval = $("input[name=" + e + "]").val();
 		if(eval != ""){
@@ -259,7 +317,34 @@
 					</c:otherwise>
 				</c:choose>
 			</div>
-			<div id="recipe-paging">페이징이 들어갈 자리</div>
+			<div id="recipe-paging">
+			    <c:choose>
+			    	<c:when test="${rp.beginBlock <= rp.pagePerBlock}">
+			    		<span class="disable"> 이전으로 </span>
+			    	</c:when>
+			    	<c:otherwise>
+			    		<span class="prev-block">이전으로</span>
+			    	</c:otherwise>
+			    </c:choose>
+			    
+				<c:forEach begin="${rp.beginBlock}" end="${rp.endBlock}" step="1" var="k">
+					<c:if test="${k==rp.nowPage}">
+						<span class="now">${k}</span>
+					</c:if>
+					<c:if test="${k!=rp.nowPage}">
+						<span class="page${k}">${k}</span>
+					</c:if>
+				</c:forEach>
+				
+				<c:choose>
+			    	<c:when test="${rp.endBlock >= rp.totalPage }">
+			    		<span class="disable"> 다음으로 </span>
+			    	</c:when>
+			    	<c:otherwise>
+			    		<span class="next-block">다음으로</span>
+			    	</c:otherwise>
+			    </c:choose>
+			</div>
 		</div>
 	</div>
 	<footer>

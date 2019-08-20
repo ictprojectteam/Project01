@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Admin</title>
+<title>Admin select one member</title>
 
 <script type="text/javascript" src="../resources/js/jquery-3.4.1.min.js"></script>
 <style type="text/css">
@@ -61,7 +61,6 @@ nav{
 #menu{
 	width: 100%;
 	background-color: #333333;
-	min-height: 1500px;
 }
 
 #menu li{
@@ -125,27 +124,51 @@ header #links{
 	background-color: #1E90FF;
 }
 
-#actions-container{
-	width: 80%;
-	height: calc(100% -4em);
-	background-color: #dadada;
+#search-table{
+	margin: 5px;
+}
+
+#double{
+	display: grid;
+	grid-template-columns: 120px 380px 120px 380px;
+}
+
+.label{
+	border: 0.5px solid #999;
+	background: #ccc;
+	padding: 5px 10px;
+	font-weight: bolder;
+	color: #2b686e;
+}
+
+.content{
+	padding: 10px;
+	border: 0.5px solid #999;
+}
+
+.content input[type=text]{
+	width: 75%;
+	padding-right: 10px;
+}
+
+#date{
+	display: grid;
+	grid-template-columns: 120px 880px;
+	
+}
+
+#button{
+	width: 160px;
+	margin: 5px auto;
+}
+
+#button input{
+	width: 100%;
 }
 
 #main{
 	margin-left: 20em;
-}
-
-.title{
-	width: 100%;
-	height: 50px;
-	display: block;
-	text-align: left;
-	line-height: 30px;
-	padding-top: 30px;
-	margin-bottom: 1em;
-	font-size: 1.0em;
-	font-family: arial;
-	font-weight: bold;
+	margin-top: 5em;
 }
 
 .row{
@@ -157,45 +180,40 @@ header #links{
 	padding: 1em;
 }
 
-#user-action{
-	margin-top: 5em;
+#body{
+	border: 1px solid #999;
+	width: 1002px;
+	margin: 10px 5px;
+	display: grid;
+	grid-template-columns: 90px 100px 150px 90px 280px 100px 120px 70px;
+	text-align: center;
 }
 
-#action{
-	margin-top: 20em;
+#empty{
+	width: 1002px;
+	text-align: center;
+	font-size: 12pt;
+	padding: 10px;
 }
 
-table, th, td {
-	border: 1px solid black;
-	border-collapse: collapse;
+.title-subject{
+	border: 0.5px solid #999;
+	font-size: 10pt;
+	font-weight: bolder;
+	padding: 5px;
+	background: #ccc;
 	color: #2b686e;
-	text-align: left;
-	font-size: 1.0em;
-	margin-top: 1em;
-	line-height: 25px;
 }
 
-table{
-	position: relative;
-	width: 1000px;
-	margin-left: 1.0em;
-	margin-right: 1.0em;
-	margin-bottom: 1.0em;
+.body-content{
+	padding: 5px;
+	border: 0.5px solid #bbb;
 }
 
-table th{
-	border-spacing: 0;
-	text-align: center;
+legend{
+	font-size: 16pt;
+	font-weight: bolder;
 }
-
-tabel td{
-	font-size: 1.0em;
-}
-
-#body td{
-	text-align: center;
-}
-
 </style>
 <script type="text/javascript">
 	$(function(){
@@ -247,6 +265,9 @@ tabel td{
 		
 	});
 
+	function comp_member(e){
+		location.href = "admin_m_complete?m_idx=" + e
+	}
 
 	function send_one(f){
 		f.action = "selectonemember.do";
@@ -264,7 +285,7 @@ tabel td{
 				<li><a id="home" href="home">HOME</a></li>
 				<li><a id="recipe" href="a_recipe">레시피 관리</a></li>
 				<li><a id="content" href="a_write_recipe">게시물 등록</a></li>
-				<li><a id="user" href="membership">회원 관리</a></li>
+				<li><a id="user" href="a_membership">회원 관리</a></li>
 				<li><a id="board" href="admin_qna">문의 관리</a></li>
 				<li><a id="event" href="home">이벤트 관리</a></li>
 				<li><a id="op" href="home">운영자 관리</a></li>
@@ -279,88 +300,71 @@ tabel td{
 		<div id="main">
 			<form>
 				<fieldset style="width: 1000px;">
-					<legend>검색하기</legend>
-						<div id="search-table">
-							<div id="double">
-								<div class="label">회원이름/닉네임<br>회원번호</div>
-								<div class="content">
-									<select name="name_idx">
-										<option value="name">회원이름</option>
-										<option value="nickname">닉네임</option>
-										<option value="m_idx">회원번호</option>
-									</select>
-									<input type="text" name="name">
-								</div>
-								<div class="label">이메일/연락처</div>
-								<div class="content">
-									<select name="email_phone">
-										<option value="email">이메일</option>
-										<option value="phone">연락처</option>
-									</select>
-									<input type="text" name="email">
-								</div>
-								<div id="date">
-									<div class="label">가입일시</div>
-									<div class="content">
-										<input type="date" id="start" name="start" min="2019-01-01" max="2019-12-31">
-										<a>~</a>
-										<input type="date" id="end" name="endt" value="sysdate" min="2019-01-01" max="2019-12-31">
-										<input type="button" id="today" value="오늘">
-										<input type="button" id="yesterday" value="어제">
-										<input type="button" id="week" value="7일">
-										<input type="button" id="month" value="1개월">
-										<input type="button" id="3month" value="3개월">
-									</div>
-								</div>
-								<div id="button">
-									<input type="button" id="search" value="검 색" onclick="send_one(this.form)">
-								</div>
+					<legend>문의관리</legend>
+					<div id="search-table">
+						<div id="double">
+							<div class="label">아이디/닉네임<br>회원번호</div>
+							<div class="content">
+								<select name="name_idx">
+									<option value="id">아이디</option>
+									<option value="name">닉네임</option>
+									<option value="m_idx">회원번호</option>
+								</select>
+								<input type="text" name="name">
 							</div>
-						</form>
-						
-						<div class="title">
-						회원 관리
-						<div id="body">
-							<table>
-								<thead>
-									<tr bgcolor="#cccccc">
-										<th>회원번호</th>
-										<th>회원이름</th>
-										<!-- <th>연착처</th> -->
-										<th>이메일</th>
-										<th>아이디</th>
-										<!-- <th>닉네임</th> -->
-										<th>성별</th>
-										<th>가입 일시</th>
-									</tr>
-								</thead>
-								<tbody>
-									<c:choose>
-										<c:when test="${empty mvo}">
-											<tr>
-												<td colspan="6"><h3>원하는 정보가 존재하지 않습니다.</h3></td>
-											</tr>
-										</c:when>
-										<c:otherwise>
-											<tr>
-												<td>${mvo.m_idx}</td>
-												<td>${mvo.name}</td>
-												<%-- <td>${mvo.number}</td> --%>
-												<td>${mvo.email}</td>
-												<td>${mvo.id}</td>
-												<%-- <td>${mvo.nickname}</td> --%>
-												<td>${mvo.gender}</td>
-												<td>${mvo.regdate}</td>
-											</tr>
-										</c:otherwise>
-									</c:choose>
-								</tbody>
-							</table>
+							<div class="label">이메일</div>
+							<div class="content">
+								<input type="text" name="email">
+							</div>
+						</div>
+						<div id="date">
+							<div class="label">등록일시</div>
+							<div class="content">
+								<input type="date" id="start" name="start" min="2019-01-01" max="2019-12-31">
+								<a>~</a>
+								<input type="date" id="end" name="endt" min="2019-01-01" max="2019-12-31">
+								<input type="button" id="today" value="오늘">
+								<input type="button" id="yesterday" value="어제">
+								<input type="button" id="week" value="7일">
+								<input type="button" id="month" value="1개월">
+								<input type="button" id="3month" value="3개월">
+							</div>
+						</div>
+						<div id="button">
+							<input type="button" id="search" value="검  색" onclick="send_one(this.form)">
 						</div>
 					</div>
+				</fieldset>
+			</form>
+			<div class="title">
+				회원 관리
+				<div id="body">
+					<div class="title-subject">회원번호</div>
+					<div class="title-subject">회원이름</div>
+					<div class="title-subject">이메일</div>
+					<div class="title-subject">아이디</div>
+					<div class="title-subject">성별</div>
+					<div class="title-subject">가입 일시</div>
+						
+					<c:choose>
+						<c:when test="${empty mvo}">
+							<div id="empty">원하는 정보가 존재하지 않습니다.</td>
+						</c:when>
+						<c:otherwise>
+								<div class="body-content">${mvo.m_idx}</div>
+								<div class="body-content">${mvo.name}</div>
+								<div class="body-content">${mvo.email}</div>
+								<div class="body-content">${mvo.id}</div>
+								<div class="body-content">${mvo.gender}</div>
+								<div class="body-content">${mvo.regdate}</div>
+									<c:if test="${mvo.status eq '처리 대기중}">
+										<button onclick="comp_member(${mvo.m_idx})">완료</button>
+									</c:if>
+						</c:otherwise>
+					</c:choose>
 				</div>
 			</div>
-		</main>
+		</div>
 	</div>
 </body>
 </html>

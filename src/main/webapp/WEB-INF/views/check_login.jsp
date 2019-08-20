@@ -16,7 +16,6 @@
 	border: solid;
 	margin: -12px 0 0 -40px;
 }
-
 .body {
 	text-align: center;
 }

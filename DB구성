@@ -188,3 +188,16 @@ foreign key (m_idx) references members(m_idx)
 시퀀스
 create sequence q_seq increment by 1 start with 1 nocycle;
 ===============================================================================
+Recipe Rank 테이블
+create table r_rank(
+r_rank_idx number,
+r_idx number,
+r_date date,
+r_count number,
+primary key (r_rank_idx),
+foreign key (r_idx) references recipe(r_idx)
+);
+
+시퀀스
+create sequence r_rank_seq increment by 1 start with 1 nocycle;
+===============================================================================

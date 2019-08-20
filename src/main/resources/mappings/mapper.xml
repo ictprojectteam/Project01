@@ -10,7 +10,6 @@
 	<select id="list" resultType="mvo">
 		select * from members order by regdate desc
 	</select>
-	
 	<insert id="join" parameterType="mvo">
 		insert into members
 		values(members_seq.nextval,#{id},#{pw},#{email},#{name},#{gender},sysdate)
@@ -39,7 +38,7 @@
 	<update id="updatePw" parameterType="mvo">
 		update members set pw = #{pw} where id = #{id}
 	</update>
-		
+	
 	<select id="m_list" resultType="mvo">
 		select * from members order by regdate desc
 	</select>
@@ -118,7 +117,7 @@
 							and r.a_permission=#{a_permission}
 						</if>
 						<if test="k != null and k != ''">
-							and (recipe_title like '%'||#{k}||'%' or recipe_introduce like '%'||#{k}||'%' or pack like '%'||#{k}||'%' or material like '%'||#{k}||'%' or ordercontent like '%'||#{k}||'%' or recipe_tip like '%'||#{k}||'%' or recipe_tag like '%'||#{k}||'%')
+							and (recipe_title like '%'||#{k}||'%' or recipe_introduce like '%'||#{k}||'%' or pack like '%'||#{k}||'%' or material like '%'||#{k}||'%' or ordercontent like '%'||#{k}||'%' or recipe_tip like '%'||#{k}||'%' or recipe_tag like '%'||#{k}||'%' or m.name like '%'||#{k}||'%')
 						</if>
 						<if test="recipe_title != null and recipe_title != ''">
 							and recipe_title like '%'||#{recipe_title}||'%'
@@ -221,36 +220,29 @@
 	</insert>
 	
 	<select id="talk_list" resultType="tvo">
-		select * from talk order by t_idx desc
+		select * from (select * from talk order by t_idx desc) <![CDATA[where rownum >= 1 and rownum <= 8]]>
 	</select>
-	
 	<select id="talk_p_list" parameterType="Map" resultType="tvo">
 		select * from (
 			select rownum r_num, a.* from(
 				select * from talk order by t_idx desc ) a
 			) where r_num between #{begin} and #{end}
 	</select>
-	
 	<select id="talk_prf_img" parameterType="String" resultType="String">
 		select prf_img from members where m_idx = 1
 	</select>
-	
 	<select id="t_count" resultType="int">
 		select count(*) from talk
 	</select>
-	
 	<delete id="tl_del" parameterType="String">
 		delete from t_like where t_idx = #{t_idx}
 	</delete>
-	
 	<delete id="t_del" parameterType="String">
 	 	delete from talk_c where t_idx = #{t_idx}
 	</delete>
-	
 	<delete id="talk_del" parameterType="String">
 		delete from talk where t_idx = #{t_idx}
 	</delete>
-	
 	<select id="t_co_count" parameterType="String" resultType="int">
 		select count(*) from talk_c where t_idx = #{t_idx}
 	</select>
@@ -270,34 +262,31 @@
 	<select id="t_co_list" parameterType="String" resultType="tcvo">
 		select * from talk_c where t_idx = #{t_idx}
 	</select>
-	
 	<select id="get_talk_like" parameterType="tlvo" resultType="int">
 		select count(*) from t_like where t_idx = #{t_idx} and m_idx = #{m_idx}
 	</select>
-	
 	<insert id="talklike" parameterType="tlvo">
 		insert into t_like values (t_l_seq.nextval, #{m_idx}, #{t_idx})
 	</insert>
-	
 	<delete id="talkunlike" parameterType="tlvo">
 		delete from t_like where m_idx = #{m_idx} and t_idx = #{t_idx}
 	</delete>
-	
 	<update id="t_likeupdate" parameterType="String">
 		update talk set heart = heart + 1 where t_idx = #{t_idx}
 	</update>
-	
 	<update id="t_unlikeupdate" parameterType="String">
 		update talk set heart = heart - 1 where t_idx = #{t_idx}
 	</update>
-	
 	<select id="t_countlike" parameterType="tlvo" resultType="int">
 		select count(*) from t_like where t_idx = #{t_idx}
 	</select>
-	
 	<update id="rhitupdate" parameterType="rvo">
 		update recipe set hit = #{hit} where r_idx = #{r_idx}
 	</update>
+	
+	<select id="chkRank" parameterType="rrvo" resultType="rrvo">
+		select * from r_rank where r_idx = #{r_idx} and r_date = #{r_date}
+	</select>
 	
 	<select id="recipe_comment_list" parameterType="String" resultType="rcvo">
 		select rc.*, m.name writer from recipe_c rc, members m where rc.m_idx = m.m_idx and r_idx = #{r_idx} order by r_c_idx desc
@@ -307,22 +296,38 @@
 		select count(*) from recipe_c where r_idx = #{r_idx}
 	</select>
 	
+	<update id="updateCount" parameterType="rrvo">
+		update r_rank set r_count = #{r_count} where r_rank_idx = #{r_rank_idx}
+	</update>
+	
+	<insert id="insertCount" parameterType="rrvo">
+		insert into r_rank values (r_rank_seq.nextval, #{r_idx}, #{r_date}, 1)
+	</insert>
+	
+	<select id="todayRecipe" parameterType="rrvo" resultType="rrvo">
+		select * from (select rr.r_idx, name, recipe_title, r_count from r_rank rr, recipe r, members m where r_date = #{r_date} and rr.r_idx = r.r_idx and r.m_idx = m.m_idx order by r_count desc) a <![CDATA[where rownum >= 1 and rownum <= 5]]>
+	</select>
+	
+	<select id="monthRecipe" parameterType="Map" resultType="rrvo">
+		select * from (
+			select t.*, name, recipe_title from (
+				select r_idx, sum(r_count) r_count from r_rank where <![CDATA[r_date >= #{start} and r_date <= #{endt}]]> group by r_idx
+			) t, recipe r, members m where t.r_idx = r.r_idx and m.m_idx = r.m_idx order by r_count desc
+		) where <![CDATA[rownum >= 1 and rownum <= 5]]>
+	</select>
+	
 	<insert id="insert_recipe_comment" parameterType="rcvo">
 		insert into recipe_c values (recipe_c_seq.nextval, #{r_idx}, #{m_idx}, #{content_}, 0, sysdate)
 	</insert>
-	
 	<select id="r_list" resultType="r_vo">
 		select * from recipe order by sysdate desc
 	</select>
-	
 	<select id="onelistrecipe" parameterType="String" resultType="rvo">
 		select r.*, m.name, m.email from recipe r, members m where r_idx = #{r_idx} and r.m_idx = m.m_idx
 	</select>
-	
 	<update id="admin_accept" parameterType="String">
 		update recipe set a_permission = 1 where r_idx = #{r_idx}	
 	</update>
-	
 	<select id="onelistmember" parameterType="String" resultType="mvo">
 		select * from members where m_idx = #{m_idx}
 	</select>
@@ -373,4 +378,53 @@
 	<update id="compQnA" parameterType="qvo">
 		update qna set status = 1 where q_idx = #{q_idx}
 	</update>
+	
+	<select id="a_count_member" parameterType="mvo" resultType="int">
+		select count(*) from members m
+				<where>
+				<![CDATA[m.regdate >= #{start} and m.regdate <= #{endt}]]>
+				<if test="name != null and name != ''">
+					and m.name = #{name}
+				</if>
+				<if test="id != null and id != ''">
+					and m.id = #{id}
+				</if>
+				<if test="m_idx != null and m_idx != ''">
+					and m_idx = #{m_idx}
+				</if>
+				<if test="email != null and email != ''">
+					and m.email = #{email}
+				</if>
+				<if test="gender != null and gender != ''">
+					and m.gender = #{gender}
+				</if>
+			</where>
+	</select>
+	
+	<select id="a_member_list" parameterType="map" resultType="mvo">
+		select * from (
+			select rownum as r_num, a.* from (
+				select * from members
+					<where>
+					<![CDATA[regdate >= #{start} and regdate <= #{endt}]]>
+						<if test="name != null and name != ''">
+							and name = #{name}
+						</if>
+						<if test="id != null and id != ''">
+							and id = #{id}
+						</if>
+						<if test="m_idx != null and m_idx != ''">
+							and m_idx = #{m_idx}
+						</if>
+						<if test="email != null and email != ''">
+							and email = #{email}
+						</if>
+						<if test="gender != null and gender != ''">
+							and gender = #{gender}
+						</if>
+					</where>
+					order by m_idx desc
+			) a
+		) where r_num between #{begin} and #{end}
+	</select>	
 </mapper>

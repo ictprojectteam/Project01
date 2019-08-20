@@ -355,13 +355,11 @@
 		$("#deny").on("click", function(){
 			alert("승인 거절 사유 작성 페이지 노출 및 상태 : 승인거절_로 변경")
 		});
-
 		$("#view-recipe").on("click", function(){
 			location.href = "view_recipe?rno=${rvo.r_idx}";
 		});
 	});
 	
-
 </script>
 	
 </head>
