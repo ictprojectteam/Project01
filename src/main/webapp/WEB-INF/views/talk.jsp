@@ -37,6 +37,9 @@
 	background-color: #6B3915;
 	border-radius: 5px;
 }
+#write_bt:hover{
+	background-color: #7F4D29;
+}
 #talk_body{
 	border: 1px solid #FBE0A1;
 	width: 60%;
@@ -57,7 +60,6 @@
 	margin-left: 80px;
 	overflow: hidden;
 	overflow: auto;
-	overflow: scroll;
 }
 ul{
 	margin-top: 5px;

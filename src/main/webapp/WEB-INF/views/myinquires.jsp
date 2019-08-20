@@ -23,6 +23,23 @@
 	.menu_bt:hover{
 		background-color: #eeeeee;
 	}
+	#inquires_tab{
+		width: 60%;
+		margin: 20px auto;
+		border-bottom: 1px solid;
+	}
+	.inquires_bt{
+		border: 1px solid #808080;
+		width: 60pt;
+		height: 20pt;
+		font-size: 12pt;
+		background-color: #DFEEF3;
+		border-radius: 6px;
+		margin-bottom: 10px;
+	}
+	.inquires_bt:hover {
+		background-color: #488399;
+	}
 </style>
 <script type="text/javascript">
 	$(function(){
@@ -47,20 +64,25 @@
 		location.href = "myInquires";
 	}
 	function prf_update(){
-		// location.href = "myPrf_update";
-		location.href = "#";
+		location.href = "myPrf_update";
 	}
 </script>
 </head>
 <body>
 	<div id="menu">
-		<input class="menu_bt" type="button" value="레시피" style="background-color: #92895A;" onclick="recipe()">
+		<input class="menu_bt" type="button" value="레시피" onclick="recipe()">
 		<input class="menu_bt" type="button" value="요리후기" onclick="review()">
 		<input class="menu_bt" type="button" value="댓글" onclick="coment()">
 		<input class="menu_bt" type="button" value="토크" onclick="talk()">
-		<input class="menu_bt" type="button" value="문의" onclick="inquires()">
+		<input class="menu_bt" type="button" value="문의" onclick="inquires()" style="background-color: #92895A;">
 		<input class="menu_bt" type="button" value="회원정보수정" onclick="prf_update()">
 	</div>
-	
+	<div id="inquires_tab">
+		<input class="inquires_bt" type="button" value="문의중" style="background-color: #488399;">
+		<input class="inquires_bt" type="button" value="답변 완료">
+	</div>
 </body>
+<footer>
+	<jsp:include page="foot.jsp" />
+</footer>
 </html>

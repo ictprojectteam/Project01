@@ -47,20 +47,21 @@
 		location.href = "myInquires";
 	}
 	function prf_update(){
-		// location.href = "myPrf_update";
-		location.href = "#";
+		location.href = "myPrf_update";
 	}
 </script>
 </head>
 <body>
 	<div id="menu">
-		<input class="menu_bt" type="button" value="레시피" style="background-color: #92895A;" onclick="recipe()">
+		<input class="menu_bt" type="button" value="레시피" onclick="recipe()">
 		<input class="menu_bt" type="button" value="요리후기" onclick="review()">
 		<input class="menu_bt" type="button" value="댓글" onclick="coment()">
-		<input class="menu_bt" type="button" value="토크" onclick="talk()">
+		<input class="menu_bt" type="button" value="토크" onclick="talk()" style="background-color: #92895A;">
 		<input class="menu_bt" type="button" value="문의" onclick="inquires()">
 		<input class="menu_bt" type="button" value="회원정보수정" onclick="prf_update()">
 	</div>
-	
 </body>
+<footer>
+	<jsp:include page="foot.jsp" />
+</footer>
 </html>

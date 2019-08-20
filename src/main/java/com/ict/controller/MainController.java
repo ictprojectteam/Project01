@@ -9,9 +9,9 @@ import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Base64;
-import java.util.Date;
 import java.util.Base64.Encoder;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
@@ -624,9 +624,44 @@ public class MainController {
 		return String.valueOf(dao.talkCountLike(tlvo));
 	}
 	
-	@RequestMapping("myhome")
+	@RequestMapping("myRecipe")
 	public ModelAndView getMyHome(HttpSession session){
-		ModelAndView mv = new ModelAndView("myhome");
+		ModelAndView mv = new ModelAndView("myrecipe");
+		MVO mvo = (MVO)session.getAttribute("mvo");
+		mv.addObject("mvo", mvo);
+		return mv;
+	}
+	@RequestMapping("myReview")
+	public ModelAndView getMyReview(HttpSession session){
+		ModelAndView mv = new ModelAndView("myreview");
+		MVO mvo = (MVO)session.getAttribute("mvo");
+		mv.addObject("mvo", mvo);
+		return mv;
+	}
+	@RequestMapping("myComent")
+	public ModelAndView getMyComent(HttpSession session){
+		ModelAndView mv = new ModelAndView("mycoment");
+		MVO mvo = (MVO)session.getAttribute("mvo");
+		mv.addObject("mvo", mvo);
+		return mv;
+	}
+	@RequestMapping("myTalk")
+	public ModelAndView getMyTalk(HttpSession session){
+		ModelAndView mv = new ModelAndView("mytalk");
+		MVO mvo = (MVO)session.getAttribute("mvo");
+		mv.addObject("mvo", mvo);
+		return mv;
+	}
+	@RequestMapping("myInquires")
+	public ModelAndView getMyInquires(HttpSession session){
+		ModelAndView mv = new ModelAndView("myinquires");
+		MVO mvo = (MVO)session.getAttribute("mvo");
+		mv.addObject("mvo", mvo);
+		return mv;
+	}
+	@RequestMapping("myPrf_update")
+	public ModelAndView getMyPrf_update(HttpSession session){
+		ModelAndView mv = new ModelAndView("myprf_update");
 		MVO mvo = (MVO)session.getAttribute("mvo");
 		mv.addObject("mvo", mvo);
 		return mv;

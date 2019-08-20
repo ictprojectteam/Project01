@@ -9,9 +9,12 @@
 <style type="text/css">
 .top {
 	background-color: #fa8;
+	width: 1450px;
 	text-align: center;
 	color: white;
 	cursor: pointer;
+	border: solid;
+	margin: -12px 0 0 -40px;
 }
 
 .body{
@@ -70,6 +73,20 @@
 	margin-top: 20px;
 	height: 21px;
 }
+#prf_img{
+		width: 250px;
+		height: 180px;
+		
+	}
+#prf_set{
+	position: relative;
+	float: right;
+	border: 1px solid #808080;
+	width: 250px;
+	height: 300px;
+	margin-top: -230px;
+	margin-right: -550px;
+	}
 </style>
 <script type="text/javascript">
 	$(function(){
@@ -308,6 +325,9 @@
 			<span id="viewnick">회원탈퇴</span>
 			<button id="out" class="updButton">탈퇴하기</button>
 		</div>
+	</div>
+	<div id="prf_set">
+		<img id="prf_img" src="resources/images/food.jpeg">
 	</div>
 </body>
 </html>
