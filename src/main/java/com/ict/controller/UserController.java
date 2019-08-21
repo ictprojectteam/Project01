@@ -30,7 +30,11 @@ public class UserController {
 		MVO r_mvo = dao.getLogin(mvo);
 		if (r_mvo != null) {
 			session.setAttribute("mvo", r_mvo);
-			mv.setViewName("redirect:/");
+			if (r_mvo.getId().equals("admin")) {
+				mv.setViewName("redirect:home");
+			} else {
+				mv.setViewName("redirect:/");
+			}
 		} else {
 			mv.setViewName("loginfail");
 		}

@@ -156,7 +156,7 @@ input {
 
 <script type="text/javascript">
 	function goAdminLogin(f){
-		f.action = "admin";
+		f.action = "goLogin";
 		f.submit();
 	}
 </script>

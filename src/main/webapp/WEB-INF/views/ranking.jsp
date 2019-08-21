@@ -73,10 +73,10 @@
 <script>
 	$(function(){
 		$("[class*=-content]").on("click", function(){
-			var num = $(this).attr("class").replace("today-content", "");
-			alert(num);
-			/* location.href = "view_recipe?rno=" + num; */
-		});f
+			var index = $(this).attr("class").lastIndexOf("content");
+			var num = $(this).attr("class").substring(index+7, $(this).attr("class").length);
+			location.href = "view_recipe?rno=" + num;
+		});
 	});
 </script>
 </head>

@@ -119,22 +119,6 @@ public class MainController {
 		return mv;
 	}
 	
-	@RequestMapping(value = "admin", method = {RequestMethod.POST, RequestMethod.GET})
-	public ModelAndView a_goLogin(MVO mvo, HttpSession session) {
-		ModelAndView mv = new ModelAndView();
-		MVO r_mvo = dao.getLogin(mvo);
-		if (r_mvo != null) {
-			session.setAttribute("mvo", r_mvo);
-			mv.setViewName("admin");
-			List<MVO> list = dao.getList();
-			mv.addObject("list", list);
-			List<RecipeVO> r_list = dao.getRecipeList(1, 5);
-			mv.addObject("r_list", r_list);
-		} else {
-			mv.setViewName("a_loginfail");
-		}
-		return mv;
-	}
 	@RequestMapping(value = "home")
 	public ModelAndView getAdmin() {
 		ModelAndView mv = new ModelAndView("admin");
@@ -306,11 +290,17 @@ public class MainController {
 	
 	@RequestMapping("logout")
 	public ModelAndView getLogout(HttpServletRequest request) {
-		String str = request.getHeader("REFERER");
-		str = str.substring(str.lastIndexOf("/") + 1, str.length());
+		ModelAndView mv = new ModelAndView();
+		if (((MVO)request.getSession().getAttribute("mvo")).getM_idx().equals("admin")) {
+			mv.setViewName("redirect:m");
+		} else {
+			String str = request.getHeader("REFERER");
+			str = str.substring(str.lastIndexOf("/") + 1, str.length());
+			if (str.equals("")) str = "/";
+			mv.setViewName("redirect:" + str);
+		}
 		request.getSession().removeAttribute("mvo");
-		if (str.equals("")) str = "/";
-		return new ModelAndView("redirect:" + str);
+		return mv;
 	}
 	
 	@RequestMapping("report")
@@ -389,6 +379,11 @@ public class MainController {
 		}
 		mv.addObject("rvo", rvo);
 		return mv;
+	}
+	
+	@RequestMapping("inappropriate")
+	public ModelAndView inappropriate() {
+		return new ModelAndView("inappropriate");
 	}
 	
 	@RequestMapping("write_recipe")

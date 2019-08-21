@@ -946,7 +946,7 @@ textarea{
 		</nav>
 		<header>
 			<div id="links">
-				<a href="m">로그아웃</a>
+				<a href="logout">로그아웃</a>
 			</div>
 		</header>
 		<main id="main">
