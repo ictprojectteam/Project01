@@ -286,7 +286,12 @@ public class DAO {
 	public int a_countMember(MVO mvo) {
 		return sqlSessionTemplate.selectOne("a_count_member", mvo);
 	}
+	
 	public List<MVO> aMemberList(MVO mvo) {
 		return sqlSessionTemplate.selectList("a_member_list", mvo);
+	}
+	
+	public void insertEvent(EventVO evo) {
+		sqlSessionTemplate.insert("insertEvent", evo);
 	}
 }

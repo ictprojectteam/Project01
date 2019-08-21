@@ -505,14 +505,6 @@ textarea{
 }
 
 </style>
-<script type="text/javascript">
-	function send_one(f){
-		f.action = "selectonerecipe.do";
-		f.submit();
-	}
-</script>
-
-
 <script src="https://kit.fontawesome.com/057ba10041.js"></script>
 <script src="../resources/js/jquery-3.4.1.min.js"></script>
 <script src="../resources/js/jquery-ui.min.js"></script>
@@ -668,11 +660,10 @@ $(function(){
 	});
 
 		$("#public").on("click", function(){
-			$("input[type=file]").attr("disabled", "disabled");
 			var chkval = validateForm();
 			if(!chkval) return;
+			$("input[type=file]").attr("disabled", "disabled");
 			subm = true;
-			$("#savepublic").val("1");
 			$("#recipe-form").attr("action", "save_recipe").submit();
 		});
 		$("#cancel").on("click", function(){
@@ -687,48 +678,60 @@ $(function(){
 		$("#check_ingredient").on("change", function(){
 			if($("#recipe-ing-pack-1").css("display") == "none"){
 				$("#recipe-ing-pack-1").css("display", "block");
+				$("textarea[name=ing-pack-1]").removeAttr("disabled");
 			} else {
 				$("#recipe-ing-pack-1").css("display", "none");
+				$("textarea[name=ing-pack-1]").attr("disabled", "disabled");
 			}
 		});
 		
 		$("#check_season").on("change", function(){
 			if($("#recipe-ing-pack-2").css("display") == "none"){
 				$("#recipe-ing-pack-2").css("display", "block");
+				$("textarea[name=ing-pack-2]").removeAttr("disabled");
 			} else {
 				$("#recipe-ing-pack-2").css("display", "none");
+				$("textarea[name=ing-pack-2]").attr("disabled", "disabled");
 			}
 		});
 
 		$("#check_sause").on("change", function(){
 			if($("#recipe-ing-pack-3").css("display") == "none"){
 				$("#recipe-ing-pack-3").css("display", "block");
+				$("textarea[name=ing-pack-3]").removeAttr("disabled");
 			} else {
 				$("#recipe-ing-pack-3").css("display", "none");
+				$("textarea[name=ing-pack-3]").attr("disabled", "disabled");
 			}
 		});
 
 		$("#check_broth").on("change", function(){
 			if($("#recipe-ing-pack-4").css("display") == "none"){
 				$("#recipe-ing-pack-4").css("display", "block");
+				$("textarea[name=ing-pack-4]").removeAttr("disabled");
 			} else {
 				$("#recipe-ing-pack-4").css("display", "none");
+				$("textarea[name=ing-pack-4]").attr("disabled", "disabled");
 			}
 		});
 
 		$("#check_topping").on("change", function(){
 			if($("#recipe-ing-pack-5").css("display") == "none"){
 				$("#recipe-ing-pack-5").css("display", "block");
+				$("textarea[name=ing-pack-5]").removeAttr("disabled");
 			} else {
 				$("#recipe-ing-pack-5").css("display", "none");
+				$("textarea[name=ing-pack-5]").attr("disabled", "disabled");
 			}
 		});
 
 		$("#check_syrup").on("change", function(){
 			if($("#recipe-ing-pack-6").css("display") == "none"){
 				$("#recipe-ing-pack-6").css("display", "block");
+				$("textarea[name=ing-pack-6]").removeAttr("disabled");
 			} else {
 				$("#recipe-ing-pack-6").css("display", "none");
+				$("textarea[name=ing-pack-6]").attr("disabled", "disabled");
 			}
 		});
 		
@@ -794,17 +797,20 @@ function validateForm(){
 			if(matcount == 0) $(this).remove();
 			matcount = 0;
 		}
-		pack_sort();
 	});
 	$(".recipe-each-ing").each(function(){
 		$(this).find(".recipe-each-sort").each(function(){
 			if($(this).find("textarea[name^=recipe-each-name-]").val() != ""){
 				matcount++;
+				$(this).find("textarea[name^=recipe-each-name]").attr("name", "recipe-each-name-" + matcount + "-1");
+				$(this).find("textarea[name^=recipe-each-quant]").attr("name", "recipe-each-quant-" + matcount + "-1");
+				if($(this).find("textarea[name^=recipe-each-quant-]").val() == ""){
+					$(this).find("textarea[name^=recipe-each-quant-]").val("1");
+				}
 			} else {
 				$(this).remove();
 			}
 		});
-		mat_sort_input($(this).attr("id").replace("recipe-pack-",""));
 	});
 	$(".recipe-each-ing").sortable("refresh");
 	
@@ -1278,7 +1284,7 @@ function del_compimage(num){
 								<div class="recipe-sort">
 									<div>
 										<div class="recipe-sort-pack">
-											<textarea rows="1" cols="8" name="ing-pack-2" wrap="soft">양념</textarea>
+											<textarea rows="1" cols="8" name="ing-pack-2" wrap="soft" disabled="disabled">양념</textarea>
 										</div>
 									</div>
 									<div class="recipe-each-ing" id="recipe-pack-2">
@@ -1298,7 +1304,7 @@ function del_compimage(num){
 								<div class="recipe-sort">
 									<div>
 										<div class="recipe-sort-pack">
-											<textarea rows="1" cols="8" name="ing-pack-3" wrap="soft">소스</textarea>
+											<textarea rows="1" cols="8" name="ing-pack-3" wrap="soft" disabled="disabled">소스</textarea>
 										</div>
 									</div>
 									<div class="recipe-each-ing" id="recipe-pack-3">
@@ -1318,7 +1324,7 @@ function del_compimage(num){
 								<div class="recipe-sort">
 									<div>
 										<div class="recipe-sort-pack">
-											<textarea rows="1" cols="8" name="ing-pack-4" wrap="soft">육수</textarea>
+											<textarea rows="1" cols="8" name="ing-pack-4" wrap="soft" disabled="disabled">육수</textarea>
 										</div>
 									</div>
 									<div class="recipe-each-ing" id="recipe-pack-4">
@@ -1339,7 +1345,7 @@ function del_compimage(num){
 								<div class="recipe-sort">
 									<div>
 										<div class="recipe-sort-pack">
-											<textarea rows="1" cols="8" name="ing-pack-5" wrap="soft">토핑</textarea>
+											<textarea rows="1" cols="8" name="ing-pack-5" wrap="soft" disabled="disabled">토핑</textarea>
 										</div>
 									</div>
 									<div class="recipe-each-ing" id="recipe-pack-5">
@@ -1359,7 +1365,7 @@ function del_compimage(num){
 								<div class="recipe-sort">
 									<div>
 										<div class="recipe-sort-pack">
-											<textarea rows="1" cols="8" name="ing-pack-6" wrap="soft">시럽</textarea>
+											<textarea rows="1" cols="8" name="ing-pack-6" wrap="soft" disabled="disabled">시럽</textarea>
 										</div>
 									</div>
 									<div class="recipe-each-ing" id="recipe-pack-6">
@@ -1438,7 +1444,8 @@ function del_compimage(num){
 							<span id="public"> 저장 후 공개하기 </span>
 							<span id="cancel">취소</span>
 						</div>
-						<input type="hidden" id="savepublic" name="savepublic" value="0">
+						<input type="hidden" id="savepublic" name="savepublic" value="1">
+						<input type="hidden" id="a_permission" name="a_permission" value="1">
 					</div>
 				</form>
 			</div>

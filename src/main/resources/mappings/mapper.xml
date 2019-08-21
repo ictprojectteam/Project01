@@ -97,7 +97,7 @@
 	</insert>
 	
 	<insert id="insert_recipe" parameterType="rvo">
-		insert into recipe values (recipe_seq.nextval, #{m_idx}, #{recipe_title}, #{recipe_introduce}, #{recipe_video}, #{ca1}, #{ca2}, #{ca3}, #{ca4}, #{recipe_quant}, #{recipe_time}, #{recipe_difficulty}, #{main_image}, #{pack}, #{material}, #{orderContent}, #{finImage}, #{recipe_tip}, #{recipe_tag} , 0, 0, sysdate, sysdate, #{savepublic}, 0)
+		insert into recipe values (recipe_seq.nextval, #{m_idx}, #{recipe_title}, #{recipe_introduce}, #{recipe_video}, #{ca1}, #{ca2}, #{ca3}, #{ca4}, #{recipe_quant}, #{recipe_time}, #{recipe_difficulty}, #{main_image}, #{pack}, #{material}, #{orderContent}, #{finImage}, #{recipe_tip}, #{recipe_tag} , 0, 0, #{regdate}, sysdate, #{savepublic}, #{a_permission})
 	</insert>
 	
 	<insert id="repCom" parameterType="qvo">
@@ -463,5 +463,9 @@
 					order by m_idx desc
 			) a
 		) where r_num between #{begin} and #{end}
-	</select>	
+	</select>
+	
+	<insert id="insertEvent" parameterType="evo">
+		insert into event values (e_seq.nextval, #{m_idx}, #{e_title}, #{e_start}, #{e_end}, #{e_type}, #{e_public}, #{e_banner}, #{e_content, jdbcType=VARCHAR}, #{e_image, jdbcType=CLOB}, #{e_regdate})
+	</insert>
 </mapper>

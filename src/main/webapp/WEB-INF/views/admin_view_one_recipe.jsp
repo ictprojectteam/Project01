@@ -457,9 +457,16 @@
 								<div class="ing-title">${pack[i]}</div>
 								<c:set var="rege2" value="\|, \|"></c:set>
 								<c:set var="material" value="${materials[i].split(rege2)}"></c:set>
-								<c:forEach var="j" begin="0" end="${fn:length(material) - 1}">
-									<p>${material[j].replace(', ','')}</p>
-								</c:forEach>
+								<c:choose>
+									<c:when test="${fn:length(material) > 1}">
+										<c:forEach var="j" begin="0" end="${fn:length(material) - 1}">
+											<p>${material[j].replace(', ','')}</p>
+										</c:forEach>
+									</c:when>
+									<c:otherwise>
+										<p>${material[0].replace(', ','')}</p>
+									</c:otherwise>
+								</c:choose>
 							</div>
 						</c:forEach>
 					</div>

@@ -1,10 +1,12 @@
 package com.ict.controller;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -283,8 +285,16 @@ public class AdminController {
 	}
 	
 	@RequestMapping("a_reg_event")
-	public ModelAndView regEvent(EventVO evo) {
-		ModelAndView mv = new ModelAndView();
+	public ModelAndView regEvent(EventVO evo, HttpSession session) {
+		ModelAndView mv = new ModelAndView("a_event");
+		evo.setM_idx(((MVO)session.getAttribute("mvo")).getM_idx());
+		try {
+			evo.setE_start(new SimpleDateFormat("yyyy-MM-dd").format(new SimpleDateFormat("yyyy-MM-dd").parse(evo.getE_start())));
+			evo.setE_end(new SimpleDateFormat("yyyy-MM-dd").format(new SimpleDateFormat("yyyy-MM-dd").parse(evo.getE_end())));
+		} catch (ParseException e) {
+		}
+		evo.setE_regdate(new SimpleDateFormat("yyyy-MM-dd").format(new Date(Calendar.getInstance().getTimeInMillis())));
+		dao.insertEvent(evo);
 		return mv;
 	}
 	

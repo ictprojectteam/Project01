@@ -297,8 +297,21 @@ input[type=text], input[type=date]{
 				var index = name.lastIndexOf("\\");
 				name = name.substring(index + 1, name.length);
 				$("#file_name").text(name);
+				var reader = new FileReader();
+				reader.readAsDataURL(this.files[0]);
+				reader.onload = function(e){
+					var readFile = e.target.result;
+					var chkcor = readFile.substring(readFile.indexOf(',') + 1, readFile.indexOf(',') + 5);
+					readFile = readFile.substring(0, readFile.indexOf('/'));
+					if(readFile === "data:image" && chkcor != "77u/"){
+						$("input[name=e_banner]").val(e.target.result);
+					} else {
+						$("input[name=e_banner]").val("");
+					}
+				}
 			} else {
 				$("#file_name").text("선택된 파일이 없습니다.");
+				$("input[name=e_banner]").val("");
 			}
 		});
 		
@@ -334,9 +347,8 @@ input[type=text], input[type=date]{
 		});
 	});
 
-	function reg_event(f) {
-		f.action = "a_reg_event";
-		f.submit();
+	function reg_event() {
+		$("#e_form").attr("action", "a_reg_event").submit();
 	}
 
 </script>
@@ -364,7 +376,7 @@ input[type=text], input[type=date]{
 			</div>
 		</header>
 		<div id="main">
-			<form method="post">
+			<form method="post" id="e_form">
 				<fieldset>
 					<legend>이벤트관리</legend>
 					<div id="event-div">
@@ -389,14 +401,15 @@ input[type=text], input[type=date]{
 							<div class="label">공개</div>
 							<div class="content">
 								<input type="radio" name="e_public" value="1"> 공개
-								<input type="radio" name="e_public" value="2"> 비공개
+								<input type="radio" name="e_public" value="0"> 비공개
 							</div>
 						</div>
 						<div class="regular">
 							<div class="label">메인 배너 이미지</div>
 							<div class="content">
 								<span id="main_file">파일 선택</span><span id="file_name">선택된 파일이 없습니다.</span>
-								<input type="file" id="e_file" hidden="">
+								<input type="file" id="e_file" hidden="" accept="image/*">
+								<input type="text" name="e_banner" hidden="">
 							</div>
 						</div>
 						<div class="label center">상세내용</div>
@@ -406,16 +419,17 @@ input[type=text], input[type=date]{
 								<span>텍스트</span><span>이미지 삽입</span>
 								<div class="detail-content"></div>
 							</div>
-							<input type="file" hidden="" id="e_image">
+							<input type="file" hidden="" id="e_image" accept="image/*">
 						</div>
 					</div>
 				</fieldset>
-			</form>
-			<div id="body">
+				<div id="body">
 				<div id="foot">
-					<span id="regbutton" onclick="reg_event(this.form)">이벤트 등록</span><span id="cancel">취소</span>
+					<span id="regbutton" onclick="reg_event()">이벤트 등록</span><span id="cancel">취소</span>
 				</div>
 			</div>
+			</form>
+			
 		</div>
 	</div>
 </body>

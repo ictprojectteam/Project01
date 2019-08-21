@@ -173,7 +173,7 @@ members 추가
 alter table members add prf_img CLOB;
 
 ===============================================================================
-qna 테이블 생성 - 의견 제출, 댓글 신고를 위한 테이블
+문의 테이블 생성 - 의견 제출, 댓글 신고를 위한 테이블
 create table qna(
 q_idx NUMBER not null,
 m_idx NUMBER,
@@ -188,7 +188,7 @@ foreign key (m_idx) references members(m_idx)
 시퀀스
 create sequence q_seq increment by 1 start with 1 nocycle;
 ===============================================================================
-Recipe Rank 테이블
+랭킹 테이블
 create table r_rank(
 r_rank_idx number,
 r_idx number,
@@ -208,5 +208,25 @@ v_date date,
 v_count number,
 PRIMARY key (v_idx)
 );
+
+시퀀스
 create sequence v_seq increment by 1 start with 1 nocycle;
+===============================================================================
+이벤트 테이블
+create table event(
+  e_idx number primary key,
+  m_idx number,
+  e_title varchar2(100),
+  e_start date,
+  e_end date,
+  e_type number(1),
+  e_public number(1),
+  e_banner clob,
+  e_content varchar2(4000),
+  e_image clob,
+  foreign key (m_idx) references members(m_idx)
+);
+
+시퀀스
+create sequence e_seq increment by 1 start with 1 nocycle;
 ===============================================================================

@@ -213,7 +213,7 @@ td{
 				<li><a id="board" href="admin_qna">문의 관리</a></li>
 				<li><a id="event" href="admin_event">이벤트 관리</a></li>
 				<li><a id="op" href="a_manager">운영자 관리</a></li>
-				<li><a id="setting" href="home">설정</a></li>
+				<li><a id="setting" href="/">Main</a></li>
 			</ul>
 		</nav>
 		<header>

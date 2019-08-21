@@ -256,11 +256,13 @@ public class MainController {
 		rvo.setPack(packs.toString());
 		rvo.setMaterial(materials.toString());
 		rvo.setOrderContent(orderContents.toString());
+		rvo.setRegdate(new SimpleDateFormat("yyyy-MM-dd").format(new Date(Calendar.getInstance().getTimeInMillis())));
 		if(finImages.size() > 0) {
 			rvo.setFinImage(finImages.toString());
 		} else {
 			rvo.setFinImage("[" + rvo.getMain_image() + "]");
 		}
+		if(rvo.getA_permission() == null || rvo.getA_permission().equals("")) rvo.setA_permission("0");
 		
 		dao.getInsert(rvo);
 		return mv;
