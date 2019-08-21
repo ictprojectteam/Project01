@@ -273,11 +273,11 @@
 		font-size: 16pt;
 		color: #c97;
 	}
-	.com-date, .com-del{
+	.com-date, .com-del, .com-rep{
 		margin-left: 10px;
 		color: #aaa;
 	}
-	.com-del{
+	.com-del, .com-rep{
 		cursor: pointer;
 	}
 	.com-text{
@@ -287,6 +287,104 @@
 	.infobar{
 		margin-left: 10px;
 		color: #ccc;
+	}
+	#rep-modal{
+		z-index:3;
+		display:none;
+		padding-top:100px;
+		position:fixed;
+		left:0;
+		top:0;
+		width:100%;
+		height:100%;
+		overflow:auto;
+		background-color: #0000;
+	}
+	
+	#rep-modal-content{
+		margin:auto;
+		background-color:#fff;
+		position:relative;
+		padding:0;
+		outline:0;
+		width:350px;
+		border: 1px solid #aaa;
+		animation: animatetop 0.4s;
+		border-radius: 15px;
+	}
+	
+	@keyframes animatetop{
+		from{top:-300px;opacity:0}
+		to{top:0;opacity:1}
+	}
+	
+	#rep-noti{
+		display: grid;
+		grid-template-columns: 300px 50px;
+		padding: 13px;
+		border-bottom: 0.5px solid #888;
+	}
+	
+	#rep-text{
+		font-size: 12pt;
+		font-weight: bolder;
+	}
+	
+	#rep-noti .fa-times{
+		font-size: 22pt;
+		cursor: pointer;
+		color: #bbb;
+	}
+	
+	#rep-form{
+		list-style: none;
+		padding: 0 0 10px 0;
+	}
+	
+	#rep-form li{
+		padding: 6px 12px;
+		font-size: 9pt;
+	}
+	
+	#rep-hid{
+		display: none;
+	}
+	
+	input[name=rep-etc]{
+		width: 95%;
+		padding: 5px;
+		border: 1px solid #aaa;
+		border-radius: 5px;
+	}
+	
+	#rep-button{
+		text-align: center;
+		margin: 30px 0px;
+	}
+	
+	#rep-button span{
+		cursor: pointer;
+		font-size: 12pt;
+		margin-top: 15pt;
+		padding: 10px 30px;
+		border-radius: 5px;
+		margin: 5px;
+		font-weight: bolder;
+	}
+	
+	#rep-submit{
+		border: 1px solid #d86;
+		background: #fa8;
+		color: #eee;
+	}
+	
+	#rep-submit:hover{
+		background: #e97;
+	}
+	
+	#rep-cancel{
+		border: 1px solid #999;
+		color: #222;
 	}
 }
 </style>
@@ -366,10 +464,64 @@
 				});
 			}
 		});
+		$("input[name=rep-rea]").on("change", function(){
+			if($(this).val() == 9){
+				$("#rep-hid").css("display", "block");
+			} else {
+				$("#rep-hid").css("display", "none");
+			}
+		});
+		$("#rep-noti .fa-times").on("click", function(){
+			$("#rep-modal").css({"display":"none"});
+			$("#rep-hid").css("display", "none").find("input").val("");
+			$("input[name=rep-rea]").attr("checked", "false").removeAttr("checked");
+		});
+		$("#rep-cancel").on("click", function(){
+			$("#rep-modal").css({"display":"none"});
+			$("#rep-hid").css("display", "none").find("input").val("");
+			$("input[name=rep-rea]").attr("checked", "false").removeAttr("checked");
+		});
+		$("#rep-submit").on("click", function(){
+			var rea = $("input[name=rep-rea]:checked").val();
+			var etc = $("input[name=rep-etc]").val();
+			var tg = $("input[name=rep-tg]").val();
+			if (rea == undefined) {
+				alert("신고사유를 선택해주세요.");
+			} else if(rea == 9 && etc == "") {
+				alert("기타사유를 입력해주세요.");
+			} else {
+				$.ajax({
+					url : "rep_com_recipe",
+					data : {"rea" : rea, "etc" : etc, "tg" : tg},
+					dataType : "text",
+					type : "post",
+					success : function(data) {
+						if (data != 0) {
+							alert("신고가 접수되었습니다.");
+							$("#rep-modal").css({"display":"none"});
+							$("#rep-hid").css("display", "none").find("input").val("");
+							$("input[name=rep-rea]").attr("checked", "false").removeAttr("checked");
+						} else {
+							alert("쓰기 실패1");
+						}
+					},
+					error : function() {
+						alert("쓰기 실패2");
+					}
+				});
+			}
+		});
+		$(".tag").on("click", function(){
+			var text = $(this).text().replace("#", "");
+			location.href = "recipe?k=" + text;
+		});
+		$(this).on("click", function(){
+			if(event.target == document.getElementById("rep-modal")) $("#rep-modal").css({"display":"none"});
+		});
+		
 		getComList();
 		$("iframe").attr({"frameborder" : "0", "allow" : "accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture", "allowfullscreen" : ""})
 	});
-
 	function countCom() {
 		$("#com-count").empty();
 		$.ajax({
@@ -403,8 +555,7 @@
 		});
 		countCom();
 	}
-
-	function com_del(n){
+	function com_del(n) {
 		var chk = confirm("정말 삭제할까요?");
 		if (chk) {
 			$.ajax({
@@ -420,6 +571,10 @@
 				}
 			});
 		}
+	}
+	function com_rep(n) {
+		$("#rep-modal").css("display", "block");
+		$("#rep-form input[name=rep-tg]").val("${rvo.r_idx}" + ", " + n);
 	}
 </script>
 </head>
@@ -536,6 +691,29 @@
 	</div>
 	<div id="comment">
 		<div id="com-label"><h2>댓글<span id="com-count"></span></h2></div>
+		<div id="rep-modal">
+			<div id="rep-modal-content">
+				<div id="rep-noti"><span id="rep-text">신고사유를 선택해주세요.</span><i class="fas fa-times"></i></div>
+				<div id="rep-sel">
+					<ul id="rep-form">
+						<li><input type="radio" name="rep-rea" value="1">광고/홍보
+						<li><input type="radio" name="rep-rea" value="2">음란/선정성
+						<li><input type="radio" name="rep-rea" value="3">욕설/비방
+						<li><input type="radio" name="rep-rea" value="4">안 맞는 글
+						<li><input type="radio" name="rep-rea" value="5">도배글
+						<li><input type="radio" name="rep-rea" value="6">중복글
+						<li><input type="radio" name="rep-rea" value="7">저작권 위배
+						<li><input type="radio" name="rep-rea" value="8">개인정보 노출
+						<li><input type="radio" name="rep-rea" value="9">기타
+						<li id="rep-hid"><input type="text" name="rep-etc">
+						<input type="hidden" name="rep-tg">
+					</ul>
+				</div>
+				<div id="rep-button">
+					<span id="rep-submit">확인</span><span id="rep-cancel">취소</span>
+				</div>
+			</div>
+		</div>
 		<div id="comlist">
 			
 		</div>

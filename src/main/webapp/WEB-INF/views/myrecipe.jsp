@@ -23,6 +23,36 @@
 	.menu_bt:hover{
 		background-color: #eeeeee;
 	}
+	#prf_img{
+		width: 250px;
+		height: 180px;
+		
+	}
+	#prf_set{
+		position: relative;
+		float: right;
+		border: 1px solid #808080;
+		width: 250px;
+		height: 300px;
+		margin: 20px 10px 20px 0px;
+	}
+	#recipe_tab{
+		width: 60%;
+		margin: 20px auto;
+		border-bottom: 1px solid;
+	}
+	.recipe_bt{
+		border: 1px solid #808080;
+		width: 60pt;
+		height: 20pt;
+		font-size: 12pt;
+		background-color: #DFEEF3;
+		border-radius: 6px;
+		margin-bottom: 10px;
+	}
+	.recipe_bt:hover {
+		background-color: #488399;
+	}
 </style>
 <script type="text/javascript">
 	$(function(){
@@ -47,12 +77,14 @@
 		location.href = "myInquires";
 	}
 	function prf_update(){
-		// location.href = "myPrf_update";
-		location.href = "#";
+		location.href = "myPrf_update";
 	}
 </script>
 </head>
 <body>
+	<div id="prf_set">
+		<img id="prf_img" src="resources/images/food.jpeg">
+	</div>
 	<div id="menu">
 		<input class="menu_bt" type="button" value="레시피" style="background-color: #92895A;" onclick="recipe()">
 		<input class="menu_bt" type="button" value="요리후기" onclick="review()">
@@ -62,5 +94,12 @@
 		<input class="menu_bt" type="button" value="회원정보수정" onclick="prf_update()">
 	</div>
 	
+	<div id="recipe_tab">
+		<input class="recipe_bt" type="button" value="공개중" style="background-color: #488399;">
+		<input class="recipe_bt" type="button" value="작성중">
+	</div>
 </body>
+<footer>
+	<jsp:include page="foot.jsp" />
+</footer>
 </html>

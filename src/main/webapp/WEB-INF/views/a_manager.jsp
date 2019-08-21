@@ -159,7 +159,7 @@ header #links{
 .title-line{
 	width: 980px;
 	display: grid;
-	grid-template-columns: 100px 150px 300px 150px 100px 200px;
+	grid-template-columns: 30px 90px 90px 120px 200px 200px 70px 200px;
 	text-align: center;
 }
 #content-box{
@@ -168,7 +168,7 @@ header #links{
 .each-content{
 	width: 1000px;
 	display: grid;
-	grid-template-columns: 100px 150px 300px 150px 100px 200px;
+	grid-template-columns: 30px 90px 90px 120px 200px 200px 70px 200px;
 	text-align: center;
 }
 .each-content:hover{
@@ -376,7 +376,7 @@ legend{
 				<li><a id="user" href="a_membership">회원 관리</a></li>
 				<li><a id="board" href="admin_qna">문의 관리</a></li>
 				<li><a id="event" href="home">이벤트 관리</a></li>
-				<li><a id="op" href="home">운영자 관리</a></li>
+				<li><a id="op" href="a_manager">운영자 관리</a></li>
 				<li><a id="setting" href="home">설정</a></li>
 			</ul>
 		</nav>
@@ -389,21 +389,24 @@ legend{
 			<div id="user-action">
 				<form id="search-form">
 					<fieldset style="width: 1000px;">
-						<legend>회원 관리</legend>
+						<legend>운영자 관리</legend>
 							<div id="search-table">
 								<div id="double">
-									<div class="label">회원이름/회원ID<br>회원번호</div>
+									<div class="label">이름/ID</div>
 									<div class="content">
 										<select name="name_idx">
-											<option value="name">회원이름</option>
-											<option value="id">회원ID</option>
-											<option value="idx">회원번호</option>
+											<option value="name">이름</option>
+											<option value="id">ID</option>
 										</select>
 										<input type="text" name="name" id="input-name">
 									</div>
-									<div class="label">이메일</div>
+									<div class="label">이메일/연락처</div>
 									<div class="content">
-										<input type="text" name="email">
+										<select name="email_number">
+											<option value="email">이메일</option>
+											<option value="number">연락처</option>
+										</select>
+										<input type="text" name="email" id="input-email">
 									</div>
 								</div>
 								<div class="reg">
@@ -420,18 +423,20 @@ legend{
 									</div>
 								</div>
 								<div id="button">
-									<input type="button" id="search" value="검  색" onclick="search_member()">
+									<input type="button" id="search" value="검  색" onclick="search_manager()">
 								</div>
 							</div>
 					</fieldset>
 				</form>
 				<div id="body">
 					<div class="title-line">
-						<div class="title">회원번호</div>
+						<div class="title">NO.</div>
 						<div class="title">회원이름</div>
+						<div class="title">ID</div>
+						<div class="title">연락처</div>
 						<div class="title">이메일</div>
-						<div class="title">아이디</div>
-						<div class="title">성별</div>
+						<div class="title">개인 이메일</div>
+						<div class="title">직책</div>
 						<div class="title">가입 일시</div>
 					</div>
 					<div id="content-box">

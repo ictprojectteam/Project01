@@ -125,7 +125,8 @@
 		$("#profile-dropdown").fadeOut();
 		$(".fa-user-circle").click(function(){
 			if($("#loginchk").val() == null || $("#loginchk").val() == ""){
-				location.href="login";
+				var k = confirm("로그인이 필요한 페이지입니다.\n\n로그인 하시겠습니까?\n");
+				if(k) location.href='login';
 			} else {
 				$("#profile-dropdown").css("visibility", "visible");
 				$("#profile-dropdown").fadeToggle("fast");
@@ -149,6 +150,14 @@
 				location.href="recipe"
 			} else {
 				location.href="recipe?k=" + $("#search-bar").val();
+			}
+		});
+		$("#top-myhome").on("click", function(){
+			if($("#loginchk").val() == null || $("#loginchk").val() == ""){
+				var k = confirm("로그인이 필요한 페이지입니다.\n\n로그인 하시겠습니까?\n");
+				if(k) location.href='login';
+			}else {
+				location.href="myRecipe";
 			}
 		});
 	});
@@ -188,7 +197,7 @@
 				<a class="top-nav-menu" href="/talk">토크</a>
 				<a class="top-nav-menu" href="ranking">랭킹</a>
 				<a class="top-nav-menu" href="/event">이벤트</a>
-				<a class="top-nav-menu" href="/myhome">MY홈</a>
+				<a class="top-nav-menu" id="top-myhome">MY홈</a>
 			</div>
 		</div>
 	</div>

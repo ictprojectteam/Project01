@@ -211,6 +211,26 @@ public class DAO {
 	public void recipeHitUpdate(RecipeVO rvo) {
 		sqlSessionTemplate.update("rhitupdate", rvo);
 	}
+	public R_RankVO chkRank(R_RankVO rrvo) {
+		return sqlSessionTemplate.selectOne("chkRank", rrvo);
+	}
+	
+	public void updateCount(R_RankVO rrvo) {
+		sqlSessionTemplate.update("updateCount", rrvo);
+	}
+	
+	public void insertCount(R_RankVO rrvo) {
+		sqlSessionTemplate.insert("insertCount", rrvo);
+	}
+	
+	public List<R_RankVO> todayRecipe(R_RankVO rrvo) {
+		return sqlSessionTemplate.selectList("todayRecipe", rrvo);
+	}
+	
+	public List<R_RankVO> monthRecipe(Map<String, String> rmap) {
+		return sqlSessionTemplate.selectList("monthRecipe", rmap);
+	}
+	
 	public RecipeVO getAdminOneRecipe(String r_idx) {
 		return sqlSessionTemplate.selectOne("onelistrecipe", r_idx);
 	}
@@ -225,6 +245,10 @@ public class DAO {
 	
 	public int getQCount(QVO qvo) {
 		return sqlSessionTemplate.selectOne("qCount", qvo);
+	}
+	
+	public List<QVO> getQList(){
+		return sqlSessionTemplate.selectList("q_list");
 	}
 	
 	public List<QVO> getQList(QVO qvo) {

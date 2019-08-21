@@ -10,9 +10,12 @@
 <style type="text/css">
 	.top{
 		background-color: #fa8;
+		width: 1450px;
 		text-align: center;
 		color: white;
 		cursor: pointer;
+		border: solid;
+		margin: -12px 0 0 -40px;
 	}
 	.b1 input{
 		width: 20%;

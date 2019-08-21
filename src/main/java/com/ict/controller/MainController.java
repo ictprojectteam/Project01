@@ -38,6 +38,7 @@ import com.ict.service.Pageing;
 import com.ict.service.QVO;
 import com.ict.service.QnAPaging;
 import com.ict.service.RVO;
+import com.ict.service.R_RankVO;
 import com.ict.service.RecipeCVO;
 import com.ict.service.RecipePaging;
 import com.ict.service.RecipeVO;
@@ -99,6 +100,8 @@ public class MainController {
 			mv.addObject("list", list);
 			List<RecipeVO> r_list = dao.getRecipeList(1, 5);
 			mv.addObject("r_list", r_list);
+			List<QVO> q_list = dao.getQList();
+			mv.addObject("q_list", q_list);
 		} else {
 			mv.setViewName("a_loginfail");
 		}
@@ -111,6 +114,8 @@ public class MainController {
 		mv.addObject("list", list);
 		List<RecipeVO> r_list = dao.getRecipeList(1, 5);
 		mv.addObject("r_list", r_list);
+		List<QVO> q_list = dao.getQList();
+		mv.addObject("q_list", q_list);
 		return mv;
 	}
 	@RequestMapping(value = "a_recipe")
@@ -337,15 +342,25 @@ public class MainController {
 	}
 	
 	@RequestMapping("view_recipe")
-	public ModelAndView viewRecipe(@RequestParam String rno) {
+	public ModelAndView viewRecipe(@RequestParam String rno, HttpSession session) {
 		ModelAndView mv = new ModelAndView("view_recipe");
 		RecipeVO rvo = dao.viewRecipe(rno);
-		if (rvo.getA_permission().equals("0") || rvo.getSavepublic().equals("0")) {
+		if ((rvo.getA_permission().equals("0") || rvo.getSavepublic().equals("0")) && !(((MVO)session.getAttribute("mvo")).getId().equals("admin"))) {
 			mv.setViewName("inappropriate");
 			return mv;
 		}
 		rvo.setHit(Integer.parseInt(rvo.getHit()) + 1 + "");
 		dao.recipeHitUpdate(rvo);
+		R_RankVO rrvo = new R_RankVO();
+		rrvo.setR_idx(rvo.getR_idx());
+		rrvo.setR_date(new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
+		if (dao.chkRank(rrvo) != null) {
+			rrvo = dao.chkRank(rrvo);
+			rrvo.setR_count(Integer.parseInt(rrvo.getR_count()) + 1 + "");
+			dao.updateCount(rrvo);
+		} else {
+			dao.insertCount(rrvo);
+		}
 		mv.addObject("rvo", rvo);
 		return mv;
 	}
@@ -608,6 +623,20 @@ public class MainController {
 	@RequestMapping("ranking")
 	public ModelAndView ranking() {
 		ModelAndView mv = new ModelAndView("ranking");
+		R_RankVO rrvo = new R_RankVO();
+		rrvo.setR_date(new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
+		List<R_RankVO> rr = dao.todayRecipe(rrvo);
+		Calendar today = Calendar.getInstance();
+		Map<String, String> rmap = new HashMap<String, String>();
+		today.set(Calendar.DAY_OF_MONTH, 1);
+		rmap.put("start", new SimpleDateFormat("yyyy-MM-dd").format(new Date(today.getTimeInMillis())));
+		today.set(Calendar.DAY_OF_MONTH, today.getActualMaximum(Calendar.DAY_OF_MONTH));
+		rmap.put("endt", new SimpleDateFormat("yyyy-MM-dd").format(new Date(today.getTimeInMillis())));
+		System.out.println(rmap.get("start"));
+		System.out.println(rmap.get("endt"));
+		List<R_RankVO> mrr = dao.monthRecipe(rmap);
+		mv.addObject("rr", rr);
+		mv.addObject("mrr", mrr);
 		return mv;
 	}
 	
@@ -652,10 +681,44 @@ public class MainController {
 		return String.valueOf(dao.talkCountLike(tlvo));
 	}
 	
-
-	@RequestMapping("myhome")
+	@RequestMapping("myRecipe")
 	public ModelAndView getMyHome(HttpSession session){
-		ModelAndView mv = new ModelAndView("myhome");
+		ModelAndView mv = new ModelAndView("myrecipe");
+		MVO mvo = (MVO)session.getAttribute("mvo");
+		mv.addObject("mvo", mvo);
+		return mv;
+	}
+	@RequestMapping("myReview")
+	public ModelAndView getMyReview(HttpSession session){
+		ModelAndView mv = new ModelAndView("myreview");
+		MVO mvo = (MVO)session.getAttribute("mvo");
+		mv.addObject("mvo", mvo);
+		return mv;
+	}
+	@RequestMapping("myComent")
+	public ModelAndView getMyComent(HttpSession session){
+		ModelAndView mv = new ModelAndView("mycoment");
+		MVO mvo = (MVO)session.getAttribute("mvo");
+		mv.addObject("mvo", mvo);
+		return mv;
+	}
+	@RequestMapping("myTalk")
+	public ModelAndView getMyTalk(HttpSession session){
+		ModelAndView mv = new ModelAndView("mytalk");
+		MVO mvo = (MVO)session.getAttribute("mvo");
+		mv.addObject("mvo", mvo);
+		return mv;
+	}
+	@RequestMapping("myReport")
+	public ModelAndView getMyInquires(HttpSession session){
+		ModelAndView mv = new ModelAndView("myreport");
+		MVO mvo = (MVO)session.getAttribute("mvo");
+		mv.addObject("mvo", mvo);
+		return mv;
+	}
+	@RequestMapping("myPrf_update")
+	public ModelAndView getMyPrf_update(HttpSession session){
+		ModelAndView mv = new ModelAndView("myprf_update");
 		MVO mvo = (MVO)session.getAttribute("mvo");
 		mv.addObject("mvo", mvo);
 		return mv;
@@ -783,4 +846,75 @@ public class MainController {
 		dao.compQnA(qvo);
 		return mv;
 	}
+	
+	@RequestMapping(value = "a_manager")
+	public ModelAndView geta_manager() {
+		ModelAndView mv = new ModelAndView("a_manager");
+		return mv;
+	}
+	
+	
+	/* 운영자 리스트
+	 * 
+	 * 	
+	@RequestMapping(value = "admin_oplist", produces = "application/text; charset=utf8")
+	@ResponseBody
+	public String geta_manager(HttpServletRequest request, MVO mvo) {
+		StringBuffer res = new StringBuffer();
+		Calendar today = Calendar.getInstance();
+		if (mvo.getEndt() == null) mvo.setEndt(new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
+		today.add(Calendar.MONTH, -6);
+		if (mvo.getStart() == null)	mvo.setStart(new SimpleDateFormat("yyyy-MM-dd").format(new Date(today.getTimeInMillis())));
+		int count = dao.a_countMember(mvo);
+		MemberPaging mp = new MemberPaging(10, count, mvo.getcPage());
+		mvo.setBegin(String.valueOf(mp.getBegin()));
+		mvo.setEnd(String.valueOf(mp.getEnd()));
+		List<MVO> mlist = dao.aMemberList(mvo);
+		if (mlist.size() > 0) {
+			for (MVO k : mlist) {
+				res.append("<div class='each-content' onclick='view(" + k.getM_idx() + ")'><div class='body-content'>" + k.getM_idx() +
+						"</div><div class='body-content'>" + k.getName() + "</div><div class='body-content'>" + k.getEmail() +
+						"</div><div class='body-content'>" + k.getId() +  "</div><div class='body-content'>" + k.getGender() + 
+						"</div><div class='body-content'>" + k.getRegdate()+ "</div></div>");
+			}
+		} else {
+			res.append("원하는 정보가 존재하지 않습니다.");
+		}
+		return res.toString();
+	}
+	
+	@RequestMapping(value = "admin_mpage", produces = "application/text; charset=utf-8")
+	@ResponseBody
+	public String test(MVO mvo) {
+		StringBuffer res = new StringBuffer();
+		Calendar today = Calendar.getInstance();
+		if (mvo.getEndt() == null) mvo.setEndt(new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
+		today.add(Calendar.MONTH, -1);
+		if (mvo.getStart() == null)	mvo.setStart(new SimpleDateFormat("yyyy-MM-dd").format(new Date(today.getTimeInMillis())));
+		int count = dao.a_countMember(mvo);
+		MemberPaging mp = new MemberPaging(10, count, mvo.getcPage());
+		
+		if (mp.getBeginBlock() <= mp.getPagePerBlock()) {
+			res.append("<span class='disable'> 이전으로 </span>");
+		} else {
+			res.append("<span class='pre-block'> 이전으로 </span");
+		}
+		
+		for (int i = mp.getBeginBlock(); i < mp.getEndBlock() + 1; i++) {
+			if (i == mp.getNowPage()) {
+				res.append("<span class='now'>" + i + "</span>");
+			} else {
+				res.append("<span class='page' onclick='move_page(" + i + ")'>" + i + "</span>");
+			}
+		}
+		
+		if (mp.getEndBlock() >= mp.getTotalPage()) {
+			res.append("<span class='disable'> 다음으로 </span>");
+		} else {
+			res.append("<span class='next-block'> 다음으로 </span>");
+		}
+		return res.toString();
+	}
+	
+	*/
 }

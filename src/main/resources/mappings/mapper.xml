@@ -284,12 +284,36 @@
 		update recipe set hit = #{hit} where r_idx = #{r_idx}
 	</update>
 	
+	<select id="chkRank" parameterType="rrvo" resultType="rrvo">
+		select * from r_rank where r_idx = #{r_idx} and r_date = #{r_date}
+	</select>
+	
 	<select id="recipe_comment_list" parameterType="String" resultType="rcvo">
 		select rc.*, m.name writer from recipe_c rc, members m where rc.m_idx = m.m_idx and r_idx = #{r_idx} order by r_c_idx desc
 	</select>
 	
 	<select id="count_comment" parameterType="String" resultType="int">
 		select count(*) from recipe_c where r_idx = #{r_idx}
+	</select>
+	
+	<update id="updateCount" parameterType="rrvo">
+		update r_rank set r_count = #{r_count} where r_rank_idx = #{r_rank_idx}
+	</update>
+	
+	<insert id="insertCount" parameterType="rrvo">
+		insert into r_rank values (r_rank_seq.nextval, #{r_idx}, #{r_date}, 1)
+	</insert>
+	
+	<select id="todayRecipe" parameterType="rrvo" resultType="rrvo">
+		select * from (select rr.r_idx, name, recipe_title, r_count from r_rank rr, recipe r, members m where r_date = #{r_date} and rr.r_idx = r.r_idx and r.m_idx = m.m_idx order by r_count desc) a <![CDATA[where rownum >= 1 and rownum <= 5]]>
+	</select>
+	
+	<select id="monthRecipe" parameterType="Map" resultType="rrvo">
+		select * from (
+			select t.*, name, recipe_title from (
+				select r_idx, sum(r_count) r_count from r_rank where <![CDATA[r_date >= #{start} and r_date <= #{endt}]]> group by r_idx
+			) t, recipe r, members m where t.r_idx = r.r_idx and m.m_idx = r.m_idx order by r_count desc
+		) where <![CDATA[rownum >= 1 and rownum <= 5]]>
 	</select>
 	
 	<insert id="insert_recipe_comment" parameterType="rcvo">
@@ -325,6 +349,10 @@
 					and m.email like '%'||#{email}||'%'
 				</if>
 			</where>
+	</select>
+	
+	<select id="q_list" resultType="qvo">
+		select * from qna join members on qna.m_idx=members.m_idx order by qna.regdate desc
 	</select>
 	
 	<select id="qlist" parameterType="qvo" resultType="qvo">
