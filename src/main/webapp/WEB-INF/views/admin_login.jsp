@@ -153,8 +153,12 @@ input {
 	transition: box-shadow .5s ease;
 }
 </style>
-
+<script type="text/javascript" src="../resources/js/jquery-3.4.1.min.js"></script>
 <script type="text/javascript">
+	$(function(){
+		$("input[name=id]").focus();
+	});
+
 	function goAdminLogin(f){
 		f.action = "goLogin";
 		f.submit();

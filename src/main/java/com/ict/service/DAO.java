@@ -27,10 +27,6 @@ public class DAO {
 		return sqlSessionTemplate.selectOne("login", mvo);
 	}
 	
-	public MVO a_getLogin(MVO mvo) {
-		return sqlSessionTemplate.selectOne("login", mvo);
-	}
-	
 	public List<MVO> getList(){
 		return sqlSessionTemplate.selectList("list");
 	}
@@ -114,16 +110,8 @@ public class DAO {
 		return sqlSessionTemplate.selectOne("member_count");
 	}
 
-	public MVO getOneMemberList(String name) {
-		return sqlSessionTemplate.selectOne("onememberlist", name);
-	}
-	
 	public RVO getSearch(String name) {
 		return sqlSessionTemplate.selectOne("search", name);
-	}
-	
-	public List<RVO> getOneRecipeList(String name) {
-		return sqlSessionTemplate.selectList("onerecipelist", name);
 	}
 	
 	public MVO findPw(String email) {

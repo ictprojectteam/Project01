@@ -385,7 +385,7 @@ legend{
 				<li><a id="content" href="a_write_recipe">게시물 등록</a></li>
 				<li><a id="user" href="a_membership">회원 관리</a></li>
 				<li><a id="board" href="admin_qna">문의 관리</a></li>
-				<li><a id="event" href="home">이벤트 관리</a></li>
+				<li><a id="event" href="admin_event">이벤트 관리</a></li>
 				<li><a id="op" href="home">운영자 관리</a></li>
 				<li><a id="setting" href="home">설정</a></li>
 			</ul>

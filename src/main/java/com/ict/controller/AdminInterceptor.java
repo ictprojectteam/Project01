@@ -15,7 +15,6 @@ public class AdminInterceptor extends HandlerInterceptorAdapter{
 			response.sendRedirect("inappropriate");
 			return false;
 		}
-		System.out.println(((MVO)request.getSession().getAttribute("mvo")).getId());
 		if (!((MVO)request.getSession().getAttribute("mvo")).getId().equals("admin")) {
 			response.sendRedirect("inappropriate");
 			return false;
