@@ -201,3 +201,12 @@ foreign key (r_idx) references recipe(r_idx)
 시퀀스
 create sequence r_rank_seq increment by 1 start with 1 nocycle;
 ===============================================================================
+방문자 테이블
+create table visitor(
+v_idx NUMBER not null,
+v_date date,
+v_count number,
+PRIMARY key (v_idx)
+);
+create sequence v_seq increment by 1 start with 1 nocycle;
+===============================================================================

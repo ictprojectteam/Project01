@@ -453,6 +453,7 @@
 					type : "post",
 					success : function(data) {
 						if (data != 0) {
+							$("#comtext").val("");
 							getComList();
 						} else {
 							alert("쓰기 실패1");

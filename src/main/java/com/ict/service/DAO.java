@@ -1,5 +1,8 @@
 package com.ict.service;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -30,6 +33,27 @@ public class DAO {
 	
 	public List<MVO> getList(){
 		return sqlSessionTemplate.selectList("list");
+	}
+	
+	public int sumHit() {
+		return sqlSessionTemplate.selectOne("sumHit");
+	}
+	
+	public VisitorVO chkDate() {
+		String date = new SimpleDateFormat("yyyy-MM-dd").format(new Date(Calendar.getInstance().getTimeInMillis()));
+		return sqlSessionTemplate.selectOne("chkDate", date);
+	}
+	
+	public void insertVisitor(String date) {
+		sqlSessionTemplate.insert("insertVisitor", date);
+	}
+	
+	public void updateVisitor(String date) {
+		sqlSessionTemplate.update("updateVisitor", date);
+	}
+	
+	public int monthlyVisitor(Map<String, String> vmap) {
+		return sqlSessionTemplate.selectOne("monthlyVisitor", vmap);
 	}
 	
 	public int getJoin(MVO mvo) {
@@ -118,6 +142,10 @@ public class DAO {
 		return sqlSessionTemplate.insert("insert_recipe_comment", rcvo);
 	}
 	
+	public int countRecipe() {
+		return sqlSessionTemplate.selectOne("countRecipe");
+	}
+	
 	public int countRecipe(Map<String, String> camap) {
 		return sqlSessionTemplate.selectOne("count_recipe", camap);
 	}
@@ -132,6 +160,10 @@ public class DAO {
 	
 	public int countRecipeComment(String r_idx) {
 		return sqlSessionTemplate.selectOne("count_comment", r_idx);
+	}
+	
+	public int deleteRecipeComment(RecipeCVO rcvo) {
+		return sqlSessionTemplate.delete("delete_rcomment", rcvo);
 	}
 	
 	public List<RecipeVO> getRecipeList(Map<String, String> pmap) {
@@ -249,6 +281,10 @@ public class DAO {
 	
 	public List<QVO> getQList(QVO qvo) {
 		return sqlSessionTemplate.selectList("qlist", qvo);
+	}
+	
+	public RecipeCVO qnaDetail(RecipeCVO rcvo) {
+		return sqlSessionTemplate.selectOne("qnaDetail", rcvo);
 	}
 	
 	public void compQnA(QVO qvo) {

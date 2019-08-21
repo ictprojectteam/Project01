@@ -75,10 +75,41 @@ public class MainController {
 				}
 			}
 		}
+		
+		if (dao.chkDate() == null) {
+			dao.insertVisitor(new SimpleDateFormat("yyyy-MM-dd").format(new Date(Calendar.getInstance().getTimeInMillis())));
+		} else {
+			dao.updateVisitor(new SimpleDateFormat("yyyy-MM-dd").format(new Date(Calendar.getInstance().getTimeInMillis())));
+		}
+		
 		mv.addObject("t_list", t_list);
 		
 		mv.addObject("r_list", r_list);
 		return mv;
+	}
+
+	@RequestMapping("month_visitor")
+	@ResponseBody
+	public String monthlyVisitor() {
+		Calendar today = Calendar.getInstance();
+		Map<String, String> vmap = new HashMap<String, String>();
+		today.set(Calendar.DAY_OF_MONTH, 1);
+		vmap.put("start", new SimpleDateFormat("yyyy-MM-dd").format(new Date(today.getTimeInMillis())));
+		today.set(Calendar.DAY_OF_MONTH, today.getActualMaximum(Calendar.DAY_OF_MONTH));
+		vmap.put("endt", new SimpleDateFormat("yyyy-MM-dd").format(new Date(today.getTimeInMillis())));
+		return String.valueOf(dao.monthlyVisitor(vmap));
+	}
+	
+	@RequestMapping("count_recipe")
+	@ResponseBody
+	public String countRecipe() {
+		return String.valueOf(dao.countRecipe());
+	}
+	
+	@RequestMapping("sum_hit")
+	@ResponseBody
+	public String sumHit() {
+		return String.valueOf(dao.sumHit());
 	}
 	
 	@RequestMapping(value = "m")
@@ -449,7 +480,7 @@ public class MainController {
 		if (rcvo.size() > 0) {
 			for (RecipeCVO k : rcvo) {
 				res += "<div class='com-pro'></div>"
-					+ "<div class='com-content'><div class='com-info'><span class='com-writer'>" + k.getWriter() + "</span>"
+					+ "<div class='com-content'><div id='com_info" + k.getR_c_idx() + "'><span class='com-writer'>" + k.getName() + "</span>"
 					+ "<span class='com-date'>" + k.getRegdate();
 				if(session.getAttribute("mvo") != null) {
 					if(k.getM_idx().equals(((MVO)session.getAttribute("mvo")).getM_idx())) {
@@ -464,6 +495,12 @@ public class MainController {
 			return res;
 		}
 		return res;
+	}
+	
+	@RequestMapping("recipe_comdelete")
+	@ResponseBody
+	public String recipeComDelete(RecipeCVO rcvo) {
+		return String.valueOf(dao.deleteRecipeComment(rcvo));
 	}
 	
 	@RequestMapping("video")
@@ -628,8 +665,6 @@ public class MainController {
 		rmap.put("start", new SimpleDateFormat("yyyy-MM-dd").format(new Date(today.getTimeInMillis())));
 		today.set(Calendar.DAY_OF_MONTH, today.getActualMaximum(Calendar.DAY_OF_MONTH));
 		rmap.put("endt", new SimpleDateFormat("yyyy-MM-dd").format(new Date(today.getTimeInMillis())));
-		System.out.println(rmap.get("start"));
-		System.out.println(rmap.get("endt"));
 		List<R_RankVO> mrr = dao.monthRecipe(rmap);
 		mv.addObject("rr", rr);
 		mv.addObject("mrr", mrr);
@@ -834,6 +869,17 @@ public class MainController {
 		mv.addObject("q_list", q_list);
 		mv.addObject("qp", qp);
 		return mv;
+	}
+	
+	@RequestMapping(value = "qna_detail", produces = "application/text; charset=utf8")
+	@ResponseBody
+	public String qnaDetail(RecipeCVO rcvo) {
+		StringBuffer res = new StringBuffer();
+		rcvo = dao.qnaDetail(rcvo);
+		if (rcvo == null) return res.append("<div>삭제된 댓글입니다.</div>").toString();
+		res.append("<div>작성자 : " + rcvo.getName() + "</div><div>아이디 : " + rcvo.getId() + "</div><div>내용 : " + rcvo.getContent_() + "</div>")
+		.append("<div><button onclick='com_del(" + rcvo.getR_c_idx() + ")'>댓글 삭제</button></div>");
+		return res.toString();
 	}
 	
 	@RequestMapping("admin_complete")

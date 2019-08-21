@@ -74,8 +74,9 @@
 	$(function(){
 		$("[class*=-content]").on("click", function(){
 			var num = $(this).attr("class").replace("today-content", "");
-			location.href = "view_recipe?rno=" + num;
-		});
+			alert(num);
+			/* location.href = "view_recipe?rno=" + num; */
+		});f
 	});
 </script>
 </head>
