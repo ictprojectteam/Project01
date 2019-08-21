@@ -60,6 +60,10 @@
 	margin-left: 80px;
 	overflow: hidden;
 	overflow: auto;
+	-ms-overflow-style: none;
+  	&::-webkit-scrollbar { 
+    display: none !important;
+  }
 }
 ul{
 	margin-top: 5px;
