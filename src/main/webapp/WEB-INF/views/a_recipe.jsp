@@ -371,9 +371,6 @@ legend{
 	function view(e) {
 		location.href="admin_view_one_recipe?r_idx=" + e;
 	}
-	function view(e) {
-		location.href="admin_view_one_recipe?r_idx=" + e;
-	}
 </script>
 </head>
 <body>
@@ -476,60 +473,7 @@ legend{
 					</div>
 				</div>
 				<div class="paging">
-				    <c:choose>
-				    	<c:when test="${qp.beginBlock <= qp.pagePerBlock}">
-				    		<span class="disable"> 이전으로 </span>
-				    	</c:when>
-				    	<c:otherwise>
-				    		<span><a href="admin_qna?cPage=${qp.beginBlock-qp.pagePerBlock}"> 이전으로 </a></span>
-				    	</c:otherwise>
-				    </c:choose>
-				    
-					<c:forEach begin="${qp.beginBlock}" end="${qp.endBlock}" step="1" var="k">
-						<c:if test="${k==qp.nowPage}">
-							<span class="now">${k}</span>
-						</c:if>
-						<c:if test="${k!=qp.nowPage}">
-							<span class="page${k}">${k}</span>
-						</c:if>
-					</c:forEach>
-					
-					<c:choose>
-				    	<c:when test="${qp.endBlock >= qp.totalPage }">
-				    		<span class="disable"> 다음으로 </span>
-				    	</c:when>
-				    	<c:otherwise>
-				    		<span><a href="admin_qna?cPage=${qp.beginBlock+qp.pagePerBlock}"> 다음으로 </a></span>
-				    	</c:otherwise>
-				    </c:choose>
-				</div>
-				<div class="paging">
-				    <c:choose>
-				    	<c:when test="${qp.beginBlock <= qp.pagePerBlock}">
-				    		<span class="disable"> 이전으로 </span>
-				    	</c:when>
-				    	<c:otherwise>
-				    		<span><a href="admin_qna?cPage=${qp.beginBlock-qp.pagePerBlock}"> 이전으로 </a></span>
-				    	</c:otherwise>
-				    </c:choose>
-				    
-					<c:forEach begin="${qp.beginBlock}" end="${qp.endBlock}" step="1" var="k">
-						<c:if test="${k==qp.nowPage}">
-							<span class="now">${k}</span>
-						</c:if>
-						<c:if test="${k!=qp.nowPage}">
-							<span class="page${k}">${k}</span>
-						</c:if>
-					</c:forEach>
-					
-					<c:choose>
-				    	<c:when test="${qp.endBlock >= qp.totalPage }">
-				    		<span class="disable"> 다음으로 </span>
-				    	</c:when>
-				    	<c:otherwise>
-				    		<span><a href="admin_qna?cPage=${qp.beginBlock+qp.pagePerBlock}"> 다음으로 </a></span>
-				    	</c:otherwise>
-				    </c:choose>
+				
 				</div>
 			</div>
 		</div>

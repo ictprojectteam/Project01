@@ -72,7 +72,7 @@
 <script type="text/javascript" src="../resources/js/jquery-3.4.1.min.js"></script>
 <script>
 	$(function(){
-		$("[class^=today-content]").on("click", function(){
+		$("[class*=-content]").on("click", function(){
 			var num = $(this).attr("class").replace("today-content", "");
 			location.href = "view_recipe?rno=" + num;
 		});
@@ -119,12 +119,12 @@
 				<div class="block-text">
 					<div class="block-title">이달의 레시피<span class="anno">이달의 가장 Hot한 레시피</span></div>
 					<c:choose>
-						<c:when test="${empty rr}">
+						<c:when test="${empty mrr}">
 							표시할 내용이 없습니다.
 						</c:when>
 						<c:otherwise>
 							<c:set var="i" value="1"></c:set>
-							<c:forEach var="k" items="${rr}">
+							<c:forEach var="k" items="${mrr}">
 								<div class="monthly-content${k.r_idx}">
 									<div class="rank">${i}</div>
 									<div class="name">${k.name} </div>
