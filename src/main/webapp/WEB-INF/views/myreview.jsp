@@ -61,7 +61,7 @@
 		location.href = "myTalk";
 	}
 	function inquires(){
-		location.href = "myInquires";
+		location.href = "myReport";
 	}
 	function prf_update(){
 		location.href = "myPrf_update";

@@ -705,9 +705,9 @@ public class MainController {
 		mv.addObject("mvo", mvo);
 		return mv;
 	}
-	@RequestMapping("myInquires")
+	@RequestMapping("myReport")
 	public ModelAndView getMyInquires(HttpSession session){
-		ModelAndView mv = new ModelAndView("myinquires");
+		ModelAndView mv = new ModelAndView("myreport");
 		MVO mvo = (MVO)session.getAttribute("mvo");
 		mv.addObject("mvo", mvo);
 		return mv;
