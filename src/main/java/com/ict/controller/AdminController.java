@@ -43,6 +43,8 @@ public class AdminController {
 		mv.addObject("list", list);
 		List<RecipeVO> r_list = dao.getRecipeList(1, 5);
 		mv.addObject("r_list", r_list);
+		List<QVO> q_list = dao.getQList();
+		mv.addObject("q_list", q_list);
 		return mv;
 	}
 	
@@ -268,6 +270,12 @@ public class AdminController {
 		return mv;
 	}
 	
+	@RequestMapping(value = "a_manager")
+	public ModelAndView geta_manager() {
+		ModelAndView mv = new ModelAndView("a_manager");
+		return mv;
+	}
+	
 	@RequestMapping("admin_reg_event")
 	public ModelAndView regEvent() {
 		ModelAndView mv = new ModelAndView("a_reg_event");
@@ -279,4 +287,68 @@ public class AdminController {
 		ModelAndView mv = new ModelAndView();
 		return mv;
 	}
+	
+	/* 운영자 리스트
+	 * 
+	 * 	
+	@RequestMapping(value = "admin_oplist", produces = "application/text; charset=utf8")
+	@ResponseBody
+	public String geta_manager(HttpServletRequest request, MVO mvo) {
+		StringBuffer res = new StringBuffer();
+		Calendar today = Calendar.getInstance();
+		if (mvo.getEndt() == null) mvo.setEndt(new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
+		today.add(Calendar.MONTH, -6);
+		if (mvo.getStart() == null)	mvo.setStart(new SimpleDateFormat("yyyy-MM-dd").format(new Date(today.getTimeInMillis())));
+		int count = dao.a_countMember(mvo);
+		MemberPaging mp = new MemberPaging(10, count, mvo.getcPage());
+		mvo.setBegin(String.valueOf(mp.getBegin()));
+		mvo.setEnd(String.valueOf(mp.getEnd()));
+		List<MVO> mlist = dao.aMemberList(mvo);
+		if (mlist.size() > 0) {
+			for (MVO k : mlist) {
+				res.append("<div class='each-content' onclick='view(" + k.getM_idx() + ")'><div class='body-content'>" + k.getM_idx() +
+						"</div><div class='body-content'>" + k.getName() + "</div><div class='body-content'>" + k.getEmail() +
+						"</div><div class='body-content'>" + k.getId() +  "</div><div class='body-content'>" + k.getGender() + 
+						"</div><div class='body-content'>" + k.getRegdate()+ "</div></div>");
+			}
+		} else {
+			res.append("원하는 정보가 존재하지 않습니다.");
+		}
+		return res.toString();
+	}
+	
+	@RequestMapping(value = "admin_mpage", produces = "application/text; charset=utf-8")
+	@ResponseBody
+	public String test(MVO mvo) {
+		StringBuffer res = new StringBuffer();
+		Calendar today = Calendar.getInstance();
+		if (mvo.getEndt() == null) mvo.setEndt(new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
+		today.add(Calendar.MONTH, -1);
+		if (mvo.getStart() == null)	mvo.setStart(new SimpleDateFormat("yyyy-MM-dd").format(new Date(today.getTimeInMillis())));
+		int count = dao.a_countMember(mvo);
+		MemberPaging mp = new MemberPaging(10, count, mvo.getcPage());
+		
+		if (mp.getBeginBlock() <= mp.getPagePerBlock()) {
+			res.append("<span class='disable'> 이전으로 </span>");
+		} else {
+			res.append("<span class='pre-block'> 이전으로 </span");
+		}
+		
+		for (int i = mp.getBeginBlock(); i < mp.getEndBlock() + 1; i++) {
+			if (i == mp.getNowPage()) {
+				res.append("<span class='now'>" + i + "</span>");
+			} else {
+				res.append("<span class='page' onclick='move_page(" + i + ")'>" + i + "</span>");
+			}
+		}
+		
+		if (mp.getEndBlock() >= mp.getTotalPage()) {
+			res.append("<span class='disable'> 다음으로 </span>");
+		} else {
+			res.append("<span class='next-block'> 다음으로 </span>");
+		}
+		return res.toString();
+	}
+	
+	*/
 }
