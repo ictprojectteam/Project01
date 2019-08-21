@@ -321,7 +321,7 @@
 		select count(*) from recipe_c where r_idx = #{r_idx}
 	</select>
 	
-	<delete id="delete_rcomment">
+	<delete id="delete_rcomment" parameterType="rcvo">
 		delete from recipe_c where r_c_idx = #{r_c_idx}
 	</delete>
 	
@@ -378,6 +378,10 @@
 					and m.email like '%'||#{email}||'%'
 				</if>
 			</where>
+	</select>
+	
+	<select id="q_list" resultType="qvo">
+		select * from qna join members on qna.m_idx=members.m_idx order by qna.regdate desc
 	</select>
 	
 	<select id="qlist" parameterType="qvo" resultType="qvo">

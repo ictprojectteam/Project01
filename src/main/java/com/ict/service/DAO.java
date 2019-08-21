@@ -267,6 +267,10 @@ public class DAO {
 		return sqlSessionTemplate.selectOne("qCount", qvo);
 	}
 	
+	public List<QVO> getQList(){
+		return sqlSessionTemplate.selectList("q_list");
+	}
+	
 	public List<QVO> getQList(QVO qvo) {
 		return sqlSessionTemplate.selectList("qlist", qvo);
 	}

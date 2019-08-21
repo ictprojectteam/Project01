@@ -65,6 +65,9 @@
     display: none !important;
   }
 }
+::-webkit-scrollbar{
+	display: none;
+}
 ul{
 	margin-top: 5px;
 }

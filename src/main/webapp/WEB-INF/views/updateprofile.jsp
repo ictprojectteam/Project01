@@ -1,3 +1,4 @@
+    
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -16,7 +17,6 @@
 	border: solid;
 	margin: -12px 0 0 -40px;
 }
-
 .body{
 	width: 400px;
 	margin: auto;
@@ -102,6 +102,20 @@ p{
 	border: 1px solid #808080;
 	margin: 0px 0px 50px -30px;
 }
+#prf_img{
+		width: 250px;
+		height: 180px;
+		
+	}
+#prf_set{
+	position: relative;
+	float: right;
+	border: 1px solid #808080;
+	width: 250px;
+	height: 300px;
+	margin-top: -230px;
+	margin-right: -550px;
+	}
 </style>
 <script type="text/javascript">
 	$(function(){
@@ -182,7 +196,6 @@ p{
 				$("#nickwarning").text("닉네임을 입력해주세요.");
 			}
 		});
-
 		$("#updPw").on("click", function(){
 			$("#pw-input").css("display", "block");
 		});
@@ -262,9 +275,7 @@ p{
 				chknewpw = false;
 			}
 		});
-
 		
-
 		$("#subPw").on("click", function(){
 			if(chknowpw && chknewpw) {
 				var newpw = $("#newpw").val();
@@ -298,7 +309,6 @@ p{
 				alert("변경 실패");
 			}
 		});
-
 	});
 </script>
 </head>
