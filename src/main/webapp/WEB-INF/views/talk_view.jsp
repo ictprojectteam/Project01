@@ -221,7 +221,7 @@
 		location.href = "talk?cPage="+cPage;
 	};
 	function update_go() {
-		location.href = "#";
+		location.href = "talk_update";
 	};
 	function delete_go() {
 		if (confirm("정말 삭제하시겠습니까??") == true){ 
@@ -300,7 +300,7 @@
 							<p style="margin-top: -20px; font-size: 14pt;">${k.name}</p>
 							<p style="margin: -37px 0px 0px 60px; font-size: 10pt; color: #747474;">${k.regdate}</p>
 							<c:if test="${k.m_idx != mvo.m_idx}">
-							<a href="#" style="text-decoration: none;"><p style="margin: -20px 0px 0px 190px; font-size: 12pt; color: #747474;"> | 신고</p></a>
+							<p style="margin: -20px 0px 0px 190px; font-size: 12pt; color: #747474;"><a href="#" style="text-decoration: none;"> | 신고</a></p>
 							</c:if>
 							<c:if test="${k.m_idx == mvo.m_idx}">
 							<a href="#" style="text-decoration: none;"><p style="margin: -20px 0px 0px 190px; font-size: 12pt; color: #747474;"> | 수정 </p></a>

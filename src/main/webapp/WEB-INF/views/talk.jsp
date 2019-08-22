@@ -61,9 +61,9 @@
 	overflow: hidden;
 	overflow: auto;
 	-ms-overflow-style: none;
-  	&::-webkit-scrollbar { 
-    display: none !important;
-  }
+}
+::-webkit-scrollbar{
+	display: none;
 }
 ul{
 	margin-top: 5px;

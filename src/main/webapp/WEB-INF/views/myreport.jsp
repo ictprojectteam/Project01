@@ -78,8 +78,7 @@
 		<input class="menu_bt" type="button" value="회원정보수정" onclick="prf_update()">
 	</div>
 	<div id="inquires_tab">
-		<input class="inquires_bt" type="button" value="문의중" style="background-color: #488399;">
-		<input class="inquires_bt" type="button" value="답변 완료">
+		<input class="inquires_bt" type="button" value="문의 내역" style="background-color: #488399;">
 	</div>
 </body>
 <footer>

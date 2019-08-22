@@ -589,6 +589,14 @@ public class MainController {
 		mv.addObject("cPage", cPage);
 		return mv;
 	}
+	@RequestMapping("talk_update")
+	public ModelAndView getTalk_update(HttpSession session) {
+		ModelAndView mv = new ModelAndView("talk_update");
+		TVO tvo = (TVO)session.getAttribute("tvo");
+		
+		mv.addObject("tvo", tvo);
+		return mv;
+	}
 	@RequestMapping("talk_del")
 	public ModelAndView getTalk_del(HttpSession session) {
 		ModelAndView mv = new ModelAndView("redirect:talk");
