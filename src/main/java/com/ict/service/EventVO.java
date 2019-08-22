@@ -2,6 +2,8 @@ package com.ict.service;
 
 public class EventVO {
 	private String e_idx, m_idx, e_title, e_start, e_end, e_type, e_public, e_banner, e_content, e_image, e_regdate;
+	private String open;
+	private String begin, end, cPage;
 	
 	public String getE_idx() {
 		return e_idx;
@@ -68,6 +70,30 @@ public class EventVO {
 	}
 	public void setE_regdate(String e_regdate) {
 		this.e_regdate = e_regdate;
+	}
+	public String getOpen() {
+		return open;
+	}
+	public void setOpen(String open) {
+		this.open = open;
+	}
+	public String getBegin() {
+		return begin;
+	}
+	public void setBegin(String begin) {
+		this.begin = begin;
+	}
+	public String getEnd() {
+		return end;
+	}
+	public void setEnd(String end) {
+		this.end = end;
+	}
+	public String getcPage() {
+		return cPage;
+	}
+	public void setcPage(String cPage) {
+		this.cPage = cPage;
 	}
 	
 }

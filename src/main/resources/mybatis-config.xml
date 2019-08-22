@@ -16,6 +16,7 @@
 		<typeAlias type="com.ict.service.QVO" alias="qvo" />
 		<typeAlias type="com.ict.service.VisitorVO" alias="vvo" />
 		<typeAlias type="com.ict.service.EventVO" alias="evo" />
+		<typeAlias type="com.ict.service.RecipeMVO" alias="rmvo" />
 	</typeAliases>
 	<mappers>
 		<mapper resource="mappings/mapper.xml" />

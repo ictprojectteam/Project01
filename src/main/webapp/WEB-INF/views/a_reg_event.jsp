@@ -386,9 +386,9 @@ input[type=text], input[type=date]{
 						</div>
 						<div class="double">
 							<div class="label">시작일</div>
-							<div class="content"><input type="date" name="e_start"></div>
+							<div class="content"><input type="datetime-local" name="e_start"></div>
 							<div class="label">종료일</div>
-							<div class="content"><input type="date" name="e_end"></div>
+							<div class="content"><input type="datetime-local" name="e_end"></div>
 						</div>
 						<div class="regular">
 							<div class="label">구분</div>

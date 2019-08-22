@@ -255,6 +255,14 @@ public class DAO {
 		return sqlSessionTemplate.selectOne("onelistrecipe", r_idx);
 	}
 	
+	public int insertRecipeMemo(RecipeMVO rmvo) {
+		return sqlSessionTemplate.insert("insertRecipeMemo", rmvo);
+	}
+	
+	public List<RecipeMVO> getRecipeMemoList(RecipeMVO rmvo){
+		return sqlSessionTemplate.selectList("getRecipeMemoList", rmvo);
+	}
+	
 	public int getAdminAccept(String r_idx) {
 		return sqlSessionTemplate.update("admin_accept", r_idx);
 	}
@@ -289,6 +297,15 @@ public class DAO {
 	
 	public List<MVO> aMemberList(MVO mvo) {
 		return sqlSessionTemplate.selectList("a_member_list", mvo);
+	}
+	
+	public int aCountEvent(EventVO evo) {
+		return sqlSessionTemplate.selectOne("a_count_event", evo);
+	}
+	
+	public List<EventVO> aEventList(EventVO evo) {
+		System.out.println(evo.getOpen());
+		return sqlSessionTemplate.selectList("a_event_list", evo);
 	}
 	
 	public void insertEvent(EventVO evo) {

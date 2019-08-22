@@ -59,10 +59,7 @@ public class MainController {
 		listmap.put("end", "8");
 		listmap.put("a_permission", "1");
 		
-		List<RecipeVO> r_list = dao.getRecipeList(listmap);
-		
 		List<TVO> t_list = dao.getTalk_List();
-		
 		for (int i = 0; i < t_list.size(); i++) {
 			if(t_list.get(i).getFile_name() != null) {
 				String str = t_list.get(i).getFile_name();
@@ -80,8 +77,7 @@ public class MainController {
 		}
 		
 		mv.addObject("t_list", t_list);
-		
-		mv.addObject("r_list", r_list);
+		mv.addObject("r_list", dao.getRecipeList(listmap));
 		return mv;
 	}
 

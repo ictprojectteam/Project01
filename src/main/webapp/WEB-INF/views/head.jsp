@@ -9,13 +9,13 @@
 	#head{
 		width: 100vw;
 		height: 150px;
-		margin: -8px;
 		overflow: visible;
 		position: static;
 	}
 	#logo-image{
-		width: 100%;
-		height: 100px;
+		width: 186px;
+		height: 68px;
+		margin: 16px 20px;
 	}
 	#top-logo-bar{
 		width: 1000px;
@@ -170,7 +170,7 @@
 		<div id="top-logo-bar">
 			<div id="top-logo">
 				<!-- 로고 이미지 -->
-				<a href="/"><img src="resources/images/coffee.png" id="logo-image"></a>
+				<a href="/"><img src="resources/images/logo4.png" id="logo-image"></a>
 			</div>
 			<form id="recipe-search" action="recipe">
 				<div><input type="text" name="k" id="search-bar"></div>

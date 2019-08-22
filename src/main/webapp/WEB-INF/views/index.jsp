@@ -7,7 +7,12 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>ICT PROJECT TEAM</title>
+<link rel="shortcut icon" href="/resources/images/favicon.ico" type="image/x-icon" />
+<link rel="icon" href="/resources/images/favicon.ico" type="image/x-icon" />
 <style type="text/css">
+	body{
+		margin: auto;
+	}
 	#body-content{
 		width: 1200px;
 		margin: 30px auto 0px;

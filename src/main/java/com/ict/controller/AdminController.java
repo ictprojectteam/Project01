@@ -18,12 +18,14 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.ict.service.DAO;
+import com.ict.service.EventPaging;
 import com.ict.service.EventVO;
 import com.ict.service.MVO;
 import com.ict.service.MemberPaging;
 import com.ict.service.QVO;
 import com.ict.service.QnAPaging;
 import com.ict.service.RecipeCVO;
+import com.ict.service.RecipeMVO;
 import com.ict.service.RecipePaging;
 import com.ict.service.RecipeVO;
 
@@ -208,6 +210,26 @@ public class AdminController {
 		return mv;
 	}
 	
+	@RequestMapping(value = "load_ad_memo", produces = "application/text; charset=utf-8")
+	@ResponseBody
+	public String load_ad_memo(RecipeMVO rmvo) {
+		StringBuffer res = new StringBuffer();
+		List<RecipeMVO> rmlist = dao.getRecipeMemoList(rmvo);
+		for (RecipeMVO k : rmlist) {
+			res.append("<div class='each-memo'><div class='memo-title'><span class='memo-name'>" + k.getName() + "</span>")
+			.append("<span class='memo-date'>" + k.getR_m_regdate().substring(0, 16) + "</span></div>")
+			.append("<div class='memo-content'>" + k.getR_m_content() + "</div></div>");
+		}
+		return res.toString();
+	}
+
+	@RequestMapping("ad_memo_write")
+	@ResponseBody
+	public String ad_memo_write(RecipeMVO rmvo, HttpSession session) {
+		rmvo.setM_idx(((MVO)session.getAttribute("mvo")).getM_idx());
+		return String.valueOf(dao.insertRecipeMemo(rmvo));
+	}
+	
 	@RequestMapping("admin_view_one_member")
 	public ModelAndView get_admin_view_one_member(@RequestParam String m_idx) {
 		ModelAndView mv = new ModelAndView("admin_view_one_member");
@@ -276,6 +298,43 @@ public class AdminController {
 	public ModelAndView geta_manager() {
 		ModelAndView mv = new ModelAndView("a_manager");
 		return mv;
+	}
+	
+	@RequestMapping(value = "load_event_list", produces = "application/text; charset=utf8")
+	@ResponseBody
+	public String load_event_list(EventVO evo) {
+		StringBuffer res = new StringBuffer();
+		EventPaging ep = new EventPaging(dao.aCountEvent(evo), evo.getcPage());
+		evo.setBegin(String.valueOf(ep.getBegin()));
+		evo.setEnd(String.valueOf(ep.getEnd()));
+		List<EventVO> elist = dao.aEventList(evo);
+		if (elist.size() > 0) {
+			for (EventVO k : elist) {
+				res.append("<div class='each-line' onclick='view(" + k.getE_idx() + ")'><div class='body-content'>" + k.getE_idx() + "</div><div class='body-content'>");
+				if (k.getE_type().equals("1")) {
+					res.append("이벤트 공지</div>");
+				} else if(k.getE_type().equals("2")) {
+					res.append("당첨자 발표</div>");
+				}
+				res.append("<div class='body-content'>" + k.getE_title() + "</div>")
+				.append("<div class='body-content'>" + k.getE_start().substring(0, 16) + "</div>")
+				.append("<div class='body-content'>" + k.getE_end().substring(0, 16) + "</div>");
+				try {
+					if(new Date().getTime() > new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(k.getE_end()).getTime()) {
+						res.append("<div class='body-content yet'>진행 예정</div></div>");
+					} else if (new Date().getTime() > new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(k.getE_start()).getTime()) {
+						res.append("<div class='body-content open'>진행중</div></div>");
+					} else {
+						res.append("<div class='body-content close'>종료</div></div>");
+					}
+				} catch (ParseException e) {
+				}
+			}
+		} else {
+			res.append("<div id='empty'>표시할 내용이 없습니다.</div>");
+		}
+		
+		return res.toString();
 	}
 	
 	@RequestMapping("admin_reg_event")
