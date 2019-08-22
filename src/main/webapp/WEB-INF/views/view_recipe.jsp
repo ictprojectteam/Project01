@@ -103,12 +103,12 @@
 		margin: 0px 0px 0px 30px;
 	}
 	.order-text{
-		font-size: 16pt;
+		font-size: 22pt;
 		color: #555;
-		line-height: 10pt;
+		line-height: 24pt;
 	}
 	.order-text pre{
-		margin-top: 10px;
+		margin-top: 5px;
 	}
 	.order-img{
 		height: 220px;
@@ -453,6 +453,7 @@
 					type : "post",
 					success : function(data) {
 						if (data != 0) {
+							$("#comtext").val("");
 							getComList();
 						} else {
 							alert("쓰기 실패1");
@@ -528,7 +529,6 @@
 		getComList();
 		$("iframe").attr({"frameborder" : "0", "allow" : "accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture", "allowfullscreen" : ""})
 	});
-
 	function countCom() {
 		$("#com-count").empty();
 		$.ajax({
@@ -620,10 +620,19 @@
 					<h3>[${pack[i]}]</h3>
 					<c:set var="rege2" value="\|, \|"></c:set>
 					<c:set var="material" value="${materials[i].split(rege2)}"></c:set>
-					<p><c:forEach var="j" begin="0" end="${fn:length(material) - 1}">
-						${material[j].replace(', ', ' ')}
-						<c:if test="${j < (fn:length(material)-1)}">,</c:if> 
-					</c:forEach></p>
+					<p>
+						<c:choose>
+							<c:when test="${fn:length(material) > 1}">
+								<c:forEach var="j" begin="0" end="${fn:length(material) - 1}">
+									${material[j].replace(', ', ' ')}
+									<c:if test="${j < (fn:length(material)-1)}">,</c:if> 
+								</c:forEach>
+							</c:when>
+							<c:otherwise>
+								${material[0].replace(', ', '')}
+							</c:otherwise>
+						</c:choose>
+					</p>
 					<br>
 				</c:forEach>
 			</div>

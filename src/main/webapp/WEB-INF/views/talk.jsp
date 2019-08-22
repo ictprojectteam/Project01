@@ -65,6 +65,9 @@
 ::-webkit-scrollbar{
 	display: none;
 }
+::-webkit-scrollbar{
+	display: none;
+}
 ul{
 	margin-top: 5px;
 }

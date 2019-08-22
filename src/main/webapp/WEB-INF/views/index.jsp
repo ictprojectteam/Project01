@@ -85,7 +85,7 @@
 	.talk-preview:hover img, .recipe-preview:hover img{
 		opacity: 0.5;
 	}
-	.recipe-preview-content p:first-child{
+	.recipe-preview-content p:first-child, .talk-preview-content p:first-child{
 		display:-webkit-box;
 	  -webkit-line-clamp:1;
 	  -webkit-box-orient:vertical;

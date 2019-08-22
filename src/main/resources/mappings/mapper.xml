@@ -10,6 +10,31 @@
 	<select id="list" resultType="mvo">
 		select * from members order by regdate desc
 	</select>
+	
+	<select id="sumHit" resultType="int">
+		select sum(hit) from recipe
+	</select>
+	
+	<select id="countRecipe" resultType="int">
+		select count(*) from recipe where a_permission = 1
+	</select>
+	
+	<select id="chkDate" parameterType="String" resultType="vvo">
+		select * from visitor where v_date = #{date}
+	</select>
+	
+	<insert id="insertVisitor" parameterType="String">
+		insert into visitor values(v_seq.nextval, #{date}, 1)
+	</insert>
+	
+	<update id="updateVisitor" parameterType="String">
+		update visitor set v_count = (v_count + 1) where v_date = #{date}
+	</update>
+	
+	<select id="monthlyVisitor" parameterType="Map" resultType="int">
+		select sum(v_count) from visitor <![CDATA[where v_date >= #{start} and v_date <= #{endt}]]>
+	</select>
+	
 	<insert id="join" parameterType="mvo">
 		insert into members
 		values(members_seq.nextval,#{id},#{pw},#{email},#{name},#{gender},sysdate)
@@ -72,7 +97,7 @@
 	</insert>
 	
 	<insert id="insert_recipe" parameterType="rvo">
-		insert into recipe values (recipe_seq.nextval, #{m_idx}, #{recipe_title}, #{recipe_introduce}, #{recipe_video}, #{ca1}, #{ca2}, #{ca3}, #{ca4}, #{recipe_quant}, #{recipe_time}, #{recipe_difficulty}, #{main_image}, #{pack}, #{material}, #{orderContent}, #{finImage}, #{recipe_tip}, #{recipe_tag} , 0, 0, sysdate, sysdate, #{savepublic}, 0)
+		insert into recipe values (recipe_seq.nextval, #{m_idx}, #{recipe_title}, #{recipe_introduce}, #{recipe_video}, #{ca1}, #{ca2}, #{ca3}, #{ca4}, #{recipe_quant}, #{recipe_time}, #{recipe_difficulty}, #{main_image}, #{pack}, #{material}, #{orderContent}, #{finImage}, #{recipe_tip}, #{recipe_tag} , 0, 0, #{regdate}, sysdate, #{savepublic}, #{a_permission})
 	</insert>
 	
 	<insert id="repCom" parameterType="qvo">
@@ -289,12 +314,16 @@
 	</select>
 	
 	<select id="recipe_comment_list" parameterType="String" resultType="rcvo">
-		select rc.*, m.name writer from recipe_c rc, members m where rc.m_idx = m.m_idx and r_idx = #{r_idx} order by r_c_idx desc
+		select rc.*, m.name from recipe_c rc, members m where rc.m_idx = m.m_idx and r_idx = #{r_idx} order by r_c_idx desc
 	</select>
 	
 	<select id="count_comment" parameterType="String" resultType="int">
 		select count(*) from recipe_c where r_idx = #{r_idx}
 	</select>
+	
+	<delete id="delete_rcomment" parameterType="rcvo">
+		delete from recipe_c where r_c_idx = #{r_c_idx}
+	</delete>
 	
 	<update id="updateCount" parameterType="rrvo">
 		update r_rank set r_count = #{r_count} where r_rank_idx = #{r_rank_idx}
@@ -351,6 +380,10 @@
 			</where>
 	</select>
 	
+	<select id="q_list" resultType="qvo">
+		select * from qna join members on qna.m_idx=members.m_idx order by qna.regdate desc
+	</select>
+	
 	<select id="qlist" parameterType="qvo" resultType="qvo">
 		select * from (
 			select rownum as r_num, a.* from (
@@ -373,6 +406,10 @@
 				order by q_idx desc
 			) a
 		) where r_num between #{begin} and #{end}
+	</select>
+	
+	<select id="qnaDetail" parameterType="rcvo" resultType="rcvo">
+		select rc.*, id, name from recipe_c rc, members m where rc.m_idx = m.m_idx and r_c_idx = #{r_c_idx}
 	</select>
 	
 	<update id="compQnA" parameterType="qvo">
@@ -426,5 +463,9 @@
 					order by m_idx desc
 			) a
 		) where r_num between #{begin} and #{end}
-	</select>	
+	</select>
+	
+	<insert id="insertEvent" parameterType="evo">
+		insert into event values (e_seq.nextval, #{m_idx}, #{e_title}, #{e_start}, #{e_end}, #{e_type}, #{e_public}, #{e_banner}, #{e_content, jdbcType=VARCHAR}, #{e_image, jdbcType=CLOB}, #{e_regdate})
+	</insert>
 </mapper>

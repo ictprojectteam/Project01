@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -223,6 +224,39 @@ legend{
 	font-weight: bolder;
 }
 
+#qna-modal{
+	z-index:3;
+	display:none;
+	padding-top:100px;
+	position:fixed;
+	left:0;
+	top:0;
+	width:100%;
+	height:100%;
+	overflow:auto;
+	background-color: #0008;
+}
+
+#qna-modal-content{
+	margin:auto;
+	background-color:#fff;
+	position:relative;
+	padding:0;
+	outline:0;
+	width:350px;
+	border: 1px solid #aaa;
+	animation: animatetop 0.4s;
+	border-radius: 15px;
+}
+
+#qna-modal-content div{
+	padding: 13px;
+}
+
+@keyframes animatetop{
+	from{top:-300px;opacity:0}
+	to{top:0;opacity:1}
+}
 
 /* paging */
 .paging{
@@ -329,12 +363,52 @@ legend{
 			}
 			location.href = l;
 		});
+
+		window.onclick = function(event) {
+			if (event.target == document.getElementById("qna-modal")) $("#qna-modal").css({"display":"none"});
+		}
 		
 		$("#month").click();
 	});
 
+	function view_detail(r, c) {
+		$("#qna-modal-content").empty();
+		$.ajax({
+			url : "qna_detail",
+			data : {"r_idx" : r, "r_c_idx" : c},
+			dataType : "text",
+			type : "post",
+			success : function(data) {
+				$("#qna-modal-content").append(data);
+			},
+			error : function(){
+				alert("읽기 실패2");
+			}
+		});
+		$("#qna-modal").css("display", "block");
+	}
+
 	function comp_qna(e) {
 		location.href = "admin_complete?q_idx=" + e;
+	}
+
+	function com_del(e) {
+		$.ajax({
+			url : "recipe_comdelete",
+			data : "r_c_idx=" + e,
+			dataType : "text",
+			type : "post",
+			success : function(data) {
+				if(data == 1) {
+					alert("삭제 성공");
+				} else {
+					alert("삭제 실패");
+				}
+			},
+			error : function(){
+				alert("읽기 실패2");
+			}
+		});
 	}
 	
 	function send_one(f){
@@ -355,14 +429,14 @@ legend{
 				<li><a id="content" href="a_write_recipe">게시물 등록</a></li>
 				<li><a id="user" href="a_membership">회원 관리</a></li>
 				<li><a id="board" href="admin_qna">문의 관리</a></li>
-				<li><a id="event" href="home">이벤트 관리</a></li>
+				<li><a id="event" href="admin_event">이벤트 관리</a></li>
 				<li><a id="op" href="home">운영자 관리</a></li>
-				<li><a id="setting" href="home">설정</a></li>
+				<li><a id="setting" href="/">Main</a></li>
 			</ul>
 		</nav>
 		<header>
 			<div id="links">
-				<a href="m">로그아웃</a>
+				<a href="logout">로그아웃</a>
 			</div>
 		</header>
 		<div id="main">
@@ -420,7 +494,21 @@ legend{
 							<div class="body-content">${k.id}</div>
 							<div class="body-content">${k.email}</div>
 							<div class="body-content">${k.q_def}</div>
-							<div class="body-content">${k.content}</div>
+							<c:choose>
+								<c:when test="${k.q_def eq '댓글신고'}">
+									<c:set var="content" value="${k.content}"></c:set>
+									<c:set var="inr" value="${fn:indexOf(content, '번')}"></c:set>
+									<c:set var="rno" value="${fn:substring(content, 0, inr)}"></c:set>
+									<c:set var="content" value="${fn:substring(content, inr + 6, fn:length(content))}"></c:set>
+									<c:set var="inr" value="${fn:indexOf(content, '번')}"></c:set>
+									<c:set var="rcno" value="${fn:substring(content, 0, inr)}"></c:set>
+									<div class="body-content" onclick="view_detail(${rno}, ${rcno})">${k.content}</div>
+								</c:when>
+								<c:otherwise>
+									<div class="body-content">${k.content}</div>
+								</c:otherwise>
+							</c:choose>
+							
 							<div class="body-content">${k.regdate}</div>
 							<div class="body-content<c:choose><c:when test="${k.status eq '처리 대기중'}"> waiting</c:when><c:otherwise> comp</c:otherwise></c:choose>">${k.status}</div>
 							<div class="body-content"><c:if test="${k.status eq '처리 대기중'}"><button onclick="comp_qna(${k.q_idx})">완료</button></c:if></div>
@@ -430,6 +518,11 @@ legend{
 						<div id="empty">표시할 내용이 없습니다.</div>
 					</c:otherwise>
 				</c:choose>
+			</div>
+			<div id="qna-modal">
+				<div id="qna-modal-content">
+					
+				</div>
 			</div>
 			<div class="paging">
 			    <c:choose>

@@ -216,15 +216,14 @@ margin-top:-40px;
 }
 #write-top-image-insert img{
 	width: 150px;
-	height: 150px;
-	margin: 10px;
+	height: 130px;
 }
 #write-top-image-insert>.fa-times{
 	background: #333;
 	color: #ccc;
 	position: relative;
-	bottom: 245px;
-	left: 105px;
+	bottom: 155px;
+	left: 95px;
 	z-index: 1;
 	font-size: 20pt;
 	opacity: 0.7;
@@ -447,7 +446,7 @@ margin-top:-40px;
 	color: #999;
 }
 #save-button{
-	text-align: center;
+	margin-left: 300px;
 	margin-top: 40px;
 }
 #save-button span{
@@ -505,308 +504,27 @@ textarea{
 	resize: none;
 }
 
-
-
-
-
 </style>
-<script type="text/javascript">
-	function send_one(f){
-		f.action = "selectonerecipe.do";
-		f.submit();
-	}
-</script>
-
-
 <script src="https://kit.fontawesome.com/057ba10041.js"></script>
 <script src="../resources/js/jquery-3.4.1.min.js"></script>
 <script src="../resources/js/jquery-ui.min.js"></script>
 <script type="text/javascript">
-	$(function(){
-		$("#write-top-image-com").on("click", insert_click);
-		$("#recipe-ing").sortable({
-			handle: '.recipe-sort-arrow'
-		});
-		$(".recipe-each-ing").sortable({
-			handle: '.recipe-each-arrow'
-		});
-		$("#recipe-order-container").sortable({
-			handle: '.recipe-order-count',
-		});
-		$("#recipe-order-container").on("sortstop", order_sort);
-		$("#recipe-ing").on("sortstop", pack_sort);
-		$(".recipe-each-ing").on("sortstop", mat_sort);
-		
-		$("#insert-main-image").on("change", function(){
-			if(this.files && this.files[0]){
-				var reader = new FileReader();
-				reader.readAsDataURL(this.files[0]);
-				reader.onload = function(e){
-					var readFile = e.target.result;
-					var chkcor = readFile.substring(readFile.indexOf(',') + 1, readFile.indexOf(',') + 5);
-					readFile = readFile.substring(0, readFile.indexOf('/'));
-					if(readFile === "data:image" && chkcor != "77u/"){
-						$("#write-top-image-com").append("<input type='hidden' value='" + e.target.result + "' name='main_image'>")
-						$("#write-top-image-com").hide();
-						$("#write-top-image-insert").empty();
-						$("#write-top-image-insert").append("<img onclick='insert_click()' src=" + e.target.result + ">");
-						$("#write-top-image-insert").append("<i class='fas fa-times' onclick='del_mainimage()'></i>");
-						$("#write-top-image-insert").show();
-					} else {
-						del_mainimage();
-					}
-				}
-			} else {
-				del_mainimage();
-			}
-		});
-		$("[id^=recipe-orderimage-]").on("change", change_order_image);
-		
-		$("#comp-image-oneclick").on("click", function(){
-			$("#comp-image-multfile").click();
-		});
-		$("#comp-image-multfile").on("change", function(){
-			var files = this.files;
-			var imgnum = 1;
-			$(".comp-image-selected").empty();
-			$(".comp-image-empty").show();
-			$("input[name^=comp-image-val-]").val("");
-			if(files){
-				for (var i = 0; i < files.length; i++) {
-					var reader = new FileReader();
-					reader.readAsDataURL(files[i]);
-					reader.onload = function(e){
-						if(imgnum > 4) return;
-						var cont = $("#comp-image-" + imgnum);
-						var selimg = cont.find(".comp-image-selected");
-						var readFile = e.target.result;
-						var chkcor = readFile.substring(readFile.indexOf(',') + 1, readFile.indexOf(',') + 5);
-						readFile = readFile.substring(0, readFile.indexOf('/'));
-						if(readFile === "data:image" && chkcor != "77u/"){
-							cont.find(".comp-image-empty").hide();
-							cont.find("input[type=hidden]").val(e.target.result);
-							selimg.empty();
-							selimg.append("<img src=" + e.target.result + " onclick='change_compimage(" + imgnum + ")'>");
-							selimg.append("<i class='fas fa-times' onclick = 'del_compimage(" + imgnum + ")'></i>");
-							selimg.show();
-							imgnum++;
-						} else {
-							selimg.hide();
-							cont.find(".comp-image-empty").show();
-						}
-					}	
-				}
-			}
-		});
-		
-		$(".comp-image-empty").on("click", function(){
-			var k = $(this).parent().attr("id").replace("comp-image-", "");
-			$("#comp-image-file-" + k).click();
-		});
-		$("[id^=comp-image-file-").on("change", function(){
-			var k = $(this).attr("id").replace("comp-image-file-", "");
-			var cont = $("#comp-image-" + k);
-			var selimg = cont.find(".comp-image-selected");
-			selimg.empty();
-			cont.find(".comp-image-empty").show();
-			if(this.files && this.files[0]){
-				var reader = new FileReader();
-				reader.readAsDataURL(this.files[0]);
-				reader.onload = function(e){
-					var readFile = e.target.result;
-					var chkcor = readFile.substring(readFile.indexOf(',') + 1, readFile.indexOf(',') + 5);
-					readFile = readFile.substring(0, readFile.indexOf('/'));
-					if(readFile === "data:image" && chkcor != "77u/"){
-						cont.find(".comp-image-empty").hide();
-						cont.find("input[type=hidden]").val(e.target.result);
-						selimg.append("<img src=" + e.target.result + " onclick='change_compimage(" + k + ")'>");
-						selimg.append("<i class='fas fa-times' onclick = 'del_compimage(" + k + ")'></i>");
-						selimg.show();
-					} else {
-						$(this).val("");
-						selimg.hide();
-						cont.find("input[type=hidden]").val("");
-						cont.find(".comp-image-empty").show();
-					}
-				}
-			} else {
-				selimg.hide();
-				cont.find("input[type=hidden]").val("");
-				cont.find(".comp-image-empty").show();
-			}
-		});
-		$("#video-url").on("focusout", function(){
-			var url = $("#video-url").val();
-			if(/http[s]?:[/]{2}/.test(url)){
-				url = url.substring(url.lastIndexOf('/') + 1, url.length);
-				if(/.{8,8}/.test(url)) {
-					url = "https://img.youtube.com/vi/" + url + "/mqdefault.jpg";
-					$.ajax({
-						url : "thumbnail",
-						type : "post",
-						data : {"url":url},
-						dataType : "text",
-						success : function(data){
-							$("#video-pre").hide();
-							$("#video-thumbnail").empty();
-							$("#video-thumbnail").append("<img src='" + data + "' alt='' onerror=img_error()>");
-							$("#video-thumbnail").show();
-						}
-					});
-				} else {
-					alert("올바른 주소를 입력해주세요.");
-					$("#video-url").val("");
-				}
-			}
-		});
-		$("#save").on("click", function(){
-			$("input[type=file]").attr("disabled", "disabled");
-			$("#recipe-form").attr("action", "save_recipe").submit();
-		});
-		$("#cancel").on("click", function(){
-			history.go(-1);
-		});
-
-		$("#check_ingredient").on("change", function(){
-			if($("#recipe-ing-pack-1").css("display") == "none"){
-				$("#recipe-ing-pack-1").css("display", "block");
-			} else {
-				$("#recipe-ing-pack-1").css("display", "none");
-			}
-		});
-		
-		$("#check_season").on("change", function(){
-			if($("#recipe-ing-pack-2").css("display") == "none"){
-				$("#recipe-ing-pack-2").css("display", "block");
-			} else {
-				$("#recipe-ing-pack-2").css("display", "none");
-			}
-		});
-
-		$("#check_sause").on("change", function(){
-			if($("#recipe-ing-pack-3").css("display") == "none"){
-				$("#recipe-ing-pack-3").css("display", "block");
-			} else {
-				$("#recipe-ing-pack-3").css("display", "none");
-			}
-		});
-
-		$("#check_broth").on("change", function(){
-			if($("#recipe-ing-pack-4").css("display") == "none"){
-				$("#recipe-ing-pack-4").css("display", "block");
-			} else {
-				$("#recipe-ing-pack-4").css("display", "none");
-			}
-		});
-
-		$("#check_topping").on("change", function(){
-			if($("#recipe-ing-pack-5").css("display") == "none"){
-				$("#recipe-ing-pack-5").css("display", "block");
-			} else {
-				$("#recipe-ing-pack-5").css("display", "none");
-			}
-		});
-
-		$("#check_syrup").on("change", function(){
-			if($("#recipe-ing-pack-6").css("display") == "none"){
-				$("#recipe-ing-pack-6").css("display", "block");
-			} else {
-				$("#recipe-ing-pack-6").css("display", "none");
-			}
-		});
-
-		var subm = false;
-		$(window).on("beforeunload", function(){
-			if (!subm) return "작성된 레시피를 저장하지 않고 이동하시겠습니까?";
-		});
+$(function(){
+	$("#write-top-image-com").on("click", insert_click);
+	$("#recipe-ing").sortable({
+		handle: '.recipe-sort-arrow'
 	});
+	$(".recipe-each-ing").sortable({
+		handle: '.recipe-each-arrow'
+	});
+	$("#recipe-order-container").sortable({
+		handle: '.recipe-order-count',
+	});
+	$("#recipe-order-container").on("sortstop", order_sort);
+	$("#recipe-ing").on("sortstop", pack_sort);
+	$(".recipe-each-ing").on("sortstop", mat_sort);
 	
-	function insert_click(){
-		$("#insert-main-image").click();
-	}
-	function img_error(){
-		$("#video-thumbnail").empty();
-		$("#video-thumbnail").hide();
-		$("#video-pre").show();
-		alert("올바른 주소를 입력해주세요");
-		$("#video-url").val("");
-	}
-	
-	function del_mainimage(){
-		$("#insert-main-image").val('');
-		$("#write-top-image-insert").empty();
-		$("#write-top-image-com").find("input[name=main_image]").remove();
-		$("#write-top-image-com").show();
-	}
-	function del_pack(pack){
-		var k = $(".recipe-ing-pack");
-		if(k.length < 2){
-			$("#recipe-ing-pack-"+pack+" textarea").val("");
-			$("#recipe-ing-pack-"+pack).attr("id","recipe-ing-pack-1");
-		} else {
-			$("#recipe-ing-pack-"+pack).remove();
-		}
-	}
-	
-
-	function mat_sort(){
-		var pack = $(this).attr("id").replace("recipe-pack-","");
-		var ing = 1;
-		$(this).find(".recipe-each-sort").each(function(){
-			$(this).attr("id", "recipe-each-" + pack + "-" + ing);
-			$(this).find(".recipe-each-name textarea").attr("name", "recipe-each-name-" + pack + "-" + ing);
-			$(this).find(".recipe-each-quant textarea").attr("name", "recipe-each-quant-" + pack + "-" + ing);
-			$(this).find(".recipe-each-delete").attr("onclick", "each_del(" + pack + "," + ing + ")");
-			ing++;
-		});
-	}
-	function mat_sort_input(pack){
-		var ing = 1;
-		$("#recipe-pack-"+pack).find(".recipe-each-sort").each(function(){
-			$(this).attr("id", "recipe-each-" + pack + "-" + ing);
-			$(this).find(".recipe-each-name textarea").attr("name", "recipe-each-name-" + pack + "-" + ing);
-			$(this).find(".recipe-each-quant textarea").attr("name", "recipe-each-quant-" + pack + "-" + ing);
-			$(this).find(".recipe-each-delete").attr("onclick", "each_del(" + pack + "," + ing + ")");
-			ing++;
-		});
-	}
-	
-	function pack_sort(){
-		var pack = 1;
-		$(".recipe-ing-pack").each(function(){
-			$(this).attr("id", "recipe-ing-pack-" + pack);
-			$(this).find(".recipe-sort-pack textarea").attr("name", "ing-pack-"+pack);
-			$(this).find(".recipe-delete-pack p").attr("onclick","del_pack("+pack+")");
-			$(this).find(".recipe-each-ing").attr("id", "recipe-pack-"+pack);
-			$(this).find(".recipe-each-add").attr("onclick","each_add("+pack+")");
-			mat_sort_input(pack);
-			pack++;
-		});
-	}
-	
-	function add_pack(){
-		var pack = 0;
-		$(".recipe-each-ing").each(function(){
-			var pre_pack = $(this).prop("id").replace("recipe-pack-","");
-			var tmp_pack = parseInt(pre_pack, 10);
-			pack = Math.max(pack, tmp_pack);
-		});
-		pack++;
-		var str = '<div class="recipe-ing-pack" id="recipe-ing-pack-' + pack + '"><div class="recipe-sort">';
-		str += '<div class="recipe-sort-arrow"><i class="fas fa-sort-up"></i><br><i class="fas fa-sort-down"></i></div>';
-		str += '<div><div class="recipe-sort-pack"><textarea rows="1" cols="16" name="ing-pack-' + pack + '" wrap="soft"></textarea></div>';
-		str += '<div class="recipe-delete-pack"><p onclick="del_pack(' + pack + ')"><i class="fas fa-times"></i> 묶음삭제</p></div></div>';
-		str += '<div class="recipe-each-ing" id="recipe-pack-' + pack + '"></div></div>';
-		str += '<div class="recipe-each-add" onclick="each_add(' + pack + ')"><i class="fas fa-plus"></i> 추가</div></div>';
-		$("#recipe-ing").append(str);
-		each_add(pack);
-		each_add(pack);
-	}
-	function add_order_image(num){
-		$("#recipe-orderimage-" + num).click();
-	}
-	function change_order_image(){
-		var k = $(this).attr("id").replace("recipe-orderimage-", "");
+	$("#insert-main-image").on("change", function(){
 		if(this.files && this.files[0]){
 			var reader = new FileReader();
 			reader.readAsDataURL(this.files[0]);
@@ -815,115 +533,552 @@ textarea{
 				var chkcor = readFile.substring(readFile.indexOf(',') + 1, readFile.indexOf(',') + 5);
 				readFile = readFile.substring(0, readFile.indexOf('/'));
 				if(readFile === "data:image" && chkcor != "77u/"){
-					$("#recipe-order-" + k + " .recipe-order-addimage i.fa-plus").hide();
-					$("#recipe-order-" + k).find("input[type=hidden]").val(e.target.result);
-					$("#recipe-order-" + k + " .recipe-order-image").empty();
-					var imgapp = "<img onclick='add_order_image(" + k + ")' src=" + e.target.result + ">";
-					imgapp += "<i class='fas fa-times' onclick = 'del_order_image("+ k + ")'></i>";
-					$("#recipe-order-" + k + " .recipe-order-image").append(imgapp);
+					$("#write-top-image-com").append("<input type='hidden' value='" + e.target.result + "' name='main_image'>")
+					$("#write-top-image-com").hide();
+					$("#write-top-image-insert").empty();
+					$("#write-top-image-insert").append("<img onclick='insert_click()' src=" + e.target.result + ">");
+					$("#write-top-image-insert").append("<i class='fas fa-times' onclick='del_mainimage()'></i>");
+					$("#write-top-image-insert").show();
 				} else {
-					del_order_image(k);
+					del_mainimage();
 				}
 			}
 		} else {
-			del_order_image(k);
+			del_mainimage();
 		}
-	}
-	function del_order_image(num){
-		$("#recipe-orderimage-" + num).val('');
-		$("#recipe-order-" + num).find("input[type=hidden]").val("");
-		$("#recipe-order-" + num + " .recipe-order-image").empty();
-		$("#recipe-order-" + num + " .recipe-order-addimage i.fa-plus").show();
-	}
-	function add_order(){
-		var count = 0;
-		$(".recipe-order").each(function(){
-			var pre_count = $(this).attr("id").replace("recipe-order-","");
-			var tmp_count = parseInt(pre_count, 10);
-			count = Math.max(count, tmp_count);
+	});
+
+	$("[id^=recipe-orderimage-]").on("change", change_order_image);
+	
+	$("#comp-image-oneclick").on("click", function(){
+		$("#comp-image-multfile").click();
+	});
+
+	$("#comp-image-multfile").on("change", function(){
+		var files = this.files;
+		var imgnum = 1;
+		$(".comp-image-selected").empty();
+		$(".comp-image-empty").show();
+		$("input[name^=comp-image-val-]").val("");
+		if(files){
+			for (var i = 0; i < files.length; i++) {
+				var reader = new FileReader();
+				reader.readAsDataURL(files[i]);
+				reader.onload = function(e){
+					if(imgnum > 4) return;
+					var cont = $("#comp-image-" + imgnum);
+					var selimg = cont.find(".comp-image-selected");
+					var readFile = e.target.result;
+					var chkcor = readFile.substring(readFile.indexOf(',') + 1, readFile.indexOf(',') + 5);
+					readFile = readFile.substring(0, readFile.indexOf('/'));
+					if(readFile === "data:image" && chkcor != "77u/"){
+						cont.find(".comp-image-empty").hide();
+						cont.find("input[type=hidden]").val(e.target.result);
+						selimg.empty();
+						selimg.append("<img src=" + e.target.result + " onclick='change_compimage(" + imgnum + ")'>");
+						selimg.append("<i class='fas fa-times' onclick = 'del_compimage(" + imgnum + ")'></i>");
+						selimg.show();
+						imgnum++;
+					} else {
+						selimg.hide();
+						cont.find(".comp-image-empty").show();
+					}
+				}	
+			}
+		}
+	});
+	
+	$(".comp-image-empty").on("click", function(){
+		var k = $(this).parent().attr("id").replace("comp-image-", "");
+		$("#comp-image-file-" + k).click();
+	});
+
+	$("[id^=comp-image-file-").on("change", function(){
+		var k = $(this).attr("id").replace("comp-image-file-", "");
+		var cont = $("#comp-image-" + k);
+		var selimg = cont.find(".comp-image-selected");
+		selimg.empty();
+		cont.find(".comp-image-empty").show();
+		if(this.files && this.files[0]){
+			var reader = new FileReader();
+			reader.readAsDataURL(this.files[0]);
+			reader.onload = function(e){
+				var readFile = e.target.result;
+				var chkcor = readFile.substring(readFile.indexOf(',') + 1, readFile.indexOf(',') + 5);
+				readFile = readFile.substring(0, readFile.indexOf('/'));
+				if(readFile === "data:image" && chkcor != "77u/"){
+					cont.find(".comp-image-empty").hide();
+					cont.find("input[type=hidden]").val(e.target.result);
+					selimg.append("<img src=" + e.target.result + " onclick='change_compimage(" + k + ")'>");
+					selimg.append("<i class='fas fa-times' onclick = 'del_compimage(" + k + ")'></i>");
+					selimg.show();
+				} else {
+					$(this).val("");
+					selimg.hide();
+					cont.find("input[type=hidden]").val("");
+					cont.find(".comp-image-empty").show();
+				}
+			}
+		} else {
+			selimg.hide();
+			cont.find("input[type=hidden]").val("");
+			cont.find(".comp-image-empty").show();
+		}
+	});
+
+	$("#video-url").on("focusout", function(){
+		var url = $("#video-url").val();
+		if(/http[s]?:[/]{2}/.test(url)){
+			url = url.substring(url.lastIndexOf('/') + 1, url.length);
+			if(/.{11,11}/.test(url)) {
+				url = "https://img.youtube.com/vi/" + url + "/maxresdefault.jpg";
+				$.ajax({
+					url : "thumbnail",
+					type : "post",
+					data : {"url":url},
+					dataType : "text",
+					success : function(data){
+						$("#video-pre").hide();
+						$("#video-thumbnail").empty();
+						$("#video-thumbnail").append("<img src='" + data + "' alt='' onerror=img_error()>");
+						$("#video-thumbnail").show();
+						if($("input[name=main_image]").val() == undefined){
+							$("#write-top-image-com").append("<input type='hidden' value='" + data + "' name='main_image'>")
+							$("#write-top-image-com").hide();
+							$("#write-top-image-insert").empty();
+							$("#write-top-image-insert").append("<img onclick='insert_click()' src=" + data + ">");
+							$("#write-top-image-insert").append("<i class='fas fa-times' onclick='del_mainimage()'></i>");
+							$("#write-top-image-insert").show();
+						}
+					}
+				});
+			} else {
+				alert("올바른 주소를 입력해주세요.");
+				$("#video-url").val("");
+			}
+		}
+	});
+
+		$("#public").on("click", function(){
+			var chkval = validateForm();
+			if(!chkval) return;
+			$("input[type=file]").attr("disabled", "disabled");
+			subm = true;
+			$("#recipe-form").attr("action", "save_recipe").submit();
 		});
-		count++;
-		var str = '<div class="recipe-order" id="recipe-order-' + count + '"><div class="recipe-order-count">Step ' + count + '</div><div class="recipe-order-content">';
-		str += '<textarea placeholder="예) 소고기는 기름기를 떼어내고 적당한 크기로 썰어주세요." name="order-text-'+count+'"></textarea></div>';
-		str += '<input type="hidden" name="order-image-' + count + '">';
-		str += '<div class="recipe-order-addimage"><div onclick="add_order_image(' + count + ')"><i class="fas fa-plus"></i></div><div class="recipe-order-image"></div></div>';
-		str += '<input type="file" hidden="" name="recipe_orderimage' + count + '" accept="image/*" id="recipe-orderimage-' + count + '">';	
-		str += '<div class="recipe-order-button"><i class="fas fa-angle-up" onclick="order_up()"></i> <i class="fas fa-angle-down" onclick="order_down()"></i>';
-		str += '<i class="fas fa-plus" onclick="order_after()"></i> <i class="fas fa-times" onclick="order_del()"></i></div></div>';
-		$("#recipe-order-container").append(str);
-		$("#recipe-orderimage-" + count).bind("change", change_order_image);
-	}
-	function order_sort(){
-		var i = 1;
-		$(".recipe-order").each(function(){
-			$(this).attr("id", "recipe-order-" + i);
-			$(this).find(".recipe-order-count").text("Step " + i);
-			$(this).find(".recipe-order-content").find("textarea").attr("name", "order-text-" + i);
-			$(this).find("input[type=hidden]").attr("name", "order-image-" + i);
-			$(this).find(".recipe-order-addimage").find("div:first-child").attr("onclick", "add_order_image(" + i + ")");
-			$(this).find("input[type=file]").attr({"name":"recipe_orderimage" + i, "id":"recipe-orderimage-" + i});
-			$(this).find(".recipe-order-addimage").find(".recipe-order-image").find("img").attr("onclick", "add_order_image(" + i + ")");
-			$(this).find(".recipe-order-addimage").find(".recipe-order-image").find("i").attr("onclick", "del_order_image(" + i + ")");
-			i++;
+		$("#cancel").on("click", function(){
+			history.go(-1);
 		});
+
+		var subm = false;
+		$(window).on("beforeunload", function(){
+			if (!subm) return "작성된 레시피를 저장하지 않고 이동하시겠습니까?";
+		});
+
+		$("#check_ingredient").on("change", function(){
+			if($("#recipe-ing-pack-1").css("display") == "none"){
+				$("#recipe-ing-pack-1").css("display", "block");
+				$("textarea[name=ing-pack-1]").removeAttr("disabled");
+			} else {
+				$("#recipe-ing-pack-1").css("display", "none");
+				$("textarea[name=ing-pack-1]").attr("disabled", "disabled");
+			}
+		});
+		
+		$("#check_season").on("change", function(){
+			if($("#recipe-ing-pack-2").css("display") == "none"){
+				$("#recipe-ing-pack-2").css("display", "block");
+				$("textarea[name=ing-pack-2]").removeAttr("disabled");
+			} else {
+				$("#recipe-ing-pack-2").css("display", "none");
+				$("textarea[name=ing-pack-2]").attr("disabled", "disabled");
+			}
+		});
+
+		$("#check_sause").on("change", function(){
+			if($("#recipe-ing-pack-3").css("display") == "none"){
+				$("#recipe-ing-pack-3").css("display", "block");
+				$("textarea[name=ing-pack-3]").removeAttr("disabled");
+			} else {
+				$("#recipe-ing-pack-3").css("display", "none");
+				$("textarea[name=ing-pack-3]").attr("disabled", "disabled");
+			}
+		});
+
+		$("#check_broth").on("change", function(){
+			if($("#recipe-ing-pack-4").css("display") == "none"){
+				$("#recipe-ing-pack-4").css("display", "block");
+				$("textarea[name=ing-pack-4]").removeAttr("disabled");
+			} else {
+				$("#recipe-ing-pack-4").css("display", "none");
+				$("textarea[name=ing-pack-4]").attr("disabled", "disabled");
+			}
+		});
+
+		$("#check_topping").on("change", function(){
+			if($("#recipe-ing-pack-5").css("display") == "none"){
+				$("#recipe-ing-pack-5").css("display", "block");
+				$("textarea[name=ing-pack-5]").removeAttr("disabled");
+			} else {
+				$("#recipe-ing-pack-5").css("display", "none");
+				$("textarea[name=ing-pack-5]").attr("disabled", "disabled");
+			}
+		});
+
+		$("#check_syrup").on("change", function(){
+			if($("#recipe-ing-pack-6").css("display") == "none"){
+				$("#recipe-ing-pack-6").css("display", "block");
+				$("textarea[name=ing-pack-6]").removeAttr("disabled");
+			} else {
+				$("#recipe-ing-pack-6").css("display", "none");
+				$("textarea[name=ing-pack-6]").attr("disabled", "disabled");
+			}
+		});
+		
+	});
+
+function validateForm(){
+	if($("textarea[name=recipe_title]").val() == ""){
+		alert("제목을 입력해주세요.");
+		$("textarea[name=recipe_title]").focus();
+		return false;
+	}
+	if($("textarea[name=recipe_introduce]").val() == ""){
+		alert("요리소개를 입력해주세요.");
+		$("textarea[name=recipe_title]").focus();
+		return false;
+	}
+	if($("select[name=ca1]").val() == "종류별"){
+		alert("종류별 카테고리를 선택해주세요.");
+		$("select[name=ca1]").focus();
+		return false;
+	}
+	if($("select[name=ca2]").val() == "상황별"){
+		alert("상황별 카테고리를 선택해주세요.");
+		$("select[name=ca2]").focus();
+		return false;
+	}
+	if($("select[name=ca3]").val() == "방법별"){
+		alert("방법별 카테고리를 선택해주세요.");
+		$("select[name=ca3]").focus();
+		return false;
+	}
+	if($("select[name=ca4]").val() == "재료별"){
+		alert("재료별 카테고리를 선택해주세요.");
+		$("select[name=ca4]").focus();
+		return false;
+	}
+	if($("select[name=recipe_quant]").val() == "인원"){
+		alert("인원 정보를 선택해주세요.");
+		$("select[name=recipe_quant]").focus();
+		return false;
+	}
+	if($("select[name=recipe_time]").val() == "시간"){
+		alert("시간 정보를 선택해주세요.");
+		$("select[name=recipe_time]").focus();
+		return false;
+	}
+	if($("select[name=recipe_difficulty]").val() == "난이도"){
+		alert("난이도 정보를 선택해주세요.");
+		$("select[name=recipe_difficulty]").focus();
+		return false;
+	}
+	if($("input[name=main_image]").val() == undefined){
+		alert("대표 사진을 등록해주세요.");
+		return false;
+	}
+	var matval = false;
+	var matcount = 0;
+	$(".recipe-ing-pack").each(function(){
+		if($(this).find("textarea[name^=ing-pack-]").val() == ""){
+			$(this).find(".recipe-each-sort").each(function(){
+				if($(this).find("textarea[name^=recipe-each-name-]").val() != "") matcount++;
+			});
+			if(matcount == 0) $(this).remove();
+			matcount = 0;
+		}
+	});
+	$(".recipe-each-ing").each(function(){
+		$(this).find(".recipe-each-sort").each(function(){
+			if($(this).find("textarea[name^=recipe-each-name-]").val() != ""){
+				matcount++;
+				$(this).find("textarea[name^=recipe-each-name]").attr("name", "recipe-each-name-" + matcount + "-1");
+				$(this).find("textarea[name^=recipe-each-quant]").attr("name", "recipe-each-quant-" + matcount + "-1");
+				if($(this).find("textarea[name^=recipe-each-quant-]").val() == ""){
+					$(this).find("textarea[name^=recipe-each-quant-]").val("1");
+				}
+			} else {
+				$(this).remove();
+			}
+		});
+	});
+	$(".recipe-each-ing").sortable("refresh");
+	
+	if(matcount > 0) matval = true;
+	if(!matval){
+		alert("재료는 최소 1개 이상이어야 합니다.");
+		$("textarea[name=recipe-each-name-1-1]").focus();
+		return false;
+	}
+	var ordval = false;
+	var ordcount = 0;
+	$(".recipe-order").each(function(){
+		if($(this).find("textarea").val() != "") {
+			ordcount++;
+		} else {
+			$(this).remove();
+		}
+		order_sort();
+	});
+	if(ordcount > 2) ordval = true;
+	if(!ordval){
+		alert("순서는 최소 3개 이상이어야 합니다.");
+		$("textarea[name=order-text-1]").focus();
+		return false;
 	}
 	
-	function order_up(){
-		var k = event.target.parentElement.parentElement.id.replace("recipe-order-","");
-		k = parseInt(k, 10);
-		if(k > 1){
-			var content = $("#recipe-order-" + k);
-			content.clone().insertBefore("#recipe-order-" + (k - 1));
-			content.remove();
-			order_sort();
-			$("#recipe-orderimage-" + (k - 1)).bind("change", change_order_image);
-		}
+	return true;
+}
+
+function insert_click(){
+	$("#insert-main-image").click();
+}
+
+function img_error(){
+	$("#video-thumbnail").empty();
+	$("#video-thumbnail").hide();
+	$("#video-pre").show();
+	alert("올바른 주소를 입력해주세요");
+	$("#video-url").val("");
+}
+
+function del_mainimage(){
+	$("#insert-main-image").val('');
+	$("#write-top-image-insert").empty();
+	$("#write-top-image-com").find("input[name=main_image]").remove();
+	$("#write-top-image-com").show();
+}
+
+function del_pack(pack){
+	var k = $(".recipe-ing-pack");
+	if(k.length < 2){
+		$("#recipe-ing-pack-"+pack+" textarea").val("");
+		$("#recipe-ing-pack-"+pack).attr("id","recipe-ing-pack-1");
+	} else {
+		$("#recipe-ing-pack-"+pack).remove();
 	}
-	function order_down(){
-		var k = event.target.parentElement.parentElement.id.replace("recipe-order-","");
-		k = parseInt(k, 10);
-		var max = 0;
-		$(".recipe-order").each(function(){
-			var pre_max = $(this).attr("id").replace("recipe-order-", "");
-			var tmp_max = parseInt(pre_max, 10);
-			max = Math.max(max, tmp_max);
-		});
-		if(k < max){
-			var content = $("#recipe-order-" + k);
-			content.clone().insertAfter("#recipe-order-" + (k + 1));
-			content.remove();
-			order_sort();
-			$("#recipe-orderimage-" + (k + 1)).bind("change", change_order_image);
+}
+
+function each_add(pack){
+	var ing = 0;
+	$("#recipe-pack-"+pack+" [id^=recipe-each-"+pack+"-]").each(function(){
+		var pre_ing = $(this).prop("id").replace("recipe-each-"+pack+"-", "");
+		var tmp_ing = parseInt(pre_ing, 10);
+		ing = Math.max(ing, tmp_ing);
+	});
+	ing++;
+	var str = '<div class="recipe-each-sort" id="recipe-each-'+pack+'-'+ing+'">';
+	str += '<div class="recipe-each-arrow"><i class="fas fa-sort-up"></i><br><i class="fas fa-sort-down"></i></div>';
+	str += '<div class="recipe-each-name"><textarea rows="1" cols="39" placeholder="예) 돼지고기" name="recipe-each-name-'+pack+'-'+ing+'"></textarea></div>';
+	str += '<div class="recipe-each-quant"><textarea rows="1" cols="28" placeholder="예) 300g" name="recipe-each-quant-'+pack+'-'+ing+'"></textarea></div>';
+	str += '<div class="recipe-each-delete" onclick="each_del('+pack+','+ing+')"><i class="fas fa-times"></i></div></div>';
+	$(str).appendTo("#recipe-pack-"+pack);
+	$(".recipe-each-ing").sortable({
+		handle: '.recipe-each-arrow'
+	});
+	$(".recipe-each-ing").on("sortstop", mat_sort);
+}	
+
+function each_del(pack, ing){
+	$("#recipe-each-"+pack+"-"+ing).remove();
+	mat_sort_input(pack);
+}
+
+function mat_sort(){
+	var pack = $(this).attr("id").replace("recipe-pack-","");
+	var ing = 1;
+	$(this).find(".recipe-each-sort").each(function(){
+		$(this).attr("id", "recipe-each-" + pack + "-" + ing);
+		$(this).find(".recipe-each-name textarea").attr("name", "recipe-each-name-" + pack + "-" + ing);
+		$(this).find(".recipe-each-quant textarea").attr("name", "recipe-each-quant-" + pack + "-" + ing);
+		$(this).find(".recipe-each-delete").attr("onclick", "each_del(" + pack + "," + ing + ")");
+		ing++;
+	});
+}
+
+function mat_sort_input(pack){
+	var ing = 1;
+	$("#recipe-pack-"+pack).find(".recipe-each-sort").each(function(){
+		$(this).attr("id", "recipe-each-" + pack + "-" + ing);
+		$(this).find(".recipe-each-name textarea").attr("name", "recipe-each-name-" + pack + "-" + ing);
+		$(this).find(".recipe-each-quant textarea").attr("name", "recipe-each-quant-" + pack + "-" + ing);
+		$(this).find(".recipe-each-delete").attr("onclick", "each_del(" + pack + "," + ing + ")");
+		ing++;
+	});
+}
+
+function pack_sort(){
+	var pack = 1;
+	$(".recipe-ing-pack").each(function(){
+		$(this).attr("id", "recipe-ing-pack-" + pack);
+		$(this).find(".recipe-sort-pack textarea").attr("name", "ing-pack-"+pack);
+		$(this).find(".recipe-delete-pack p").attr("onclick","del_pack("+pack+")");
+		$(this).find(".recipe-each-ing").attr("id", "recipe-pack-"+pack);
+		$(this).find(".recipe-each-add").attr("onclick","each_add("+pack+")");
+		mat_sort_input(pack);
+		pack++;
+	});
+}
+
+function add_pack(){
+	var pack = 0;
+	$(".recipe-each-ing").each(function(){
+		var pre_pack = $(this).prop("id").replace("recipe-pack-","");
+		var tmp_pack = parseInt(pre_pack, 10);
+		pack = Math.max(pack, tmp_pack);
+	});
+	pack++;
+	var str = '<div class="recipe-ing-pack" id="recipe-ing-pack-' + pack + '"><div class="recipe-sort">';
+	str += '<div class="recipe-sort-arrow"><i class="fas fa-sort-up"></i><br><i class="fas fa-sort-down"></i></div>';
+	str += '<div><div class="recipe-sort-pack"><textarea rows="1" cols="16" name="ing-pack-' + pack + '" wrap="soft"></textarea></div>';
+	str += '<div class="recipe-delete-pack"><p onclick="del_pack(' + pack + ')"><i class="fas fa-times"></i> 묶음삭제</p></div></div>';
+	str += '<div class="recipe-each-ing" id="recipe-pack-' + pack + '"></div></div>';
+	str += '<div class="recipe-each-add" onclick="each_add(' + pack + ')"><i class="fas fa-plus"></i> 추가</div></div>';
+	$("#recipe-ing").append(str);
+	each_add(pack);
+	each_add(pack);
+}
+
+function add_order_image(num){
+	$("#recipe-orderimage-" + num).click();
+}
+
+function change_order_image(){
+	var k = $(this).attr("id").replace("recipe-orderimage-", "");
+	if(this.files && this.files[0]){
+		var reader = new FileReader();
+		reader.readAsDataURL(this.files[0]);
+		reader.onload = function(e){
+			var readFile = e.target.result;
+			var chkcor = readFile.substring(readFile.indexOf(',') + 1, readFile.indexOf(',') + 5);
+			readFile = readFile.substring(0, readFile.indexOf('/'));
+			if(readFile === "data:image" && chkcor != "77u/"){
+				$("#recipe-order-" + k + " .recipe-order-addimage i.fa-plus").hide();
+				$("#recipe-order-" + k).find("input[type=hidden]").val(e.target.result);
+				$("#recipe-order-" + k + " .recipe-order-image").empty();
+				var imgapp = "<img onclick='add_order_image(" + k + ")' src=" + e.target.result + ">";
+				imgapp += "<i class='fas fa-times' onclick = 'del_order_image("+ k + ")'></i>";
+				$("#recipe-order-" + k + " .recipe-order-image").append(imgapp);
+			} else {
+				del_order_image(k);
+			}
 		}
+	} else {
+		del_order_image(k);
 	}
-	function order_after(){
-		var k = event.target.parentElement.parentElement.id.replace("recipe-order-","");
-		k = parseInt(k, 10);
+}
+
+function del_order_image(num){
+	$("#recipe-orderimage-" + num).val('');
+	$("#recipe-order-" + num).find("input[type=hidden]").val("");
+	$("#recipe-order-" + num + " .recipe-order-image").empty();
+	$("#recipe-order-" + num + " .recipe-order-addimage i.fa-plus").show();
+}
+
+function add_order(){
+	var count = 0;
+	$(".recipe-order").each(function(){
+		var pre_count = $(this).attr("id").replace("recipe-order-","");
+		var tmp_count = parseInt(pre_count, 10);
+		count = Math.max(count, tmp_count);
+	});
+	count++;
+	var str = '<div class="recipe-order" id="recipe-order-' + count + '"><div class="recipe-order-count">Step ' + count + '</div><div class="recipe-order-content">';
+	str += '<textarea placeholder="예) 소고기는 기름기를 떼어내고 적당한 크기로 썰어주세요." name="order-text-'+count+'"></textarea></div>';
+	str += '<input type="hidden" name="order-image-' + count + '">';
+	str += '<div class="recipe-order-addimage"><div onclick="add_order_image(' + count + ')"><i class="fas fa-plus"></i></div><div class="recipe-order-image"></div></div>';
+	str += '<input type="file" hidden="" name="recipe_orderimage' + count + '" accept="image/*" id="recipe-orderimage-' + count + '">';	
+	str += '<div class="recipe-order-button"><i class="fas fa-angle-up" onclick="order_up()"></i> <i class="fas fa-angle-down" onclick="order_down()"></i>';
+	str += '<i class="fas fa-plus" onclick="order_after()"></i> <i class="fas fa-times" onclick="order_del()"></i></div></div>';
+	$("#recipe-order-container").append(str);
+	$("#recipe-orderimage-" + count).bind("change", change_order_image);
+}
+
+function order_sort(){
+	var i = 1;
+	$(".recipe-order").each(function(){
+		$(this).attr("id", "recipe-order-" + i);
+		$(this).find(".recipe-order-count").text("Step " + i);
+		$(this).find(".recipe-order-content").find("textarea").attr("name", "order-text-" + i);
+		$(this).find("input[type=hidden]").attr("name", "order-image-" + i);
+		$(this).find(".recipe-order-addimage").find("div:first-child").attr("onclick", "add_order_image(" + i + ")");
+		$(this).find("input[type=file]").attr({"name":"recipe_orderimage" + i, "id":"recipe-orderimage-" + i});
+		$(this).find(".recipe-order-addimage").find(".recipe-order-image").find("img").attr("onclick", "add_order_image(" + i + ")");
+		$(this).find(".recipe-order-addimage").find(".recipe-order-image").find("i").attr("onclick", "del_order_image(" + i + ")");
+		i++;
+	});
+}
+
+function order_up(){
+	var k = event.target.parentElement.parentElement.id.replace("recipe-order-","");
+	k = parseInt(k, 10);
+	if(k > 1){
 		var content = $("#recipe-order-" + k);
-		content.clone().insertAfter("#recipe-order-" + k);
+		content.clone().insertBefore("#recipe-order-" + (k - 1));
+		content.remove();
 		order_sort();
-		content = $("#recipe-order-" + (k + 1));
-		content.find(".recipe-order-content").find("textarea").val("");
-		content.find("input").val("");
-		content.find(".recipe-order-addimage").find(".recipe-order-image").empty();
-		content.find(" .recipe-order-addimage i.fa-plus").show();
+		$("#recipe-orderimage-" + (k - 1)).bind("change", change_order_image);
+	}
+}
+
+function order_down(){
+	var k = event.target.parentElement.parentElement.id.replace("recipe-order-","");
+	k = parseInt(k, 10);
+	var max = 0;
+	$(".recipe-order").each(function(){
+		var pre_max = $(this).attr("id").replace("recipe-order-", "");
+		var tmp_max = parseInt(pre_max, 10);
+		max = Math.max(max, tmp_max);
+	});
+	if(k < max){
+		var content = $("#recipe-order-" + k);
+		content.clone().insertAfter("#recipe-order-" + (k + 1));
+		content.remove();
+		order_sort();
 		$("#recipe-orderimage-" + (k + 1)).bind("change", change_order_image);
 	}
-	function order_del(){
-		var k = event.target.parentElement.parentElement.id.replace("recipe-order-","");
-		$("#recipe-order-" + k).remove();
-		order_sort();
-	}
-	function change_compimage(num){
-		$("#comp-image-file-" + num).click();
-	}
-	function del_compimage(num){
-		$("#comp-image-file-" + num).val("");
-		$("#comp-image-" + num).find("input[type=hidden]").val("");
-		$("#comp-image-" + num).find(".comp-image-selected").empty();
-		$("#comp-image-" + num).find(".comp-image-empty").show();
-	}
+}
 
+function order_after(){
+	var k = event.target.parentElement.parentElement.id.replace("recipe-order-","");
+	k = parseInt(k, 10);
+	var content = $("#recipe-order-" + k);
+	content.clone().insertAfter("#recipe-order-" + k);
+	order_sort();
+	content = $("#recipe-order-" + (k + 1));
+	content.find(".recipe-order-content").find("textarea").val("");
+	content.find("input").val("");
+	content.find(".recipe-order-addimage").find(".recipe-order-image").empty();
+	content.find(" .recipe-order-addimage i.fa-plus").show();
+	$("#recipe-orderimage-" + (k + 1)).bind("change", change_order_image);
+}
+
+function order_del(){
+	var k = event.target.parentElement.parentElement.id.replace("recipe-order-","");
+	$("#recipe-order-" + k).remove();
+	order_sort();
+}
+
+function change_compimage(num){
+	$("#comp-image-file-" + num).click();
+}
+
+function del_compimage(num){
+	$("#comp-image-file-" + num).val("");
+	$("#comp-image-" + num).find("input[type=hidden]").val("");
+	$("#comp-image-" + num).find(".comp-image-selected").empty();
+	$("#comp-image-" + num).find(".comp-image-empty").show();
+}
 </script>
 
 </head>
@@ -939,14 +1094,14 @@ textarea{
 				<li><a id="content" href="home">게시물 등록</a></li>
 				<li><a id="user" href="a_membership">회원 관리</a></li>
 				<li><a id="board" href="admin_qna">문의 관리</a></li>
-				<li><a id="event" href="home">이벤트 관리</a></li>
+				<li><a id="event" href="admin_event">이벤트 관리</a></li>
 				<li><a id="op" href="home">운영자 관리</a></li>
 				<li><a id="setting" href="home">설정</a></li>
 			</ul>
 		</nav>
 		<header>
 			<div id="links">
-				<a href="m">로그아웃</a>
+				<a href="logout">로그아웃</a>
 			</div>
 		</header>
 		<main id="main">
@@ -1129,7 +1284,7 @@ textarea{
 								<div class="recipe-sort">
 									<div>
 										<div class="recipe-sort-pack">
-											<textarea rows="1" cols="8" name="ing-pack-2" wrap="soft">양념</textarea>
+											<textarea rows="1" cols="8" name="ing-pack-2" wrap="soft" disabled="disabled">양념</textarea>
 										</div>
 									</div>
 									<div class="recipe-each-ing" id="recipe-pack-2">
@@ -1149,7 +1304,7 @@ textarea{
 								<div class="recipe-sort">
 									<div>
 										<div class="recipe-sort-pack">
-											<textarea rows="1" cols="8" name="ing-pack-3" wrap="soft">소스</textarea>
+											<textarea rows="1" cols="8" name="ing-pack-3" wrap="soft" disabled="disabled">소스</textarea>
 										</div>
 									</div>
 									<div class="recipe-each-ing" id="recipe-pack-3">
@@ -1169,7 +1324,7 @@ textarea{
 								<div class="recipe-sort">
 									<div>
 										<div class="recipe-sort-pack">
-											<textarea rows="1" cols="8" name="ing-pack-4" wrap="soft">육수</textarea>
+											<textarea rows="1" cols="8" name="ing-pack-4" wrap="soft" disabled="disabled">육수</textarea>
 										</div>
 									</div>
 									<div class="recipe-each-ing" id="recipe-pack-4">
@@ -1190,7 +1345,7 @@ textarea{
 								<div class="recipe-sort">
 									<div>
 										<div class="recipe-sort-pack">
-											<textarea rows="1" cols="8" name="ing-pack-5" wrap="soft">토핑</textarea>
+											<textarea rows="1" cols="8" name="ing-pack-5" wrap="soft" disabled="disabled">토핑</textarea>
 										</div>
 									</div>
 									<div class="recipe-each-ing" id="recipe-pack-5">
@@ -1210,7 +1365,7 @@ textarea{
 								<div class="recipe-sort">
 									<div>
 										<div class="recipe-sort-pack">
-											<textarea rows="1" cols="8" name="ing-pack-6" wrap="soft">시럽</textarea>
+											<textarea rows="1" cols="8" name="ing-pack-6" wrap="soft" disabled="disabled">시럽</textarea>
 										</div>
 									</div>
 									<div class="recipe-each-ing" id="recipe-pack-6">
@@ -1286,10 +1441,11 @@ textarea{
 						</div>
 						<p id="taginf">주재료, 목적, 효능, 대상 등을 태그로 남겨주세요. <span>예) 돼지고기, 다이어트, 비만, 칼슘, 감기예방, 이유식, 초간단</span></p>
 						<div id="save-button">
-							<span id="save">저장</span>
 							<span id="public"> 저장 후 공개하기 </span>
 							<span id="cancel">취소</span>
 						</div>
+						<input type="hidden" id="savepublic" name="savepublic" value="1">
+						<input type="hidden" id="a_permission" name="a_permission" value="1">
 					</div>
 				</form>
 			</div>

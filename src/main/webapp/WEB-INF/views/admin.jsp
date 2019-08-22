@@ -185,8 +185,16 @@ table th {
 tabel td {
 	font-size: 1.0em;
 }
-tbody tr :hover{
-	background-color: #4CAAEF;
+
+tr{
+	background-color: #cccccc;
+}
+td{
+	background-color: #FFFFFF;
+}
+#content-list :hover{
+	background: #ccc;
+	cursor:pointer;
 }
 
 </style>
@@ -203,14 +211,14 @@ tbody tr :hover{
 				<li><a id="content" href="a_write_recipe">게시물 등록</a></li>
 				<li><a id="user" href="a_membership">회원 관리</a></li>
 				<li><a id="board" href="admin_qna">문의 관리</a></li>
-				<li><a id="event" href="home">이벤트 관리</a></li>
-				<li><a id="op" href="home">운영자 관리</a></li>
-				<li><a id="setting" href="home">설정</a></li>
+				<li><a id="event" href="admin_event">이벤트 관리</a></li>
+				<li><a id="op" href="a_manager">운영자 관리</a></li>
+				<li><a id="setting" href="/">Main</a></li>
 			</ul>
 		</nav>
 		<header>
 			<div id="links">
-				<a href="m">로그아웃</a>
+				<a href="logout">로그아웃</a>
 			</div>
 		</header>
 		<main id="main">
@@ -221,7 +229,7 @@ tbody tr :hover{
 					<div id="body">
 						<table>
 							<thead>
-								<tr bgcolor="#cccccc">
+								<tr>
 									<th>회원번호</th>
 									<th>회원이름</th>
 									<th>이메일</th>
@@ -238,7 +246,7 @@ tbody tr :hover{
 									</c:when>
 									<c:otherwise>
 										<c:forEach var="k" items="${list}" begin="0" end="4">
-											<tr onclick="location.href='admin_view_one_member.do?m_idx=${k.m_idx}'" style="cursor:pointer">
+											<tr id="content-list" onclick="location.href='admin_view_one_member.do?m_idx=${k.m_idx}'">
 												<td>${k.m_idx}</td>
 												<td>${k.name}</td>
 												<td>${k.email}</td>
@@ -259,7 +267,7 @@ tbody tr :hover{
 					<div id="body">
 						<table>
 							<thead>
-								<tr bgcolor="#cccccc">
+								<tr>
 									<th>번호</th>
 									<th>회원번호</th>
 									<th>레시피 제목</th>
@@ -277,7 +285,7 @@ tbody tr :hover{
 									</c:when>
 									<c:otherwise>
 										<c:forEach var="k" items="${r_list}" begin="0" end="4">
-											<tr onclick="location.href='admin_view_one_recipe.do?r_idx=${k.r_idx}'" style="cursor:pointer">
+											<tr id="content-list" onclick="location.href='admin_view_one_recipe.do?r_idx=${k.r_idx}'">
 												<td>${k.r_idx}</td>
 												<td>${k.m_idx}</td>
 												<td>${k.recipe_title}</td>
@@ -306,12 +314,41 @@ tbody tr :hover{
 							<thead>
 								<tr>
 									<th>회원이름</th>
+									<th>아이디</th>
 									<th>이메일</th>
 									<th>문의 구분</th>
 									<th>문의 내용</th>
 									<th>등록 일시</th>
+									<th>처리 상태</th>
 								</tr>
 							</thead>
+							<tbody>
+								<c:choose>
+									<c:when test="${empty q_list}">
+										<tr>
+											<td colspan="8"><h3>정보가 존재하지 않습니다.</h3></td>
+										</tr>
+									</c:when>
+									<c:otherwise>
+										<c:forEach var="k" items="${q_list}" begin="0" end="4">
+											<tr id="content-list" onclick="location.href='admin_qna.do'">
+												<td>${k.name}</td>
+												<td>${k.id}</td>
+												<td>${k.email}</td>
+												<td>${k.q_def}</td>
+												<td>${k.content}</td>
+												<td>${k.regdate}</td>
+												<c:if test="${k.status == 0}">
+													<td>처리대기중</td>
+												</c:if>
+												<c:if test="${k.status == 1}">
+													<td>처리완료</td>
+												</c:if>
+											</tr>
+										</c:forEach>
+									</c:otherwise>
+								</c:choose>
+							</tbody>
 						</table>
 					</div>
 				</div>
