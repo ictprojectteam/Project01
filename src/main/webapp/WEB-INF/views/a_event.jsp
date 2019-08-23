@@ -259,7 +259,7 @@ header #links{
 	margin: 5px;
 }
 
-.paging .now{
+.now{
 	margin-right: 8px;
 	padding: 3px 7px;
 	border: 1px solid #ff4aa5;
@@ -268,13 +268,13 @@ header #links{
 	font-weight: bold;
 }
 
-.paging [class^=page]{
+.page{
 	padding: 3px 7px;
 	color: #2f313e;
 	font-weight: bold;
 }
 
-.paging [class^=page]:hover {
+.page:hover{
 	background: #00B3DC;
 	color: white;
 	font-weight: bold;
@@ -285,14 +285,6 @@ header #links{
 	padding: 3px 7px;
 	color: silver;
 }
-
-.now {
-	padding: 3px 7px;
-	border: 1px solid #ff4aa5;
-	background: #ff4aa5;
-	color: white;
-	font-weight: bold;
-}	
 
 </style>
 <script type="text/javascript" src="../resources/js/jquery-3.4.1.min.js"></script>
@@ -315,11 +307,13 @@ header #links{
 
 		$("input[name=eventst]").on("change", function(){
 			evo.open = $(this).val();
+			evo.cPage = '1';
 			load_list();
 		});
 
 		$("input[name=eventty]").on("change", function(){
 			evo.e_type = $(this).val();
+			evo.cPage = '1';
 			load_list();
 		});
 		
@@ -340,6 +334,31 @@ header #links{
 				alert("읽기 실패");
 			}
 		});
+		load_page();
+	}
+
+	function load_page() {
+		$.ajax({
+			url : "load_event_page",
+			data : evo,
+			dataType : "text",
+			type : "post",
+			success : function(data) {
+				$(".paging").empty();
+				$(".paging").append(data);
+			},
+			error : function(){
+				alert("읽기 실패");
+			}
+		});
+		$(".page").on("click", function(){
+			evo.cPage=$(this).text();
+			load_list();
+		});
+	};
+	
+	function view(e) {
+		
 	}
 
 	function reg_event() {
@@ -405,32 +424,7 @@ header #links{
 				</div>
 			</div>
 			<div class="paging">
-			    <c:choose>
-			    	<c:when test="${qp.beginBlock <= qp.pagePerBlock}">
-			    		<span class="disable"> 이전으로 </span>
-			    	</c:when>
-			    	<c:otherwise>
-			    		<span><a href="admin_qna?cPage=${qp.beginBlock-qp.pagePerBlock}"> 이전으로 </a></span>
-			    	</c:otherwise>
-			    </c:choose>
-			    
-				<c:forEach begin="${qp.beginBlock}" end="${qp.endBlock}" step="1" var="k">
-					<c:if test="${k==qp.nowPage}">
-						<span class="now">${k}</span>
-					</c:if>
-					<c:if test="${k!=qp.nowPage}">
-						<span class="page${k}">${k}</span>
-					</c:if>
-				</c:forEach>
 				
-				<c:choose>
-			    	<c:when test="${qp.endBlock >= qp.totalPage }">
-			    		<span class="disable"> 다음으로 </span>
-			    	</c:when>
-			    	<c:otherwise>
-			    		<span><a href="admin_qna?cPage=${qp.beginBlock+qp.pagePerBlock}"> 다음으로 </a></span>
-			    	</c:otherwise>
-			    </c:choose>
 			</div>
 		</div>
 	</div>

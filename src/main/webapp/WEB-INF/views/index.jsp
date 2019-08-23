@@ -33,6 +33,40 @@
 		text-decoration: none;
 		color: #fa8;
 	}
+	#event-recent{
+		border: 1px solid #777;
+		display: grid;
+		grid-template-columns: 599px 599px;
+		background: #fcb;
+	}
+	.event-title{
+		text-align: center;
+		font-size: 11pt;
+		font-weight: bolder;
+		border-style: solid;
+		border-color: #f00 #fff #f00 #fff;
+		border-width: 0px 0px 1px 0px;
+		padding: 5px;
+	}
+	.open-event-box{
+		border-right: 1px solid #777;
+	}
+	.event-title:nth-child(odd){
+		border-right: 1px solid #777;
+	}
+	.each-event{
+		padding: 8px;
+		font-size: 10pt;
+		cursor: pointer;
+	}
+	.each-event:hover{
+		background: #fa8;
+	}
+	.empty{
+		padding: 5px 10px;
+		font-size: 12pt;
+		font-weight: bolder;
+	}
 	#talk-recent, #recipe-recent{
 		display: grid;
 		width: 1200px;
@@ -205,6 +239,36 @@
 			</div>
 		</div>
 		
+		<p id="event-recent-label"><a href="event">이벤트!!</a></p>
+		<div id="event-recent">
+			<div class="event-title">진행중인 이벤트</div>
+			<div class="event-title">이벤트 당첨자 확인</div>
+			<div class="open-event-box">
+				<c:choose>
+					<c:when test="${empty e_list}">
+						<div class="empty">진행중인 이벤트가 없습니다.</div>
+					</c:when>
+					<c:otherwise>
+						<c:forEach var="k" items="${e_list}">
+							<div class="each-event" onclick="view_event(${k.e_idx})">${k.e_title}</div>
+						</c:forEach>
+					</c:otherwise>
+				</c:choose>
+			</div>
+			<div class="prize-box">
+				<c:choose>
+					<c:when test="${empty p_list}">
+						<div class="empty">당첨자 발표가 없습니다.</div>
+					</c:when>
+					<c:otherwise>
+						<c:forEach var="k" items="${p_list}">
+							<div class="each-event" onclick="view_event(${k.e_idx})">${k.e_title}</div>
+						</c:forEach>
+					</c:otherwise>
+				</c:choose>
+			</div>
+		</div>
+		
 		<p id="recipe-recent-label"><a href="recipe">레시피!!</a></p>
 		<div id="recipe-recent">
 			<div class="recipe-left-arrow">
@@ -229,10 +293,7 @@
 			</div>
 		</div>
 		
-		<p id="event-recent-label"><a href="event">이벤트!!</a></p>
-		<div id="event-recent">
-			
-		</div>
+		
 	</div>
 	</div>
 	<footer>

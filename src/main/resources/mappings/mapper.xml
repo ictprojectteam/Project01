@@ -504,11 +504,57 @@
 						and e_type = #{e_type}
 					</if>
 				</where>
+				order by e_start desc
 			) e
 		) where r_num between #{begin} and #{end}
 	</select>
 	
 	<insert id="insertEvent" parameterType="evo">
-		insert into event values (e_seq.nextval, #{m_idx}, #{e_title}, #{e_start}, #{e_end}, #{e_type}, #{e_public}, #{e_banner}, #{e_content, jdbcType=VARCHAR}, #{e_image, jdbcType=CLOB}, #{e_regdate})
+		insert into event values (e_seq.nextval, #{m_idx}, #{e_title}, to_date(#{e_start}, 'YYYY-MM-DD HH24:MI'), to_date(#{e_end}, 'YYYY-MM-DD HH24:MI'), #{e_type}, #{e_public}, #{e_banner}, #{e_content, jdbcType=VARCHAR}, #{e_image, jdbcType=CLOB}, #{e_regdate})
 	</insert>
+	
+	<select id="countEvent" parameterType="evo" resultType="int">
+		select count(*) from event
+			<where>
+				e_public = 1
+				<if test='open != null and open.equals("1")'>
+					and <![CDATA[e_end > sysdate and e_start < sysdate]]>
+				</if>
+				<if test='open != null and open.equals("0")'>
+					and <![CDATA[e_end < sysdate]]>
+				</if>
+				<if test="e_type != null and e_type != ''">
+					and e_type = #{e_type}
+				</if>
+			</where>
+	</select>
+	
+	<select id="eventList" parameterType="evo" resultType="evo">
+		select * from (
+			select rownum as r_num, e.* from (
+				select * from event
+				<where>
+					e_public = 1
+					<if test='open != null and open.equals("1")'>
+						and <![CDATA[e_end > sysdate and e_start < sysdate]]>
+					</if>
+					<if test='open != null and open.equals("0")'>
+						and <![CDATA[e_end < sysdate]]>
+					</if>
+					<if test="e_type != null and e_type != ''">
+						and e_type = #{e_type}
+					</if>
+				</where>
+				order by e_end asc
+			) e
+		) where r_num between #{begin} and #{end}
+	</select>
+	
+	<select id="prizeList" resultType="evo">
+		select * from (
+			select rownum as r_num, e.* from (
+				select * from event where e_public = 1 and e_type = 2 order by e_regdate desc
+			) e
+		) where r_num between 1 and 3
+	</select>
 </mapper>

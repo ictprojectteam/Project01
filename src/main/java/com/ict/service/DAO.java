@@ -304,11 +304,22 @@ public class DAO {
 	}
 	
 	public List<EventVO> aEventList(EventVO evo) {
-		System.out.println(evo.getOpen());
 		return sqlSessionTemplate.selectList("a_event_list", evo);
 	}
 	
 	public void insertEvent(EventVO evo) {
 		sqlSessionTemplate.insert("insertEvent", evo);
+	}
+	
+	public int countEvent(EventVO evo) {
+		return sqlSessionTemplate.selectOne("countEvent", evo);
+	}
+	
+	public List<EventVO> eventList(EventVO evo){
+		return sqlSessionTemplate.selectList("eventList", evo);
+	}
+	
+	public List<EventVO> prizeList(){
+		return sqlSessionTemplate.selectList("prizeList");
 	}
 }

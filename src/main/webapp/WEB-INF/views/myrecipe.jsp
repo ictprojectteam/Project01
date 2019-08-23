@@ -29,16 +29,23 @@
 		border-bottom: 1px solid;
 	}
 	.recipe_bt{
+		width: 100px;
 		border: 1px solid #808080;
-		width: 60pt;
-		height: 20pt;
 		font-size: 12pt;
-		background-color: #DFEEF3;
+		background: #dee;
 		border-radius: 6px;
 		margin-bottom: 10px;
+		padding: 3px 6px;
+		display: inline-block;
+		text-align: center;
+		box-sizing: border-box;
+		cursor: pointer;
+	}
+	.selected{
+		background: #489!important;
 	}
 	.recipe_bt:hover {
-		background-color: #488399;
+		background-color: #8cd;
 	}
 </style>
 <script type="text/javascript">
@@ -47,22 +54,35 @@
 			$(".menu_bt:button").css("background-color", "#D9D9D9");
 			$(this).css("background-color", "#92895A");
 		});
+
+		$(".recipe_bt").each(function(){
+			$(this).on("click", function(){
+				$(".recipe_bt").removeClass("selected");
+				$(this).addClass("selected");
+			});
+		});
 	});
+	
 	function recipe(){
 		location.href = "myRecipe";
 	}
+	
 	function review(){
 		location.href = "myReview";
 	}
+	
 	function coment(){
 		location.href = "myComent";
 	}
+	
 	function talk(){
 		location.href = "myTalk";
 	}
+	
 	function inquires(){
 		location.href = "myReport";
 	}
+	
 	function prf_update(){
 		location.href = "myPrf_update";
 	}
@@ -79,8 +99,11 @@
 	</div>
 	
 	<div id="recipe_tab">
-		<input class="recipe_bt" type="button" value="공개중" style="background-color: #488399;">
-		<input class="recipe_bt" type="button" value="작성중">
+		<span class="recipe_bt selected">공개중</span>
+		<span class="recipe_bt">작성중</span>
+	</div>
+	<div class="recipe-box">
+		
 	</div>
 </body>
 <footer>

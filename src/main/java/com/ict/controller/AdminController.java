@@ -304,7 +304,7 @@ public class AdminController {
 	@ResponseBody
 	public String load_event_list(EventVO evo) {
 		StringBuffer res = new StringBuffer();
-		EventPaging ep = new EventPaging(dao.aCountEvent(evo), evo.getcPage());
+		EventPaging ep = new EventPaging(10, dao.aCountEvent(evo), evo.getcPage());
 		evo.setBegin(String.valueOf(ep.getBegin()));
 		evo.setEnd(String.valueOf(ep.getEnd()));
 		List<EventVO> elist = dao.aEventList(evo);
@@ -320,18 +320,44 @@ public class AdminController {
 				.append("<div class='body-content'>" + k.getE_start().substring(0, 16) + "</div>")
 				.append("<div class='body-content'>" + k.getE_end().substring(0, 16) + "</div>");
 				try {
-					if(new Date().getTime() > new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(k.getE_end()).getTime()) {
-						res.append("<div class='body-content yet'>진행 예정</div></div>");
-					} else if (new Date().getTime() > new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(k.getE_start()).getTime()) {
+					if(new Date().getTime() > new SimpleDateFormat("yyyy-MM-dd HH:mm").parse(k.getE_end()).getTime()) {
+						res.append("<div class='body-content yet'>종료</div></div>");
+					} else if (new Date().getTime() > new SimpleDateFormat("yyyy-MM-dd HH:mm").parse(k.getE_start()).getTime()) {
 						res.append("<div class='body-content open'>진행중</div></div>");
 					} else {
-						res.append("<div class='body-content close'>종료</div></div>");
+						res.append("<div class='body-content close'>진행 예정</div></div>");
 					}
 				} catch (ParseException e) {
 				}
 			}
 		} else {
 			res.append("<div id='empty'>표시할 내용이 없습니다.</div>");
+		}
+		
+		return res.toString();
+	}
+	
+	@RequestMapping(value = "load_event_page", produces = "application/text; charset=utf8")
+	@ResponseBody
+	public String load_event_page(EventVO evo) {
+		StringBuffer res = new StringBuffer();
+		EventPaging ep =  new EventPaging(10, dao.aCountEvent(evo), evo.getcPage());
+		if (ep.getBeginBlock() <= ep.getPagePerBlock()) {
+			res.append("<span class='disable'> 이전으로 </span>");
+		} else {
+			res.append("<span class='pre-block'> 이전으로 </span>");
+		}
+		for (int i = ep.getBeginBlock(); i < ep.getEndBlock() + 1; i++) {
+			if (i == ep.getNowPage()) {
+				res.append("<span class='now'>" + i + "</span>");
+			} else {
+				res.append("<span class='page'" + i + "</span>");
+			}
+		}
+		if (ep.getEndBlock() >= ep.getTotalPage()) {
+			res.append("<span class='disable'> 다음으로 </span>");
+		} else {
+			res.append("<span class='next-block'> 다음으로 </span>");
 		}
 		
 		return res.toString();
@@ -348,8 +374,8 @@ public class AdminController {
 		ModelAndView mv = new ModelAndView("a_event");
 		evo.setM_idx(((MVO)session.getAttribute("mvo")).getM_idx());
 		try {
-			evo.setE_start(new SimpleDateFormat("yyyy-MM-dd").format(new SimpleDateFormat("yyyy-MM-dd").parse(evo.getE_start())));
-			evo.setE_end(new SimpleDateFormat("yyyy-MM-dd").format(new SimpleDateFormat("yyyy-MM-dd").parse(evo.getE_end())));
+			evo.setE_start(new SimpleDateFormat("yyyy-MM-dd HH:mm").format(new SimpleDateFormat("yyyy-MM-dd'T'HH:mm").parse(evo.getE_start())));
+			evo.setE_end(new SimpleDateFormat("yyyy-MM-dd HH:mm").format(new SimpleDateFormat("yyyy-MM-dd'T'HH:mm").parse(evo.getE_end())));
 		} catch (ParseException e) {
 		}
 		evo.setE_regdate(new SimpleDateFormat("yyyy-MM-dd").format(new Date(Calendar.getInstance().getTimeInMillis())));

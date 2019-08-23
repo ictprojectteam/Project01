@@ -242,5 +242,6 @@ create table r_memo(
   foreign key (r_idx) references recipe(r_idx)
 );
 
+시퀀스
 create sequence r_m_seq increment by 1 start with 1 nocycle;
 ===============================================================================
