@@ -322,4 +322,12 @@ public class DAO {
 	public List<EventVO> prizeList(){
 		return sqlSessionTemplate.selectList("prizeList");
 	}
+	
+	public int countMyRecipe(RecipeVO rvo) {
+		return sqlSessionTemplate.selectOne("countMyRecipe", rvo);
+	}
+	
+	public List<RecipeVO> myRecipeList(RecipeVO rvo) {
+		return sqlSessionTemplate.selectList("myRecipeList", rvo);
+	}
 }

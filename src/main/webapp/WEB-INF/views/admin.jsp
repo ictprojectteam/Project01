@@ -186,15 +186,17 @@ tabel td {
 	font-size: 1.0em;
 }
 
-tr{
-	background-color: #cccccc;
+#r_title{
+	background: #ccc;
 }
-td{
-	background-color: #FFFFFF;
-}
-#content-list :hover{
+
+/* #content-list :hover{
 	background: #ccc;
 	cursor:pointer;
+} */
+.content-line:hover{
+	background: #ccc;
+	cursor: pointer;
 }
 
 </style>
@@ -267,7 +269,7 @@ td{
 					<div id="body">
 						<table>
 							<thead>
-								<tr>
+								<tr id="r_title">
 									<th>번호</th>
 									<th>회원번호</th>
 									<th>레시피 제목</th>
@@ -285,7 +287,7 @@ td{
 									</c:when>
 									<c:otherwise>
 										<c:forEach var="k" items="${r_list}" begin="0" end="4">
-											<tr id="content-list" onclick="location.href='admin_view_one_recipe.do?r_idx=${k.r_idx}'">
+											<tr id="content-list" onclick="location.href='admin_view_one_recipe.do?r_idx=${k.r_idx}'" class="content-line">
 												<td>${k.r_idx}</td>
 												<td>${k.m_idx}</td>
 												<td>${k.recipe_title}</td>

@@ -1,5 +1,7 @@
 package com.ict.controller;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -12,6 +14,8 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.ict.service.DAO;
 import com.ict.service.MVO;
+import com.ict.service.RecipePaging;
+import com.ict.service.RecipeVO;
 
 @Controller
 public class UserController {
@@ -160,6 +164,26 @@ public class UserController {
 		MVO mvo = (MVO)session.getAttribute("mvo");
 		mv.addObject("mvo", mvo);
 		return mv;
+	}
+	
+	@RequestMapping(value = "myRecipeList", produces = "application/text; charset=utf8")
+	@ResponseBody
+	public String getRecipeList(RecipeVO rvo, HttpSession session) {
+		StringBuffer res = new StringBuffer();
+		rvo.setM_idx(((MVO)session.getAttribute("mvo")).getM_idx());
+		RecipePaging rp = new RecipePaging(10, 0, rvo.getcPage());
+		rvo.setBegin(String.valueOf(rp.getBegin()));
+		rvo.setEnd(String.valueOf(rp.getEnd()));
+		List<RecipeVO> rlist = dao.myRecipeList(rvo);
+		for (RecipeVO k : rlist) {
+			res.append("<div class='each-recipe'><img src='" + k.getMain_image() + "' class='image' onclick='view(" + k.getR_idx() + ")'><div class='recipe-content'>")
+			.append("<div class='recipe-title' onclick='view(" + k.getR_idx() + ")'>" + k.getRecipe_title() + "</div><div class='recipe-info'>")
+			.append("<span class='recipe-regdate'><i class='far fa-calendar-alt'></i>" + k.getRegdate().substring(0, 16) + "</span>")
+			.append("<span class='recipe-view'><i class='fas fa-eye'></i>" + k.getHit()+ "</span>")
+			.append("<span class='recipe-com'><i class='fas fa-comment-alt'></i>" + k.getCount() + "</span></div>")
+			.append("<div class='recipe-button' onclick='edit(" + k.getR_idx() + ")'><span class='edit'><i class='fas fa-edit'></i>수정</span></div></div></div>");
+		}
+		return res.toString();
 	}
 	
 	@RequestMapping("myReview")

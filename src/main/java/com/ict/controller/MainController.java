@@ -179,21 +179,23 @@ public class MainController {
 	public ModelAndView viewRecipe(@RequestParam String rno, HttpSession session) {
 		ModelAndView mv = new ModelAndView("view_recipe");
 		RecipeVO rvo = dao.viewRecipe(rno);
-		if ((rvo.getA_permission().equals("0") || rvo.getSavepublic().equals("0")) && !(((MVO)session.getAttribute("mvo")).getId().equals("admin"))) {
+		if ((rvo.getA_permission().equals("0") || rvo.getSavepublic().equals("0")) && !(((MVO)session.getAttribute("mvo")).getId().equals("admin")) && !(((MVO)session.getAttribute("mvo")).getM_idx().equals(rvo.getM_idx()))) {
 			mv.setViewName("inappropriate");
 			return mv;
 		}
-		rvo.setHit(Integer.parseInt(rvo.getHit()) + 1 + "");
-		dao.recipeHitUpdate(rvo);
-		R_RankVO rrvo = new R_RankVO();
-		rrvo.setR_idx(rvo.getR_idx());
-		rrvo.setR_date(new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
-		if (dao.chkRank(rrvo) != null) {
-			rrvo = dao.chkRank(rrvo);
-			rrvo.setR_count(Integer.parseInt(rrvo.getR_count()) + 1 + "");
-			dao.updateCount(rrvo);
-		} else {
-			dao.insertCount(rrvo);
+		if (!(((MVO)session.getAttribute("mvo")).getM_idx().equals(rvo.getM_idx()))) {
+			rvo.setHit(Integer.parseInt(rvo.getHit()) + 1 + "");
+			dao.recipeHitUpdate(rvo);
+			R_RankVO rrvo = new R_RankVO();
+			rrvo.setR_idx(rvo.getR_idx());
+			rrvo.setR_date(new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
+			if (dao.chkRank(rrvo) != null) {
+				rrvo = dao.chkRank(rrvo);
+				rrvo.setR_count(Integer.parseInt(rrvo.getR_count()) + 1 + "");
+				dao.updateCount(rrvo);
+			} else {
+				dao.insertCount(rrvo);
+			}
 		}
 		mv.addObject("rvo", rvo);
 		return mv;

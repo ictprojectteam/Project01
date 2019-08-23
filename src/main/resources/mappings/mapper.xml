@@ -334,14 +334,14 @@
 	</insert>
 	
 	<select id="todayRecipe" parameterType="rrvo" resultType="rrvo">
-		select * from (select rr.r_idx, name, recipe_title, r_count from r_rank rr, recipe r, members m where r_date = #{r_date} and rr.r_idx = r.r_idx and r.m_idx = m.m_idx order by r_count desc) a <![CDATA[where rownum >= 1 and rownum <= 5]]>
+		select * from (select rr.r_idx, name, recipe_title, r_count from r_rank rr, recipe r, members m where r_date = #{r_date} and rr.r_idx = r.r_idx and r.m_idx = m.m_idx and savepublic = 1 and a_permission = 1 order by r_count desc) a <![CDATA[where rownum >= 1 and rownum <= 5]]>
 	</select>
 	
 	<select id="monthRecipe" parameterType="Map" resultType="rrvo">
 		select * from (
 			select t.*, name, recipe_title from (
 				select r_idx, sum(r_count) r_count from r_rank where <![CDATA[r_date >= #{start} and r_date <= #{endt}]]> group by r_idx
-			) t, recipe r, members m where t.r_idx = r.r_idx and m.m_idx = r.m_idx order by r_count desc
+			) t, recipe r, members m where t.r_idx = r.r_idx and m.m_idx = r.m_idx and savepublic = 1 and a_permission = 1 order by r_count desc
 		) where <![CDATA[rownum >= 1 and rownum <= 5]]>
 	</select>
 	
@@ -556,5 +556,19 @@
 				select * from event where e_public = 1 and e_type = 2 order by e_regdate desc
 			) e
 		) where r_num between 1 and 3
+	</select>
+	
+	<select id="countMyRecipe" parameterType="rvo" resultType="int">
+		select count(*) from recipe where m_idx = #{m_idx} and savepublic = #{savepublic}
+	</select>
+	
+	<select id="myRecipeList" parameterType="rvo" resultType="rvo">
+		select * from (
+			select rownum as r_num, a.* from (
+				select r.*, nvl(count, 0) count from recipe r, (
+					select c.r_idx, count(*) count from recipe_c c group by c.r_idx
+				) g where r.r_idx = g.r_idx(+) and r.m_idx = #{m_idx} and r.savepublic = #{savepublic}
+			) a
+		) where r_num between #{begin} and #{end}
 	</select>
 </mapper>
