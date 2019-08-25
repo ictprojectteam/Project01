@@ -67,31 +67,31 @@
 		font-size: 12pt;
 		font-weight: bolder;
 	}
-	#talk-recent, #recipe-recent{
+	#recipe-recent{
 		display: grid;
 		width: 1200px;
 		height: 300px;
 		grid-template-columns: 50px 1100px 50px;
 	}
-	#talk-recent-preview-wrap, #recipe-recent-preview-wrap{
+	#recipe-recent-preview-wrap{
 		overflow: hidden;
 		position: relative;
 	}
-	#talk-recent-preview, #recipe-recent-preview{
+	#recipe-recent-preview{
 		width: 300%;
 	}
-	.talk-preview, .recipe-preview{
+	.recipe-preview{
 		height: 280px;
 		display: inline-block;
 		width: 250px;
 		margin: 10px 10px;
 		cursor: pointer;
 	}
-	.talk-preview img, .recipe-preview img{
+	.recipe-preview img{
 		width: 250px;
 		height: 180px;
 	}
-	.talk-preview-content, .recipe-preview-content{
+	.recipe-preview-content{
 		width: 250px;
 		height: 90px;
 		line-height: 15px;
@@ -100,75 +100,53 @@
 		font-size: 9pt;
 		overflow: hidden;
 	}
-	.talk-left-arrow, .talk-right-arrow, .recipe-left-arrow, .recipe-right-arrow{
+	.recipe-left-arrow, .recipe-right-arrow{
 		padding-top: 110px;
 		font-size: 35pt;
 		text-align: center;
 		text-decoration: none;
 		color: #fa8;
 	}
-	#talk-recent a, #recipe-recent a{
+	#recipe-recent a{
 		color: #fa8;
 	}
 	.arrow-disabled{
 		color: #555;!important;
 	}
-	.talk-left, .recipe-left{
+	.recipe-left{
 		visibility: hidden;
 	}
-	.talk-preview:hover .talk-preview-content, .recipe-preview:hover .recipe-preview-content{
+	.recipe-preview:hover .recipe-preview-content{
 		background: #fb9;
 		color: #ddd;
 		opacity: 0.5;
 	}
-	.talk-preview:hover img, .recipe-preview:hover img{
+	.recipe-preview:hover img{
 		opacity: 0.5;
 	}
-	.recipe-preview-content p:first-child, .talk-preview-content p:first-child{
+	.recipe-preview-content p:first-child{
 		display:-webkit-box;
 	  -webkit-line-clamp:1;
 	  -webkit-box-orient:vertical;
 		overflow: hidden;
 		text-overflow: ellipsis;
 	}
+	#talk-recent{
+		border: 1px solid #333;
+		padding: 10px 15px;
+	}
+	.talk-preview{
+		cursor: pointer;
+		display: grid;
+		grid-template-columns: 180px 850px 170px;
+		font-size: 10pt;
+		line-height: 5pt;
+	}
 </style>
 <script src="https://kit.fontawesome.com/057ba10041.js"></script>
 <script type="text/javascript" src="../resources/js/jquery-3.4.1.min.js"></script>
 <script>
 	$(function(){
-		var talklist = $("#talk-recent-preview");
-		var talk_show_num = 4;
-		var talk_num = 0;
-		var t_total = $(".talk-preview").length;
-		var talk_width = 273;
-		if(talk_num == 0){
-			$(".talk-right").css("cursor", "pointer");
-		}
-		$(".talk-right-arrow").on("click", function(){
-			if(talk_num < (t_total - talk_show_num)) {
-				talk_num++;
-				talklist.stop().animate({marginLeft:-talk_width*talk_num+"px"},400);
-				$(".talk-left").css("visibility", "visible");
-				$(".talk-left").css("cursor", "pointer");
-				$(".talk-left").fadeIn("fast");
-			}
-			if(talk_num == (t_total - talk_show_num)){
-				 $(".talk-right").fadeOut("fast");
-				 $(".talk-right").css("cursor", "default");
-			}
-		});
-		$(".talk-left-arrow").on("click", function(){
-			if(talk_num > 0) {
-				talk_num--;
-				talklist.stop().animate({marginLeft:-talk_width*talk_num+"px"},400);
-				$(".talk-right").fadeIn("fast");
-				$(".talk-right").css("cursor", "pointer");
-			}
-			if(talk_num == 0) {
-				$(".talk-left").fadeOut("fast");
-				$(".talk-left").css("cursor", "default");
-			}
-		});
 		var recipelist = $("#recipe-recent-preview");
 		var recipe_show_num = 4;
 		var recipe_num = 0;
@@ -217,26 +195,13 @@
 		<div id="mainbody">
 		<p id="talk-recent-label"><a href="talk">토크!!</a><p>
 		<div id="talk-recent">
-			<div class="talk-left-arrow">
-				<i class="fas fa-angle-left talk-left"></i>
-			</div>
-			<div id="talk-recent-preview-wrap">
-				<div id="talk-recent-preview">
-					<c:forEach items="${t_list}" var="k">
-						<div class="talk-preview" id="talk${k.t_idx}">
-							<img src="resources/upload/${k.f_arr[0]}">
-							<div class="talk-preview-content">
-								<p>내용 : ${k.content}</p>
-								<p>작성자 : ${k.name}</p>
-								<p>작성시간 : ${k.regdate.substring(0,10)}</p>
-							</div>
-						</div>
-					</c:forEach>
+			<c:forEach items="${t_list}" var="k">
+				<div class="talk-preview" id="talk${k.t_idx}">
+					<p>${k.regdate.substring(0,16)}</p>
+					<p>${k.content}</p>
+					<p>By ${k.name}</p>
 				</div>
-			</div>
-			<div class="talk-right-arrow">
-				<i class="fas fa-angle-right talk-right"></i>
-			</div>
+			</c:forEach>
 		</div>
 		
 		<p id="event-recent-label"><a href="event">이벤트!!</a></p>

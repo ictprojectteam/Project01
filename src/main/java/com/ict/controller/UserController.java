@@ -205,16 +205,14 @@ public class UserController {
 	@RequestMapping("myTalk")
 	public ModelAndView getMyTalk(HttpSession session){
 		ModelAndView mv = new ModelAndView("mytalk");
-		MVO mvo = (MVO)session.getAttribute("mvo");
-		mv.addObject("mvo", mvo);
+		mv.addObject("tlist", dao.getTalk_p_List(1, 10));
 		return mv;
 	}
 	
 	@RequestMapping("myReport")
 	public ModelAndView getMyInquires(HttpSession session){
 		ModelAndView mv = new ModelAndView("myreport");
-		MVO mvo = (MVO)session.getAttribute("mvo");
-		mv.addObject("mvo", mvo);
+		
 		return mv;
 	}
 	

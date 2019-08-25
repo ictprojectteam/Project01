@@ -19,6 +19,7 @@
 		font-size: 12pt;
 		background-color: #D9D9D9;
 		margin: 0px 5px;
+		cursor: pointer;
 	}
 	.menu_bt:hover{
 		background-color: #eeeeee;
