@@ -337,14 +337,14 @@
 	</insert>
 	
 	<select id="todayRecipe" parameterType="rrvo" resultType="rrvo">
-		select * from (select rr.r_idx, name, recipe_title, r_count from r_rank rr, recipe r, members m where r_date = #{r_date} and rr.r_idx = r.r_idx and r.m_idx = m.m_idx order by r_count desc) a <![CDATA[where rownum >= 1 and rownum <= 5]]>
+		select * from (select rr.r_idx, name, recipe_title, r_count from r_rank rr, recipe r, members m where r_date = #{r_date} and rr.r_idx = r.r_idx and r.m_idx = m.m_idx and savepublic = 1 and a_permission = 1 order by r_count desc) a <![CDATA[where rownum >= 1 and rownum <= 5]]>
 	</select>
 	
 	<select id="monthRecipe" parameterType="Map" resultType="rrvo">
 		select * from (
 			select t.*, name, recipe_title from (
 				select r_idx, sum(r_count) r_count from r_rank where <![CDATA[r_date >= #{start} and r_date <= #{endt}]]> group by r_idx
-			) t, recipe r, members m where t.r_idx = r.r_idx and m.m_idx = r.m_idx order by r_count desc
+			) t, recipe r, members m where t.r_idx = r.r_idx and m.m_idx = r.m_idx and savepublic = 1 and a_permission = 1 order by r_count desc
 		) where <![CDATA[rownum >= 1 and rownum <= 5]]>
 	</select>
 	
@@ -357,6 +357,15 @@
 	<select id="onelistrecipe" parameterType="String" resultType="rvo">
 		select r.*, m.name, m.email from recipe r, members m where r_idx = #{r_idx} and r.m_idx = m.m_idx
 	</select>
+	
+	<select id="getRecipeMemoList" parameterType="rmvo" resultType="rmvo">
+		select rm.*, name from r_memo rm, members m where rm.m_idx = m.m_idx and r_idx = #{r_idx}
+	</select>
+	
+	<insert id="insertRecipeMemo" parameterType="rmvo">
+		insert into r_memo values (r_m_seq.nextval, #{r_idx}, #{m_idx}, #{r_m_content}, sysdate)
+	</insert>
+	
 	<update id="admin_accept" parameterType="String">
 		update recipe set a_permission = 1 where r_idx = #{r_idx}	
 	</update>
@@ -468,7 +477,101 @@
 		) where r_num between #{begin} and #{end}
 	</select>
 	
+	<select id="a_count_event" parameterType="evo" resultType="int">
+		select count(*) from event
+			<where>
+				<if test='open != null and open.equals("1")'>
+					and <![CDATA[e_end > sysdate and e_start < sysdate]]>
+				</if>
+				<if test='open != null and open.equals("0")'>
+					and <![CDATA[e_end < sysdate]]>
+				</if>
+				<if test="e_type != null and e_type != ''">
+					and e_type = #{e_type}
+				</if>
+			</where>
+	</select>
+	
+	<select id="a_event_list" parameterType="evo" resultType="evo">
+		select * from (
+			select rownum as r_num, e.* from (
+				select * from event
+				<where>
+					<if test='open != null and open.equals("1")'>
+						and <![CDATA[e_end > sysdate and e_start < sysdate]]>
+					</if>
+					<if test='open != null and open.equals("0")'>
+						and <![CDATA[e_end < sysdate]]>
+					</if>
+					<if test="e_type != null and e_type != ''">
+						and e_type = #{e_type}
+					</if>
+				</where>
+				order by e_start desc
+			) e
+		) where r_num between #{begin} and #{end}
+	</select>
+	
 	<insert id="insertEvent" parameterType="evo">
-		insert into event values (e_seq.nextval, #{m_idx}, #{e_title}, #{e_start}, #{e_end}, #{e_type}, #{e_public}, #{e_banner}, #{e_content, jdbcType=VARCHAR}, #{e_image, jdbcType=CLOB}, #{e_regdate})
+		insert into event values (e_seq.nextval, #{m_idx}, #{e_title}, to_date(#{e_start}, 'YYYY-MM-DD HH24:MI'), to_date(#{e_end}, 'YYYY-MM-DD HH24:MI'), #{e_type}, #{e_public}, #{e_banner}, #{e_content, jdbcType=VARCHAR}, #{e_image, jdbcType=CLOB}, #{e_regdate})
 	</insert>
+	
+	<select id="countEvent" parameterType="evo" resultType="int">
+		select count(*) from event
+			<where>
+				e_public = 1
+				<if test='open != null and open.equals("1")'>
+					and <![CDATA[e_end > sysdate and e_start < sysdate]]>
+				</if>
+				<if test='open != null and open.equals("0")'>
+					and <![CDATA[e_end < sysdate]]>
+				</if>
+				<if test="e_type != null and e_type != ''">
+					and e_type = #{e_type}
+				</if>
+			</where>
+	</select>
+	
+	<select id="eventList" parameterType="evo" resultType="evo">
+		select * from (
+			select rownum as r_num, e.* from (
+				select * from event
+				<where>
+					e_public = 1
+					<if test='open != null and open.equals("1")'>
+						and <![CDATA[e_end > sysdate and e_start < sysdate]]>
+					</if>
+					<if test='open != null and open.equals("0")'>
+						and <![CDATA[e_end < sysdate]]>
+					</if>
+					<if test="e_type != null and e_type != ''">
+						and e_type = #{e_type}
+					</if>
+				</where>
+				order by e_end asc
+			) e
+		) where r_num between #{begin} and #{end}
+	</select>
+	
+	<select id="prizeList" resultType="evo">
+		select * from (
+			select rownum as r_num, e.* from (
+				select * from event where e_public = 1 and e_type = 2 order by e_regdate desc
+			) e
+		) where r_num between 1 and 3
+	</select>
+	
+	<select id="countMyRecipe" parameterType="rvo" resultType="int">
+		select count(*) from recipe where m_idx = #{m_idx} and savepublic = #{savepublic}
+	</select>
+	
+	<select id="myRecipeList" parameterType="rvo" resultType="rvo">
+		select * from (
+			select rownum as r_num, a.* from (
+				select r.*, nvl(count, 0) count from recipe r, (
+					select c.r_idx, count(*) count from recipe_c c group by c.r_idx
+				) g where r.r_idx = g.r_idx(+) and r.m_idx = #{m_idx} and r.savepublic = #{savepublic}
+			) a
+		) where r_num between #{begin} and #{end}
+	</select>
 </mapper>

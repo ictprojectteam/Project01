@@ -7,7 +7,12 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>ICT PROJECT TEAM</title>
+<link rel="shortcut icon" href="/resources/images/favicon.ico" type="image/x-icon" />
+<link rel="icon" href="/resources/images/favicon.ico" type="image/x-icon" />
 <style type="text/css">
+	body{
+		margin: auto;
+	}
 	#body-content{
 		width: 1200px;
 		margin: 30px auto 0px;
@@ -28,31 +33,65 @@
 		text-decoration: none;
 		color: #fa8;
 	}
-	#talk-recent, #recipe-recent{
+	#event-recent{
+		border: 1px solid #777;
+		display: grid;
+		grid-template-columns: 599px 599px;
+		background: #fcb;
+	}
+	.event-title{
+		text-align: center;
+		font-size: 11pt;
+		font-weight: bolder;
+		border-style: solid;
+		border-color: #f00 #fff #f00 #fff;
+		border-width: 0px 0px 1px 0px;
+		padding: 5px;
+	}
+	.open-event-box{
+		border-right: 1px solid #777;
+	}
+	.event-title:nth-child(odd){
+		border-right: 1px solid #777;
+	}
+	.each-event{
+		padding: 8px;
+		font-size: 10pt;
+		cursor: pointer;
+	}
+	.each-event:hover{
+		background: #fa8;
+	}
+	.empty{
+		padding: 5px 10px;
+		font-size: 12pt;
+		font-weight: bolder;
+	}
+	#recipe-recent{
 		display: grid;
 		width: 1200px;
 		height: 300px;
 		grid-template-columns: 50px 1100px 50px;
 	}
-	#talk-recent-preview-wrap, #recipe-recent-preview-wrap{
+	#recipe-recent-preview-wrap{
 		overflow: hidden;
 		position: relative;
 	}
-	#talk-recent-preview, #recipe-recent-preview{
+	#recipe-recent-preview{
 		width: 300%;
 	}
-	.talk-preview, .recipe-preview{
+	.recipe-preview{
 		height: 280px;
 		display: inline-block;
 		width: 250px;
 		margin: 10px 10px;
 		cursor: pointer;
 	}
-	.talk-preview img, .recipe-preview img{
+	.recipe-preview img{
 		width: 250px;
 		height: 180px;
 	}
-	.talk-preview-content, .recipe-preview-content{
+	.recipe-preview-content{
 		width: 250px;
 		height: 90px;
 		line-height: 15px;
@@ -61,75 +100,53 @@
 		font-size: 9pt;
 		overflow: hidden;
 	}
-	.talk-left-arrow, .talk-right-arrow, .recipe-left-arrow, .recipe-right-arrow{
+	.recipe-left-arrow, .recipe-right-arrow{
 		padding-top: 110px;
 		font-size: 35pt;
 		text-align: center;
 		text-decoration: none;
 		color: #fa8;
 	}
-	#talk-recent a, #recipe-recent a{
+	#recipe-recent a{
 		color: #fa8;
 	}
 	.arrow-disabled{
 		color: #555;!important;
 	}
-	.talk-left, .recipe-left{
+	.recipe-left{
 		visibility: hidden;
 	}
-	.talk-preview:hover .talk-preview-content, .recipe-preview:hover .recipe-preview-content{
+	.recipe-preview:hover .recipe-preview-content{
 		background: #fb9;
 		color: #ddd;
 		opacity: 0.5;
 	}
-	.talk-preview:hover img, .recipe-preview:hover img{
+	.recipe-preview:hover img{
 		opacity: 0.5;
 	}
-	.recipe-preview-content p:first-child, .talk-preview-content p:first-child{
+	.recipe-preview-content p:first-child{
 		display:-webkit-box;
 	  -webkit-line-clamp:1;
 	  -webkit-box-orient:vertical;
 		overflow: hidden;
 		text-overflow: ellipsis;
 	}
+	#talk-recent{
+		border: 1px solid #333;
+		padding: 10px 15px;
+	}
+	.talk-preview{
+		cursor: pointer;
+		display: grid;
+		grid-template-columns: 180px 850px 170px;
+		font-size: 10pt;
+		line-height: 5pt;
+	}
 </style>
 <script src="https://kit.fontawesome.com/057ba10041.js"></script>
 <script type="text/javascript" src="../resources/js/jquery-3.4.1.min.js"></script>
 <script>
 	$(function(){
-		var talklist = $("#talk-recent-preview");
-		var talk_show_num = 4;
-		var talk_num = 0;
-		var t_total = $(".talk-preview").length;
-		var talk_width = 273;
-		if(talk_num == 0){
-			$(".talk-right").css("cursor", "pointer");
-		}
-		$(".talk-right-arrow").on("click", function(){
-			if(talk_num < (t_total - talk_show_num)) {
-				talk_num++;
-				talklist.stop().animate({marginLeft:-talk_width*talk_num+"px"},400);
-				$(".talk-left").css("visibility", "visible");
-				$(".talk-left").css("cursor", "pointer");
-				$(".talk-left").fadeIn("fast");
-			}
-			if(talk_num == (t_total - talk_show_num)){
-				 $(".talk-right").fadeOut("fast");
-				 $(".talk-right").css("cursor", "default");
-			}
-		});
-		$(".talk-left-arrow").on("click", function(){
-			if(talk_num > 0) {
-				talk_num--;
-				talklist.stop().animate({marginLeft:-talk_width*talk_num+"px"},400);
-				$(".talk-right").fadeIn("fast");
-				$(".talk-right").css("cursor", "pointer");
-			}
-			if(talk_num == 0) {
-				$(".talk-left").fadeOut("fast");
-				$(".talk-left").css("cursor", "default");
-			}
-		});
 		var recipelist = $("#recipe-recent-preview");
 		var recipe_show_num = 4;
 		var recipe_num = 0;
@@ -178,25 +195,42 @@
 		<div id="mainbody">
 		<p id="talk-recent-label"><a href="talk">토크!!</a><p>
 		<div id="talk-recent">
-			<div class="talk-left-arrow">
-				<i class="fas fa-angle-left talk-left"></i>
-			</div>
-			<div id="talk-recent-preview-wrap">
-				<div id="talk-recent-preview">
-					<c:forEach items="${t_list}" var="k">
-						<div class="talk-preview" id="talk${k.t_idx}">
-							<img src="resources/upload/${k.f_arr[0]}">
-							<div class="talk-preview-content">
-								<p>내용 : ${k.content}</p>
-								<p>작성자 : ${k.name}</p>
-								<p>작성시간 : ${k.regdate.substring(0,10)}</p>
-							</div>
-						</div>
-					</c:forEach>
+			<c:forEach items="${t_list}" var="k">
+				<div class="talk-preview" id="talk${k.t_idx}">
+					<p>${k.regdate.substring(0,16)}</p>
+					<p>${k.content}</p>
+					<p>By ${k.name}</p>
 				</div>
+			</c:forEach>
+		</div>
+		
+		<p id="event-recent-label"><a href="event">이벤트!!</a></p>
+		<div id="event-recent">
+			<div class="event-title">진행중인 이벤트</div>
+			<div class="event-title">이벤트 당첨자 확인</div>
+			<div class="open-event-box">
+				<c:choose>
+					<c:when test="${empty e_list}">
+						<div class="empty">진행중인 이벤트가 없습니다.</div>
+					</c:when>
+					<c:otherwise>
+						<c:forEach var="k" items="${e_list}">
+							<div class="each-event" onclick="view_event(${k.e_idx})">${k.e_title}</div>
+						</c:forEach>
+					</c:otherwise>
+				</c:choose>
 			</div>
-			<div class="talk-right-arrow">
-				<i class="fas fa-angle-right talk-right"></i>
+			<div class="prize-box">
+				<c:choose>
+					<c:when test="${empty p_list}">
+						<div class="empty">당첨자 발표가 없습니다.</div>
+					</c:when>
+					<c:otherwise>
+						<c:forEach var="k" items="${p_list}">
+							<div class="each-event" onclick="view_event(${k.e_idx})">${k.e_title}</div>
+						</c:forEach>
+					</c:otherwise>
+				</c:choose>
 			</div>
 		</div>
 		
@@ -224,10 +258,7 @@
 			</div>
 		</div>
 		
-		<p id="event-recent-label"><a href="event">이벤트!!</a></p>
-		<div id="event-recent">
-			
-		</div>
+		
 	</div>
 	</div>
 	<footer>

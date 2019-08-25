@@ -258,6 +258,14 @@ public class DAO {
 		return sqlSessionTemplate.selectOne("onelistrecipe", r_idx);
 	}
 	
+	public int insertRecipeMemo(RecipeMVO rmvo) {
+		return sqlSessionTemplate.insert("insertRecipeMemo", rmvo);
+	}
+	
+	public List<RecipeMVO> getRecipeMemoList(RecipeMVO rmvo){
+		return sqlSessionTemplate.selectList("getRecipeMemoList", rmvo);
+	}
+	
 	public int getAdminAccept(String r_idx) {
 		return sqlSessionTemplate.update("admin_accept", r_idx);
 	}
@@ -294,7 +302,35 @@ public class DAO {
 		return sqlSessionTemplate.selectList("a_member_list", mvo);
 	}
 	
+	public int aCountEvent(EventVO evo) {
+		return sqlSessionTemplate.selectOne("a_count_event", evo);
+	}
+	
+	public List<EventVO> aEventList(EventVO evo) {
+		return sqlSessionTemplate.selectList("a_event_list", evo);
+	}
+	
 	public void insertEvent(EventVO evo) {
 		sqlSessionTemplate.insert("insertEvent", evo);
+	}
+	
+	public int countEvent(EventVO evo) {
+		return sqlSessionTemplate.selectOne("countEvent", evo);
+	}
+	
+	public List<EventVO> eventList(EventVO evo){
+		return sqlSessionTemplate.selectList("eventList", evo);
+	}
+	
+	public List<EventVO> prizeList(){
+		return sqlSessionTemplate.selectList("prizeList");
+	}
+	
+	public int countMyRecipe(RecipeVO rvo) {
+		return sqlSessionTemplate.selectOne("countMyRecipe", rvo);
+	}
+	
+	public List<RecipeVO> myRecipeList(RecipeVO rvo) {
+		return sqlSessionTemplate.selectList("myRecipeList", rvo);
 	}
 }

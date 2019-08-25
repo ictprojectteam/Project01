@@ -5,7 +5,7 @@ public class RecipeVO {
 	private String pack, material, orderContent, finImage;
 	private String m_idx, regdate, lastedit, hit, likeit, writer, name, id, savepublic, a_permission;
 	private String name_idx, email, type, start, endt;
-	private String begin, end, cPage, k;
+	private String begin, end, cPage, k, count;
 	
 	public String getR_idx() {
 		return r_idx;
@@ -228,6 +228,12 @@ public class RecipeVO {
 	}
 	public void setK(String k) {
 		this.k = k;
+	}
+	public String getCount() {
+		return count;
+	}
+	public void setCount(String count) {
+		this.count = count;
 	}
 	
 }

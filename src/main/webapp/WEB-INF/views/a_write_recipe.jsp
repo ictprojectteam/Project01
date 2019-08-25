@@ -1121,9 +1121,9 @@ function del_compimage(num){
 								</div>
 							</div>
 							</div>
-							<div class="write-input"><textarea rows="1" cols="45" name="recipe_title" placeholder="예)소고기 미역국 끓이기"></textarea></div>
+							<div class="write-input"><textarea rows="1" cols="40" name="recipe_title" placeholder="예)소고기 미역국 끓이기"></textarea></div>
 							<div class="write-label">요리소개</div>
-							<div class="write-input"><textarea rows="2" cols="45" name="recipe_introduce" placeholder="이 레시피의 탄생 배경을 적어주세요."></textarea> </div>
+							<div class="write-input"><textarea rows="2" cols="40" name="recipe_introduce" placeholder="이 레시피의 탄생 배경을 적어주세요."></textarea> </div>
 							<div id="write-top-right">
 							<input type="file" name="recipe_mainimage" hidden="" id="insert-main-image" accept="image/*">
 							

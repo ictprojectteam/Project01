@@ -9,36 +9,45 @@
 <jsp:include page="head.jsp" />
 <style type="text/css">
 	#menu{
-		width: 60%;
+		width: 1000px;
 		margin: 20px auto;
 	}
 	.menu_bt{
 		border: 1px solid #808080;
-		width: 80pt;
-		height: 30pt;
+		width: 151px;
+		height: 45px;
 		font-size: 12pt;
 		background-color: #D9D9D9;
-		margin-right: 10px;
+		margin: 0px 5px;
+		cursor: pointer;
 	}
 	.menu_bt:hover{
 		background-color: #eeeeee;
 	}
 	#inquires_tab{
-		width: 60%;
+		width: 900px;
 		margin: 20px auto;
 		border-bottom: 1px solid;
 	}
 	.inquires_bt{
+		width: 100px;
 		border: 1px solid #808080;
-		width: 60pt;
-		height: 20pt;
 		font-size: 12pt;
-		background-color: #DFEEF3;
+		background: #dee;
 		border-radius: 6px;
 		margin-bottom: 10px;
+		padding: 3px 6px;
+		display: inline-block;
+		text-align: center;
+		box-sizing: border-box;
+		cursor: pointer;
+	}
+	.selected{
+		background: #489!important;
+		cursor: default!important;
 	}
 	.inquires_bt:hover {
-		background-color: #488399;
+		background-color: #8cd;
 	}
 </style>
 <script type="text/javascript">
@@ -78,8 +87,8 @@
 		<input class="menu_bt" type="button" value="회원정보수정" onclick="prf_update()">
 	</div>
 	<div id="inquires_tab">
-		<input class="inquires_bt" type="button" value="문의중" style="background-color: #488399;">
-		<input class="inquires_bt" type="button" value="답변 완료">
+		<span class="inquires_bt selected">문의중</span>
+		<span class="inquires_bt">답변 완료</span>
 	</div>
 </body>
 <footer>

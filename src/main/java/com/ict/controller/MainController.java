@@ -32,6 +32,8 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.ict.service.DAO;
+import com.ict.service.EventPaging;
+import com.ict.service.EventVO;
 import com.ict.service.MVO;
 import com.ict.service.Pageing;
 import com.ict.service.QVO;
@@ -59,10 +61,7 @@ public class MainController {
 		listmap.put("end", "8");
 		listmap.put("a_permission", "1");
 		
-		List<RecipeVO> r_list = dao.getRecipeList(listmap);
-		
 		List<TVO> t_list = dao.getTalk_List();
-		
 		for (int i = 0; i < t_list.size(); i++) {
 			if(t_list.get(i).getFile_name() != null) {
 				String str = t_list.get(i).getFile_name();
@@ -73,6 +72,11 @@ public class MainController {
 			}
 		}
 		
+		EventVO evo = new EventVO();
+		evo.setBegin("1");
+		evo.setEnd("3");
+		evo.setOpen("1");
+		
 		if (dao.chkDate() == null) {
 			dao.insertVisitor(new SimpleDateFormat("yyyy-MM-dd").format(new Date(Calendar.getInstance().getTimeInMillis())));
 		} else {
@@ -80,8 +84,9 @@ public class MainController {
 		}
 		
 		mv.addObject("t_list", t_list);
-		
-		mv.addObject("r_list", r_list);
+		mv.addObject("r_list", dao.getRecipeList(listmap));
+		mv.addObject("e_list", dao.eventList(evo));
+		mv.addObject("p_list", dao.prizeList());
 		return mv;
 	}
 
@@ -174,21 +179,23 @@ public class MainController {
 	public ModelAndView viewRecipe(@RequestParam String rno, HttpSession session) {
 		ModelAndView mv = new ModelAndView("view_recipe");
 		RecipeVO rvo = dao.viewRecipe(rno);
-		if ((rvo.getA_permission().equals("0") || rvo.getSavepublic().equals("0")) && !(((MVO)session.getAttribute("mvo")).getId().equals("admin"))) {
+		if ((rvo.getA_permission().equals("0") || rvo.getSavepublic().equals("0")) && !(((MVO)session.getAttribute("mvo")).getId().equals("admin")) && !(((MVO)session.getAttribute("mvo")).getM_idx().equals(rvo.getM_idx()))) {
 			mv.setViewName("inappropriate");
 			return mv;
 		}
-		rvo.setHit(Integer.parseInt(rvo.getHit()) + 1 + "");
-		dao.recipeHitUpdate(rvo);
-		R_RankVO rrvo = new R_RankVO();
-		rrvo.setR_idx(rvo.getR_idx());
-		rrvo.setR_date(new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
-		if (dao.chkRank(rrvo) != null) {
-			rrvo = dao.chkRank(rrvo);
-			rrvo.setR_count(Integer.parseInt(rrvo.getR_count()) + 1 + "");
-			dao.updateCount(rrvo);
-		} else {
-			dao.insertCount(rrvo);
+		if (!(((MVO)session.getAttribute("mvo")).getM_idx().equals(rvo.getM_idx()))) {
+			rvo.setHit(Integer.parseInt(rvo.getHit()) + 1 + "");
+			dao.recipeHitUpdate(rvo);
+			R_RankVO rrvo = new R_RankVO();
+			rrvo.setR_idx(rvo.getR_idx());
+			rrvo.setR_date(new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
+			if (dao.chkRank(rrvo) != null) {
+				rrvo = dao.chkRank(rrvo);
+				rrvo.setR_count(Integer.parseInt(rrvo.getR_count()) + 1 + "");
+				dao.updateCount(rrvo);
+			} else {
+				dao.insertCount(rrvo);
+			}
 		}
 		mv.addObject("rvo", rvo);
 		return mv;
@@ -590,7 +597,28 @@ public class MainController {
 		qvo.setQ_def("댓글신고");
 		int res = dao.insertReport(qvo);
 		return String.valueOf(res);
-
+	}
+	
+	@RequestMapping("event")
+	public ModelAndView getEvent() {
+		ModelAndView mv = new ModelAndView("event");
+		return mv;
+	}
+	
+	@RequestMapping(value = "event_list", produces = "application/text; charset=utf8")
+	@ResponseBody
+	public String loadEvent(EventVO evo) {
+		StringBuffer res = new StringBuffer();
+		EventPaging ep = new EventPaging(5, dao.countEvent(evo), evo.getcPage());
+		evo.setBegin(String.valueOf(ep.getBegin()));
+		evo.setEnd(String.valueOf(ep.getEnd()));
+		List<EventVO> elist = dao.eventList(evo);
+		for (EventVO k : elist) {
+			res.append("<div class='each-content' onclick='view(" + k.getE_idx() + ")'><img src='" + k.getE_banner() + "' class='image'>")
+			.append("<div class='content'><div class='title'>" + k.getE_title() + "</div>")
+			.append("<div class='date'>" + k.getE_start().substring(0, 16) + " ~ " + k.getE_end().substring(0, 16) + "</div></div></div>");
+		}
+		return res.toString();
 	}
 	
 //	유튜브 썸네일 URI를 ajax로 받기 위한 메소드

@@ -355,11 +355,45 @@
 		$("#deny").on("click", function(){
 			alert("승인 거절 사유 작성 페이지 노출 및 상태 : 승인거절_로 변경")
 		});
+
+		$("#ad-memo-write").on("click", function(){
+			var r_m_content = $("input[name=ad-note]").val();
+			$.ajax({
+				url : "ad_memo_write",
+				data : {"r_m_content" : r_m_content, "r_idx" : "${rvo.r_idx}"},
+				dataType : "text",
+				type : "post",
+				success : function(data) {
+					$("input[name=ad-note]").val("");
+					loadMemo();
+				},
+				error : function(){
+					alert("쓰기 실패");
+				}
+			});
+		});
+		
 		$("#view-recipe").on("click", function(){
 			location.href = "view_recipe?rno=${rvo.r_idx}";
 		});
+		loadMemo();
 	});
 	
+	function loadMemo() {
+		$.ajax({
+			url : "load_ad_memo",
+			data : {"r_idx" : "${rvo.r_idx}"},
+			dataType : "text",
+			type : "post",
+			success : function(data) {
+				$("#ad-memo").empty();
+				$("#ad-memo").append(data);
+			},
+			error : function(){
+				alert("읽기 실패");
+			}
+		});
+	}
 </script>
 	
 </head>
@@ -476,7 +510,7 @@
 							<c:set var="order" value="${orders[i].split(', ')}"></c:set>
 							<div class="step-each">
 								<div class="step-title">Step${i+1}</div>
-								<div class="step-content">${order[0]}</div>
+								<div class="step-content"><pre>${order[0]}</pre></div>
 							</div>
 						</c:forEach>
 					</div>
