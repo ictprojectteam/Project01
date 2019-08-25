@@ -528,6 +528,9 @@
 				</if>
 				<if test="e_type != null and e_type != ''">
 					and e_type = #{e_type}
+				</if>
+			</where>
+		</select>
 	
 	<select id="a_count_manager" parameterType="m_vo" resultType="int">
 		select count(*) from manager
