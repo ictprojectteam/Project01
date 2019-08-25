@@ -508,13 +508,11 @@
 				del_mainimage();
 			}
 		});
-
 		$("[id^=recipe-orderimage-]").on("change", change_order_image);
 		
 		$("#comp-image-oneclick").on("click", function(){
 			$("#comp-image-multfile").click();
 		});
-
 		$("#comp-image-multfile").on("change", function(){
 			var files = this.files;
 			var imgnum = 1;
@@ -553,7 +551,6 @@
 			var k = $(this).parent().attr("id").replace("comp-image-", "");
 			$("#comp-image-file-" + k).click();
 		});
-
 		$("[id^=comp-image-file-").on("change", function(){
 			var k = $(this).attr("id").replace("comp-image-file-", "");
 			var cont = $("#comp-image-" + k);
@@ -586,7 +583,6 @@
 				cont.find(".comp-image-empty").show();
 			}
 		});
-
 		$("#video-url").on("focusout", function(){
 			var url = $("#video-url").val();
 			if(/http[s]?:[/]{2}/.test(url)){
@@ -619,7 +615,6 @@
 				}
 			}
 		});
-
 		$("#save").on("click", function(){
 			var chkval = validateForm();
 			if(!chkval) return;
@@ -627,7 +622,6 @@
 			subm = true;
 			$("#recipe-form").attr("action", "save_recipe").submit();
 		});
-
 		$("#public").on("click", function(){
 			var chkval = validateForm();
 			if(!chkval) return;
@@ -636,17 +630,14 @@
 			$("#savepublic").val("1");
 			$("#recipe-form").attr("action", "save_recipe").submit();
 		});
-
 		$("#cancel").on("click", function(){
 			history.go(-1);
 		});
-
 		var subm = false;
 		$(window).on("beforeunload", function(){
 			if (!subm) return "작성된 레시피를 저장하지 않고 이동하시겠습니까?";
 		});
 	});
-
 	function validateForm(){
 		if($("textarea[name=recipe_title]").val() == ""){
 			alert("제목을 입력해주세요.");
@@ -746,11 +737,9 @@
 		
 		return true;
 	}
-
 	function insert_click(){
 		$("#insert-main-image").click();
 	}
-
 	function img_error(){
 		$("#video-thumbnail").empty();
 		$("#video-thumbnail").hide();
@@ -765,7 +754,6 @@
 		$("#write-top-image-com").find("input[name=main_image]").remove();
 		$("#write-top-image-com").show();
 	}
-
 	function del_pack(pack){
 		var k = $(".recipe-ing-pack");
 		if(k.length < 2){
@@ -795,12 +783,10 @@
 		});
 		$(".recipe-each-ing").on("sortstop", mat_sort);
 	}	
-
 	function each_del(pack, ing){
 		$("#recipe-each-"+pack+"-"+ing).remove();
 		mat_sort_input(pack);
 	}
-
 	function mat_sort(){
 		var pack = $(this).attr("id").replace("recipe-pack-","");
 		var ing = 1;
@@ -812,7 +798,6 @@
 			ing++;
 		});
 	}
-
 	function mat_sort_input(pack){
 		var ing = 1;
 		$("#recipe-pack-"+pack).find(".recipe-each-sort").each(function(){
@@ -855,11 +840,9 @@
 		each_add(pack);
 		each_add(pack);
 	}
-
 	function add_order_image(num){
 		$("#recipe-orderimage-" + num).click();
 	}
-
 	function change_order_image(){
 		var k = $(this).attr("id").replace("recipe-orderimage-", "");
 		if(this.files && this.files[0]){
@@ -884,14 +867,12 @@
 			del_order_image(k);
 		}
 	}
-
 	function del_order_image(num){
 		$("#recipe-orderimage-" + num).val('');
 		$("#recipe-order-" + num).find("input[type=hidden]").val("");
 		$("#recipe-order-" + num + " .recipe-order-image").empty();
 		$("#recipe-order-" + num + " .recipe-order-addimage i.fa-plus").show();
 	}
-
 	function add_order(){
 		var count = 0;
 		$(".recipe-order").each(function(){
@@ -910,7 +891,6 @@
 		$("#recipe-order-container").append(str);
 		$("#recipe-orderimage-" + count).bind("change", change_order_image);
 	}
-
 	function order_sort(){
 		var i = 1;
 		$(".recipe-order").each(function(){
@@ -937,7 +917,6 @@
 			$("#recipe-orderimage-" + (k - 1)).bind("change", change_order_image);
 		}
 	}
-
 	function order_down(){
 		var k = event.target.parentElement.parentElement.id.replace("recipe-order-","");
 		k = parseInt(k, 10);
@@ -955,7 +934,6 @@
 			$("#recipe-orderimage-" + (k + 1)).bind("change", change_order_image);
 		}
 	}
-
 	function order_after(){
 		var k = event.target.parentElement.parentElement.id.replace("recipe-order-","");
 		k = parseInt(k, 10);
@@ -969,17 +947,14 @@
 		content.find(" .recipe-order-addimage i.fa-plus").show();
 		$("#recipe-orderimage-" + (k + 1)).bind("change", change_order_image);
 	}
-
 	function order_del(){
 		var k = event.target.parentElement.parentElement.id.replace("recipe-order-","");
 		$("#recipe-order-" + k).remove();
 		order_sort();
 	}
-
 	function change_compimage(num){
 		$("#comp-image-file-" + num).click();
 	}
-
 	function del_compimage(num){
 		$("#comp-image-file-" + num).val("");
 		$("#comp-image-" + num).find("input[type=hidden]").val("");

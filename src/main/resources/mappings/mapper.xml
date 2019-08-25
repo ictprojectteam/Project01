@@ -528,6 +528,34 @@
 				</if>
 				<if test="e_type != null and e_type != ''">
 					and e_type = #{e_type}
+	
+	<select id="a_count_manager" parameterType="m_vo" resultType="int">
+		select count(*) from manager
+				<where>
+				<![CDATA[regdate >= #{start} and regdate <= #{endt}]]>
+				<if test="op_idx != null and op_idx != ''">
+					and op_idx = #{op_idx}
+				</if>
+				<if test="op_id != null and op_id != ''">
+					and op_id = #{op_id}
+				</if>
+				<if test="op_id != null and op_id != ''">
+					and op_id = #{op_id}
+				</if>
+				<if test="op_name != null and op_name != ''">
+					and op_name = #{op_name}
+				</if>
+				<if test="op_phone != null and op_phone != ''">
+					and op_phone = #{op_phone}
+				</if>
+				<if test="op_com_email != null and op_com_email != ''">
+					and op_com_email = #{op_com_email}
+				</if>
+				<if test="op_per_email != null and op_per_email != ''">
+					and op_per_email = #{op_per_email}
+				</if>
+				<if test="op_position != null and op_position != ''">
+					and op_position = #{op_position}
 				</if>
 			</where>
 	</select>
@@ -571,6 +599,42 @@
 				select r.*, nvl(count, 0) count from recipe r, (
 					select c.r_idx, count(*) count from recipe_c c group by c.r_idx
 				) g where r.r_idx = g.r_idx(+) and r.m_idx = #{m_idx} and r.savepublic = #{savepublic}
+			) a
+		) where r_num between #{begin} and #{end}
+	</select>
+	
+	<select id="a_manager_list" parameterType="map" resultType="m_vo">
+		select * from (
+			select rownum as r_num, a.* from (
+				select * from manager
+					<where>
+					<![CDATA[regdate >= #{start} and regdate <= #{endt}]]>
+						<if test="op_idx != null and op_idx != ''">
+							and op_idx = #{op_idx}
+						</if>
+						<if test="op_id != null and op_id != ''">
+							and op_id = #{op_id}
+						</if>
+						<if test="op_id != null and op_id != ''">
+							and op_id = #{op_id}
+						</if>
+						<if test="op_name != null and op_name != ''">
+							and op_name = #{op_name}
+						</if>
+						<if test="op_phone != null and op_phone != ''">
+							and op_phone = #{op_phone}
+						</if>
+						<if test="op_com_email != null and op_com_email != ''">
+							and op_com_email = #{op_com_email}
+						</if>
+						<if test="op_per_email != null and op_per_email != ''">
+							and op_per_email = #{op_per_email}
+						</if>
+						<if test="op_position != null and op_position != ''">
+							and op_position = #{op_position}
+						</if>
+					</where>
+					order by op_idx desc
 			) a
 		) where r_num between #{begin} and #{end}
 	</select>

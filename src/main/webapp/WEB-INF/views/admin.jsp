@@ -187,10 +187,9 @@ tabel td {
 }
 
 #r_title{
-	background: #ccc;
+	background-color: #cccccc;
 }
-
-/* #content-list :hover{
+.content-list:hover{
 	background: #ccc;
 	cursor:pointer;
 } */
@@ -231,7 +230,7 @@ tabel td {
 					<div id="body">
 						<table>
 							<thead>
-								<tr>
+								<tr id="r_title">
 									<th>회원번호</th>
 									<th>회원이름</th>
 									<th>이메일</th>
@@ -248,7 +247,7 @@ tabel td {
 									</c:when>
 									<c:otherwise>
 										<c:forEach var="k" items="${list}" begin="0" end="4">
-											<tr id="content-list" onclick="location.href='admin_view_one_member.do?m_idx=${k.m_idx}'">
+											<tr class="content-list" onclick="location.href='admin_view_one_member.do?m_idx=${k.m_idx}'">
 												<td>${k.m_idx}</td>
 												<td>${k.name}</td>
 												<td>${k.email}</td>
@@ -287,7 +286,7 @@ tabel td {
 									</c:when>
 									<c:otherwise>
 										<c:forEach var="k" items="${r_list}" begin="0" end="4">
-											<tr id="content-list" onclick="location.href='admin_view_one_recipe.do?r_idx=${k.r_idx}'" class="content-line">
+											<tr class="content-list" onclick="location.href='admin_view_one_recipe.do?r_idx=${k.r_idx}'">
 												<td>${k.r_idx}</td>
 												<td>${k.m_idx}</td>
 												<td>${k.recipe_title}</td>
@@ -314,7 +313,7 @@ tabel td {
 					<div id="body">
 						<table>
 							<thead>
-								<tr>
+								<tr id="r_title">
 									<th>회원이름</th>
 									<th>아이디</th>
 									<th>이메일</th>
@@ -333,7 +332,7 @@ tabel td {
 									</c:when>
 									<c:otherwise>
 										<c:forEach var="k" items="${q_list}" begin="0" end="4">
-											<tr id="content-list" onclick="location.href='admin_qna.do'">
+											<tr class="content-list" onclick="location.href='admin_qna.do'">
 												<td>${k.name}</td>
 												<td>${k.id}</td>
 												<td>${k.email}</td>

@@ -172,7 +172,6 @@ tabel td{
 	grid-template-columns: 480px 480px;
 	grid-column-gap: 40px;
 }
-
 #write-top{
 height: 400px;
 margin-top: 50px
@@ -499,11 +498,9 @@ margin-top:-40px;
 #recipe-ing-pack-2, #recipe-ing-pack-3, #recipe-ing-pack-4, #recipe-ing-pack-5, #recipe-ing-pack-6{
 	display: none;
 }
-
 textarea{
 	resize: none;
 }
-
 </style>
 <script src="https://kit.fontawesome.com/057ba10041.js"></script>
 <script src="../resources/js/jquery-3.4.1.min.js"></script>
@@ -547,13 +544,11 @@ $(function(){
 			del_mainimage();
 		}
 	});
-
 	$("[id^=recipe-orderimage-]").on("change", change_order_image);
 	
 	$("#comp-image-oneclick").on("click", function(){
 		$("#comp-image-multfile").click();
 	});
-
 	$("#comp-image-multfile").on("change", function(){
 		var files = this.files;
 		var imgnum = 1;
@@ -592,7 +587,6 @@ $(function(){
 		var k = $(this).parent().attr("id").replace("comp-image-", "");
 		$("#comp-image-file-" + k).click();
 	});
-
 	$("[id^=comp-image-file-").on("change", function(){
 		var k = $(this).attr("id").replace("comp-image-file-", "");
 		var cont = $("#comp-image-" + k);
@@ -625,7 +619,6 @@ $(function(){
 			cont.find(".comp-image-empty").show();
 		}
 	});
-
 	$("#video-url").on("focusout", function(){
 		var url = $("#video-url").val();
 		if(/http[s]?:[/]{2}/.test(url)){
@@ -658,7 +651,6 @@ $(function(){
 			}
 		}
 	});
-
 		$("#public").on("click", function(){
 			var chkval = validateForm();
 			if(!chkval) return;
@@ -669,12 +661,10 @@ $(function(){
 		$("#cancel").on("click", function(){
 			history.go(-1);
 		});
-
 		var subm = false;
 		$(window).on("beforeunload", function(){
 			if (!subm) return "작성된 레시피를 저장하지 않고 이동하시겠습니까?";
 		});
-
 		$("#check_ingredient").on("change", function(){
 			if($("#recipe-ing-pack-1").css("display") == "none"){
 				$("#recipe-ing-pack-1").css("display", "block");
@@ -694,7 +684,6 @@ $(function(){
 				$("textarea[name=ing-pack-2]").attr("disabled", "disabled");
 			}
 		});
-
 		$("#check_sause").on("change", function(){
 			if($("#recipe-ing-pack-3").css("display") == "none"){
 				$("#recipe-ing-pack-3").css("display", "block");
@@ -704,7 +693,6 @@ $(function(){
 				$("textarea[name=ing-pack-3]").attr("disabled", "disabled");
 			}
 		});
-
 		$("#check_broth").on("change", function(){
 			if($("#recipe-ing-pack-4").css("display") == "none"){
 				$("#recipe-ing-pack-4").css("display", "block");
@@ -714,7 +702,6 @@ $(function(){
 				$("textarea[name=ing-pack-4]").attr("disabled", "disabled");
 			}
 		});
-
 		$("#check_topping").on("change", function(){
 			if($("#recipe-ing-pack-5").css("display") == "none"){
 				$("#recipe-ing-pack-5").css("display", "block");
@@ -724,7 +711,6 @@ $(function(){
 				$("textarea[name=ing-pack-5]").attr("disabled", "disabled");
 			}
 		});
-
 		$("#check_syrup").on("change", function(){
 			if($("#recipe-ing-pack-6").css("display") == "none"){
 				$("#recipe-ing-pack-6").css("display", "block");
@@ -736,7 +722,6 @@ $(function(){
 		});
 		
 	});
-
 function validateForm(){
 	if($("textarea[name=recipe_title]").val() == ""){
 		alert("제목을 입력해주세요.");
@@ -839,11 +824,9 @@ function validateForm(){
 	
 	return true;
 }
-
 function insert_click(){
 	$("#insert-main-image").click();
 }
-
 function img_error(){
 	$("#video-thumbnail").empty();
 	$("#video-thumbnail").hide();
@@ -851,14 +834,12 @@ function img_error(){
 	alert("올바른 주소를 입력해주세요");
 	$("#video-url").val("");
 }
-
 function del_mainimage(){
 	$("#insert-main-image").val('');
 	$("#write-top-image-insert").empty();
 	$("#write-top-image-com").find("input[name=main_image]").remove();
 	$("#write-top-image-com").show();
 }
-
 function del_pack(pack){
 	var k = $(".recipe-ing-pack");
 	if(k.length < 2){
@@ -868,7 +849,6 @@ function del_pack(pack){
 		$("#recipe-ing-pack-"+pack).remove();
 	}
 }
-
 function each_add(pack){
 	var ing = 0;
 	$("#recipe-pack-"+pack+" [id^=recipe-each-"+pack+"-]").each(function(){
@@ -888,12 +868,10 @@ function each_add(pack){
 	});
 	$(".recipe-each-ing").on("sortstop", mat_sort);
 }	
-
 function each_del(pack, ing){
 	$("#recipe-each-"+pack+"-"+ing).remove();
 	mat_sort_input(pack);
 }
-
 function mat_sort(){
 	var pack = $(this).attr("id").replace("recipe-pack-","");
 	var ing = 1;
@@ -905,7 +883,6 @@ function mat_sort(){
 		ing++;
 	});
 }
-
 function mat_sort_input(pack){
 	var ing = 1;
 	$("#recipe-pack-"+pack).find(".recipe-each-sort").each(function(){
@@ -916,7 +893,6 @@ function mat_sort_input(pack){
 		ing++;
 	});
 }
-
 function pack_sort(){
 	var pack = 1;
 	$(".recipe-ing-pack").each(function(){
@@ -929,7 +905,6 @@ function pack_sort(){
 		pack++;
 	});
 }
-
 function add_pack(){
 	var pack = 0;
 	$(".recipe-each-ing").each(function(){
@@ -948,11 +923,9 @@ function add_pack(){
 	each_add(pack);
 	each_add(pack);
 }
-
 function add_order_image(num){
 	$("#recipe-orderimage-" + num).click();
 }
-
 function change_order_image(){
 	var k = $(this).attr("id").replace("recipe-orderimage-", "");
 	if(this.files && this.files[0]){
@@ -977,14 +950,12 @@ function change_order_image(){
 		del_order_image(k);
 	}
 }
-
 function del_order_image(num){
 	$("#recipe-orderimage-" + num).val('');
 	$("#recipe-order-" + num).find("input[type=hidden]").val("");
 	$("#recipe-order-" + num + " .recipe-order-image").empty();
 	$("#recipe-order-" + num + " .recipe-order-addimage i.fa-plus").show();
 }
-
 function add_order(){
 	var count = 0;
 	$(".recipe-order").each(function(){
@@ -1003,7 +974,6 @@ function add_order(){
 	$("#recipe-order-container").append(str);
 	$("#recipe-orderimage-" + count).bind("change", change_order_image);
 }
-
 function order_sort(){
 	var i = 1;
 	$(".recipe-order").each(function(){
@@ -1018,7 +988,6 @@ function order_sort(){
 		i++;
 	});
 }
-
 function order_up(){
 	var k = event.target.parentElement.parentElement.id.replace("recipe-order-","");
 	k = parseInt(k, 10);
@@ -1030,7 +999,6 @@ function order_up(){
 		$("#recipe-orderimage-" + (k - 1)).bind("change", change_order_image);
 	}
 }
-
 function order_down(){
 	var k = event.target.parentElement.parentElement.id.replace("recipe-order-","");
 	k = parseInt(k, 10);
@@ -1048,7 +1016,6 @@ function order_down(){
 		$("#recipe-orderimage-" + (k + 1)).bind("change", change_order_image);
 	}
 }
-
 function order_after(){
 	var k = event.target.parentElement.parentElement.id.replace("recipe-order-","");
 	k = parseInt(k, 10);
@@ -1062,17 +1029,14 @@ function order_after(){
 	content.find(" .recipe-order-addimage i.fa-plus").show();
 	$("#recipe-orderimage-" + (k + 1)).bind("change", change_order_image);
 }
-
 function order_del(){
 	var k = event.target.parentElement.parentElement.id.replace("recipe-order-","");
 	$("#recipe-order-" + k).remove();
 	order_sort();
 }
-
 function change_compimage(num){
 	$("#comp-image-file-" + num).click();
 }
-
 function del_compimage(num){
 	$("#comp-image-file-" + num).val("");
 	$("#comp-image-" + num).find("input[type=hidden]").val("");
