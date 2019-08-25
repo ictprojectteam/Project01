@@ -333,4 +333,12 @@ public class DAO {
 	public List<RecipeVO> myRecipeList(RecipeVO rvo) {
 		return sqlSessionTemplate.selectList("myRecipeList", rvo);
 	}
+	
+	public int a_countManager(ManagerVO mvo) {
+		return sqlSessionTemplate.selectOne("a_count_manager", mvo);
+	}
+	
+	public List<ManagerVO> aManagerList(ManagerVO mvo) {
+		return sqlSessionTemplate.selectList("a_manager_list", mvo);
+	}
 }

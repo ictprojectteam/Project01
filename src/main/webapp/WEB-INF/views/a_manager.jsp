@@ -295,7 +295,7 @@ legend{
 	
 	function getList(){
 		$.ajax({
-			url: "admin_mlist",
+			url: "admin_oplist",
 			dataType: "text",
 			type : "post",
 			success: function(data){
@@ -311,9 +311,8 @@ legend{
 		mvo = {};
 		var name = $("#input-name").val();
 		if(name != "") {
-			if($("[name=name_idx]").val() == "name") mvo.name = name;
-			if($("[name=name_idx]").val() == "id") mvo.id = name;
-			if($("[name=name_idx]").val() == "idx") mvo.m_idx = name; 
+			if($("[name=name_idx]").val() == "name") m_vo.name = name;
+			if($("[name=name_idx]").val() == "id") m_vo.id = name;
 		}
 		var email = $("[name=email]").val();
 		if(email != "") mvo.email = email;
@@ -329,7 +328,7 @@ legend{
 	
 	function load_list(e) {
 		$.ajax({
-			url: "admin_mlist",
+			url: "admin_oplist",
 			data : e,
 			dataType: "text",
 			type : "post",
@@ -345,7 +344,7 @@ legend{
 	}
 	function load_page(cPage) {
 		$.ajax({
-			url: "admin_mpage",
+			url: "admin_oppage",
 			data : cPage,
 			dataType: "text",
 			type : "post",

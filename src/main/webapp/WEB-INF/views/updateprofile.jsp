@@ -216,7 +216,7 @@ p{
 				chkpw = false;
 			}
 		});
-
+		
 		var chknewpw = false;
 		$("#newpw").on("blur", function(){
 			var newpw = $("#newpw").val();
@@ -241,7 +241,7 @@ p{
 				chknewpw = false;
 			}
 		});
-
+		
 		$("#pwchk").on("blur", function(){
 			var newpw = $("#newpw").val();
 			var pwchk = $("#pwchk").val();

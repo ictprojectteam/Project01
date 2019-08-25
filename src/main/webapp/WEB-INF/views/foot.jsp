@@ -145,7 +145,6 @@ a{
 			}
 		});
 
-
 		$.ajax({
 			url : "month_visitor",
 			dataType : "text",
