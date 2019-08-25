@@ -37,7 +37,11 @@
 	
 	<insert id="join" parameterType="mvo">
 		insert into members
+
 		values(members_seq.nextval,#{id},#{pw},#{email},#{name},#{gender},sysdate, null)
+
+		values(members_seq.nextval,#{id},#{pw},#{email},#{name},#{gender}, sysdate, null)
+
 	</insert>
 	
 	<select id="chkEmail" parameterType="mvo" resultType="int">
@@ -97,7 +101,8 @@
 	</insert>
 	
 	<insert id="insert_recipe" parameterType="rvo">
-		insert into recipe values (recipe_seq.nextval, #{m_idx}, #{recipe_title}, #{recipe_introduce}, #{recipe_video}, #{ca1}, #{ca2}, #{ca3}, #{ca4}, #{recipe_quant}, #{recipe_time}, #{recipe_difficulty}, #{main_image}, #{pack}, #{material}, #{orderContent}, #{finImage}, #{recipe_tip}, #{recipe_tag} , 0, 0, #{regdate}, sysdate, #{savepublic}, #{a_permission})
+		insert into recipe(r_idx, m_idx, recipe_title, recipe_introduce, recipe_video, ca1, ca2, ca3, ca4, recipe_quant, recipe_time, recipe_difficulty, main_image, pack, material, orderContent, finImage, recipe_tip, recipe_tag, hit, likes, regdate, lastedit, savepublic, a_permission)
+			values (recipe_seq.nextval, #{m_idx}, #{recipe_title}, #{recipe_introduce}, #{recipe_video}, #{ca1}, #{ca2}, #{ca3}, #{ca4}, #{recipe_quant}, #{recipe_time}, #{recipe_difficulty}, #{main_image}, #{pack}, #{material}, #{orderContent}, #{finImage}, #{recipe_tip}, #{recipe_tag} , 0, 0, #{regdate}, sysdate, #{savepublic}, #{a_permission})
 	</insert>
 	
 	<insert id="repCom" parameterType="qvo">
@@ -245,7 +250,7 @@
 	</insert>
 	
 	<select id="talk_list" resultType="tvo">
-		select * from (select * from talk order by t_idx desc) <![CDATA[where rownum >= 1 and rownum <= 8]]>
+		select * from (select * from talk order by t_idx desc) <![CDATA[where rownum >= 1 and rownum <= 5]]>
 	</select>
 	<select id="talk_p_list" parameterType="Map" resultType="tvo">
 		select * from (

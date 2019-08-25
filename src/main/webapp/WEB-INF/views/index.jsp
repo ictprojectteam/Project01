@@ -140,7 +140,17 @@
 		display: grid;
 		grid-template-columns: 180px 850px 170px;
 		font-size: 10pt;
-		line-height: 5pt;
+		height: 20px;
+	}
+	.talk-preview:hover{
+		background: #fcb;
+	}
+	.talk-content{
+		display:-webkit-box;
+	  -webkit-line-clamp:1;
+	  -webkit-box-orient:vertical;
+	 	overflow: hidden;
+		text-overflow: ellipsis;
 	}
 </style>
 <script src="https://kit.fontawesome.com/057ba10041.js"></script>
@@ -198,7 +208,7 @@
 			<c:forEach items="${t_list}" var="k">
 				<div class="talk-preview" id="talk${k.t_idx}">
 					<p>${k.regdate.substring(0,16)}</p>
-					<p>${k.content}</p>
+					<p class="talk-content">${k.content}</p>
 					<p>By ${k.name}</p>
 				</div>
 			</c:forEach>
