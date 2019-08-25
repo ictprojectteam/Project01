@@ -12,7 +12,6 @@
 		<typeAlias type="com.ict.service.TVO" alias="tvo" />
 		<typeAlias type="com.ict.service.TalkCVO" alias="tcvo" />
 		<typeAlias type="com.ict.service.TLVO" alias="tlvo" />
-		<typeAlias type="com.ict.service.RVO" alias="r_vo" />
 		<typeAlias type="com.ict.service.QVO" alias="qvo" />
 		<typeAlias type="com.ict.service.VisitorVO" alias="vvo" />
 		<typeAlias type="com.ict.service.EventVO" alias="evo" />

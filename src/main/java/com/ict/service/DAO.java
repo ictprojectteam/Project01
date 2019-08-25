@@ -84,17 +84,6 @@ public class DAO {
 		return sqlSessionTemplate.insert("insertReport", qvo);
 	}
 	
-	public List<RVO> getr_list() {
-		return sqlSessionTemplate.selectList("r_list");
-	}
-	
-	public List<RVO> get_recipe_list(int begin, int end) {
-		Map<String, Integer> map = new HashMap<String, Integer>();
-		map.put("begin",begin);
-		map.put("end",end);
-		return sqlSessionTemplate.selectList("r_list", map);
-	}
-	
 	public List<MVO> get_member_List(int begin, int end){
 		Map<String, Integer> map = new HashMap<String, Integer>();
 		map.put("begin", begin);
@@ -110,10 +99,6 @@ public class DAO {
 		return sqlSessionTemplate.selectOne("member_count");
 	}
 
-	public RVO getSearch(String name) {
-		return sqlSessionTemplate.selectOne("search", name);
-	}
-	
 	public MVO findPw(String email) {
 		return sqlSessionTemplate.selectOne("findPw", email);
 	}
