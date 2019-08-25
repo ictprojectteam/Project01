@@ -64,7 +64,7 @@
 		width:70px;
 		font-size: 1em;
 	}
-	#reset_bt{
+	#back_bt{
 		width:70px;
 		font-size: 1em;
 	}
@@ -93,6 +93,10 @@
 	var index = 0;
 	var files;
 	var deleted = [];
+	function back(){
+		history.back();
+	}
+	
 	function write_ok(f){
 		f.action = "talk_update_ok";
 		$("#deleted").val(deleted);
@@ -172,7 +176,7 @@
 					<hr>
 					<p class="btg">
 						<input id="write_bt" type="button" value="수정" onclick="write_ok(this.form)">
-						<input id="reset_bt" type="reset" value="취소">
+						<input id="back_bt" type="button" value="취소" onclick="back()">
 						<input type="hidden" name="deleted" id="deleted">
 						<input type="hidden" name="t_idx" value="${tvo.t_idx}">
 					</p>

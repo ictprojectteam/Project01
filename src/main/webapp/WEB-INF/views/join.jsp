@@ -9,7 +9,7 @@
 <style type="text/css">
 .top {
 	background-color: #fa8;
-	width: 1450px;
+	width: 100vw;
 	text-align: center;
 	color: white;
 	cursor: pointer;

@@ -37,7 +37,7 @@
 	
 	<insert id="join" parameterType="mvo">
 		insert into members
-		values(members_seq.nextval,#{id},#{pw},#{email},#{name},#{gender}, sysdate, null)
+		values(members_seq.nextval,#{id},#{pw},#{email},#{name},#{gender},sysdate, null)
 	</insert>
 	
 	<select id="chkEmail" parameterType="mvo" resultType="int">
