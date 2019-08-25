@@ -178,12 +178,10 @@ ul li{
 				<c:if test="${k.file_name == null}">
 				</c:if>
 				<c:if test="${k.file_name != null}">
-					<div style="margin-left: 100px;">
-						<c:forEach var="i" items="${k.f_arr}">
-							<a href="talk_view?t_idx=${k.t_idx}&cPage=${pvo.nowPage}">
-							<img src="<c:url value='/resources/upload/${i}'/>" style="width:100px; height: 100px;">
-							</a>
-						</c:forEach>
+					<div style="margin-left: 100px; margin-bottom: 20px;">
+						<a href="talk_view?t_idx=${k.t_idx}&cPage=${pvo.nowPage}">
+						<img src="<c:url value='/resources/upload/${k.f_arr[0]}'/>" style="width:500px; height: 200px; margin-left: 50px;">
+						</a>
 					</div>
 				</c:if>
 			</div>

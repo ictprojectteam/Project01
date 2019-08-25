@@ -193,6 +193,9 @@ public class DAO {
 	public List<TVO> getTalk_List(){
 		return sqlSessionTemplate.selectList("talk_list");
 	}
+	public int getTalk_update(TVO tvo) {
+		return sqlSessionTemplate.update("talk_update", tvo);
+	}
 	public String getPrf_img(String m_idx) {
 		return  sqlSessionTemplate.selectOne("talk_prf_img", m_idx);
 	}

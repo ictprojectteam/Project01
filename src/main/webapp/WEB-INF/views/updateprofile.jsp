@@ -102,20 +102,6 @@ p{
 	border: 1px solid #808080;
 	margin: 0px 0px 50px -30px;
 }
-#prf_img{
-		width: 250px;
-		height: 180px;
-		
-	}
-#prf_set{
-	position: relative;
-	float: right;
-	border: 1px solid #808080;
-	width: 250px;
-	height: 300px;
-	margin-top: -230px;
-	margin-right: -550px;
-	}
 </style>
 <script type="text/javascript">
 	$(function(){

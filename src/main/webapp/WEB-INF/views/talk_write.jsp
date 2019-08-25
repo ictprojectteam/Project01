@@ -91,30 +91,28 @@
 	var sel_files = [];
 	var index = 0;
 	var files;
+	var deleted = [];
 	function write_ok(f){
 		f.action = "talk_write_ok";
+		$("#deleted").val(deleted);
 		f.submit();
+		/*
+		var t = $("#talk_form").serializeArray();
+		t.push({name : "deleted", value : deleted});
+		t.push({name : "f_name", value : sel_files}); 
+		
+		$.ajax({
+			type:"POST",
+	        url:"talk_write_ok",
+	        data : $("#talk_form").serialize(),
+	        success: function(data){
+		        location.href = "talk";
+	        },
+	        error: function(xhr, status, error) {
+	            alert(error);
+	        }  
+		});*/
 	}
-	/*
-	$(document).ready( function() {
-		 
-        $("input[type=file]").change(function () {
-             
-            var fileInput = document.getElementById("write_bt");
-             
-            var files = fileInput.files;
-            var file;
-             
-            for (var i = 0; i < files.length; i++) {
-                 
-                file = files[i];
- 
-                alert(file.name);
-            }
-             
-        });
- 
-    });*/
 	
 	$(function () {
 		$('#write-image').click(function (e) {
@@ -126,9 +124,8 @@
 		$("#insert_image").on("change", handleImgsFilesSelect);
 	});
 	function handleImgsFilesSelect(e){
-		/* 미리보기 초기화 
 		sel_files = [];
-		$(".imgs_wrap").empty();*/
+		$(".imgs_wrap").empty();
 		files = e.target.files;
 		var filesArr = Array.prototype.slice.call(files);
 		
@@ -153,9 +150,10 @@
 			reader.readAsDataURL(f);
 		});
 	}
+	
 	function del_img(index){
-		files[index].empty;
 		sel_files.splice(index, 1);
+		deleted.splice(deleted.length, 0, files[index].name);
 		var img_id = "#img_id_" + index;
 		var image_id = "#image_id_" + index;
 		$(img_id).remove();
@@ -168,7 +166,7 @@
 		<jsp:include page="head.jsp" />
 	</header>
 	<div>
-		<form method="post" enctype="multipart/form-data">
+		<form id="talk_form" method="post" enctype="multipart/form-data">
 			<table>
 				<fieldset class="fs">
 				<h3>ICT레시피 쉐프들의 자유토크</h3>
@@ -190,6 +188,7 @@
 				<p class="btg">
 				<input id="write_bt" type="button" value="등록" onclick="write_ok(this.form)">
 				<input id="reset_bt" type="reset" value="취소">
+				<input type="hidden" name="deleted" id="deleted">
 				</p>
 				</fieldset>
 			</table>

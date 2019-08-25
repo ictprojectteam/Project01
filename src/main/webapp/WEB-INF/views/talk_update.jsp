@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -90,8 +92,10 @@
 	var sel_files = [];
 	var index = 0;
 	var files;
+	var deleted = [];
 	function write_ok(f){
-		f.action = "talk_write_ok";
+		f.action = "talk_update_ok";
+		$("#deleted").val(deleted);
 		f.submit();
 	}
 	
@@ -117,7 +121,7 @@
 			var reader = new FileReader();
 			
 			reader.onload = function(e){
-				var img_html = "<img src='"+ e.target.result + "' data-file='"+ f.name + "' class='selProductFile' title='Click to remove' id='image_id_"+index+"'>"+
+				var img_html = "<img src='"+ e.target.result + "' data-file='"+ f.name + "' class='selProductFile' id='image_id_"+index+"'>"+
 								"<i onclick='del_img("+ index +")' id='img_id_"+ index +"' class='fas fa-times'></i>"
 				$(".imgs_wrap").append(img_html);
 				index++;
@@ -127,8 +131,8 @@
 		});
 	}
 	function del_img(index){
-		files[index].empty;
 		sel_files.splice(index, 1);
+		deleted.splice(deleted.length, 0, files[index].name);
 		var img_id = "#img_id_" + index;
 		var image_id = "#image_id_" + index;
 		$(img_id).remove();
@@ -152,7 +156,14 @@
 					<div id="write-image">
 						<i class="fas fa-camera"></i>
 					</div>
-					<div class="imgs_wrap"></div>
+					<div class="imgs_wrap">
+						<c:if test="${tvo.file_name != null}">
+							<c:forEach var="i" items="${tvo.f_arr}">
+								<img src="<c:url value='/resources/upload/${i}'/>" style="width:130px; height: 130px;">
+							</c:forEach>
+						</c:if>
+					</div>
+					
 					<p class="info">
 					** 이미지를 첨부할 수 있습니다. 
 					<br>
@@ -160,8 +171,10 @@
 					</p>
 					<hr>
 					<p class="btg">
-						<input id="write_bt" type="button" value="등록" onclick="write_ok(this.form)">
+						<input id="write_bt" type="button" value="수정" onclick="write_ok(this.form)">
 						<input id="reset_bt" type="reset" value="취소">
+						<input type="hidden" name="deleted" id="deleted">
+						<input type="hidden" name="t_idx" value="${tvo.t_idx}">
 					</p>
 				</fieldset>
 			</table>

@@ -7,6 +7,7 @@ import org.springframework.web.multipart.MultipartFile;
 public class TVO {
 	private String t_idx, m_idx, name, content, file_name, heart, regdate, co_count;
 	private String prf_img;
+	private String[] deleted;
 	private MultipartFile[] f_name;
 	private ArrayList<String> f_arr = new ArrayList<String>();
 
@@ -97,6 +98,15 @@ public class TVO {
 	public void setPrf_img(String prf_img) {
 		this.prf_img = prf_img;
 	}
+
+	public String[] getDeleted() {
+		return deleted;
+	}
+
+	public void setDeleted(String[] deleted) {
+		this.deleted = deleted;
+	}
+
 	
 	
 	

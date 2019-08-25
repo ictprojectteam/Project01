@@ -397,10 +397,15 @@ public class MainController {
 		try {
 			String path = request.getSession().getServletContext().getRealPath("/resources/upload");
 			tvo.setFile_name("");
-			for (MultipartFile i : tvo.getF_name()) {
+			chk:for (MultipartFile i : tvo.getF_name()) {
 				if(i.isEmpty()) {
 					tvo.setFile_name("");
 				}else {
+					for (int j = 0; j < tvo.getDeleted().length; j++) {
+						if (i.getOriginalFilename().equals(tvo.getDeleted()[j])) {
+							continue chk;
+						}
+					}
 					tvo.setFile_name(tvo.getFile_name() + i.getOriginalFilename().concat(","));
 					i.transferTo(new File(path + "/" + i.getOriginalFilename()));
 				}
@@ -442,6 +447,39 @@ public class MainController {
 		TVO tvo = (TVO)session.getAttribute("tvo");
 		
 		mv.addObject("tvo", tvo);
+		return mv;
+	}
+	@RequestMapping(value = "talk_update_ok", method = RequestMethod.POST)
+	public ModelAndView getTalk_update_ok(TVO tvo,HttpServletRequest request) {
+		ModelAndView mv = new ModelAndView("redirect:talk");
+		TVO otvo = (TVO)request.getSession().getAttribute("tvo");
+		boolean cham = true;
+		for (MultipartFile k : tvo.getF_name()) {
+			if(k.getSize() != 0) {
+				cham = false;
+			}
+		}
+		try {
+			String path = request.getSession().getServletContext().getRealPath("/resources/upload");
+			tvo.setFile_name("");
+			
+			if(cham == true) {
+				tvo.setFile_name(otvo.getFile_name());
+			}else {
+				chk:for (MultipartFile i : tvo.getF_name()) {
+						for (int j = 0; j < tvo.getDeleted().length; j++) {
+							if (i.getOriginalFilename().equals(tvo.getDeleted()[j])) {
+								continue chk;
+							}
+						}
+					tvo.setFile_name(tvo.getFile_name() + i.getOriginalFilename().concat(","));
+					i.transferTo(new File(path + "/" + i.getOriginalFilename()));
+				}
+			}
+			dao.getTalk_update(tvo);
+		} catch (Exception e) {
+			System.out.println(e);
+		}
 		return mv;
 	}
 	@RequestMapping("talk_del")

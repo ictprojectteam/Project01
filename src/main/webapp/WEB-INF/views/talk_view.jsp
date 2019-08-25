@@ -57,6 +57,7 @@
 	border-radius: 7px;
 	padding: 5px;
 	cursor: pointer;
+	margin-right: 3px;
 }
 #comment{
 	width: 700px;
@@ -119,6 +120,11 @@
 }
 .share_img{
 	border-radius: 70px;
+	margin-right: 3px;
+}
+.preview{
+	display: block;
+	margin-bottom: 10px;
 }
 </style>
 <script type="text/javascript">
@@ -230,6 +236,9 @@
 		    return;
 		}
 	};
+	function report(){
+		alert("!");
+	}
 </script>
 	<jsp:include page="head.jsp" />
 </head>
@@ -247,7 +256,7 @@
 				<c:if test="${tvo.file_name != null}">
 					<footer>
 						<c:forEach var="i" items="${tvo.f_arr}">
-							<img src="<c:url value='/resources/upload/${i}'/>" style="width:100px; height: 100px;">
+							<img class="preview" src="<c:url value='/resources/upload/${i}'/>" style="width:450px; height: 450px;">
 						</c:forEach>
 					</footer>
 				</c:if>
@@ -268,7 +277,7 @@
 		</c:if>
 		<c:if test="${mvo.m_idx != tvo.m_idx}">
 			<li class="edit_b" onclick="talk_go()"> 목록 </li>
-			<li class="edit_b" onclick="delete_go()"> 신고 </li>
+			<li class="edit_b" onclick="report()"> 신고 </li>
 		</c:if>
 	</ul>
 	<ul style="margin-left: 450px; margin-top: 10px;">
@@ -300,7 +309,7 @@
 							<p style="margin-top: -20px; font-size: 14pt;">${k.name}</p>
 							<p style="margin: -37px 0px 0px 60px; font-size: 10pt; color: #747474;">${k.regdate}</p>
 							<c:if test="${k.m_idx != mvo.m_idx}">
-							<p style="margin: -20px 0px 0px 190px; font-size: 12pt; color: #747474;"><a href="#" style="text-decoration: none;"> | 신고</a></p>
+							<p style="margin: -20px 0px 0px 190px; font-size: 12pt; color: #747474;"><a onclick="report()" style="text-decoration: none;"> | 신고</a></p>
 							</c:if>
 							<c:if test="${k.m_idx == mvo.m_idx}">
 							<a href="#" style="text-decoration: none;"><p style="margin: -20px 0px 0px 190px; font-size: 12pt; color: #747474;"> | 수정 </p></a>
