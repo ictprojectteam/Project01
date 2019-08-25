@@ -971,7 +971,7 @@
 		<div id="write-recipe-topic">레시피 등록</div>
 		<form method="post" id="recipe-form" name="recipe-form">
 			<div id="write-top">
-				<div id="write-top-left">
+				<div id="write-top-left"> 
 					<div class="write-label">레시피 제목</div>
 					<div class="write-input"><textarea rows="1" cols="65" name="recipe_title" placeholder="예)소고기 미역국 끓이기"></textarea></div>
 					<div class="write-label">요리소개</div>
