@@ -138,6 +138,7 @@
 		$(img_id).remove();
 		$(image_id).remove();
 	}
+	//sadfas
 </script>
 </head>
 <body>
