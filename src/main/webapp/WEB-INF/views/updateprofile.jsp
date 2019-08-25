@@ -21,7 +21,7 @@
 	width: 400px;
 	margin: auto;
 }
-.body>p:first-child{
+p{
 	text-align: center;
 }
 .updButton{
@@ -74,6 +74,34 @@
 	margin-top: 20px;
 	min-height: 21px;
 }
+#prf_set{
+	position: relative;
+	border: 1px solid #808080;
+	width: 250px;
+	height: 300px;
+	margin: -30px auto 0 auto;
+}
+#prf_back{
+	width: 250px;
+	height: 180px;
+}
+#span_prf{
+	margin-top: -50px;
+}
+#prf_img{
+	width: 80px;
+	height: 80px;
+	border-radius: 70px;
+	border: 1px solid #808080;
+	margin: -50px 0px 0px 85px;
+}
+#prf_cam{
+	width: 30px;
+	height: 30px;
+	border-radius: 30px;
+	border: 1px solid #808080;
+	margin: 0px 0px 50px -30px;
+}
 #prf_img{
 		width: 250px;
 		height: 180px;
@@ -93,6 +121,9 @@
 	$(function(){
 		$(".top").on("click", function(){
 			location.href="/";
+		});
+		$("#prf_chg").on("click", function(){
+			alert("#");
 		});
 		$("#updEmail").on("click", function(){
 			$("#email-input").css("display", "block");
@@ -199,6 +230,7 @@
 				chkpw = false;
 			}
 		});
+		
 		var chknewpw = false;
 		$("#newpw").on("blur", function(){
 			var newpw = $("#newpw").val();
@@ -223,6 +255,7 @@
 				chknewpw = false;
 			}
 		});
+		
 		$("#pwchk").on("blur", function(){
 			var newpw = $("#newpw").val();
 			var pwchk = $("#pwchk").val();
@@ -284,8 +317,18 @@
 		<h1>ICT 레시피</h1>
 		<h2>ICT RECIPE</h2>
 	</div>
+	<p style="font-size: 35px;">회원정보 수정</p>
+	<div id="prf_set">
+		<img id="prf_back" src="resources/images/food.jpeg">
+		<div id="span_prf">
+			<a id="prf_chg">
+				<img id="prf_img" src="resources/images/prf_img.png">
+				<img id="prf_cam" src="resources/images/fa_cam.png">
+			</a>
+		</div>
+	</div>
 	<div class="body">
-		<p style="font-size: 35px;">회원정보 수정</p>
+		
 		<div id="mailbox">
 			<span id="viewmail">${mvo.email}</span>
 			<button id="updEmail" class="updButton">이메일 수정</button>
@@ -321,8 +364,8 @@
 			<button id="out" class="updButton">탈퇴하기</button>
 		</div>
 	</div>
-	<div id="prf_set">
-		<img id="prf_img" src="resources/images/food.jpeg">
-	</div>
 </body>
+<footer>
+	<jsp:include page="foot.jsp"></jsp:include>
+</footer>
 </html>

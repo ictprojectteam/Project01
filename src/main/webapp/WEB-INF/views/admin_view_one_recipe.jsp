@@ -375,14 +375,14 @@
 				<li><a id="content" href="a_write_recipe">게시물 등록</a></li>
 				<li><a id="user" href="membership">회원 관리</a></li>
 				<li><a id="board" href="admin_qna">문의 관리</a></li>
-				<li><a id="event" href="home">이벤트 관리</a></li>
+				<li><a id="event" href="admin_event">이벤트 관리</a></li>
 				<li><a id="op" href="home">운영자 관리</a></li>
 				<li><a id="setting" href="home">설정</a></li>
 			</ul>
 		</nav>
 		<header>
 			<div id="links">
-				<a href="m">로그아웃</a>
+				<a href="logout">로그아웃</a>
 			</div>
 		</header>
 		
@@ -457,9 +457,16 @@
 								<div class="ing-title">${pack[i]}</div>
 								<c:set var="rege2" value="\|, \|"></c:set>
 								<c:set var="material" value="${materials[i].split(rege2)}"></c:set>
-								<c:forEach var="j" begin="0" end="${fn:length(material) - 1}">
-									<p>${material[j].replace(', ','')}</p>
-								</c:forEach>
+								<c:choose>
+									<c:when test="${fn:length(material) > 1}">
+										<c:forEach var="j" begin="0" end="${fn:length(material) - 1}">
+											<p>${material[j].replace(', ','')}</p>
+										</c:forEach>
+									</c:when>
+									<c:otherwise>
+										<p>${material[0].replace(', ','')}</p>
+									</c:otherwise>
+								</c:choose>
 							</div>
 						</c:forEach>
 					</div>

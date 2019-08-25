@@ -351,6 +351,7 @@ legend{
 		});
 		load_page(e);
 	}
+	
 	function load_page(cPage) {
 		$.ajax({
 			url: "admin_rpage",
@@ -366,6 +367,7 @@ legend{
 			}
 		});
 	}
+	
 	function view(e) {
 		location.href="admin_view_one_recipe?r_idx=" + e;
 	}
@@ -383,8 +385,8 @@ legend{
 				<li><a id="content" href="a_write_recipe">게시물 등록</a></li>
 				<li><a id="user" href="a_membership">회원 관리</a></li>
 				<li><a id="board" href="admin_qna">문의 관리</a></li>
-				<li><a id="event" href="home">이벤트 관리</a></li>
-				<li><a id="op" href="home">운영자 관리</a></li>
+				<li><a id="event" href="admin_event">이벤트 관리</a></li>
+				<li><a id="op" href="a_manager">운영자 관리</a></li>
 				<li><a id="setting" href="home">설정</a></li>
 			</ul>
 		</nav>
@@ -471,32 +473,7 @@ legend{
 					</div>
 				</div>
 				<div class="paging">
-				    <c:choose>
-				    	<c:when test="${qp.beginBlock <= qp.pagePerBlock}">
-				    		<span class="disable"> 이전으로 </span>
-				    	</c:when>
-				    	<c:otherwise>
-				    		<span><a href="admin_qna?cPage=${qp.beginBlock-qp.pagePerBlock}"> 이전으로 </a></span>
-				    	</c:otherwise>
-				    </c:choose>
-				    
-					<c:forEach begin="${qp.beginBlock}" end="${qp.endBlock}" step="1" var="k">
-						<c:if test="${k==qp.nowPage}">
-							<span class="now">${k}</span>
-						</c:if>
-						<c:if test="${k!=qp.nowPage}">
-							<span class="page${k}">${k}</span>
-						</c:if>
-					</c:forEach>
-					
-					<c:choose>
-				    	<c:when test="${qp.endBlock >= qp.totalPage }">
-				    		<span class="disable"> 다음으로 </span>
-				    	</c:when>
-				    	<c:otherwise>
-				    		<span><a href="admin_qna?cPage=${qp.beginBlock+qp.pagePerBlock}"> 다음으로 </a></span>
-				    	</c:otherwise>
-				    </c:choose>
+				   
 				</div>
 			</div>
 		</div>

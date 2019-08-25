@@ -1,5 +1,6 @@
 package com.ict.controller;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,7 +31,11 @@ public class UserController {
 		MVO r_mvo = dao.getLogin(mvo);
 		if (r_mvo != null) {
 			session.setAttribute("mvo", r_mvo);
-			mv.setViewName("redirect:/");
+			if (r_mvo.getId().equals("admin")) {
+				mv.setViewName("redirect:home");
+			} else {
+				mv.setViewName("redirect:/");
+			}
 		} else {
 			mv.setViewName("loginfail");
 		}
@@ -127,5 +132,73 @@ public class UserController {
 	public String updatePw(MVO mvo) {
 		int result = dao.updatePw(mvo);
 		return String.valueOf(result);
+	}
+	
+	@RequestMapping("logout")
+	public ModelAndView getLogout(HttpServletRequest request) {
+		ModelAndView mv = new ModelAndView();
+		if((MVO)(request.getSession().getAttribute("mvo")) != null) {
+			if (((MVO)request.getSession().getAttribute("mvo")).getM_idx().equals("admin")) {
+				mv.setViewName("redirect:m");
+			} else {
+				String str = request.getHeader("REFERER");
+				str = str.substring(str.lastIndexOf("/") + 1, str.length());
+				if (str.equals("")) str = "/";
+				mv.setViewName("redirect:" + str);
+			}
+		}
+		else {
+			mv.setViewName("redirect:/");
+		}
+		request.getSession().removeAttribute("mvo");
+		return mv;
+	}
+	
+	@RequestMapping("myRecipe")
+	public ModelAndView getMyHome(HttpSession session){
+		ModelAndView mv = new ModelAndView("myrecipe");
+		MVO mvo = (MVO)session.getAttribute("mvo");
+		mv.addObject("mvo", mvo);
+		return mv;
+	}
+	
+	@RequestMapping("myReview")
+	public ModelAndView getMyReview(HttpSession session){
+		ModelAndView mv = new ModelAndView("myreview");
+		MVO mvo = (MVO)session.getAttribute("mvo");
+		mv.addObject("mvo", mvo);
+		return mv;
+	}
+	
+	@RequestMapping("myComent")
+	public ModelAndView getMyComent(HttpSession session){
+		ModelAndView mv = new ModelAndView("mycoment");
+		MVO mvo = (MVO)session.getAttribute("mvo");
+		mv.addObject("mvo", mvo);
+		return mv;
+	}
+	
+	@RequestMapping("myTalk")
+	public ModelAndView getMyTalk(HttpSession session){
+		ModelAndView mv = new ModelAndView("mytalk");
+		MVO mvo = (MVO)session.getAttribute("mvo");
+		mv.addObject("mvo", mvo);
+		return mv;
+	}
+	
+	@RequestMapping("myReport")
+	public ModelAndView getMyInquires(HttpSession session){
+		ModelAndView mv = new ModelAndView("myreport");
+		MVO mvo = (MVO)session.getAttribute("mvo");
+		mv.addObject("mvo", mvo);
+		return mv;
+	}
+	
+	@RequestMapping("myPrf_update")
+	public ModelAndView getMyPrf_update(HttpSession session){
+		ModelAndView mv = new ModelAndView("myprf_update");
+		MVO mvo = (MVO)session.getAttribute("mvo");
+		mv.addObject("mvo", mvo);
+		return mv;
 	}
 }

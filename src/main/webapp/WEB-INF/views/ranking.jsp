@@ -30,10 +30,11 @@
 		margin: auto;
 	}
 	.block-image img{
-		width: 110px;
-		height: 170px;
+		width: 130px;
+		height: 130px;
 		padding: 10px 5px;
-		border-radius: 55px;
+		border-radius: 75px;
+		margin: 20px auto;
 	}
 	.each-block{
 		margin: 5px 10px;
@@ -41,14 +42,14 @@
 		border: 1px solid #aaa;
 		border-radius: 15px;
 		display: grid;
-		grid-template-columns: 120px 380px;
+		grid-template-columns: 140px 360px;
 	}
 	.anno{
 		font-size: 9pt;
 		margin-left: 30px;
 	}
 	[class*=-content]{
-		width: 360px;
+		width: 350px;
 		display: grid;
 		grid-template-columns: 20px 100px 200px 40px;
 		cursor: pointer;
@@ -72,8 +73,9 @@
 <script type="text/javascript" src="../resources/js/jquery-3.4.1.min.js"></script>
 <script>
 	$(function(){
-		$("[class^=today-content]").on("click", function(){
-			var num = $(this).attr("class").replace("today-content", "");
+		$("[class*=-content]").on("click", function(){
+			var index = $(this).attr("class").lastIndexOf("content");
+			var num = $(this).attr("class").substring(index+7, $(this).attr("class").length);
 			location.href = "view_recipe?rno=" + num;
 		});
 	});
@@ -88,7 +90,7 @@
 		<div id="ranking-content">
 			<div id="today-recipe" class="each-block">
 				<div class="block-image">
-					<img src="resources/images/grilledfish.jpg">
+					<img src="resources/images/10legs.jpg">
 				</div>
 				<div class="block-text">
 					<div class="block-title">오늘의 레시피<span class="anno">오늘 가장 인기가 많은 레시피</span></div>
@@ -114,17 +116,17 @@
 			
 			<div id="monthly-recipe" class="each-block">
 				<div class="block-image">
-					<img src="resources/images/vegetable.png">
+					<img src="resources/images/fruitsalad.jpg">
 				</div>
 				<div class="block-text">
 					<div class="block-title">이달의 레시피<span class="anno">이달의 가장 Hot한 레시피</span></div>
 					<c:choose>
-						<c:when test="${empty rr}">
+						<c:when test="${empty mrr}">
 							표시할 내용이 없습니다.
 						</c:when>
 						<c:otherwise>
 							<c:set var="i" value="1"></c:set>
-							<c:forEach var="k" items="${rr}">
+							<c:forEach var="k" items="${mrr}">
 								<div class="monthly-content${k.r_idx}">
 									<div class="rank">${i}</div>
 									<div class="name">${k.name} </div>

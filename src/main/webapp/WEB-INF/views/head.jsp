@@ -78,6 +78,7 @@
 	}
 	#profile-dropdown{
 		z-index: 1;
+		width: 120px;
 		position: absolute;
 		margin-top: 80px;
 		margin-left: -50px;
@@ -180,10 +181,9 @@
 				<a id="user-circle" href="#"><i class="fas fa-user-circle"></i></a>
 				<a id="top-pencil-icon"><i class="fas fa-pencil-alt"></i></a>
 				<div id="profile-dropdown">
-					<a class="profile-dropdown-menu" href="myhome">MY홈</a>
-					<a class="profile-dropdown-menu" href="myscrap">스크랩한 레시피</a>
-					<a class="profile-dropdown-menu" href="myrecipe">레시피 노트</a>
-					<a class="profile-dropdown-menu" href="myreport">문의내역</a>
+					<a class="profile-dropdown-menu" href="myRecipe">MY홈</a>
+					<a class="profile-dropdown-menu" href="myRecipe">레시피 노트</a>
+					<a class="profile-dropdown-menu" href="myReport">문의내역</a>
 					<a class="profile-dropdown-menu" href="check_login">회원정보수정</a>
 					<a class="profile-dropdown-menu" href="logout">로그아웃</a>
 				</div>

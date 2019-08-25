@@ -132,6 +132,39 @@ a{
 				if(k) location.href='login';
 			}
 		});
+		$.ajax({
+			url : "count_recipe",
+			dataType : "text",
+			type : "post",
+			success : function(data) {
+				$("#count").append(data);
+			},
+			error : function() {
+				alert("조회 실패");
+			}
+		});
+		$.ajax({
+			url : "month_visitor",
+			dataType : "text",
+			type : "post",
+			success : function(data) {
+				$("#visitor").append(data);
+			},
+			error : function() {
+				alert("조회 실패");
+			}
+		});
+		$.ajax({
+			url : "sum_hit",
+			dataType : "text",
+			type : "post",
+			success : function(data) {
+				$("#hit").append(data);
+			},
+			error : function() {
+				alert("조회 실패");
+			}
+		});
 	});
 </script>
 </head>
@@ -193,15 +226,15 @@ a{
 					<a href="recipe"><i class="fas fa-carrot"></i></a> <i class="fas fa-users"></i> <i class="fas fa-book-reader"></i>
 					<div>
 						<p class="footer-counting-label">총 레시피수</p>
-						<p class="footer-counting-number">2,019</p>
+						<p class="footer-counting-number" id="count"></p>
 					</div>
 					<div>
 						<p class="footer-counting-label">월 방문자수</p>
-						<p class="footer-counting-number">258,741</p>
+						<p class="footer-counting-number" id="visitor"></p>
 					</div>
 					<div>
 						<p class="footer-counting-label">총 레시피 조회수</p>
-						<p class="footer-counting-number">9,842,358</p>
+						<p class="footer-counting-number" id="hit"></p>
 					</div>
 				</div>
 				<div id="footer-mailto-round">

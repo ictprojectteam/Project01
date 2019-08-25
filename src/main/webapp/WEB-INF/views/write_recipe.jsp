@@ -178,6 +178,7 @@
 		border: 1px solid #ccc;
 		border-radius: 5px;
 		margin-bottom: 5px;
+		width: 95%;
 	}
 	.recipe-each-delete>.fa-times{
 		color: #eee;
@@ -507,13 +508,11 @@
 				del_mainimage();
 			}
 		});
-
 		$("[id^=recipe-orderimage-]").on("change", change_order_image);
 		
 		$("#comp-image-oneclick").on("click", function(){
 			$("#comp-image-multfile").click();
 		});
-
 		$("#comp-image-multfile").on("change", function(){
 			var files = this.files;
 			var imgnum = 1;
@@ -552,7 +551,6 @@
 			var k = $(this).parent().attr("id").replace("comp-image-", "");
 			$("#comp-image-file-" + k).click();
 		});
-
 		$("[id^=comp-image-file-").on("change", function(){
 			var k = $(this).attr("id").replace("comp-image-file-", "");
 			var cont = $("#comp-image-" + k);
@@ -585,7 +583,6 @@
 				cont.find(".comp-image-empty").show();
 			}
 		});
-
 		$("#video-url").on("focusout", function(){
 			var url = $("#video-url").val();
 			if(/http[s]?:[/]{2}/.test(url)){
@@ -618,34 +615,29 @@
 				}
 			}
 		});
-
 		$("#save").on("click", function(){
-			$("input[type=file]").attr("disabled", "disabled");
 			var chkval = validateForm();
 			if(!chkval) return;
+			$("input[type=file]").attr("disabled", "disabled");
 			subm = true;
 			$("#recipe-form").attr("action", "save_recipe").submit();
 		});
-
 		$("#public").on("click", function(){
-			$("input[type=file]").attr("disabled", "disabled");
 			var chkval = validateForm();
 			if(!chkval) return;
+			$("input[type=file]").attr("disabled", "disabled");
 			subm = true;
 			$("#savepublic").val("1");
 			$("#recipe-form").attr("action", "save_recipe").submit();
 		});
-
 		$("#cancel").on("click", function(){
 			history.go(-1);
 		});
-
 		var subm = false;
 		$(window).on("beforeunload", function(){
 			if (!subm) return "작성된 레시피를 저장하지 않고 이동하시겠습니까?";
 		});
 	});
-
 	function validateForm(){
 		if($("textarea[name=recipe_title]").val() == ""){
 			alert("제목을 입력해주세요.");
@@ -745,11 +737,9 @@
 		
 		return true;
 	}
-
 	function insert_click(){
 		$("#insert-main-image").click();
 	}
-
 	function img_error(){
 		$("#video-thumbnail").empty();
 		$("#video-thumbnail").hide();
@@ -764,7 +754,6 @@
 		$("#write-top-image-com").find("input[name=main_image]").remove();
 		$("#write-top-image-com").show();
 	}
-
 	function del_pack(pack){
 		var k = $(".recipe-ing-pack");
 		if(k.length < 2){
@@ -785,8 +774,8 @@
 		ing++;
 		var str = '<div class="recipe-each-sort" id="recipe-each-'+pack+'-'+ing+'">';
 		str += '<div class="recipe-each-arrow"><i class="fas fa-sort-up"></i><br><i class="fas fa-sort-down"></i></div>';
-		str += '<div class="recipe-each-name"><textarea rows="1" cols="39" placeholder="예) 돼지고기" name="recipe-each-name-'+pack+'-'+ing+'"></textarea></div>';
-		str += '<div class="recipe-each-quant"><textarea rows="1" cols="28" placeholder="예) 300g" name="recipe-each-quant-'+pack+'-'+ing+'"></textarea></div>';
+		str += '<div class="recipe-each-name"><textarea rows="1" placeholder="예) 돼지고기" name="recipe-each-name-'+pack+'-'+ing+'"></textarea></div>';
+		str += '<div class="recipe-each-quant"><textarea rows="1" placeholder="예) 300g" name="recipe-each-quant-'+pack+'-'+ing+'"></textarea></div>';
 		str += '<div class="recipe-each-delete" onclick="each_del('+pack+','+ing+')"><i class="fas fa-times"></i></div></div>';
 		$(str).appendTo("#recipe-pack-"+pack);
 		$(".recipe-each-ing").sortable({
@@ -794,12 +783,10 @@
 		});
 		$(".recipe-each-ing").on("sortstop", mat_sort);
 	}	
-
 	function each_del(pack, ing){
 		$("#recipe-each-"+pack+"-"+ing).remove();
 		mat_sort_input(pack);
 	}
-
 	function mat_sort(){
 		var pack = $(this).attr("id").replace("recipe-pack-","");
 		var ing = 1;
@@ -811,7 +798,6 @@
 			ing++;
 		});
 	}
-
 	function mat_sort_input(pack){
 		var ing = 1;
 		$("#recipe-pack-"+pack).find(".recipe-each-sort").each(function(){
@@ -854,11 +840,9 @@
 		each_add(pack);
 		each_add(pack);
 	}
-
 	function add_order_image(num){
 		$("#recipe-orderimage-" + num).click();
 	}
-
 	function change_order_image(){
 		var k = $(this).attr("id").replace("recipe-orderimage-", "");
 		if(this.files && this.files[0]){
@@ -883,14 +867,12 @@
 			del_order_image(k);
 		}
 	}
-
 	function del_order_image(num){
 		$("#recipe-orderimage-" + num).val('');
 		$("#recipe-order-" + num).find("input[type=hidden]").val("");
 		$("#recipe-order-" + num + " .recipe-order-image").empty();
 		$("#recipe-order-" + num + " .recipe-order-addimage i.fa-plus").show();
 	}
-
 	function add_order(){
 		var count = 0;
 		$(".recipe-order").each(function(){
@@ -909,7 +891,6 @@
 		$("#recipe-order-container").append(str);
 		$("#recipe-orderimage-" + count).bind("change", change_order_image);
 	}
-
 	function order_sort(){
 		var i = 1;
 		$(".recipe-order").each(function(){
@@ -936,7 +917,6 @@
 			$("#recipe-orderimage-" + (k - 1)).bind("change", change_order_image);
 		}
 	}
-
 	function order_down(){
 		var k = event.target.parentElement.parentElement.id.replace("recipe-order-","");
 		k = parseInt(k, 10);
@@ -954,7 +934,6 @@
 			$("#recipe-orderimage-" + (k + 1)).bind("change", change_order_image);
 		}
 	}
-
 	function order_after(){
 		var k = event.target.parentElement.parentElement.id.replace("recipe-order-","");
 		k = parseInt(k, 10);
@@ -968,17 +947,14 @@
 		content.find(" .recipe-order-addimage i.fa-plus").show();
 		$("#recipe-orderimage-" + (k + 1)).bind("change", change_order_image);
 	}
-
 	function order_del(){
 		var k = event.target.parentElement.parentElement.id.replace("recipe-order-","");
 		$("#recipe-order-" + k).remove();
 		order_sort();
 	}
-
 	function change_compimage(num){
 		$("#comp-image-file-" + num).click();
 	}
-
 	function del_compimage(num){
 		$("#comp-image-file-" + num).val("");
 		$("#comp-image-" + num).find("input[type=hidden]").val("");
@@ -1162,10 +1138,10 @@
 										<i class="fas fa-sort-down"></i>
 									</div>
 									<div class="recipe-each-name">
-										<textarea rows="1" cols="39" placeholder="예) 돼지고기" name="recipe-each-name-1-1"></textarea>
+										<textarea rows="1" placeholder="예) 돼지고기" name="recipe-each-name-1-1"></textarea>
 									</div>
 									<div class="recipe-each-quant">
-										<textarea rows="1" cols="28" placeholder="예) 300g" name="recipe-each-quant-1-1"></textarea>
+										<textarea rows="1" placeholder="예) 300g" name="recipe-each-quant-1-1"></textarea>
 									</div>
 									<div class="recipe-each-delete" onclick="each_del(1,1)">
 										<i class="fas fa-times"></i>
@@ -1177,10 +1153,10 @@
 										<i class="fas fa-sort-down"></i>
 									</div>
 									<div class="recipe-each-name">
-										<textarea rows="1" cols="39" placeholder="예) 양배추" name="recipe-each-name-1-2"></textarea>
+										<textarea rows="1" placeholder="예) 양배추" name="recipe-each-name-1-2"></textarea>
 									</div>
 									<div class="recipe-each-quant">
-										<textarea rows="1" cols="28" placeholder="예) 1/2개" name="recipe-each-quant-1-2"></textarea>
+										<textarea rows="1" placeholder="예) 1/2개" name="recipe-each-quant-1-2"></textarea>
 									</div>
 									<div class="recipe-each-delete" onclick="each_del(1,2)">
 										<i class="fas fa-times"></i>
@@ -1192,10 +1168,10 @@
 										<i class="fas fa-sort-down"></i>
 									</div>
 									<div class="recipe-each-name">
-										<textarea rows="1" cols="39" placeholder="예) 참기름" name="recipe-each-name-1-3"></textarea>
+										<textarea rows="1" placeholder="예) 참기름" name="recipe-each-name-1-3"></textarea>
 									</div>
 									<div class="recipe-each-quant">
-										<textarea rows="1" cols="28" placeholder="예) 1T" name="recipe-each-quant-1-3"></textarea>
+										<textarea rows="1" placeholder="예) 1T" name="recipe-each-quant-1-3"></textarea>
 									</div>
 									<div class="recipe-each-delete" onclick="each_del(1,3)">
 										<i class="fas fa-times"></i>
