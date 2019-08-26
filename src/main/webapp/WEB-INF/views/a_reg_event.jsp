@@ -345,12 +345,29 @@ input[type=text], input[type=date]{
 		$("#cancel").on("click", function(){
 			history.go(-1);
 		});
+
+		$("#regbutton").on("click",function(){
+			if(!validateForm()) return;
+			$("#e_form").attr("action", "a_reg_event").submit();
+		});
+		
+		var date = new Date(Date.now() - new Date().getTimezoneOffset()*60000);
+		$("input[name=e_start]").val(date.toISOString().substring(0,19));
+		$("input[name=e_end]").val(date.toISOString().substring(0,19));
 	});
 
-	function reg_event() {
-		$("#e_form").attr("action", "a_reg_event").submit();
+	function validateForm(){
+		if($("input[name=e_title]").val() == ""){
+			alert("제목을 입력해주세요.");
+			$("input[name=e_title]").focus();
+			return false;
+		}
+		if($("input[name=e_banner]").val() == ""){
+			alert("메인 배너 이미지를 선택해주세요.");
+			return false;
+		}
+		return true;
 	}
-
 </script>
 </head>
 <body>
@@ -393,14 +410,14 @@ input[type=text], input[type=date]{
 						<div class="regular">
 							<div class="label">구분</div>
 							<div class="content">
-								<input type="radio" name="e_type" value="1"> 이벤트 공지
+								<input type="radio" name="e_type" value="1" checked> 이벤트 공지
 								<input type="radio" name="e_type" value="2"> 당첨자 발표
 							</div>
 						</div>
 						<div class="regular">
 							<div class="label">공개</div>
 							<div class="content">
-								<input type="radio" name="e_public" value="1"> 공개
+								<input type="radio" name="e_public" value="1" checked> 공개
 								<input type="radio" name="e_public" value="0"> 비공개
 							</div>
 						</div>
@@ -425,7 +442,7 @@ input[type=text], input[type=date]{
 				</fieldset>
 				<div id="body">
 				<div id="foot">
-					<span id="regbutton" onclick="reg_event()">이벤트 등록</span><span id="cancel">취소</span>
+					<span id="regbutton">이벤트 등록</span><span id="cancel">취소</span>
 				</div>
 			</div>
 			</form>

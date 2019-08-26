@@ -140,17 +140,21 @@
 		display: grid;
 		grid-template-columns: 180px 850px 170px;
 		font-size: 10pt;
-		height: 20px;
+		height: 30px;
+		line-height: 10pt;
 	}
 	.talk-preview:hover{
 		background: #fcb;
 	}
+	.talk-preview div{
+		padding-top: 5px;
+	}
 	.talk-content{
-		display:-webkit-box;
-	  -webkit-line-clamp:1;
-	  -webkit-box-orient:vertical;
+		white-space: nowrap;
 	 	overflow: hidden;
 		text-overflow: ellipsis;
+		padding-right: 20px;
+		line-height: 10pt;
 	}
 </style>
 <script src="https://kit.fontawesome.com/057ba10041.js"></script>
@@ -207,9 +211,9 @@
 		<div id="talk-recent">
 			<c:forEach items="${t_list}" var="k">
 				<div class="talk-preview" id="talk${k.t_idx}">
-					<p>${k.regdate.substring(0,16)}</p>
-					<p class="talk-content">${k.content}</p>
-					<p>By ${k.name}</p>
+					<div>${k.regdate.substring(0,16)}</div>
+					<div class="talk-content">${k.content}</div>
+					<div>By ${k.name}</div>
 				</div>
 			</c:forEach>
 		</div>
