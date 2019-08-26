@@ -56,7 +56,13 @@
 		<h2 id="top_title">ICT RECIPE</h2>
 	</div>
 	<script type="text/javascript">
-	/* 홈 배너 */
+	$(function(){
+		var res = ${res};
+		if(res == 0){
+			alert("중복된 아이디가 있습니다.");
+		}
+		
+	});
 	$(function(){
 		$(".top").on("click", function(){
 			location.href="/";
@@ -73,13 +79,6 @@
 			var join_chk = $("input[name='join_chk']:checked").length
 			var gender1 = $("input[name='gender']:checked").val();
 			
-			/* 
-			var id = $("#id").val();  생략하고 
-			if($("#id").val() == ""){  이런식으로 사용 가능 
-				alert("아이디를 입력하세요");
-				$("#id").focus();
-				return false;
-			} */
 			if(id == ""){
 				alert("아이디를 입력하세요");
 				$("#id").focus();

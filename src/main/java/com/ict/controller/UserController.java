@@ -47,15 +47,23 @@ public class UserController {
 	}
 	
 	@RequestMapping("join")
-	public ModelAndView goJoin() {
-		return new ModelAndView("join");
+	public ModelAndView goJoin(HttpSession session) {
+		ModelAndView mv = new ModelAndView("join");
+		session.setAttribute("res", 1);
+		return mv;
 	}
 	
 	@RequestMapping("join_ok")
-	public ModelAndView getInsert(MVO mvo) {
-		ModelAndView mv = new ModelAndView("redirect:/");
-		
-		dao.getJoin(mvo);
+	public ModelAndView getInsert(MVO mvo, HttpSession session) {
+		ModelAndView mv;
+		try {
+			dao.getJoin(mvo);
+			mv = new ModelAndView("redirect:/");
+			session.setAttribute("res", 1);
+		} catch (Exception e) {
+			mv = new ModelAndView("join");
+			session.setAttribute("res", 0);
+		}
 		return mv;
 	}
 	
