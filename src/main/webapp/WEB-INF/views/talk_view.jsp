@@ -42,12 +42,15 @@
 	margin: -30px auto 0px auto;
 	border:  1px solid;
 }
-#edit ul{
+#edit li{
+	margin-top: 10px;
+}
+#edit_bt{
 	list-style: none;
 	display: inline-block;
 	margin: 0px 0px 0px -30px;
 }
-#edit li{
+#edit_bt li{
 	float: left;
 	
 }
@@ -117,6 +120,13 @@
 	resize: none;
 	border: none;
 	margin-top: 10px;
+}
+#shares{
+	list-style: none;
+	display: inline;
+}
+#shares li{
+	float: right;
 }
 .share_img{
 	border-radius: 70px;
@@ -269,7 +279,7 @@
 	</table>
 </div>
 <div id="edit">
-	<ul>
+	<ul id="edit_bt">
 		<c:if test="${mvo.m_idx == tvo.m_idx}">
 			<li class="edit_b" onclick="talk_go()"> 목록 </li>
 			<li class="edit_b" onclick="update_go()"> 수정 </li>
@@ -280,7 +290,7 @@
 			<li class="edit_b" onclick="report()"> 신고 </li>
 		</c:if>
 	</ul>
-	<ul style="margin-left: 450px; margin-top: 10px;">
+	<ul id="shares">
 		<li>
 			<a href="#" onclick="javascript:window.open('https://story.kakao.com/s/share?url=' +encodeURIComponent(document.URL), 'kakaostorysharedialog', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes, height=400,width=600');return false;" target="_blank" >
 			<img src="resources/images/sns_kakao.png" width="30" class="share_img" alt="카스 공유하기"></a>
