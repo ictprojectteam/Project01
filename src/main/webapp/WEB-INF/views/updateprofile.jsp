@@ -10,12 +10,18 @@
 <style type="text/css">
 .top {
 	background-color: #fa8;
-	width: 1450px;
-	text-align: center;
+	width: 100vw;
+	height: 100px;
 	color: white;
 	cursor: pointer;
 	border: solid;
-	margin: -12px 0 0 -40px;
+	margin-top: -12px;
+	margin-left: -12px;
+}
+#top_title{
+	width: 100%;
+	margin: 10px auto;
+	text-align: center;
 }
 .body{
 	width: 400px;
@@ -102,14 +108,79 @@ p{
 	border: 1px solid #808080;
 	margin: 0px 0px 50px -30px;
 }
+#prf_field{
+	z-index:3;
+	padding-top:150px;
+	display: none;
+	position:fixed;
+	left:0;
+	top:0;
+	width:100%;
+	height:100%;
+	overflow:auto;
+	background-color: #0000;
+}
+#prf_border{
+	margin:auto;
+	background-color:#fff;
+	position:relative;
+	padding:0;
+	outline:0;
+	width:500px;
+	border: 1px solid #aaa;
+	animation: animatetop 0.4s;
+	border-radius: 15px;
+}
+#prf_top{
+	margin-top: 10px;
+}
+#prf_top h3{
+	display: inline;
+	margin-left: 15px;
+}
+#prf_top i{
+	margin-right: 15px;
+	font-size: 1.2em;
+	float: right;
+}
+#null{
+ display: block;
+ width: 300px;
+ height: 300px;
+ margin: 0 auto;
+ }
+ #null img{
+ 	width: 300px;
+ 	height: 300px;
+ }
+#update_bts{
+	width: 100%;
+	margin: 10px auto;
+	margin-left: 140px;
+}
+#change_bt{
+	width: 160px;
+	height: 40px;
+	background-color: #fa8;
+	font-size: 14pt;
+	border-radius: 4px;
+}
+#save_bt{
+	width: 60px;
+	height: 40px;
+	background-color: #87A9CD;
+	font-size: 14pt;
+	border-radius: 4px;
+}
+@keyframes animatetop{
+		from{top:-300px;opacity:0}
+		to{top:0;opacity:1}
+	}
 </style>
 <script type="text/javascript">
 	$(function(){
 		$(".top").on("click", function(){
 			location.href="/";
-		});
-		$("#prf_chg").on("click", function(){
-			alert("#");
 		});
 		$("#updEmail").on("click", function(){
 			$("#email-input").css("display", "block");
@@ -295,13 +366,61 @@ p{
 				alert("변경 실패");
 			}
 		});
+		$("#prf_chg").on("click", function(){
+			$("#prf_field").css("display", "block");
+		});
+		
+		$("#prf_top .fa-times").on("click", function(){
+			$("#prf_field").css("display", "none");
+		});
+
+		$(this).on("click", function(){
+			if(event.target == document.getElementById("prf_field")){
+				 $("#prf_field").css({"display":"none"});
+			}
+		});
+		
+		$("#change_bt").on("click", function(){
+			$("#file_bt").click();
+		});
+
+		$(document).ready(function(){
+			$("#file_bt").on("change", FileSelect);
+		});
+
+		$("#save_bt").on("click", function(){
+			var form = $('form')[0];
+			var formData = new FormData(form);
+			$.ajax({
+				url: '/prf_img_up',
+				processData: false,
+				contentType: false,
+				data: formData,
+				type: 'POST',
+				success: function(result){
+					alert("업로드 성공!!")
+				}
+			});
+		});
+		
 	});
+	function FileSelect(e){
+		$("#null").empty();
+		var msg = e.target.files[0];
+		var reader = new FileReader();
+		reader.readAsDataURL(this.files[0]);
+		reader.onload = function(e){
+			var readFile = e.target.result;
+			$("#null").append("<img src=" + e.target.result + ">");
+			$("#null").append("<input type='hidden' value='" + e.target.result + "' name='main_image'>")
+		}
+	}
 </script>
 </head>
 <body>
 	<div class="top">
-		<h1>ICT 레시피</h1>
-		<h2>ICT RECIPE</h2>
+		<h1 id="top_title">ICT 레시피</h1>
+		<h2 id="top_title">ICT RECIPE</h2>
 	</div>
 	<p style="font-size: 35px;">회원정보 수정</p>
 	<div id="prf_set">
@@ -350,6 +469,24 @@ p{
 			<button id="out" class="updButton">탈퇴하기</button>
 		</div>
 	</div>
+	<form id="prf_form" method="post">
+	<div id="prf_field">
+		<div id="prf_border">
+			<div id="prf_top">
+				<h3>프로필 사진</h3><i class="fas fa-times"></i>
+			</div>
+			<hr>
+			<div id="null">
+				<img src="resources/images/prf_img.png">
+			</div>
+			<input type="file" id="file_bt" name="prf_img" hidden="hidden" accept="image/*">
+			<div id="update_bts">
+				<input type="button" id="change_bt" value="프로필 사진 바꾸기">	
+				<input type="button" id="save_bt" value="저장">
+			</div>	
+		</div>
+	</div>
+	</form>
 </body>
 <footer>
 	<jsp:include page="foot.jsp"></jsp:include>

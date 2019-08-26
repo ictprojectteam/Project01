@@ -1,6 +1,8 @@
 package com.ict.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -47,14 +49,23 @@ public class UserController {
 	}
 	
 	@RequestMapping("join")
-	public ModelAndView goJoin() {
-		return new ModelAndView("join");
+	public ModelAndView goJoin(HttpSession session) {
+		ModelAndView mv = new ModelAndView("join");
+		session.setAttribute("res", 1);
+		return mv;
 	}
 	
 	@RequestMapping("join_ok")
-	public ModelAndView getInsert(MVO mvo) {
-		ModelAndView mv = new ModelAndView("redirect:/");
-		dao.getJoin(mvo);
+	public ModelAndView getInsert(MVO mvo, HttpSession session) {
+		ModelAndView mv;
+		try {
+			dao.getJoin(mvo);
+			mv = new ModelAndView("redirect:/");
+			session.setAttribute("res", 1);
+		} catch (Exception e) {
+			mv = new ModelAndView("join");
+			session.setAttribute("res", 0);
+		}
 		return mv;
 	}
 	
@@ -83,6 +94,16 @@ public class UserController {
 			mv.setViewName("inappropriate");
 			return mv;
 		}
+	}
+	@RequestMapping("prf_img_up")
+	@ResponseBody
+	public String Prf_Img_Up(HttpSession session, String main_image) {
+		MVO mvo = (MVO)session.getAttribute("mvo");
+		Map<String, String> map = new HashMap<String, String>();
+		map.put("m_idx", mvo.getM_idx());
+		map.put("prf_img", main_image);
+		dao.getPrf_img_up(map);
+		return "talk";
 	}
 	
 	@RequestMapping("updEmail")

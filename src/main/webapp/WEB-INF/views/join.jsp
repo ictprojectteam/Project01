@@ -10,11 +10,17 @@
 .top {
 	background-color: #fa8;
 	width: 100vw;
-	text-align: center;
+	height: 100px;
 	color: white;
 	cursor: pointer;
 	border: solid;
-	margin: -12px 0 0 -40px;
+	margin-top: -12px;
+	margin-left: -12px;
+}
+#top_title{
+	width: 100%;
+	margin: 10px auto;
+	text-align: center;
 }
 .body {
 	margin-left: 100px;
@@ -36,11 +42,9 @@
 	height: 30px;
 }
 #alert-success {
-	width: 15%;
 	color: #7DFE74;
 }
 #alert-danger {
-	width: 20%;
 	color: red;
 }
 </style>
@@ -48,11 +52,17 @@
 </head>
 <body>
 	<div class="top">
-		<h1>ICT 레시피</h1>
-		<h2>ICT RECIPE</h2>
+		<h1 id="top_title">ICT 레시피</h1>
+		<h2 id="top_title">ICT RECIPE</h2>
 	</div>
 	<script type="text/javascript">
-	/* 홈 배너 */
+	$(function(){
+		var res = ${res};
+		if(res == 0){
+			alert("중복된 아이디가 있습니다.");
+		}
+		
+	});
 	$(function(){
 		$(".top").on("click", function(){
 			location.href="/";
@@ -69,13 +79,6 @@
 			var join_chk = $("input[name='join_chk']:checked").length
 			var gender1 = $("input[name='gender']:checked").val();
 			
-			/* 
-			var id = $("#id").val();  생략하고 
-			if($("#id").val() == ""){  이런식으로 사용 가능 
-				alert("아이디를 입력하세요");
-				$("#id").focus();
-				return false;
-			} */
 			if(id == ""){
 				alert("아이디를 입력하세요");
 				$("#id").focus();
@@ -160,17 +163,16 @@
 					id="name">
 			</p>
 			<p>
-				<input type="radio" name="gender" value="남자">남자 <input
-					type="radio" name="gender" value="여자">여자
+				<label for="gender_mele"><input id="gender_mele"type="radio" name="gender" value="남자">남자 </label>
+				<label for="gender_femele"><input id="gender_femele" type="radio" name="gender" value="여자">여자 </label>
 			</p>
 
 			<fieldset style="width: 10%">
 				<legend>이용약관</legend>
 				<p>
-					<textarea rows="5%" cols="60%">개인정보 수집입니다.</textarea>
+					<textarea rows="5%" cols="60%" style="resize: none;"disabled="disabled">개인정보 수집입니다.</textarea>
 				</p>
-				<input type="checkbox" id="join_chk" name="join_chk">이용약관
-				동의(필수)
+				<label for="join_chk"><input type="checkbox" id="join_chk" name="join_chk">이용약관 동의(필수)</label>
 			</fieldset>
 
 			<br> <input class="join_bt" type="submit" value="회원가입" />

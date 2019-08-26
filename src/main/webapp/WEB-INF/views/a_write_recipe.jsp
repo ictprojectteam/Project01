@@ -1055,12 +1055,12 @@ function del_compimage(num){
 			<ul id="menu">
 				<li><a id="home" href="home">HOME</a></li>
 				<li><a id="recipe" href="a_recipe">레시피 관리</a></li>
-				<li><a id="content" href="home">게시물 등록</a></li>
+				<li><a id="content" href="a_write_recipe">게시물 등록</a></li>
 				<li><a id="user" href="a_membership">회원 관리</a></li>
 				<li><a id="board" href="admin_qna">문의 관리</a></li>
 				<li><a id="event" href="admin_event">이벤트 관리</a></li>
-				<li><a id="op" href="home">운영자 관리</a></li>
-				<li><a id="setting" href="home">설정</a></li>
+				<li><a id="op" href="a_manager">운영자 관리</a></li>
+				<li><a id="setting" href="/">Main</a></li>
 			</ul>
 		</nav>
 		<header>
