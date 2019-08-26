@@ -19,12 +19,18 @@
 <style type="text/css">
 .top {
 	background-color: #fa8;
-	width: 1450px;
-	text-align: center;
+	width: 100vw;
+	height: 100px;
 	color: white;
 	cursor: pointer;
 	border: solid;
-	margin: -12px 0 0 -40px;
+	margin-top: -12px;
+	margin-left: -12px;
+}
+#top_title{
+	width: 100%;
+	margin: 10px auto;
+	text-align: center;
 }
 .body {
 	text-align: center;
@@ -134,8 +140,8 @@
 </head>
 <body onload="renderButton()">
 	<div class="top">
-		<h1>ICT 레시피</h1>
-		<h2>ICT RECIPE</h2>
+		<h1 id="top_title">ICT 레시피</h1>
+		<h2 id="top_title">ICT RECIPE</h2>
 	</div>
 	<script type="text/javascript">
 	$(function(){

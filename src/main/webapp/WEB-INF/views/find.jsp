@@ -8,14 +8,20 @@
 <title>pw찾기</title>
 <script type="text/javascript" src="../resources/js/jquery-3.4.1.min.js"></script>
 <style type="text/css">
-	.top{
-		background-color: #fa8;
-		width: 1450px;
+	.top {
+	background-color: #fa8;
+	width: 100vw;
+	height: 100px;
+	color: white;
+	cursor: pointer;
+	border: solid;
+	margin-top: -12px;
+	margin-left: -12px;
+	}
+	#top_title{
+		width: 100%;
+		margin: 10px auto;
 		text-align: center;
-		color: white;
-		cursor: pointer;
-		border: solid;
-		margin: -12px 0 0 -40px;
 	}
 	.b1 input{
 		width: 20%;
@@ -43,8 +49,8 @@
 		}
 	</script>
 	<div class="top">
-		<h1> ICT 레시피 </h1>
-		<h2> ICT RECIPE </h2>
+		<h1 id="top_title"> ICT 레시피 </h1>
+		<h2 id="top_title"> ICT RECIPE </h2>
 	</div>
 	
 	<div id="body">

@@ -10,11 +10,17 @@
 .top {
 	background-color: #fa8;
 	width: 100vw;
-	text-align: center;
+	height: 100px;
 	color: white;
 	cursor: pointer;
 	border: solid;
-	margin: -12px 0 0 -40px;
+	margin-top: -12px;
+	margin-left: -12px;
+}
+#top_title{
+	width: 100%;
+	margin: 10px auto;
+	text-align: center;
 }
 .body {
 	margin-left: 100px;
@@ -36,11 +42,9 @@
 	height: 30px;
 }
 #alert-success {
-	width: 15%;
 	color: #7DFE74;
 }
 #alert-danger {
-	width: 20%;
 	color: red;
 }
 </style>
@@ -48,8 +52,8 @@
 </head>
 <body>
 	<div class="top">
-		<h1>ICT 레시피</h1>
-		<h2>ICT RECIPE</h2>
+		<h1 id="top_title">ICT 레시피</h1>
+		<h2 id="top_title">ICT RECIPE</h2>
 	</div>
 	<script type="text/javascript">
 	/* 홈 배너 */
@@ -160,17 +164,16 @@
 					id="name">
 			</p>
 			<p>
-				<input type="radio" name="gender" value="남자">남자 <input
-					type="radio" name="gender" value="여자">여자
+				<label for="gender_mele"><input id="gender_mele"type="radio" name="gender" value="남자">남자 </label>
+				<label for="gender_femele"><input id="gender_femele" type="radio" name="gender" value="여자">여자 </label>
 			</p>
 
 			<fieldset style="width: 10%">
 				<legend>이용약관</legend>
 				<p>
-					<textarea rows="5%" cols="60%">개인정보 수집입니다.</textarea>
+					<textarea rows="5%" cols="60%" style="resize: none;"disabled="disabled">개인정보 수집입니다.</textarea>
 				</p>
-				<input type="checkbox" id="join_chk" name="join_chk">이용약관
-				동의(필수)
+				<label for="join_chk"><input type="checkbox" id="join_chk" name="join_chk">이용약관 동의(필수)</label>
 			</fieldset>
 
 			<br> <input class="join_bt" type="submit" value="회원가입" />

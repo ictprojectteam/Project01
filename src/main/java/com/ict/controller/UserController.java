@@ -54,6 +54,7 @@ public class UserController {
 	@RequestMapping("join_ok")
 	public ModelAndView getInsert(MVO mvo) {
 		ModelAndView mv = new ModelAndView("redirect:/");
+		
 		dao.getJoin(mvo);
 		return mv;
 	}
