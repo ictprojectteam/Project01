@@ -1,6 +1,8 @@
 package com.ict.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -10,6 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.ict.service.DAO;
@@ -92,6 +95,17 @@ public class UserController {
 			mv.setViewName("inappropriate");
 			return mv;
 		}
+	}
+	@RequestMapping("prf_img_up")
+	@ResponseBody
+	public String Prf_Img_Up(HttpSession session, MultipartFile prf_img) {
+		MVO mvo = (MVO)session.getAttribute("mvo");
+		
+		Map<String, String> prf = new HashMap();
+		prf.put("m_idx", mvo.getM_idx());
+		
+		
+		return "OK";
 	}
 	
 	@RequestMapping("updEmail")
