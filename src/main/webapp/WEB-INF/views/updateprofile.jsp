@@ -398,7 +398,7 @@ p{
 				data: formData,
 				type: 'POST',
 				success: function(result){
-					alert("업로드 성공!!");
+					alert("업로드 성공!!")
 				}
 			});
 		});
@@ -412,6 +412,7 @@ p{
 		reader.onload = function(e){
 			var readFile = e.target.result;
 			$("#null").append("<img src=" + e.target.result + ">");
+			$("#null").append("<input type='hidden' value='" + e.target.result + "' name='main_image'>")
 		}
 	}
 </script>

@@ -12,7 +12,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.ict.service.DAO;
@@ -98,14 +97,13 @@ public class UserController {
 	}
 	@RequestMapping("prf_img_up")
 	@ResponseBody
-	public String Prf_Img_Up(HttpSession session, MultipartFile prf_img) {
+	public String Prf_Img_Up(HttpSession session, String main_image) {
 		MVO mvo = (MVO)session.getAttribute("mvo");
-		
-		Map<String, String> prf = new HashMap();
-		prf.put("m_idx", mvo.getM_idx());
-		
-		
-		return "OK";
+		Map<String, String> map = new HashMap<String, String>();
+		map.put("m_idx", mvo.getM_idx());
+		map.put("prf_img", main_image);
+		dao.getPrf_img_up(map);
+		return "talk";
 	}
 	
 	@RequestMapping("updEmail")

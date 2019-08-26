@@ -602,7 +602,9 @@
 			) a
 		) where r_num between #{begin} and #{end}
 	</select>
-	
+	<update id="myPrf_img_up" parameterType="map">
+		update members set prf_img = #{prf_img} where m_idx = #{m_idx}
+	</update>
 	<select id="a_manager_list" parameterType="map" resultType="m_vo">
 		select * from (
 			select rownum as r_num, a.* from (
