@@ -57,34 +57,19 @@
 			$(this).css("background-color", "#92895A");
 		});
 	});
-	function recipe(){
-		location.href = "myRecipe";
-	}
-	function review(){
-		location.href = "myReview";
-	}
-	function coment(){
-		location.href = "myComent";
-	}
-	function talk(){
-		location.href = "myTalk";
-	}
-	function inquires(){
-		location.href = "myReport";
-	}
-	function prf_update(){
-		location.href = "myPrf_update";
+	function go(e) {
+		location.href = e;
 	}
 </script>
 </head>
 <body>
 	<div id="menu">
-		<input class="menu_bt" type="button" value="레시피" onclick="recipe()">
-		<input class="menu_bt" type="button" value="요리후기" onclick="review()" style="background-color: #92895A;">
-		<input class="menu_bt" type="button" value="댓글" onclick="coment()">
-		<input class="menu_bt" type="button" value="토크" onclick="talk()">
-		<input class="menu_bt" type="button" value="문의" onclick="inquires()">
-		<input class="menu_bt" type="button" value="회원정보수정" onclick="prf_update()">
+		<input class="menu_bt" type="button" value="레시피" onclick="go('myRecipe')">
+		<input class="menu_bt" type="button" value="요리후기" onclick="go('myReview')" style="background-color: #92895A;">
+		<input class="menu_bt" type="button" value="댓글" onclick="go('myComent')">
+		<input class="menu_bt" type="button" value="토크" onclick="go('myTalk')">
+		<input class="menu_bt" type="button" value="문의" onclick="go('myReport')">
+		<input class="menu_bt" type="button" value="회원정보수정" onclick="go('myPrf_update')">
 	</div>
 	<div id="review_tab">
 		<span class="review_bt selected">받은 요리 후기</span>

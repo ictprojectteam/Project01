@@ -1026,7 +1026,7 @@
 							<i class="fab fa-youtube"></i>
 							<p>동영상 썸네일</p>
 						</div>
-						<div id="video-thumbnail"></div>
+						<div id="video-thumbnail"><c:choose><c:when test="${!empty rvo.recipe_video}"></c:when></c:choose></div>
 					</div>
 					<div class="write-label">카테고리</div>
 					<div class="write-input">

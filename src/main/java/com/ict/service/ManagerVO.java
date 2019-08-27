@@ -1,62 +1,76 @@
 package com.ict.service;
 
 public class ManagerVO {
-	private String op_idx, op_id, op_pw, op_name, op_phone, op_com_email, op_per_email, op_position, regdate;
+	private String mng_idx, m_idx, mng_contact, mng_email, mng_grade, mng_regdate;
+	private String name, id, email;
+	private String name_idx, email_number;
 	private String start, endt;
-	private String begin, end, cPage, k;
-	public String getOp_idx() {
-		return op_idx;
+	private String begin, end, cPage;
+	public String getMng_idx() {
+		return mng_idx;
 	}
-	public void setOp_idx(String op_idx) {
-		this.op_idx = op_idx;
+	public void setMng_idx(String mng_idx) {
+		this.mng_idx = mng_idx;
 	}
-	public String getOp_id() {
-		return op_id;
+	public String getM_idx() {
+		return m_idx;
 	}
-	public void setOp_id(String op_id) {
-		this.op_id = op_id;
+	public void setM_idx(String m_idx) {
+		this.m_idx = m_idx;
 	}
-	public String getOp_pw() {
-		return op_pw;
+	public String getMng_contact() {
+		return mng_contact;
 	}
-	public void setOp_pw(String op_pw) {
-		this.op_pw = op_pw;
+	public void setMng_contact(String mng_contact) {
+		this.mng_contact = mng_contact;
 	}
-	public String getOp_name() {
-		return op_name;
+	public String getMng_email() {
+		return mng_email;
 	}
-	public void setOp_name(String op_name) {
-		this.op_name = op_name;
+	public void setMng_email(String mng_email) {
+		this.mng_email = mng_email;
 	}
-	public String getOp_phone() {
-		return op_phone;
+	public String getMng_grade() {
+		return mng_grade;
 	}
-	public void setOp_phone(String op_phone) {
-		this.op_phone = op_phone;
+	public void setMng_grade(String mng_grade) {
+		this.mng_grade = mng_grade;
 	}
-	public String getOp_com_email() {
-		return op_com_email;
+	public String getMng_regdate() {
+		return mng_regdate;
 	}
-	public void setOp_com_email(String op_com_email) {
-		this.op_com_email = op_com_email;
+	public void setMng_regdate(String mng_regdate) {
+		this.mng_regdate = mng_regdate;
 	}
-	public String getOp_per_email() {
-		return op_per_email;
+	public String getName() {
+		return name;
 	}
-	public void setOp_per_email(String op_per_email) {
-		this.op_per_email = op_per_email;
+	public void setName(String name) {
+		this.name = name;
 	}
-	public String getOp_position() {
-		return op_position;
+	public String getId() {
+		return id;
 	}
-	public void setOp_position(String op_position) {
-		this.op_position = op_position;
+	public void setId(String id) {
+		this.id = id;
 	}
-	public String getRegdate() {
-		return regdate;
+	public String getEmail() {
+		return email;
 	}
-	public void setRegdate(String regdate) {
-		this.regdate = regdate;
+	public void setEmail(String email) {
+		this.email = email;
+	}
+	public String getName_idx() {
+		return name_idx;
+	}
+	public void setName_idx(String name_idx) {
+		this.name_idx = name_idx;
+	}
+	public String getEmail_number() {
+		return email_number;
+	}
+	public void setEmail_number(String email_number) {
+		this.email_number = email_number;
 	}
 	public String getStart() {
 		return start;
@@ -88,12 +102,5 @@ public class ManagerVO {
 	public void setcPage(String cPage) {
 		this.cPage = cPage;
 	}
-	public String getK() {
-		return k;
-	}
-	public void setK(String k) {
-		this.k = k;
-	}
-	
 	
 }

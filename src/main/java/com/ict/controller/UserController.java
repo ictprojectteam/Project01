@@ -105,6 +105,8 @@ public class UserController {
 		map.put("m_idx", mvo.getM_idx());
 		map.put("prf_img", main_image);
 		dao.getPrf_img_up(map);
+		mvo.setPrf_img(main_image);
+		session.setAttribute("mvo", mvo);
 		return "talk";
 	}
 	

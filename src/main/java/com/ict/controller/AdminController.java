@@ -21,6 +21,7 @@ import com.ict.service.DAO;
 import com.ict.service.EventPaging;
 import com.ict.service.EventVO;
 import com.ict.service.MVO;
+import com.ict.service.ManagerVO;
 import com.ict.service.MemberPaging;
 import com.ict.service.QVO;
 import com.ict.service.QnAPaging;
@@ -388,6 +389,21 @@ public class AdminController {
 		ModelAndView mv = new ModelAndView("a_view_event");
 		mv.addObject("evo", dao.aViewEvent(evo));
 		return mv;
+	}
+	
+	@RequestMapping(value = "admin_mnglist")
+	@ResponseBody
+	public List<ManagerVO> managerList(ManagerVO mvo) {
+		Calendar today = Calendar.getInstance();
+		today.add(Calendar.DAY_OF_MONTH, +1);
+		if (mvo.getEndt() == null) mvo.setEndt(new SimpleDateFormat("yyyy-MM-dd").format(new Date(today.getTimeInMillis())));
+		today.add(Calendar.MONTH, -6);
+		if (mvo.getStart() == null)	mvo.setStart(new SimpleDateFormat("yyyy-MM-dd").format(new Date(today.getTimeInMillis())));
+		MemberPaging mp = new MemberPaging(10, dao.countManager(mvo), mvo.getcPage());
+		mvo.setBegin(String.valueOf(mp.getBegin()));
+		mvo.setEnd(String.valueOf(mp.getEnd()));
+		List<ManagerVO> mlist = dao.managerList(mvo);
+		return mlist;
 	}
 	
 	/* 운영자 리스트
