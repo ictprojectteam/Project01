@@ -2,7 +2,7 @@ package com.ict.service;
 
 public class EventVO {
 	private String e_idx, m_idx, e_title, e_start, e_end, e_type, e_public, e_banner, e_content, e_image, e_regdate;
-	private String open;
+	private String open, name;
 	private String begin, end, cPage;
 	
 	public String getE_idx() {
@@ -76,6 +76,12 @@ public class EventVO {
 	}
 	public void setOpen(String open) {
 		this.open = open;
+	}
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
 	}
 	public String getBegin() {
 		return begin;

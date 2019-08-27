@@ -296,6 +296,12 @@ input[type=text], input[type=date]{
 				<fieldset>
 					<legend>이벤트관리</legend>
 					<div id="event-div">
+						<div class="double">
+							<div class="label">NO</div>
+							<div class="content">${evo.e_idx}</div>
+							<div class="label">등록자</div>
+							<div class="content">${evo.name}</div>
+						</div>
 						<div class="regular">
 							<div class="label">이벤트 제목</div>
 							<div class="content">${evo.e_title}</div>

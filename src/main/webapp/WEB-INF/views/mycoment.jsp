@@ -60,6 +60,9 @@
 	.each-com{
 		cursor: pointer;
 	}
+	.main-image{
+		padding: 10px;
+	}
 	.main-image img{
 		width: 195px;
 		height: 195px;
@@ -73,8 +76,17 @@
 		text-align: right;
 		color: #aaa;
 	}
+	.comment-name{
+		color: #aaa;
+	}
+	.com-content{
+		height: 50px;
+	}
 	.com-date{
 		color: #aaa;
+	}
+	.comment{
+		border: 1px solid #aaa;
 	}
 	
 </style>
@@ -120,8 +132,12 @@
 		});
 	}
 	
-	function go(e){
+	function go(e) {
 		location.href = e;
+	}
+
+	function view(n) {
+		location.href = 'view_recipe?rno=' + n;
 	}
 </script>
 </head>
@@ -139,13 +155,7 @@
 		<span class="coment_bt get">받은 댓글</span>
 	</div>
 	<div id="com-box">
-		<div class="each-com">
-			<div class="main-image"><img src=""></div>
-			<div class="recipe-title">title</div>
-			<div class="recipe-name">By name</div>
-			<div class="com-content">content</div>
-			<div class="com-date">date</div>
-		</div>
+	
 	</div>
 </body>
 <footer>

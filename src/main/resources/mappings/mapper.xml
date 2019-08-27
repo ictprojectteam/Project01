@@ -510,7 +510,7 @@
 	</select>
 	
 	<select id="a_view_event" parameterType="evo" resultType="evo">
-		select * from event where e_idx = #{e_idx}
+		select e.*, name from event e, members m where e_idx = #{e_idx} and e.m_idx = m.m_idx
 	</select>
 	
 	<insert id="insertEvent" parameterType="evo">
