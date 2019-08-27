@@ -271,7 +271,7 @@ input[type=text], input[type=date]{
 <script type="text/javascript" src="../resources/js/jquery-3.4.1.min.js"></script>
 <script type="text/javascript" src="<%= request.getContextPath() %>/smarteditor/js/HuskyEZCreator.js" charset="utf-8"></script>
 <script type="text/javascript">
-var obj = [];
+
 	$(function(){
 		$("#main_file").on("click", function(){
 			$("#e_file").click();
@@ -328,25 +328,11 @@ var obj = [];
 			history.go(-1);
 		});
 
-		$("#regbutton").on("click",function(){
-			if(!validateForm()) return;
-			var btn = document.getElementById("regbutton");
-			submitcontent(btn);
-		});
 		
 		var date = new Date(Date.now() - new Date().getTimezoneOffset()*60000);
 		$("input[name=e_start]").val(date.toISOString().substring(0,16));
 		$("input[name=e_end]").val(date.toISOString().substring(0,16));
 	});
-	function submitcontent(elClickedObj){
-		obj.getById["smart"].exec("UPDATE_CONTENTS_FIELD", []);
-		console.log(document.getElementById("smart").value);
-		try{
-			elClickedObj.form.submit();
-		}catch(e){
-			console.log(e);
-		}
-	};
 
 	function validateForm(){
 		if($("input[name=e_title]").val() == "") {
@@ -447,6 +433,7 @@ var obj = [];
 </body>
 <script type="text/javascript">
 $(function(){
+	var obj = [];
     //스마트에디터 프레임생성
     nhn.husky.EZCreator.createInIFrame({
         oAppRef: obj,
@@ -461,6 +448,23 @@ $(function(){
             bUseModeChanger : true,
         }
     });
+    $("#regbutton").click(function(){
+		obj.getById["smart"].exec("UPDATE_CONTENTS_FIELD", []);
+		$("#e_form").submit();
+    });
 });
 </script>
 </html>
+
+
+
+
+
+
+
+
+
+
+
+
+
