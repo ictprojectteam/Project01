@@ -60,6 +60,7 @@
 	#menu{
 		width: 100%;
 		background-color: #333333;
+		min-height: 1500px;
 	}
 	
 	#menu li{
