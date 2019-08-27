@@ -269,7 +269,9 @@ input[type=text], input[type=date]{
 
 </style>
 <script type="text/javascript" src="../resources/js/jquery-3.4.1.min.js"></script>
+<script type="text/javascript" src="<%= request.getContextPath() %>/smarteditor/js/HuskyEZCreator.js" charset="utf-8"></script>
 <script type="text/javascript">
+var obj = [];
 	$(function(){
 		$("#main_file").on("click", function(){
 			$("#e_file").click();
@@ -301,16 +303,6 @@ input[type=text], input[type=date]{
 			}
 		});
 		
-		$(".detail-box span:nth-child(1)").on("click", function(){
-			$(".detail-content").empty();
-			$(".detail-content").append("<textarea name='e_content'></textarea>");
-			$("textarea[name=e_content]").focus();
-		});
-		
-		$(".detail-box span:nth-child(2)").on("click", function(){
-			$("#e_image").click();
-		});
-
 		$("#e_image").on("change", function(){
 			if(this.files && this.files[0]){
 				var reader = new FileReader();
@@ -338,13 +330,23 @@ input[type=text], input[type=date]{
 
 		$("#regbutton").on("click",function(){
 			if(!validateForm()) return;
-			$("#e_form").attr("action", "a_reg_event").submit();
+			var btn = document.getElementById("regbutton");
+			submitcontent(btn);
 		});
 		
 		var date = new Date(Date.now() - new Date().getTimezoneOffset()*60000);
 		$("input[name=e_start]").val(date.toISOString().substring(0,16));
 		$("input[name=e_end]").val(date.toISOString().substring(0,16));
 	});
+	function submitcontent(elClickedObj){
+		obj.getById["smart"].exec("UPDATE_CONTENT_FIELD", []);
+		console.log(document.getElementById("smart").value);
+		try{
+			elClickedObj.form.submit();
+		}catch(e){
+			console.log(e);
+		}
+	};
 
 	function validateForm(){
 		if($("input[name=e_title]").val() == "") {
@@ -388,7 +390,7 @@ input[type=text], input[type=date]{
 			</div>
 		</header>
 		<div id="main">
-			<form method="post" id="e_form">
+			<form method="post" id="e_form" action="a_reg_event">
 				<fieldset>
 					<legend>이벤트관리</legend>
 					<div id="event-div">
@@ -428,8 +430,7 @@ input[type=text], input[type=date]{
 						<div class="detail">
 							<div class="detail-title">이벤트 상세보기</div>
 							<div class="detail-box">
-								<span>텍스트</span><span>이미지 삽입</span>
-								<div class="detail-content"></div>
+								<textarea id="smart" name="e_content" rows="10" cols="100"></textarea>
 							</div>
 							<input type="file" hidden="" id="e_image" accept="image/*">
 						</div>
@@ -437,12 +438,29 @@ input[type=text], input[type=date]{
 				</fieldset>
 				<div id="body">
 				<div id="foot">
-					<span id="regbutton">이벤트 등록</span><span id="cancel">취소</span>
+					<input id="regbutton" type="button" value="이벤트 등록"><span id="cancel">취소</span>
 				</div>
 			</div>
 			</form>
-			
 		</div>
 	</div>
 </body>
+<script type="text/javascript">
+$(function(){
+    //스마트에디터 프레임생성
+    nhn.husky.EZCreator.createInIFrame({
+        oAppRef: obj,
+        elPlaceHolder: "smart",
+        sSkinURI: "<%= request.getContextPath() %> /smarteditor/SmartEditor2Skin.html",
+        htParams : {
+            // 툴바 사용 여부
+            bUseToolbar : true,
+            // 입력창 크기 조절바 사용 여부
+            bUseVerticalResizer : true,
+            // 모드 탭(Editor | HTML | TEXT) 사용 여부
+            bUseModeChanger : true,
+        }
+    });
+});
+</script>
 </html>

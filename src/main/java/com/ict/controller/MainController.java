@@ -664,4 +664,8 @@ public class MainController {
 		}
 		return null;
 	}
+	@RequestMapping("testeditor")
+	public ModelAndView testEditor() {
+		return new ModelAndView("testeditor");
+	}
 }
