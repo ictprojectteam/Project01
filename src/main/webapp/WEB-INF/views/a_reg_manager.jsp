@@ -123,7 +123,7 @@ header #links{
 	background-color: #1E90FF;
 }
 
-#event-div{
+#mng-div{
 	width: 990px;
 	margin: 5px auto;
 	border: 1px solid #999;
@@ -269,61 +269,9 @@ input[type=text], input[type=date]{
 
 </style>
 <script type="text/javascript" src="../resources/js/jquery-3.4.1.min.js"></script>
-<script type="text/javascript" src="<%= request.getContextPath() %>/smarteditor/js/HuskyEZCreator.js" charset="utf-8"></script>
 <script type="text/javascript">
 var obj = [];
 	$(function(){
-		$("#main_file").on("click", function(){
-			$("#e_file").click();
-		});
-
-		$("#e_file").on("change", function(){
-			$("#file_name").empty();
-			var tg = $("#e_file");
-			var name = tg.val();
-			if(name != ""){
-				var index = name.lastIndexOf("\\");
-				name = name.substring(index + 1, name.length);
-				$("#file_name").text(name);
-				var reader = new FileReader();
-				reader.readAsDataURL(this.files[0]);
-				reader.onload = function(e){
-					var readFile = e.target.result;
-					var chkcor = readFile.substring(readFile.indexOf(',') + 1, readFile.indexOf(',') + 5);
-					readFile = readFile.substring(0, readFile.indexOf('/'));
-					if(readFile === "data:image" && chkcor != "77u/"){
-						$("input[name=e_banner]").val(e.target.result);
-					} else {
-						$("input[name=e_banner]").val("");
-					}
-				}
-			} else {
-				$("#file_name").text("선택된 파일이 없습니다.");
-				$("input[name=e_banner]").val("");
-			}
-		});
-		
-		$("#e_image").on("change", function(){
-			if(this.files && this.files[0]){
-				var reader = new FileReader();
-				reader.readAsDataURL(this.files[0]);
-				reader.onload = function(e){
-					var readFile = e.target.result;
-					var chkcor = readFile.substring(readFile.indexOf(',') + 1, readFile.indexOf(',') + 5);
-					readFile = readFile.substring(0, readFile.indexOf('/'));
-					if(readFile === "data:image" && chkcor != "77u/"){
-						$(".detail-content").empty();
-						$(".detail-content").append("<img src=" + e.target.result + ">");
-						$(".detail-content").append("<input type='text' hidden='' name='e_image' value=" + e.target.result + ">");
-					}
-				}
-			}
-		});
-
-		$("input[name=e_start]").on("change", function(){
-			$("input[name=e_end]").attr("min", $("input[name=e_end]").val());
-		});
-
 		$("#cancel").on("click", function(){
 			history.go(-1);
 		});
@@ -333,20 +281,7 @@ var obj = [];
 			var btn = document.getElementById("regbutton");
 			submitcontent(btn);
 		});
-		
-		var date = new Date(Date.now() - new Date().getTimezoneOffset()*60000);
-		$("input[name=e_start]").val(date.toISOString().substring(0,16));
-		$("input[name=e_end]").val(date.toISOString().substring(0,16));
 	});
-	function submitcontent(elClickedObj){
-		obj.getById["smart"].exec("UPDATE_CONTENTS_FIELD", []);
-		console.log(document.getElementById("smart").value);
-		try{
-			elClickedObj.form.submit();
-		}catch(e){
-			console.log(e);
-		}
-	};
 
 	function validateForm(){
 		if($("input[name=e_title]").val() == "") {
@@ -390,10 +325,10 @@ var obj = [];
 			</div>
 		</header>
 		<div id="main">
-			<form method="post" id="e_form" action="a_reg_event">
+			<form method="post" id="m_form">
 				<fieldset>
-					<legend>이벤트관리</legend>
-					<div id="event-div">
+					<legend>운영자 관리</legend>
+					<div id="mng-div">
 						<div class="regular">
 							<div class="label">이벤트 제목</div>
 							<div class="content"><input type="text" name="e_title"></div>
@@ -445,22 +380,4 @@ var obj = [];
 		</div>
 	</div>
 </body>
-<script type="text/javascript">
-$(function(){
-    //스마트에디터 프레임생성
-    nhn.husky.EZCreator.createInIFrame({
-        oAppRef: obj,
-        elPlaceHolder: "smart",
-        sSkinURI: "<%= request.getContextPath() %> /smarteditor/SmartEditor2Skin.html",
-        htParams : {
-            // 툴바 사용 여부
-            bUseToolbar : true,
-            // 입력창 크기 조절바 사용 여부
-            bUseVerticalResizer : true,
-            // 모드 탭(Editor | HTML | TEXT) 사용 여부
-            bUseModeChanger : true,
-        }
-    });
-});
-</script>
 </html>

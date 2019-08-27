@@ -180,23 +180,6 @@ header #links{
 	margin: 5px auto;
 }
 
-.detail-box span{
-	display: inline-block;
-	width: 130px;
-	padding: 5px;
-	border: 1px solid #999;
-	border-radius: 5px;
-	margin: 5px;
-	text-align: center;
-	background: #ccc;
-	cursor: pointer;
-}
-
-.detail-box span:hover{
-	background: #fff;
-	color: #fa8;
-}
-
 .e_content{
 	resize: none;
 	margin: 10px auto;

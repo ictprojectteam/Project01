@@ -514,7 +514,7 @@
 	</select>
 	
 	<insert id="insertEvent" parameterType="evo">
-		insert into event values (e_seq.nextval, #{m_idx}, #{e_title}, to_date(#{e_start}, 'YYYY-MM-DD HH24:MI'), to_date(#{e_end}, 'YYYY-MM-DD HH24:MI'), #{e_type}, #{e_public}, #{e_banner}, #{e_content, jdbcType=VARCHAR}, #{e_image, jdbcType=CLOB}, #{e_regdate})
+		insert into event(e_idx, m_idx, e_title, e_start, e_end, e_type, e_public, e_content, e_regdate, e_banner, e_image) values (e_seq.nextval, #{m_idx}, #{e_title}, to_date(#{e_start}, 'YYYY-MM-DD HH24:MI'), to_date(#{e_end}, 'YYYY-MM-DD HH24:MI'), #{e_type}, #{e_public},  #{e_content, jdbcType=VARCHAR}, #{e_regdate}, #{e_banner}, #{e_image, jdbcType=CLOB})
 	</insert>
 	
 	<select id="countEvent" parameterType="evo" resultType="int">

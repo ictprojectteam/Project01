@@ -732,6 +732,7 @@
 		if(!ordval){
 			alert("순서는 최소 3개 이상이어야 합니다.");
 			$("textarea[name=order-text-1]").focus();
+			
 			return false;
 		}
 		

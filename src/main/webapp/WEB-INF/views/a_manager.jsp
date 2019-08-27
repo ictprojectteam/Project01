@@ -302,7 +302,7 @@ legend{
 		$("#month").click();
 
 		$(".reg-button").on("click", function(){
-			location.href = '#';
+			location.href = 'a_reg_manager';
 		});
 		
 		getList();
