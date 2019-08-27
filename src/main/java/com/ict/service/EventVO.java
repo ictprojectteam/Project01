@@ -1,9 +1,14 @@
 package com.ict.service;
 
+import org.springframework.web.multipart.MultipartFile;
+
 public class EventVO {
 	private String e_idx, m_idx, e_title, e_start, e_end, e_type, e_public, e_banner, e_content, e_image, e_regdate;
 	private String open, name;
 	private String begin, end, cPage;
+	private MultipartFile Filedate;
+	private String callback;
+	private String callback_func;
 	
 	public String getE_idx() {
 		return e_idx;
@@ -100,6 +105,24 @@ public class EventVO {
 	}
 	public void setcPage(String cPage) {
 		this.cPage = cPage;
+	}
+	public MultipartFile getFiledate() {
+		return Filedate;
+	}
+	public void setFiledate(MultipartFile Filedate) {
+		this.Filedate = Filedate;
+	}
+	public String getCallback() {
+		return callback;
+	}
+	public void setCallback(String callback) {
+		this.callback = callback;
+	}
+	public String getCallback_func() {
+		return callback_func;
+	}
+	public void setCallback_func(String callback_func) {
+		this.callback_func = callback_func;
 	}
 	
 }
