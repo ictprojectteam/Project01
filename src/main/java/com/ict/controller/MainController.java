@@ -275,6 +275,13 @@ public class MainController {
 		return mv;
 	}
 	
+	@RequestMapping("edit_recipe")
+	public ModelAndView editRecipe(RecipeVO rvo) {
+		ModelAndView mv = new ModelAndView();
+		mv.addObject("rvo", dao.viewRecipe(rvo.getR_idx()));
+		return mv;
+	}
+	
 	@RequestMapping("count_com")
 	@ResponseBody
 	public String recipeComCount(@RequestParam String r_idx) {

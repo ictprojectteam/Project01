@@ -282,7 +282,7 @@ public class AdminController {
 		StringBuffer res = new StringBuffer();
 		rcvo = dao.qnaDetail(rcvo);
 		if (rcvo == null) return res.append("<div>삭제된 댓글입니다.</div>").toString();
-		res.append("<div>작성자 : " + rcvo.getName() + "</div><div>아이디 : " + rcvo.getId() + "</div><div>내용 : " + rcvo.getContent_() + "</div>")
+		res.append("<div>작성자 : " + rcvo.getName() + "</div><div>아이디 : " + rcvo.getId() + "</div><div>내용 : " + rcvo.getContent() + "</div>")
 		.append("<div><button onclick='com_del(" + rcvo.getR_c_idx() + ")'>댓글 삭제</button><button onclick='location.href=\"view_recipe?rno=" + rcvo.getR_idx() + "\"'>글 확인하기</button></div>");
 		return res.toString();
 	}

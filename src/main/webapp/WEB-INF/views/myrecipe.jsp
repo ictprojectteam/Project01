@@ -140,6 +140,10 @@
 	function view(e) {
 		location.href = "view_recipe?rno=" + e;
 	}
+
+	function edit(e) {
+		location.href = "edit_recipe?r_idx=" + e;
+	}
 	
 	function recipe(){
 		location.href = "myRecipe";
@@ -181,20 +185,7 @@
 		<span class="recipe_bt">작성중</span>
 	</div>
 	<div class="recipe-box">
-		<div class="each-recipe">
-			<img src="" class="image">
-			<div class="recipe-content">
-				<div class="recipe-title">1</div>
-				<div class="recipe-info">
-					<span class="recipe-regdate"><i class="far fa-calendar-alt"></i></span>
-					<span class="recipe-view"><i class="fas fa-eye"></i></span>
-					<span class="recipe-com"><i class="fas fa-comment-alt"></i></span>
-				</div>
-				<div class="recipe-button">
-					<span class="edit"><i class="fas fa-edit"></i>수정</span>
-				</div>
-			</div>
-		</div>
+	
 	</div>
 </body>
 <footer>

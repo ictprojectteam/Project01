@@ -236,8 +236,8 @@ public class UserController {
 			rcvo.setEnd(String.valueOf(rp.getEnd()));
 			List<RecipeCVO> clist = dao.myWriteComment(rcvo);
 			for (RecipeCVO k : clist) {
-				res.append("<div class='each-com'><div class='main-image'><img src='" + k.getMain_image() + "'></div><div class='recipe-title'>" + k.getRecipe_title() + "</div>")
-				.append("<div class='recipe-name'>By " + k.getName() + "</div><p><div class='com-content'>" + k.getContent() + "</div></p><div class='com-date'>" + k.getRegdate() + "</div></div>");
+				res.append("<div class='each-com' onclick='view(" + k.getR_idx() + ")'><div class='main-image'><img src='" + k.getMain_image() + "'></div><div class='recipe-title'>" + k.getRecipe_title() + "</div>")
+				.append("<div class='recipe-name'>By " + k.getName() + "</div><div class='comment'><div class='com-content'>" + k.getContent() + "</div><div class='com-date'>" + k.getRegdate() + "</div></div></div>");
 			}
 		} else {
 			rcvo.setM_idx(((MVO)session.getAttribute("mvo")).getM_idx());
@@ -246,19 +246,10 @@ public class UserController {
 			rcvo.setEnd(String.valueOf(rp.getEnd()));
 			List<RecipeCVO> clist = dao.myGetComment(rcvo);
 			for (RecipeCVO k : clist) {
-				res.append("<div class='each-com'><div class='main-image'><img src='" + k.getMain_image() + "'></div><div class='recipe-title'>" + k.getRecipe_title() + "</div>")
-				.append("<div class='comment-name'>" + k.getName() + "</div><p><div class='com-content'>" + k.getContent() + "</div></p><div class='com-date'>" + k.getRegdate() + "</div></div>");
+				res.append("<div class='each-com' onclick='view(" + k.getR_idx() + ")'><div class='main-image'><img src='" + k.getMain_image() + "'></div><div class='recipe-title'>" + k.getRecipe_title() + "</div>")
+				.append("<div class='comment'><div class='comment-name'>" + k.getName() + "</div><div class='com-content'>" + k.getContent() + "</div><div class='com-date'>" + k.getRegdate() + "</div></div></div>");
 			}
 		}
-		/*
-		 <div class="each-com">
-			<div class="main-image"><img src=""></div>
-			<div class="recipe-title">title</div>
-			<div class="recipe-name">By name</div>
-			<div class="com-content">content</div>
-			<div class="com-date">date</div>
-		</div>
-		*/
 		return res.toString();
 	}
 	
@@ -266,12 +257,13 @@ public class UserController {
 	public ModelAndView getMyTalk(TVO tvo, HttpSession session){
 		ModelAndView mv = new ModelAndView("mytalk");
 		
-		RecipePaging tp = new RecipePaging(dao.countMyTalk(((MVO)session.getAttribute("mvo")).getM_idx()), tvo.getcPage()); 
+		RecipePaging tp = new RecipePaging(10, dao.countMyTalk(((MVO)session.getAttribute("mvo")).getM_idx()), tvo.getcPage()); 
 		tvo.setBegin(String.valueOf(tp.getBegin()));
 		tvo.setEnd(String.valueOf(tp.getEnd()));
 		tvo.setM_idx(((MVO)session.getAttribute("mvo")).getM_idx());
 		
 		mv.addObject("tlist", dao.myTalkList(tvo));
+		mv.addObject("tp", tp);
 		return mv;
 	}
 	
