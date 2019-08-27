@@ -9,16 +9,17 @@
 <jsp:include page="head.jsp" />
 <style type="text/css">
 	#menu{
-		width: 60%;
+		width: 1000px;
 		margin: 20px auto;
 	}
 	.menu_bt{
 		border: 1px solid #808080;
-		width: 80pt;
-		height: 30pt;
+		width: 151px;
+		height: 45px;
 		font-size: 12pt;
 		background-color: #D9D9D9;
-		margin-right: 10px;
+		margin: 0px 5px;
+		cursor: pointer;
 	}
 	.menu_bt:hover{
 		background-color: #eeeeee;

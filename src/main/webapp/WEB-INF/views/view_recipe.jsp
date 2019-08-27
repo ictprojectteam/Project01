@@ -737,7 +737,7 @@
 		</div>
 		<div id="comwrite">
 			<form id="comform">
-				<textarea id="comtext" name="content_" placeholder="무엇이 궁금하신가요? 댓글을 남겨주세요."></textarea><span id="combutton">등록</span>
+				<textarea id="comtext" name="content" placeholder="무엇이 궁금하신가요? 댓글을 남겨주세요."></textarea><span id="combutton">등록</span>
 				<input type="hidden" name="r_idx" value="${rvo.r_idx}">
 			</form>
 		</div>

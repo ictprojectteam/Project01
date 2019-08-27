@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -59,6 +60,13 @@
 		background: #f98;
 		color: #44b;
 	}
+	#user-circle{
+		width: 50px;
+		height: 47px;
+		border-radius: 25px;
+		cursor: pointer;
+	}
+	
 	.fa-user-circle{
 		font-size: 35pt;
 		color: #bbb;
@@ -124,7 +132,7 @@
 <script type="text/javascript">
 	$(function(){
 		$("#profile-dropdown").fadeOut();
-		$(".fa-user-circle").click(function(){
+		$("#user-circle").click(function(){
 			if($("#loginchk").val() == null || $("#loginchk").val() == ""){
 				var k = confirm("로그인이 필요한 페이지입니다.\n\n로그인 하시겠습니까?\n");
 				if(k) location.href='login';
@@ -134,7 +142,7 @@
 			}
 		});
 		$(window).click(function(e){
-			if(e.target.getAttribute("class") != "fas fa-user-circle"){
+			if(e.target.getAttribute("id") != "user-circle"){
 				$("#profile-dropdown").fadeOut("fast");
 			}
 		});
@@ -178,7 +186,15 @@
 				<i id="search-button" class="fas fa-search"></i>
 			</form>
 			<div id="top-icon">
-				<a id="user-circle" href="#"><i class="fas fa-user-circle"></i></a>
+				<c:choose>
+					<c:when test="${empty mvo.prf_img}">
+						<i id="user-circle" class="fas fa-user-circle"></i>
+					</c:when>
+					<c:otherwise>
+						<img id="user-circle" src="${mvo.prf_img}">
+					</c:otherwise>
+				</c:choose>
+				
 				<a id="top-pencil-icon"><i class="fas fa-pencil-alt"></i></a>
 				<div id="profile-dropdown">
 					<a class="profile-dropdown-menu" href="myRecipe">MY홈</a>

@@ -1,6 +1,6 @@
-    
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -402,7 +402,6 @@ p{
 				}
 			});
 		});
-		
 	});
 	function FileSelect(e){
 		$("#null").empty();
@@ -427,7 +426,13 @@ p{
 		<img id="prf_back" src="resources/images/food.jpeg">
 		<div id="span_prf">
 			<a id="prf_chg">
-				<img id="prf_img" src="resources/images/prf_img.png">
+				<c:choose>
+					<c:when test="${empty mvo.prf_img}">
+						<img id="prf_img" src="resources/images/prf_img.png">
+						<p>${mvo.prf_img}</p>
+					</c:when>
+					<c:otherwise><img id="prf_img" src="${mvo.prf_img}"></c:otherwise>
+				</c:choose>
 				<img id="prf_cam" src="resources/images/fa_cam.png">
 			</a>
 		</div>
@@ -477,7 +482,13 @@ p{
 			</div>
 			<hr>
 			<div id="null">
-				<img src="resources/images/prf_img.png">
+				<c:choose>
+					<c:when test="${empty mvo.prf_img}">
+						<img src="resources/images/prf_img.png">
+						<p>${mvo.prf_img}</p>
+					</c:when>
+					<c:otherwise><img src="${mvo.prf_img}"></c:otherwise>
+				</c:choose>
 			</div>
 			<input type="file" id="file_bt" name="prf_img" hidden="hidden" accept="image/*">
 			<div id="update_bts">

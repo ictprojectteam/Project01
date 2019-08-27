@@ -47,6 +47,12 @@
 	grid-template-columns: 490px 490px;
 	grid-column-gap: 20px;
 	cursor: pointer;
+	margin-top: 20px;
+}
+
+.each-prize{
+	cursor: pointer;
+	margin-top: 20px;
 }
 
 .each-content:hover{
@@ -59,13 +65,17 @@
 }
 
 .image{
-	height: 120px;
+	height: 150px;
 	width: 490px;
 }
 
 .title{
-	height: 80px;
+	height: 110px;
 	font-size: 20pt;
+}
+
+.each-prize .title{
+	height: 80px;
 }
 
 .date{

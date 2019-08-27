@@ -1,8 +1,11 @@
 package com.ict.service;
 
 public class RecipeCVO {
-	private String r_c_idx, r_idx, m_idx, content_, regdate;
+	private String r_c_idx, r_idx, m_idx, content, regdate;
 	private String name, id;
+	private String main_image, recipe_title;
+	private String sep;
+	private String begin, end, cPage;
 
 	public String getR_c_idx() {
 		return r_c_idx;
@@ -22,11 +25,11 @@ public class RecipeCVO {
 	public void setM_idx(String m_idx) {
 		this.m_idx = m_idx;
 	}
-	public String getContent_() {
-		return content_;
+	public String getContent() {
+		return content;
 	}
-	public void setContent_(String content_) {
-		this.content_ = content_;
+	public void setContent(String content) {
+		this.content = content;
 	}
 	public String getRegdate() {
 		return regdate;
@@ -46,6 +49,41 @@ public class RecipeCVO {
 	public void setId(String id) {
 		this.id = id;
 	}
-	
+	public String getMain_image() {
+		return main_image;
+	}
+	public void setMain_image(String main_image) {
+		this.main_image = main_image;
+	}
+	public String getRecipe_title() {
+		return recipe_title;
+	}
+	public void setRecipe_title(String recipe_title) {
+		this.recipe_title = recipe_title;
+	}
+	public String getSep() {
+		return sep;
+	}
+	public void setSep(String sep) {
+		this.sep = sep;
+	}
+	public String getBegin() {
+		return begin;
+	}
+	public void setBegin(String begin) {
+		this.begin = begin;
+	}
+	public String getEnd() {
+		return end;
+	}
+	public void setEnd(String end) {
+		this.end = end;
+	}
+	public String getcPage() {
+		return cPage;
+	}
+	public void setcPage(String cPage) {
+		this.cPage = cPage;
+	}
 	
 }

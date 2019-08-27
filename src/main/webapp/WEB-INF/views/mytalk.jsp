@@ -38,6 +38,7 @@
 		width: 120px;
 		height: 120px;
 		cursor: pointer;
+		border-radius: 60px;
 	}
 	.talk-box{
 		margin-left: 20px;
@@ -99,11 +100,21 @@
 	<div class="talk">
 		<c:forEach var="k" items="${tlist}">
 			<div class="each-talk">
-				<img src="" class="image">
+				<c:choose>
+					<c:when test="${empty k.prf_img}">
+						<img src="resources/images/no_image.png" class="image">
+					</c:when>
+					<c:otherwise>
+						<img src="${k.prf_img}" class="image">
+					</c:otherwise>
+				</c:choose>
 				<div class="talk-box">
 					<div class="talk-head">
 						<div class="talk-writer">${k.name}</div>
-						<div class="talk-info">l : ${k.heart} c : ${k.co_count}</div>
+						<div class="talk-info">
+							<img src="resources/images/heart.png" style="width:30px; height: 30px;"> ${k.heart}
+							<img src="resources/images/talk.png" style="width:30px; height: 30px;"> ${k.co_count}
+						</div>
 					</div>
 					<div class="talk-date">${k.regdate.substring(0, 16)}</div>
 					<div class="talk-content">${k.content}</div>

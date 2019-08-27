@@ -49,46 +49,103 @@
 	.coment_bt:hover {
 		background-color: #8cd;
 	}
+	#com-box{
+		width: 900px;
+		display: grid;
+		grid-template-columns: 215px 215px 215px 215px;
+		grid-column-gap: 10px;
+		margin: 10px auto;
+		padding: 10px;
+	}
+	.each-com{
+		cursor: pointer;
+	}
+	.main-image img{
+		width: 195px;
+		height: 195px;
+	}
+	.recipe-title{
+		white-space: nowrap;
+	 	overflow: hidden;
+		text-overflow: ellipsis;
+	}
+	.recipe-name{
+		text-align: right;
+		color: #aaa;
+	}
+	.com-date{
+		color: #aaa;
+	}
+	
 </style>
 <script type="text/javascript">
+	var rcvo = {};
 	$(function(){
 		$(".menu_bt").on("click", function(){
 			$(".menu_bt:button").css("background-color", "#D9D9D9");
 			$(this).css("background-color", "#92895A");
 		});
+		rcvo.sep = '1';
+		$(".coment_bt").each(function(){
+			$(this).on("click", function(){
+				if(!$(this).hasClass("selected")){
+					$(".coment_bt").removeClass("selected");
+					$(this).addClass("selected");
+					if($(this).hasClass("write")) {
+						rcvo.sep = '1';
+					} else {
+						rcvo.sep = '2';
+					}
+					getList();
+				}
+			});
+		});
+
+		getList();
 	});
-	function recipe(){
-		location.href = "myRecipe";
+
+	function getList() {
+		$.ajax({
+			url : "myCommentList",
+			data : rcvo,
+			dataType : "text",
+			type : "post",
+			success : function(data) {
+				$("#com-box").empty();
+				$("#com-box").append(data);
+			},
+			error : function() {
+				alert("쓰기 실패2");
+			}
+		});
 	}
-	function review(){
-		location.href = "myReview";
-	}
-	function coment(){
-		location.href = "myComent";
-	}
-	function talk(){
-		location.href = "myTalk";
-	}
-	function inquires(){
-		location.href = "myReport";
-	}
-	function prf_update(){
-		location.href = "myPrf_update";
+	
+	function go(e){
+		location.href = e;
 	}
 </script>
 </head>
 <body>
 	<div id="menu">
-		<input class="menu_bt" type="button" value="레시피" onclick="recipe()">
-		<input class="menu_bt" type="button" value="요리후기" onclick="review()">
-		<input class="menu_bt" type="button" value="댓글" onclick="coment()" style="background-color: #92895A;">
-		<input class="menu_bt" type="button" value="토크" onclick="talk()">
-		<input class="menu_bt" type="button" value="문의" onclick="inquires()">
-		<input class="menu_bt" type="button" value="회원정보수정" onclick="prf_update()">
+		<input class="menu_bt" type="button" value="레시피" onclick="go('myRecipe')">
+		<input class="menu_bt" type="button" value="요리후기" onclick="go('myReview')">
+		<input class="menu_bt" type="button" value="댓글" onclick="go('myComent')" style="background-color: #92895A;">
+		<input class="menu_bt" type="button" value="토크" onclick="go('myTalk')">
+		<input class="menu_bt" type="button" value="문의" onclick="go('myReport')">
+		<input class="menu_bt" type="button" value="회원정보수정" onclick="go('myPrf_update')">
 	</div>
 	<div id="coment_tab">
-		<span class="coment_bt selected">내가 쓴 댓글</span>
-		<span class="coment_bt">받은 댓글</span>
+		<span class="coment_bt write selected">내가 쓴 댓글</span>
+		<span class="coment_bt get">받은 댓글</span>
+	</div>
+	<div id="com-box">
+		<div class="each-com">
+			<div class="main-image"><img src=""></div>
+			<div class="recipe-title">title</div>
+			<div class="recipe-name">By name</div>
+			<div class="com-content">content</div>
+			<div class="com-date">date</div>
+		</div>
 	</div>
 </body>
 <footer>

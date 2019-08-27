@@ -1,7 +1,7 @@
 package com.ict.service;
 
 public class MVO {
-	private String m_idx, id, pw, email, name, gender, regdate;
+	private String m_idx, id, pw, email, name, gender, regdate, prf_img;
 	private String start, endt;
 	private String begin, end, cPage, k;
 
@@ -46,6 +46,12 @@ public class MVO {
 	}
 	public void setRegdate(String regdate) {
 		this.regdate = regdate;
+	}
+	public String getPrf_img() {
+		return prf_img;
+	}
+	public void setPrf_img(String prf_img) {
+		this.prf_img = prf_img;
 	}
 	public String getStart() {
 		return start;

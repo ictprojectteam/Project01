@@ -305,6 +305,9 @@ header #links{
 			location.href = l;
 		});
 
+		evo.open = $("input[name=eventst]:checked").val();
+		evo.e_type = $("input[name=eventty]:checked").val();
+		
 		$("input[name=eventst]").on("change", function(){
 			evo.open = $(this).val();
 			evo.cPage = '1';
@@ -358,7 +361,7 @@ header #links{
 	};
 	
 	function view(e) {
-		
+		location.href="a_view_event?e_idx=" + e;
 	}
 
 	function reg_event() {

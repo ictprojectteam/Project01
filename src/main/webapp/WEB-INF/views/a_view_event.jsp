@@ -196,7 +196,7 @@ header #links{
 	color: #fa8;
 }
 
-textarea[name=e_content]{
+.e_content{
 	resize: none;
 	margin: 10px auto;
 	width: 98%;
@@ -217,18 +217,9 @@ textarea[name=e_content]{
 	margin: 10px 5px;
 }
 
-#main_file{
-	display: inline-block;
-	padding: 5px 10px;
-	border: 1px solid #777;
-	border-radius: 5px 10px;
-	cursor: pointer;
-	background: #ccc;
-}
-
-#file_name{
-	padding: 5px 10px;
-	display: inline-block;
+img.banner{
+	width: 490px;
+	height: 150px;
 }
 
 #foot{
@@ -244,11 +235,11 @@ textarea[name=e_content]{
 	cursor: pointer;
 }
 
-#regbutton{
+#editbutton{
 	background: #af8;
 }
 
-#cancel{
+#list{
 	background: #f8a;
 }
 
@@ -271,98 +262,11 @@ input[type=text], input[type=date]{
 <script type="text/javascript" src="../resources/js/jquery-3.4.1.min.js"></script>
 <script type="text/javascript">
 	$(function(){
-		$("#main_file").on("click", function(){
-			$("#e_file").click();
-		});
-
-		$("#e_file").on("change", function(){
-			$("#file_name").empty();
-			var tg = $("#e_file");
-			var name = tg.val();
-			if(name != ""){
-				var index = name.lastIndexOf("\\");
-				name = name.substring(index + 1, name.length);
-				$("#file_name").text(name);
-				var reader = new FileReader();
-				reader.readAsDataURL(this.files[0]);
-				reader.onload = function(e){
-					var readFile = e.target.result;
-					var chkcor = readFile.substring(readFile.indexOf(',') + 1, readFile.indexOf(',') + 5);
-					readFile = readFile.substring(0, readFile.indexOf('/'));
-					if(readFile === "data:image" && chkcor != "77u/"){
-						$("input[name=e_banner]").val(e.target.result);
-					} else {
-						$("input[name=e_banner]").val("");
-					}
-				}
-			} else {
-				$("#file_name").text("선택된 파일이 없습니다.");
-				$("input[name=e_banner]").val("");
-			}
-		});
-		
-		$(".detail-box span:nth-child(1)").on("click", function(){
-			$(".detail-content").empty();
-			$(".detail-content").append("<textarea name='e_content'></textarea>");
-			$("textarea[name=e_content]").focus();
-		});
-		
-		$(".detail-box span:nth-child(2)").on("click", function(){
-			$("#e_image").click();
-		});
-
-		$("#e_image").on("change", function(){
-			if(this.files && this.files[0]){
-				var reader = new FileReader();
-				reader.readAsDataURL(this.files[0]);
-				reader.onload = function(e){
-					var readFile = e.target.result;
-					var chkcor = readFile.substring(readFile.indexOf(',') + 1, readFile.indexOf(',') + 5);
-					readFile = readFile.substring(0, readFile.indexOf('/'));
-					if(readFile === "data:image" && chkcor != "77u/"){
-						$(".detail-content").empty();
-						$(".detail-content").append("<img src=" + e.target.result + ">");
-						$(".detail-content").append("<input type='text' hidden='' name='e_image' value=" + e.target.result + ">");
-					}
-				}
-			}
-		});
-
-		$("input[name=e_start]").on("change", function(){
-			$("input[name=e_end]").attr("min", $("input[name=e_end]").val());
-		});
-
-		$("#cancel").on("click", function(){
+		$("#list").on("click", function(){
 			history.go(-1);
 		});
-
-		$("#regbutton").on("click",function(){
-			if(!validateForm()) return;
-			$("#e_form").attr("action", "a_reg_event").submit();
-		});
-		
-		var date = new Date(Date.now() - new Date().getTimezoneOffset()*60000);
-		$("input[name=e_start]").val(date.toISOString().substring(0,16));
-		$("input[name=e_end]").val(date.toISOString().substring(0,16));
 	});
 
-	function validateForm(){
-		if($("input[name=e_title]").val() == "") {
-			alert("제목을 입력해주세요.");
-			$("input[name=e_title]").focus();
-			return false;
-		}
-		if($("input[name=e_banner]").val() == "") {
-			alert("메인 배너 이미지를 선택해주세요.");
-			return false;
-		}
-		if($("input[name=e_start]").val() > $("input[name=e_end]").val()) {
-			alert("시작일은 종료일 이전이어야 합니다.")
-			$("input[name=e_start]").focus();
-			return false;
-		}
-		return true;
-	}
 </script>
 </head>
 <body>
@@ -394,54 +298,60 @@ input[type=text], input[type=date]{
 					<div id="event-div">
 						<div class="regular">
 							<div class="label">이벤트 제목</div>
-							<div class="content"><input type="text" name="e_title"></div>
+							<div class="content">${evo.e_title}</div>
 						</div>
 						<div class="double">
 							<div class="label">시작일</div>
-							<div class="content"><input type="datetime-local" name="e_start" required></div>
+							<div class="content">${evo.e_start}</div>
 							<div class="label">종료일</div>
-							<div class="content"><input type="datetime-local" name="e_end" required></div>
+							<div class="content">${evo.e_end}</div>
 						</div>
 						<div class="regular">
 							<div class="label">구분</div>
 							<div class="content">
-								<input type="radio" name="e_type" value="1" checked> 이벤트 공지
-								<input type="radio" name="e_type" value="2"> 당첨자 발표
+								<c:choose>
+									<c:when test="${evo.e_type eq '1'}">이벤트 공지</c:when>
+									<c:otherwise>당첨자 발표</c:otherwise>
+								</c:choose>
 							</div>
 						</div>
 						<div class="regular">
 							<div class="label">공개</div>
 							<div class="content">
-								<input type="radio" name="e_public" value="1" checked> 공개
-								<input type="radio" name="e_public" value="0"> 비공개
+								<c:choose>
+									<c:when test="${evo.e_public eq '1'}">공개</c:when>
+									<c:otherwise>비공개</c:otherwise>
+								</c:choose>
 							</div>
 						</div>
 						<div class="regular">
 							<div class="label">메인 배너 이미지</div>
 							<div class="content">
-								<span id="main_file">파일 선택</span><span id="file_name">선택된 파일이 없습니다.</span>
-								<input type="file" id="e_file" hidden="" accept="image/*">
-								<input type="text" name="e_banner" hidden="">
+								<img class="banner" src="${evo.e_banner}">
 							</div>
 						</div>
 						<div class="label center">상세내용</div>
 						<div class="detail">
 							<div class="detail-title">이벤트 상세보기</div>
 							<div class="detail-box">
-								<span>텍스트</span><span>이미지 삽입</span>
-								<div class="detail-content"></div>
+								<c:choose>
+									<c:when test="${empty evo.e_content || evo.e_content==''}">
+										<img src="${evo.e_image}">
+									</c:when>
+									<c:otherwise>
+										<pre class="e_content">${evo.e_content}</pre>
+									</c:otherwise>
+								</c:choose>
 							</div>
-							<input type="file" hidden="" id="e_image" accept="image/*">
 						</div>
 					</div>
 				</fieldset>
 				<div id="body">
 				<div id="foot">
-					<span id="regbutton">이벤트 등록</span><span id="cancel">취소</span>
+					<span id="editbutton">수정</span><span id="list">목록으로</span>
 				</div>
 			</div>
 			</form>
-			
 		</div>
 	</div>
 </body>

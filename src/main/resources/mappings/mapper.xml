@@ -349,7 +349,7 @@
 	</select>
 	
 	<insert id="insert_recipe_comment" parameterType="rcvo">
-		insert into recipe_c values (recipe_c_seq.nextval, #{r_idx}, #{m_idx}, #{content_}, 0, sysdate)
+		insert into recipe_c values (recipe_c_seq.nextval, #{r_idx}, #{m_idx}, #{content}, 0, sysdate)
 	</insert>
 	<select id="onelistrecipe" parameterType="String" resultType="rvo">
 		select r.*, m.name, m.email from recipe r, members m where r_idx = #{r_idx} and r.m_idx = m.m_idx
@@ -509,6 +509,10 @@
 		) where r_num between #{begin} and #{end}
 	</select>
 	
+	<select id="a_view_event" parameterType="evo" resultType="evo">
+		select * from event where e_idx = #{e_idx}
+	</select>
+	
 	<insert id="insertEvent" parameterType="evo">
 		insert into event values (e_seq.nextval, #{m_idx}, #{e_title}, to_date(#{e_start}, 'YYYY-MM-DD HH24:MI'), to_date(#{e_end}, 'YYYY-MM-DD HH24:MI'), #{e_type}, #{e_public}, #{e_banner}, #{e_content, jdbcType=VARCHAR}, #{e_image, jdbcType=CLOB}, #{e_regdate})
 	</insert>
@@ -602,6 +606,43 @@
 			) a
 		) where r_num between #{begin} and #{end}
 	</select>
+	
+	<select id="countMyTalk" parameterType="String" resultType="int">
+		select count(*) from talk where m_idx = #{m_idx}
+	</select>
+	
+	<select id="myTalkList" parameterType="tvo" resultType="tvo">
+		select * from (
+			select rownum as r_num, a.* from (
+				select t.*, m.prf_img from talk t, members m where t.m_idx = #{m_idx} and t.m_idx = m.m_idx
+			) a
+		) where r_num between #{begin} and #{end}
+	</select>
+	
+	<select id="countWriteComment" parameterType="rcvo" resultType="int">
+		select count(*) from recipe_c where m_idx = #{m_idx}
+	</select>
+	
+	<select id="myWriteComment" parameterType="rcvo" resultType="rcvo">
+		select * from (
+			select rownum as r_num , a.* from (
+				select rc.r_idx, rc.content, rc.regdate, r.main_image, r.recipe_title, m.name from recipe_c rc, recipe r, members m where rc.r_idx = r.r_idx and r.m_idx = m.m_idx and rc.m_idx = #{m_idx}
+			) a
+		) where r_num between #{begin} and #{end}
+	</select>
+	
+	<select id="countGetComment" parameterType="rcvo" resultType="int">
+		select count(*) from recipe_c rc, recipe r where r.r_idx = rc.r_idx and r.m_idx = #{m_idx}
+	</select>
+	
+	<select id="myGetComment" parameterType="rcvo" resultType="rcvo">
+		select * from (
+			select rownum as r_num, a.* from(
+				select rc.r_idx, rc.content, rc.regdate, r.main_image, r.recipe_title, m.name from recipe_c rc, recipe r, members m where rc.r_idx = r.r_idx and rc.m_idx = m.m_idx and r.m_idx = #{m_idx}
+			) a
+		) where r_num between #{begin} and #{end}
+	</select>
+	
 	<update id="myPrf_img_up" parameterType="map">
 		update members set prf_img = #{prf_img} where m_idx = #{m_idx}
 	</update>

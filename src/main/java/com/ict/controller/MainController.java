@@ -183,7 +183,7 @@ public class MainController {
 			mv.setViewName("inappropriate");
 			return mv;
 		}
-		if (!(((MVO)session.getAttribute("mvo")).getM_idx().equals(rvo.getM_idx()))) {
+		if (((MVO)session.getAttribute("mvo")) == null || !(((MVO)session.getAttribute("mvo")).getM_idx().equals(rvo.getM_idx()))) {
 			rvo.setHit(Integer.parseInt(rvo.getHit()) + 1 + "");
 			dao.recipeHitUpdate(rvo);
 			R_RankVO rrvo = new R_RankVO();
@@ -306,7 +306,7 @@ public class MainController {
 						res += "</span><span class='infobar'>|</span><span class='com-rep' onclick='com_rep(" + k.getR_c_idx() + ")'>신고</span>";
 					}
 				}
-				res += "</div><div class='com-text'><pre>" + k.getContent_() + "</pre></div></div>";
+				res += "</div><div class='com-text'><pre>" + k.getContent() + "</pre></div></div>";
 			}
 		} else {
 			return res;
@@ -609,14 +609,21 @@ public class MainController {
 	@ResponseBody
 	public String loadEvent(EventVO evo) {
 		StringBuffer res = new StringBuffer();
+		if (evo.getE_type() == null) evo.setE_type("");
 		EventPaging ep = new EventPaging(5, dao.countEvent(evo), evo.getcPage());
 		evo.setBegin(String.valueOf(ep.getBegin()));
 		evo.setEnd(String.valueOf(ep.getEnd()));
 		List<EventVO> elist = dao.eventList(evo);
+		
 		for (EventVO k : elist) {
-			res.append("<div class='each-content' onclick='view(" + k.getE_idx() + ")'><img src='" + k.getE_banner() + "' class='image'>")
-			.append("<div class='content'><div class='title'>" + k.getE_title() + "</div>")
-			.append("<div class='date'>" + k.getE_start().substring(0, 16) + " ~ " + k.getE_end().substring(0, 16) + "</div></div></div>");
+			if (evo.getE_type().equals("2")) {
+				res.append("<div class='each-prize' onclick='view(" + k.getE_idx() + ")'><div class='content'><div class='title'>" + k.getE_title() + "</div>")
+				.append("<div class='date'>" + k.getE_start().substring(0, 16) + " ~ " + k.getE_end().substring(0, 16) + "</div></div></div>");
+			} else {
+				res.append("<div class='each-content' onclick='view(" + k.getE_idx() + ")'><img src='" + k.getE_banner() + "' class='image'>")
+				.append("<div class='content'><div class='title'>" + k.getE_title() + "</div>")
+				.append("<div class='date'>" + k.getE_start().substring(0, 16) + " ~ " + k.getE_end().substring(0, 16) + "</div></div></div>");
+			}
 		}
 		return res.toString();
 	}

@@ -383,6 +383,13 @@ public class AdminController {
 		return mv;
 	}
 	
+	@RequestMapping("a_view_event")
+	public ModelAndView viewEvent(EventVO evo) {
+		ModelAndView mv = new ModelAndView("a_view_event");
+		mv.addObject("evo", dao.aViewEvent(evo));
+		return mv;
+	}
+	
 	/* 운영자 리스트
 	 * 
 	 * 	

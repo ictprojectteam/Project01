@@ -16,8 +16,10 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.ict.service.DAO;
 import com.ict.service.MVO;
+import com.ict.service.RecipeCVO;
 import com.ict.service.RecipePaging;
 import com.ict.service.RecipeVO;
+import com.ict.service.TVO;
 
 @Controller
 public class UserController {
@@ -223,10 +225,53 @@ public class UserController {
 		return mv;
 	}
 	
+	@RequestMapping(value = "myCommentList", produces = "application/text; charset=utf8")
+	@ResponseBody
+	public String getCommentList(RecipeCVO rcvo, HttpSession session) {
+		StringBuffer res = new StringBuffer();
+		if (rcvo.getSep().equals("1")) {
+			rcvo.setM_idx(((MVO)session.getAttribute("mvo")).getM_idx());
+			RecipePaging rp = new RecipePaging(dao.countWriteComment(rcvo), rcvo.getcPage());
+			rcvo.setBegin(String.valueOf(rp.getBegin()));
+			rcvo.setEnd(String.valueOf(rp.getEnd()));
+			List<RecipeCVO> clist = dao.myWriteComment(rcvo);
+			for (RecipeCVO k : clist) {
+				res.append("<div class='each-com'><div class='main-image'><img src='" + k.getMain_image() + "'></div><div class='recipe-title'>" + k.getRecipe_title() + "</div>")
+				.append("<div class='recipe-name'>By " + k.getName() + "</div><p><div class='com-content'>" + k.getContent() + "</div></p><div class='com-date'>" + k.getRegdate() + "</div></div>");
+			}
+		} else {
+			rcvo.setM_idx(((MVO)session.getAttribute("mvo")).getM_idx());
+			RecipePaging rp = new RecipePaging(dao.countGetComment(rcvo), rcvo.getcPage());
+			rcvo.setBegin(String.valueOf(rp.getBegin()));
+			rcvo.setEnd(String.valueOf(rp.getEnd()));
+			List<RecipeCVO> clist = dao.myGetComment(rcvo);
+			for (RecipeCVO k : clist) {
+				res.append("<div class='each-com'><div class='main-image'><img src='" + k.getMain_image() + "'></div><div class='recipe-title'>" + k.getRecipe_title() + "</div>")
+				.append("<div class='comment-name'>" + k.getName() + "</div><p><div class='com-content'>" + k.getContent() + "</div></p><div class='com-date'>" + k.getRegdate() + "</div></div>");
+			}
+		}
+		/*
+		 <div class="each-com">
+			<div class="main-image"><img src=""></div>
+			<div class="recipe-title">title</div>
+			<div class="recipe-name">By name</div>
+			<div class="com-content">content</div>
+			<div class="com-date">date</div>
+		</div>
+		*/
+		return res.toString();
+	}
+	
 	@RequestMapping("myTalk")
-	public ModelAndView getMyTalk(HttpSession session){
+	public ModelAndView getMyTalk(TVO tvo, HttpSession session){
 		ModelAndView mv = new ModelAndView("mytalk");
-		mv.addObject("tlist", dao.getTalk_p_List(1, 10));
+		
+		RecipePaging tp = new RecipePaging(dao.countMyTalk(((MVO)session.getAttribute("mvo")).getM_idx()), tvo.getcPage()); 
+		tvo.setBegin(String.valueOf(tp.getBegin()));
+		tvo.setEnd(String.valueOf(tp.getEnd()));
+		tvo.setM_idx(((MVO)session.getAttribute("mvo")).getM_idx());
+		
+		mv.addObject("tlist", dao.myTalkList(tvo));
 		return mv;
 	}
 	

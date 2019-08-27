@@ -295,6 +295,10 @@ public class DAO {
 		return sqlSessionTemplate.selectList("a_event_list", evo);
 	}
 	
+	public EventVO aViewEvent(EventVO evo) {
+		return sqlSessionTemplate.selectOne("a_view_event", evo);
+	}
+	
 	public void insertEvent(EventVO evo) {
 		sqlSessionTemplate.insert("insertEvent", evo);
 	}
@@ -318,6 +322,31 @@ public class DAO {
 	public List<RecipeVO> myRecipeList(RecipeVO rvo) {
 		return sqlSessionTemplate.selectList("myRecipeList", rvo);
 	}
+	
+	public int countMyTalk(String m_idx) {
+		return sqlSessionTemplate.selectOne("countMyTalk", m_idx);
+	}
+	
+	public List<TVO> myTalkList(TVO tvo) {
+		return sqlSessionTemplate.selectList("myTalkList", tvo);
+	}
+	
+	public int countWriteComment(RecipeCVO rcvo) {
+		return sqlSessionTemplate.selectOne("countWriteComment", rcvo);
+	}
+	
+	public List<RecipeCVO> myWriteComment(RecipeCVO rcvo) {
+		return sqlSessionTemplate.selectList("myWriteComment", rcvo);
+	}
+	
+	public int countGetComment(RecipeCVO rcvo) {
+		return sqlSessionTemplate.selectOne("countGetComment", rcvo);
+	}
+	
+	public List<RecipeCVO> myGetComment(RecipeCVO rcvo) {
+		return sqlSessionTemplate.selectList("myGetComment", rcvo);
+	}
+	
 	public int getPrf_img_up(Map<String, String> map) {
 		return sqlSessionTemplate.update("myPrf_img_up", map);
 	}
