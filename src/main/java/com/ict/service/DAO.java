@@ -350,11 +350,12 @@ public class DAO {
 	public int getPrf_img_up(Map<String, String> map) {
 		return sqlSessionTemplate.update("myPrf_img_up", map);
 	}
-	public int a_countManager(ManagerVO mvo) {
-		return sqlSessionTemplate.selectOne("a_count_manager", mvo);
+	
+	public int countManager(ManagerVO mvo) {
+		return sqlSessionTemplate.selectOne("countManager", mvo);
 	}
 	
-	public List<ManagerVO> aManagerList(ManagerVO mvo) {
-		return sqlSessionTemplate.selectList("a_manager_list", mvo);
+	public List<ManagerVO> managerList(ManagerVO mvo) {
+		return sqlSessionTemplate.selectList("managerList", mvo);
 	}
 }

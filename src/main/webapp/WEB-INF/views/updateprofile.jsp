@@ -398,7 +398,12 @@ p{
 				data: formData,
 				type: 'POST',
 				success: function(result){
-					alert("업로드 성공!!")
+					alert("업로드 성공!!");
+					$("#prf_field").css("display", "none");
+					$("#prf_img").attr("src", $("input[name=main_image]").val());
+				},
+				error: function(){
+					
 				}
 			});
 		});
@@ -429,7 +434,6 @@ p{
 				<c:choose>
 					<c:when test="${empty mvo.prf_img}">
 						<img id="prf_img" src="resources/images/prf_img.png">
-						<p>${mvo.prf_img}</p>
 					</c:when>
 					<c:otherwise><img id="prf_img" src="${mvo.prf_img}"></c:otherwise>
 				</c:choose>

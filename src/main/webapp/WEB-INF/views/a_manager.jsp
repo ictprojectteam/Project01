@@ -159,7 +159,7 @@ header #links{
 .title-line{
 	width: 980px;
 	display: grid;
-	grid-template-columns: 30px 90px 90px 120px 200px 200px 70px 200px;
+	grid-template-columns: 30px 90px 90px 130px 220px 220px 220px;
 	text-align: center;
 }
 #content-box{
@@ -168,7 +168,7 @@ header #links{
 .each-content{
 	width: 1000px;
 	display: grid;
-	grid-template-columns: 30px 90px 90px 120px 200px 200px 70px 200px;
+	grid-template-columns: 30px 90px 90px 130px 220px 220px 220px;
 	text-align: center;
 }
 .each-content:hover{
@@ -204,11 +204,22 @@ legend{
 	font-size: 16pt;
 	font-weight: bolder;
 }
-#body td{
-	text-align: center;
+#foot{
+	width: 1002px;
+	margin: 10px 5px;
+	text-align: right;
+}
+.reg-button{
+	display: inline-block;
+	padding: 8px;
+	border-radius: 5px;
+	border: 1px solid #777;
+	background: #ccc;
+	cursor: pointer;
 }
 /* paging */
 .paging{
+	clear: both;
 	width: 1000px;
 	text-align: center;
 	margin: 5px;
@@ -289,59 +300,82 @@ legend{
 		});
 		
 		$("#month").click();
+
+		$(".reg-button").on("click", function(){
+			location.href = '#';
+		});
+		
 		getList();
-		load_page(1);
+		/* load_page(1); */
 	});
 	
 	function getList(){
 		$.ajax({
-			url: "admin_oplist",
-			dataType: "text",
+			url: "admin_mnglist",
+			dataType: "json",
 			type : "post",
 			success: function(data){
 				$("#content-box").empty();
-				$("#content-box").append(data);
+				var res = "";
+				$.each(data, function(k, v){
+					res += "<div class='each-content' onclick='view(" + v["mng_idx"] + ")'><div class='body-content'>" + v["mng_idx"] + 
+						"</div><div class='body-content'>" + v["name"] + "</div><div class='body-content'>" + v["id"] +
+						"</div><div class='body-content'>" + v["mng_contact"] + "</div><div class='body-content'>" + v["email"] + 
+						"</div><div class='body-content'>" + v["mng_email"] + "</div><div class='body-content'>" + v["mng_regdate"] + "</div></div>";     
+				});
+				$("#content-box").append(res);
 			},
 			error: function(){
 				alert("읽기 실패1");
 			}
 		});
 	}
-	function search_member() {
+	function search_manager() {
 		mvo = {};
 		var name = $("#input-name").val();
 		if(name != "") {
-			if($("[name=name_idx]").val() == "name") m_vo.name = name;
-			if($("[name=name_idx]").val() == "id") m_vo.id = name;
+			if($("[name=name_idx]").val() == "name") mvo.name = name;
+			if($("[name=name_idx]").val() == "id") mvo.id = name;
 		}
 		var email = $("[name=email]").val();
-		if(email != "") mvo.email = email;
+		if(email != "") {
+			if($("[name=email_number]").val() == "email") mvo.mng_email = email;
+			if($("[name=email_number]").val() == "number") mvo.mng_contact = email;
+		}
 		mvo.start = $("#start").val();
 		mvo.endt = $("#end").val();
-		
 		load_list(mvo);
 	}
 	function move_page(e) {
 		mvo.cPage = e;
 		load_list(mvo);
 	}
+
 	
+	 
 	function load_list(e) {
 		$.ajax({
-			url: "admin_oplist",
+			url: "admin_mnglist",
 			data : e,
-			dataType: "text",
+			dataType: "json",
 			type : "post",
 			success: function(data){
 				$("#content-box").empty();
-				$("#content-box").append(data);
+				var res = "";
+				$.each(data, function(k, v){
+					res += "<div class='each-content' onclick='view(" + v["mng_idx"] + ")'><div class='body-content'>" + v["mng_idx"] + 
+						"</div><div class='body-content'>" + v["name"] + "</div><div class='body-content'>" + v["id"] +
+						"</div><div class='body-content'>" + v["mng_contact"] + "</div><div class='body-content'>" + v["email"] + 
+						"</div><div class='body-content'>" + v["mng_email"] + "</div><div class='body-content'>" + v["mng_regdate"] + "</div></div>";     
+				});
+				$("#content-box").append(res);
 			},
 			error: function(){
 				alert("읽기 실패2");
 			}
 		});
-		load_page(e);
 	}
+	/* 
 	function load_page(cPage) {
 		$.ajax({
 			url: "admin_oppage",
@@ -357,6 +391,7 @@ legend{
 			}
 		});
 	}
+	 */
 	function view(e) {
 		location.href="admin_view_one_member?m_idx=" + e;
 	}
@@ -435,12 +470,14 @@ legend{
 						<div class="title">연락처</div>
 						<div class="title">이메일</div>
 						<div class="title">개인 이메일</div>
-						<div class="title">직책</div>
 						<div class="title">가입 일시</div>
 					</div>
 					<div id="content-box">
 						
 					</div>
+				</div>
+				<div id="foot">
+					<span class="reg-button">신규 등록</span>
 				</div>
 				<div class="paging">
 				    <c:choose>

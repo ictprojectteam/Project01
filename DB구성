@@ -248,3 +248,16 @@ create sequence r_m_seq increment by 1 start with 1 nocycle;
 레시피 댓글 테이블 수정
 ALTER TABLE recipe_c RENAME COLUMN content_ TO content;
 ===============================================================================
+관리자 테이블
+create table manager(
+  mng_idx number primary key,
+  m_idx number,
+  mng_contact varchar2(50),
+  mng_regdate date,
+  mng_grade varchar(50),
+  foreign key (m_idx) references members(m_idx)
+);
+
+시퀀스
+create sequence mng_seq increment by 1 start with 1 nocycle;
+===============================================================================
