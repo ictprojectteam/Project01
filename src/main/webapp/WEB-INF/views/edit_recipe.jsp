@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -1163,70 +1164,49 @@
 			<div id="write-body">
 				<p>재료가 남거나 부족하지 않도록 정확한 계량정보를 적어주세요.</p>
 				<div id="recipe-ing">
-					<div class="recipe-ing-pack" id="recipe-ing-pack-1">
-						<div class="recipe-sort">
-							<div class="recipe-sort-arrow">
-								<i class="fas fa-sort-up"></i><br>
-								<i class="fas fa-sort-down"></i>
-							</div>
-							<div>
-								<div class="recipe-sort-pack">
-									<textarea rows="1" cols="16" name="ing-pack-1" wrap="soft">재료</textarea>
+					<c:set var="pack" value="${rvo.pack.replace('[','').replace(']','').split(', ')}"></c:set>
+					<c:set var="rege" value="\|\], \[\|"></c:set>
+					<c:set var="materials" value="${rvo.material.replace('[[|', '').replace('|]]', '').split(rege)}"></c:set>
+					<c:forEach var="i" begin="0" end="${fn:length(pack) - 1}">
+						<div class="recipe-ing-pack" id="recipe-ing-pack-${i+1}">
+							<div class="recipe-sort">
+								<div class="recipe-sort-arrow">
+									<i class="fas fa-sort-up"></i><br>
+									<i class="fas fa-sort-down"></i>
 								</div>
-								<div class="recipe-delete-pack">
-									<p onclick='del_pack(1)'><i class="fas fa-times"></i> 묶음삭제</p>
-								</div>
-							</div>
-							<div class="recipe-each-ing" id="recipe-pack-1">
-								<div class="recipe-each-sort" id="recipe-each-1-1">
-									<div class="recipe-each-arrow">
-										<i class="fas fa-sort-up"></i><br>
-										<i class="fas fa-sort-down"></i>
+								<div>
+									<div class="recipe-sort-pack">
+										<textarea rows="1" cols="16" name="ing-pack-${i+1}" wrap="soft">${pack[i]}</textarea>
 									</div>
-									<div class="recipe-each-name">
-										<textarea rows="1" placeholder="예) 돼지고기" name="recipe-each-name-1-1"></textarea>
-									</div>
-									<div class="recipe-each-quant">
-										<textarea rows="1" placeholder="예) 300g" name="recipe-each-quant-1-1"></textarea>
-									</div>
-									<div class="recipe-each-delete" onclick="each_del(1,1)">
-										<i class="fas fa-times"></i>
+									<div class="recipe-delete-pack">
+										<p onclick='del_pack(${i+1})'><i class="fas fa-times"></i> 묶음삭제</p>
 									</div>
 								</div>
-								<div class="recipe-each-sort" id="recipe-each-1-2">
-									<div class="recipe-each-arrow">
-										<i class="fas fa-sort-up"></i><br>
-										<i class="fas fa-sort-down"></i>
-									</div>
-									<div class="recipe-each-name">
-										<textarea rows="1" placeholder="예) 양배추" name="recipe-each-name-1-2"></textarea>
-									</div>
-									<div class="recipe-each-quant">
-										<textarea rows="1" placeholder="예) 1/2개" name="recipe-each-quant-1-2"></textarea>
-									</div>
-									<div class="recipe-each-delete" onclick="each_del(1,2)">
-										<i class="fas fa-times"></i>
-									</div>
-								</div>
-								<div class="recipe-each-sort" id="recipe-each-1-3">
-									<div class="recipe-each-arrow">
-										<i class="fas fa-sort-up"></i><br>
-										<i class="fas fa-sort-down"></i>
-									</div>
-									<div class="recipe-each-name">
-										<textarea rows="1" placeholder="예) 참기름" name="recipe-each-name-1-3"></textarea>
-									</div>
-									<div class="recipe-each-quant">
-										<textarea rows="1" placeholder="예) 1T" name="recipe-each-quant-1-3"></textarea>
-									</div>
-									<div class="recipe-each-delete" onclick="each_del(1,3)">
-										<i class="fas fa-times"></i>
-									</div>
+								<div class="recipe-each-ing" id="recipe-pack-${i}">
+									<c:set var="rege2" value="\|, \|"></c:set>
+									<c:set var="material" value="${materials[i].split(rege2)}"></c:set>
+									<c:forEach var="j" begin="0" end="${fn:length(material) - 1}">
+										<div class="recipe-each-sort" id="recipe-each-${i+1}-${j+1}">
+											<div class="recipe-each-arrow">
+												<i class="fas fa-sort-up"></i><br>
+												<i class="fas fa-sort-down"></i>
+											</div>
+											<div class="recipe-each-name">
+												<textarea rows="1" placeholder="예) 돼지고기" name="recipe-each-name-${i+1}-${j+1}">${fn:substring(material[j], 0, fn:indexOf(material[j], ","))}</textarea>
+											</div>
+											<div class="recipe-each-quant">
+												<textarea rows="1" placeholder="예) 300g" name="recipe-each-quant-${i+1}-${j+1}">${fn:substring(material[j], fn:indexOf(material[j], ",") + 2, fn:length(material[j]))}</textarea>
+											</div>
+											<div class="recipe-each-delete" onclick="each_del(${i+1},${j+1})">
+												<i class="fas fa-times"></i>
+											</div>
+										</div> 
+									</c:forEach>
 								</div>
 							</div>
+							<div class="recipe-each-add" onclick="each_add(${i+1})"><i class="fas fa-plus"></i> 추가</div>
 						</div>
-						<div class="recipe-each-add" onclick="each_add(1)"><i class="fas fa-plus"></i> 추가</div>
-					</div>
+					</c:forEach>
 				</div>
 				<div id="recipe-pack-not">※ 양념, 양념장, 소스, 드레싱, 토핑, 시럽, 육수, 밑간 등으로 구분해서 작성해주세요.</div>
 				<div id="recipe-add-pack">
@@ -1241,23 +1221,35 @@
 						<p>&nbsp; &nbsp;꿀을 조금 넣어주세요 ▷ 꿀이 없는 경우, 설탕 1스푼으로 대체 가능합니다.</p>
 					</div>
 					<div id="recipe-order-container">
-						<div class="recipe-order" id="recipe-order-1">
-							<div class="recipe-order-count">Step 1</div>
-							<div class="recipe-order-content"><textarea placeholder="예) 소고기는 기름기를 떼어내고 적당한 크기로 썰어주세요." name="order-text-1"></textarea></div>
-							<input type="hidden" name="order-image-1">
-							<div class="recipe-order-addimage">
-								<div onclick="add_order_image(1)"><i class="fas fa-plus"></i></div>
-								<div class="recipe-order-image"></div>
+						<c:set var="orders" value="${rvo.orderContent.replace('[|', '').replace('|]', '').split(rege2)}"></c:set>
+						<c:forEach var="i" begin="0" end="${fn:length(orders) - 1}">
+							<c:set var="order" value="${orders[i].split(', ')}"></c:set>
+							<div class="recipe-order" id="recipe-order-${i+1}">
+								<div class="recipe-order-count">Step ${i+1}</div>
+								<div class="recipe-order-content"><textarea placeholder="예) 소고기는 기름기를 떼어내고 적당한 크기로 썰어주세요." name="order-text-1">${order[0]}</textarea></div>
+								<input type="hidden" name="order-image-${i+1}" value="${order[1]}">
+								<div class="recipe-order-addimage">
+									<c:choose>
+										<c:when test="${empty order[1]}">
+											<div onclick="add_order_image(${i+1})"><i class="fas fa-plus"></i></div>
+											<div class="recipe-order-image"></div>
+										</c:when>
+										<c:otherwise>
+											<div onclick="add_order_image(${i+1})"><i class="fas fa-plus" style="display: none;"></i></div>
+											<div class="recipe-order-image"><img onclick="add_order_image(${i+1})" src="${order[1]}">
+											<i class="fas fa-times" onclick="del_order_image(${i+1})"></i></div>
+										</c:otherwise>
+									</c:choose>
+								</div>
+								<input type="file" hidden="" name="recipe_orderimage1" accept="image/*" id="recipe-orderimage-1">
+								<div class="recipe-order-button">
+									<i class="fas fa-angle-up" onclick="order_up()"></i>
+									<i class="fas fa-angle-down" onclick="order_down()"></i>
+									<i class="fas fa-plus" onclick="order_after()"></i>
+									<i class="fas fa-times" onclick="order_del()"></i>
+								</div>
 							</div>
-							
-							<input type="file" hidden="" name="recipe_orderimage1" accept="image/*" id="recipe-orderimage-1">
-							<div class="recipe-order-button">
-								<i class="fas fa-angle-up" onclick="order_up()"></i>
-								<i class="fas fa-angle-down" onclick="order_down()"></i>
-								<i class="fas fa-plus" onclick="order_after()"></i>
-								<i class="fas fa-times" onclick="order_del()"></i>
-							</div>
-						</div>
+						</c:forEach>
 					</div>
 					<div id="recipe-order-add" onclick="add_order()">
 						<i class="fas fa-plus"></i> 순서추가
@@ -1273,28 +1265,47 @@
 						<input type="file" hidden="" multiple accept="image/*" id="comp-image-multfile">
 					</div>
 					<div id="comp-image-pack">
-						<c:forEach var="k" begin="1" end="4">
-							<input type="file" hidden="" id="comp-image-file-${k}" accept="image/*">
-							<div class="comp-image" id="comp-image-${k}">
-								<input type="hidden" name="comp-image-val-${k}">
-								<div class="comp-image-empty">
-									<i class="fas fa-plus"></i>
-								</div>
-								<div class="comp-image-selected"></div>
-							</div>
-						</c:forEach>
+						<c:choose>
+							<c:when test="${!empty rvo.finImage}">
+								<c:set var="finImage" value="${rvo.finImage.replace('[', '').replace(']', '').split(', ')}"></c:set>
+								<c:forEach var="k" begin="0" end="${fn:length(finImage) - 1}">
+									<input type="file" hidden="" id="comp-image-file-${k+1}" accept="image/*">
+									<div class="comp-image" id="comp-image-${k+1}">
+										<input type="hidden" name="comp-image-val-${k+1}">
+										<div class="comp-image-empty" style="display: none;">
+											<i class="fas fa-plus"></i>
+										</div>
+										<div class="comp-image-selected"><img src="${finImage[k]}" onclick="change_compimage(${k+1})">
+										<i class="fas fa-times" onclick="del_compimage(${k+1})"></i></div>
+									</div>
+								</c:forEach>
+								<c:if test="${fn:length(finImage) < 4}">
+									<c:forEach var="k" begin="0" end="${3 - fn:length(finImage)}">
+										<input type="file" hidden="" id="comp-image-file-${fn:length(finImage) + k + 1}" accept="image/*">
+										<div class="comp-image" id="comp-image-${fn:length(finImage) + k + 1}">
+											<input type="hidden" name="comp-image-val-${fn:length(finImage) + k + 1}">
+											<div class="comp-image-empty">
+												<i class="fas fa-plus"></i>
+											</div>
+											<div class="comp-image-selected"></div>
+										</div>
+									</c:forEach>
+								</c:if>
+							</c:when>
+						</c:choose>
+						
 					</div>
 				</div>
 				<div id="write-tip">
 					<div class="write-label">요리팁</div>
 					<div id="write-tip-content">
-						<textarea placeholder="예) 고기요리에는 소금보다 설탕을 먼저 넣어야 단맛이 겉돌지 않고 육질이 부드러워요." name="recipe_tip"></textarea>
+						<textarea placeholder="예) 고기요리에는 소금보다 설탕을 먼저 넣어야 단맛이 겉돌지 않고 육질이 부드러워요." name="recipe_tip">${rvo.recipe_tip}</textarea>
 					</div>
 				</div>
 				<div id="write-tag">
 					<div class="write-label">태그</div>
 					<div id="write-tag-content">
-						<input type="text" name="recipe_tag">
+						<input type="text" name="recipe_tag" value="${rvo.recipe_tag}">
 					</div>
 				</div>
 				<p id="taginf">주재료, 목적, 효능, 대상 등을 태그로 남겨주세요. <span>예) 돼지고기, 다이어트, 비만, 칼슘, 감기예방, 이유식, 초간단</span></p>
