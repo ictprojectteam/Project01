@@ -253,8 +253,9 @@ create table manager(
   mng_idx number primary key,
   m_idx number,
   mng_contact varchar2(50),
+  mng_email varchar2(50),
+  mng_grade varchar2(50),
   mng_regdate date,
-  mng_grade varchar(50),
   foreign key (m_idx) references members(m_idx)
 );
 
