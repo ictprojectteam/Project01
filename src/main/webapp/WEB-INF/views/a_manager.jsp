@@ -129,7 +129,7 @@ header #links{
 	border: 0.5px solid #999;
 }
 .content input[type=text]{
-	width: 95%;
+	width:70%;
 	padding-right: 10px;
 }
 #input-name{
