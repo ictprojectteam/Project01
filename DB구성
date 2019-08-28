@@ -261,3 +261,6 @@ create table manager(
 시퀀스
 create sequence mng_seq increment by 1 start with 1 nocycle;
 ===============================================================================
+**** 멤버시퀀스 수정
+alter sequence members_seq nocache;
+===============================================================================
