@@ -40,7 +40,7 @@
 	}
 	#top-icon{
 		display: grid;
-		grid-template-columns: 60px 60px;
+		grid-template-columns: 60px 60px 60px;
 		align-content: center;
 	}
 	#search-button{
@@ -83,6 +83,16 @@
 		font-size: 20pt;
 		color: #eee;
 		border-radius: 15px;
+	}
+	.fa-user-cog{
+		width: 30px;
+		display: inline-block;
+		padding: 10px;
+		border-radius: 30px;
+		cursor: pointer;
+		background: #af8;
+		font-size: 20pt;
+		color: #fff;
 	}
 	#profile-dropdown{
 		z-index: 1;
@@ -161,6 +171,7 @@
 				location.href="recipe?k=" + $("#search-bar").val();
 			}
 		});
+		<c:if test="${!empty admin}">$(".fa-user-cog").on("click", function(){location.href="home";});</c:if>
 		$("#top-myhome").on("click", function(){
 			if($("#loginchk").val() == null || $("#loginchk").val() == ""){
 				var k = confirm("로그인이 필요한 페이지입니다.\n\n로그인 하시겠습니까?\n");
@@ -196,6 +207,15 @@
 				</c:choose>
 				
 				<a id="top-pencil-icon"><i class="fas fa-pencil-alt"></i></a>
+				<c:choose>
+					<c:when test="${empty admin}">
+						<i></i>
+					</c:when>
+					<c:otherwise>
+						<i class="fas fa-user-cog"></i>
+					</c:otherwise>
+				</c:choose>
+				<div></div>
 				<div id="profile-dropdown">
 					<a class="profile-dropdown-menu" href="myRecipe">MY홈</a>
 					<a class="profile-dropdown-menu" href="myRecipe">레시피 노트</a>

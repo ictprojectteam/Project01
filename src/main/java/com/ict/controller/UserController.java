@@ -41,6 +41,7 @@ public class UserController {
 			session.setAttribute("mvo", r_mvo);
 			if (dao.chkAdmin(r_mvo) > 0) {
 				mv.setViewName("redirect:home");
+				session.setAttribute("admin", dao.chkAdmin(r_mvo));
 			} else {
 				mv.setViewName("redirect:/");
 			}
@@ -180,6 +181,7 @@ public class UserController {
 			mv.setViewName("redirect:/");
 		}
 		request.getSession().removeAttribute("mvo");
+		request.getSession().removeAttribute("admin");
 		return mv;
 	}
 	
