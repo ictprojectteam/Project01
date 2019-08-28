@@ -184,7 +184,7 @@ header #links{
 	resize: none;
 	margin: 10px auto;
 	width: 98%;
-	height: 200px;
+	min-height: 200px;
 	font-size: 12pt;
 	padding: 5px;
 	display: block;
@@ -249,6 +249,10 @@ input[type=text], input[type=date]{
 		$("#list").on("click", function(){
 			history.go(-1);
 		});
+
+		$("#editbutton").on("click", function(){
+			location.href="#";
+		});
 	});
 
 </script>
@@ -312,6 +316,7 @@ input[type=text], input[type=date]{
 									<c:when test="${evo.e_public eq '1'}">공개</c:when>
 									<c:otherwise>비공개</c:otherwise>
 								</c:choose>
+								<label class="switch"><input type="checkbox"></label>
 							</div>
 						</div>
 						<div class="regular">

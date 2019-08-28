@@ -8,6 +8,9 @@
 <meta charset="UTF-8">
 <title>view recipe</title>
 <style type="text/css">
+	*{
+		white-space: pre-wrap;
+	}
 	#view-recipe{
 		width: 1200px;
 		margin: 30px auto 0px;
@@ -179,6 +182,7 @@
 	#tag{
 		width: 720px;
 		margin: 50px auto 10px auto;
+		white-space: pre-wrap;
 	}
 	#tag-label{
 		background: #f85;
@@ -385,6 +389,9 @@
 	#rep-cancel{
 		border: 1px solid #999;
 		color: #222;
+	}
+	pre{
+		white-space: pre-wrap;
 	}
 }
 </style>
