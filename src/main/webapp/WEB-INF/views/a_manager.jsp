@@ -264,32 +264,32 @@ legend{
 	mvo.cPage = 1;
 	$(function(){
 		$("#today").on("click", function(){
-			var date = new Date();
+			var date = new Date(Date.now() - new Date().getTimezoneOffset()*60000);
 			$("#start").val(date.toISOString().substring(0, 10));
 			$("#end").val(date.toISOString().substring(0, 10));
 		});
 		
 		$("#yesterday").on("click", function(){
-			var date = new Date();
+			var date = new Date(Date.now() - new Date().getTimezoneOffset()*60000);
 			$("#end").val(date.toISOString().substring(0, 10));
 			date.setDate(date.getDate() - 1);
 			$("#start").val(date.toISOString().substring(0, 10));
 		});
 		
 		$("#week").on("click", function(){
-			var date = new Date();
+			var date = new Date(Date.now() - new Date().getTimezoneOffset()*60000);
 			$("#end").val(date.toISOString().substring(0, 10));
 			date.setDate(date.getDate() - 7);
 			$("#start").val(date.toISOString().substring(0, 10));
 		});
 		$("#month").on("click", function(){
-			var date = new Date();
+			var date = new Date(Date.now() - new Date().getTimezoneOffset()*60000);
 			$("#end").val(date.toISOString().substring(0, 10));
 			date.setMonth(date.getMonth() - 1);
 			$("#start").val(date.toISOString().substring(0, 10));
 		});
 		$("#3month").on("click", function(){
-			var date = new Date();
+			var date = new Date(Date.now() - new Date().getTimezoneOffset()*60000);
 			$("#end").val(date.toISOString().substring(0, 10));
 			date.setMonth(date.getMonth() - 3);
 			$("#start").val(date.toISOString().substring(0, 10));

@@ -97,7 +97,7 @@
 	
 	<insert id="insert_recipe" parameterType="rvo">
 		insert into recipe(r_idx, m_idx, recipe_title, recipe_introduce, recipe_video, ca1, ca2, ca3, ca4, recipe_quant, recipe_time, recipe_difficulty, main_image, pack, material, orderContent, finImage, recipe_tip, recipe_tag, hit, likes, regdate, lastedit, savepublic, a_permission)
-			values (recipe_seq.nextval, #{m_idx}, #{recipe_title}, #{recipe_introduce}, #{recipe_video}, #{ca1}, #{ca2}, #{ca3}, #{ca4}, #{recipe_quant}, #{recipe_time}, #{recipe_difficulty}, #{main_image}, #{pack}, #{material}, #{orderContent}, #{finImage}, #{recipe_tip}, #{recipe_tag} , 0, 0, #{regdate}, sysdate, #{savepublic}, #{a_permission})
+			values (recipe_seq.nextval, #{m_idx}, #{recipe_title}, #{recipe_introduce}, #{recipe_video}, #{ca1}, #{ca2}, #{ca3}, #{ca4}, #{recipe_quant}, #{recipe_time}, #{recipe_difficulty}, #{main_image}, #{pack}, #{material}, #{orderContent}, #{finImage}, #{recipe_tip}, #{recipe_tag} , 0, 0, sysdate, sysdate, #{savepublic}, #{a_permission})
 	</insert>
 	
 	<insert id="repCom" parameterType="qvo">
@@ -250,7 +250,7 @@
 	<select id="talk_p_list" parameterType="Map" resultType="tvo">
 		select * from (
 			select rownum r_num, a.* from(
-				select * from talk order by t_idx desc ) a
+				select t.*, m.prf_img from talk t, members m where t.m_idx = m.m_idx order by t_idx desc ) a
 			) where r_num between #{begin} and #{end}
 	</select>
 	<select id="talk_prf_img" parameterType="String" resultType="String">
@@ -276,7 +276,7 @@
 	</select>
 	
 	<select id="talk_view" parameterType="String" resultType="tvo">
-		select * from talk where t_idx = #{t_idx}
+		select t.*, m.prf_img from talk t, members m where t_idx = #{t_idx} and t.m_idx = m.m_idx
 	</select>
 	
 	<insert id="t_co_write" parameterType="String">
@@ -288,7 +288,7 @@
 	</delete>
 	
 	<select id="t_co_list" parameterType="String" resultType="tcvo">
-		select * from talk_c where t_idx = #{t_idx}
+		select tc.*, m.prf_img from talk_c tc, members m where t_idx = #{t_idx} and tc.m_idx = m.m_idx
 	</select>
 	<select id="get_talk_like" parameterType="tlvo" resultType="int">
 		select count(*) from t_like where t_idx = #{t_idx} and m_idx = #{m_idx}

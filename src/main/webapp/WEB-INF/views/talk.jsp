@@ -161,7 +161,11 @@ ul li{
 	<c:if test="${!empty list}">
 		<c:forEach var="k" items="${list}">
 			<div id="talk_body">
-				<img id="user_img" src="resources/images/no_image.png">
+				<c:choose>
+					<c:when test="${empty k.prf_img}"><img id="user_img" src="resources/images/no_image.png"></c:when>
+					<c:otherwise><img id="user_img" src="${k.prf_img}"></c:otherwise>
+				</c:choose>
+				
 				<div class="haco">
 					<img src="resources/images/heart.png" style="width:30px; height: 30px;"> ${k.heart} 
 					<img src="resources/images/talk.png" style="width:30px; height: 30px;"> ${k.co_count}

@@ -59,6 +59,14 @@
 	.talk-content{
 		font-size: 16pt;
 		margin-top: 10px;
+		max-height: 4.8em;
+		white-space: pre-wrap;
+		word-wrap: break-word;
+		display: -webkit-box;
+		overflow: hidden;
+		-webkit-line-clamp: 3;
+		-webkit-box-orient: vertical;
+		padding-right: 60px;
 	}
 	.paging{
 		width: 1000px;
@@ -144,7 +152,7 @@
 						</div>
 					</div>
 					<div class="talk-date">${k.regdate.substring(0, 16)}</div>
-					<div class="talk-content">${k.content}</div>
+					<div><pre class="talk-content">${k.content}</pre></div>
 				</div>
 			</div>
 		</c:forEach>

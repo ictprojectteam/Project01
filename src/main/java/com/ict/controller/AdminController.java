@@ -71,6 +71,14 @@ public class AdminController {
 		RecipePaging rp = new RecipePaging(10, count, rvo.getcPage());
 		rvo.setBegin(String.valueOf(rp.getBegin()));
 		rvo.setEnd(String.valueOf(rp.getEnd()));
+		Calendar endt = Calendar.getInstance();
+		try {
+			endt.setTime(new SimpleDateFormat("yyyy-MM-dd").parse(rvo.getEndt()));
+			endt.add(Calendar.DATE, 1);
+			rvo.setEndt(new SimpleDateFormat("yyyy-MM-dd").format(endt.getTimeInMillis()));
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
 		List<RecipeVO> rlist = dao.aRecipeList(rvo);
 		if (rlist.size() > 0) {
 			for (RecipeVO k : rlist) {
@@ -80,7 +88,7 @@ public class AdminController {
 				if (k.getRecipe_video() != null && !k.getRecipe_video().equals("")) type = "영상";
 				res.append("<div class='each-content' onclick='view(" + k.getR_idx() + ")'><div class='body-content'>" + k.getR_idx() + "</div><div class='body-content'>" + 
 						k.getName() + "</div><div class='body-content'>" + k.getId() + "</div><div class='body-content'>" + k.getEmail() + "</div><div class='body-content'>" + 
-						k.getRecipe_title() + "</div><div class='body-content'>" + type + "</div><div class='body-content'>" + k.getRegdate().substring(0, 10));
+						k.getRecipe_title() + "</div><div class='body-content'>" + type + "</div><div class='body-content'>" + k.getRegdate().substring(0, 16));
 				if(cond.equals("승인완료")) {
 					res.append("</div><div class='body-content comp'>" + cond + "</div></div>");
 				} else {
@@ -144,6 +152,14 @@ public class AdminController {
 		MemberPaging mp = new MemberPaging(10, count, mvo.getcPage());
 		mvo.setBegin(String.valueOf(mp.getBegin()));
 		mvo.setEnd(String.valueOf(mp.getEnd()));
+		Calendar endt = Calendar.getInstance();
+		try {
+			endt.setTime(new SimpleDateFormat("yyyy-MM-dd").parse(mvo.getEndt()));
+			endt.add(Calendar.DATE, 1);
+			mvo.setEndt(new SimpleDateFormat("yyyy-MM-dd").format(endt.getTimeInMillis()));
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
 		List<MVO> mlist = dao.aMemberList(mvo);
 		if (mlist.size() > 0) {
 			for (MVO k : mlist) {
