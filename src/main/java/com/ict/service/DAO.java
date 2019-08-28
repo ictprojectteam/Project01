@@ -56,6 +56,10 @@ public class DAO {
 		return sqlSessionTemplate.insert("join", mvo);
 	}
 	
+	public int getJoin(ManagerVO mvo) {
+		return sqlSessionTemplate.insert("join", mvo);
+	}
+	
 	public int chkEmail(MVO mvo) {
 		return sqlSessionTemplate.selectOne("chkEmail", mvo);
 	}
@@ -357,5 +361,17 @@ public class DAO {
 	
 	public List<ManagerVO> managerList(ManagerVO mvo) {
 		return sqlSessionTemplate.selectList("managerList", mvo);
+	}
+	
+	public int chkId(String id) {
+		return sqlSessionTemplate.selectOne("chkId", id);
+	}
+	
+	public void regManager(ManagerVO mngvo) {
+		sqlSessionTemplate.insert("regManager", mngvo);
+	}
+	
+	public int chkAdmin(MVO mvo) {
+		return sqlSessionTemplate.selectOne("chkAdmin", mvo);
 	}
 }

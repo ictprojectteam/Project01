@@ -396,45 +396,66 @@ public class AdminController {
 	@ResponseBody
 	public List<ManagerVO> managerList(ManagerVO mvo) {
 		Calendar today = Calendar.getInstance();
-		today.add(Calendar.DAY_OF_MONTH, +1);
 		if (mvo.getEndt() == null) mvo.setEndt(new SimpleDateFormat("yyyy-MM-dd").format(new Date(today.getTimeInMillis())));
 		today.add(Calendar.MONTH, -6);
 		if (mvo.getStart() == null)	mvo.setStart(new SimpleDateFormat("yyyy-MM-dd").format(new Date(today.getTimeInMillis())));
 		MemberPaging mp = new MemberPaging(10, dao.countManager(mvo), mvo.getcPage());
 		mvo.setBegin(String.valueOf(mp.getBegin()));
 		mvo.setEnd(String.valueOf(mp.getEnd()));
+		Calendar endt = Calendar.getInstance();
+		try {
+			endt.setTime(new SimpleDateFormat("yyyy-MM-dd").parse(mvo.getEndt()));
+			endt.add(Calendar.DATE, 1);
+			mvo.setEndt(new SimpleDateFormat("yyyy-MM-dd").format(endt.getTimeInMillis()));
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
 		List<ManagerVO> mlist = dao.managerList(mvo);
 		return mlist;
+	}
+
+	@RequestMapping("admin_mngPaging")
+	@ResponseBody
+	public RecipePaging managerPaging(ManagerVO mvo) {
+		Calendar today = Calendar.getInstance();
+		if (mvo.getEndt() == null) mvo.setEndt(new SimpleDateFormat("yyyy-MM-dd").format(new Date(today.getTimeInMillis())));
+		today.add(Calendar.MONTH, -6);
+		if (mvo.getStart() == null)	mvo.setStart(new SimpleDateFormat("yyyy-MM-dd").format(new Date(today.getTimeInMillis())));
+		Calendar endt = Calendar.getInstance();
+		try {
+			endt.setTime(new SimpleDateFormat("yyyy-MM-dd").parse(mvo.getEndt()));
+			endt.add(Calendar.DATE, 1);
+			mvo.setEndt(new SimpleDateFormat("yyyy-MM-dd").format(endt.getTimeInMillis()));
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		return new RecipePaging(10, dao.countManager(mvo), mvo.getcPage());
+	}
+	
+	@RequestMapping("a_reg_manager")
+	public ModelAndView regManager() {
+		ModelAndView mv = new ModelAndView("a_reg_manager");
+		
+		return mv;
+	}
+	
+	@RequestMapping("a_chkId")
+	@ResponseBody
+	public int chkId(String id) {
+		return dao.chkId(id);
+	}
+	
+	@RequestMapping("admin_reg_manager")
+	public ModelAndView regManager(ManagerVO mvo) {
+		ModelAndView mv = new ModelAndView("a_manager");
+		dao.getJoin(mvo);
+		dao.regManager(mvo);
+		return mv;
 	}
 	
 	/* 운영자 리스트
 	 * 
 	 * 	
-	@RequestMapping(value = "admin_oplist", produces = "application/text; charset=utf8")
-	@ResponseBody
-	public String geta_manager(HttpServletRequest request, MVO mvo) {
-		StringBuffer res = new StringBuffer();
-		Calendar today = Calendar.getInstance();
-		if (mvo.getEndt() == null) mvo.setEndt(new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
-		today.add(Calendar.MONTH, -6);
-		if (mvo.getStart() == null)	mvo.setStart(new SimpleDateFormat("yyyy-MM-dd").format(new Date(today.getTimeInMillis())));
-		int count = dao.a_countMember(mvo);
-		MemberPaging mp = new MemberPaging(10, count, mvo.getcPage());
-		mvo.setBegin(String.valueOf(mp.getBegin()));
-		mvo.setEnd(String.valueOf(mp.getEnd()));
-		List<MVO> mlist = dao.aMemberList(mvo);
-		if (mlist.size() > 0) {
-			for (MVO k : mlist) {
-				res.append("<div class='each-content' onclick='view(" + k.getM_idx() + ")'><div class='body-content'>" + k.getM_idx() +
-						"</div><div class='body-content'>" + k.getName() + "</div><div class='body-content'>" + k.getEmail() +
-						"</div><div class='body-content'>" + k.getId() +  "</div><div class='body-content'>" + k.getGender() + 
-						"</div><div class='body-content'>" + k.getRegdate()+ "</div></div>");
-			}
-		} else {
-			res.append("원하는 정보가 존재하지 않습니다.");
-		}
-		return res.toString();
-	}
 	
 	@RequestMapping(value = "admin_mpage", produces = "application/text; charset=utf-8")
 	@ResponseBody

@@ -267,35 +267,156 @@ input[type=text], input[type=date]{
 	width: 100%;
 }
 
+.warning{
+	color: #f33;
+}
+
+.pass{
+	color: #3f3;
+}
+
+.notice{
+	padding: 5px;
+	font-size: 10pt;
+	display: none;
+}
+
 </style>
 <script type="text/javascript" src="../resources/js/jquery-3.4.1.min.js"></script>
 <script type="text/javascript">
-var obj = [];
+	var chkId = false;
+	var chkPwd = false;
 	$(function(){
+		$("input[name=id]").on("keyup", function(){
+			$(".id").css("display", "block");
+			var id = $("input[name=id]").val();
+			if(id == "") {
+				if($(".id").hasClass("pass")){
+					$(".id").removeClass("pass");
+					$(".id").addClass("warning");
+				}
+				$(".id").text("아이디를 입력해주세요.");
+				chkId = false;
+			} else {
+				$.ajax({
+					url: "a_chkId",
+					data: {"id":id},
+					dataType: "text",
+					type : "post",
+					success: function(data){
+						if(data > 0) {
+							if($(".id").hasClass("pass")){
+								$(".id").removeClass("pass");
+								$(".id").addClass("warning");
+							}
+							$(".id").text("이미 존재하는 아이디입니다.");
+							chkId = false;
+						} else {
+							if($(".id").hasClass("warning")){
+								$(".id").removeClass("warning");
+								$(".id").addClass("pass");
+							}
+							$(".id").text("사용 가능한 아이디입니다.");
+							chkId = true;
+						}
+					},
+					error: function(){
+						alert("읽기 실패1");
+					}
+				});
+			}
+		});
+
+		$("input[name=pw]").on("keyup", function(){
+			chkPw();
+		});
+
+		$("input[name=pw2]").on("keyup", function(){
+			chkPw();
+		});
+
+
+
+		
 		$("#cancel").on("click", function(){
 			history.go(-1);
 		});
 
-		$("#regbutton").on("click",function(){
+		$("#regbutton").on("click", function() {
 			if(!validateForm()) return;
-			var btn = document.getElementById("regbutton");
-			submitcontent(btn);
+			$("#m_form").attr("action", "admin_reg_manager").submit();
 		});
 	});
 
+	function chkPw() {
+		var pw = $("input[name=pw]").val();
+		var pw2 = $("input[name=pw2]").val();
+		if(pw == "") {
+			$(".pw").css("display", "block");
+			$(".pw").text("암호를 입력해주세요.");
+			$(".pw2").css("display", "none");
+			chkPwd = false;
+		} else {
+			$(".pw").css("display", "none");
+			$(".pw").text("");
+			if(pw2 != "") {
+				$(".pw2").css("display", "block");
+				if(pw == pw2) {
+					if($(".pw2").hasClass("warning")){
+						$(".pw2").removeClass("warning");
+						$(".pw2").addClass("pass");
+					}
+					$(".pw2").text("확인되었습니다.")
+					chkPwd = true;
+				} else {
+					if($(".pw2").hasClass("pass")) {
+						$(".pw2").removeClass("pass");
+						$(".pw2").addClass("warning");
+					}
+					$(".pw2").text("암호가 일치하지 않습니다.")
+					chkPwd = false;
+				}
+			} else {
+				$(".pw2").css("display", "none");
+				chkPwd = false;
+			}
+		}
+	}
+
 	function validateForm(){
-		if($("input[name=e_title]").val() == "") {
-			alert("제목을 입력해주세요.");
-			$("input[name=e_title]").focus();
+		if($("input[name=name]").val() == "") {
+			alert("이름을 입력해주세요.");
+			$("input[name=name]").focus();
 			return false;
 		}
-		if($("input[name=e_banner]").val() == "") {
-			alert("메인 배너 이미지를 선택해주세요.");
+		if(!chkId) {
+			alert("아이디를 확인해주세요.");
+			$("input[name=id]").focus();
 			return false;
 		}
-		if($("input[name=e_start]").val() > $("input[name=e_end]").val()) {
-			alert("시작일은 종료일 이전이어야 합니다.")
-			$("input[name=e_start]").focus();
+		if(!chkPwd) {
+			alert("암호를 확인해주세요.")
+			$("input[name=pw]").focus();
+			return false;
+		}
+		if($("input[name=mng_contact]").val() == "") {
+			alert("연락처를 입력해주세요.");
+			$("input[name=mng_contact]").focus();
+			return false;
+		}
+		if($("input[name=email]").val() == "") {
+			alert("이메일을 입력해주세요.");
+			$("input[name=email]").focus();
+			return false;
+		}
+		if($("input[name=mng_email]").val() == "") {
+			alert("개인 이메일을 입력해주세요.");
+			$("input[name=mng_email]").focus();
+			return false;
+		}
+		if($("input[name=mng_grade]").val() == "") {
+			alert("직책을 입력해주세요.");
+			$("input[name=mng_grade]").focus();
 			return false;
 		}
 		return true;
@@ -327,53 +448,56 @@ var obj = [];
 		<div id="main">
 			<form method="post" id="m_form">
 				<fieldset>
-					<legend>운영자 관리</legend>
+					<legend>운영자 등록</legend>
 					<div id="mng-div">
 						<div class="regular">
-							<div class="label">이벤트 제목</div>
-							<div class="content"><input type="text" name="e_title"></div>
+							<div class="label">이름</div>
+							<div class="content"><input type="text" name="name" required></div>
 						</div>
-						<div class="double">
-							<div class="label">시작일</div>
-							<div class="content"><input type="datetime-local" name="e_start" required></div>
-							<div class="label">종료일</div>
-							<div class="content"><input type="datetime-local" name="e_end" required></div>
+						
+						<div class="regular">
+							<div class="label">아이디</div>
+							<div class="content"><input type="text" name="id" required></div>
+						</div>
+						<div class="notice warning id"></div>
+						<div class="regular">
+							<div class="label">암호</div>
+							<div class="content"><input type="password" name="pw" required></div>
+						</div>
+						<div class="notice warning pw"></div>
+						<div class="regular">
+							<div class="label">암호 확인</div>
+							<div class="content"><input type="password" name="pw2" required></div>
+						</div>
+						<div class="notice warning pw2"></div>
+						<div class="regular">
+							<div class="label">연락처</div>
+							<div class="content"><input type="text" name="mng_contact" required></div>
 						</div>
 						<div class="regular">
-							<div class="label">구분</div>
+							<div class="label">이메일</div>
+							<div class="content"><input type="text" name="email" required></div>
+						</div>
+						<div class="regular">
+							<div class="label">개인 메일</div>
+							<div class="content"><input type="text" name="mng_email" required></div>
+						</div>
+						<div class="regular">
+							<div class="label">성별</div>
 							<div class="content">
-								<input type="radio" name="e_type" value="1" checked> 이벤트 공지
-								<input type="radio" name="e_type" value="2"> 당첨자 발표
+								<input type="radio" name="gender" value="남" checked> 남
+								<input type="radio" name="gender" value="여"> 여
 							</div>
 						</div>
 						<div class="regular">
-							<div class="label">공개</div>
-							<div class="content">
-								<input type="radio" name="e_public" value="1" checked> 공개
-								<input type="radio" name="e_public" value="0"> 비공개
-							</div>
-						</div>
-						<div class="regular">
-							<div class="label">메인 배너 이미지</div>
-							<div class="content">
-								<span id="main_file">파일 선택</span><span id="file_name">선택된 파일이 없습니다.</span>
-								<input type="file" id="e_file" hidden="" accept="image/*">
-								<input type="text" name="e_banner" hidden="">
-							</div>
-						</div>
-						<div class="label center">상세내용</div>
-						<div class="detail">
-							<div class="detail-title">이벤트 상세보기</div>
-							<div class="detail-box">
-								<textarea id="smart" name="e_content" rows="10" cols="100"></textarea>
-							</div>
-							<input type="file" hidden="" id="e_image" accept="image/*">
+							<div class="label">직책</div>
+							<div class="content"><input type="text" name="mng_grade" required></div>
 						</div>
 					</div>
 				</fieldset>
 				<div id="body">
 				<div id="foot">
-					<input id="regbutton" type="button" value="이벤트 등록"><span id="cancel">취소</span>
+					<span id="regbutton">운영자 등록</span><span id="cancel">취소</span>
 				</div>
 			</div>
 			</form>

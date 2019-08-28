@@ -2,7 +2,7 @@ package com.ict.service;
 
 public class ManagerVO {
 	private String mng_idx, m_idx, mng_contact, mng_email, mng_grade, mng_regdate;
-	private String name, id, email;
+	private String id, pw, email, name, gender;
 	private String name_idx, email_number;
 	private String start, endt;
 	private String begin, end, cPage;
@@ -42,23 +42,35 @@ public class ManagerVO {
 	public void setMng_regdate(String mng_regdate) {
 		this.mng_regdate = mng_regdate;
 	}
-	public String getName() {
-		return name;
-	}
-	public void setName(String name) {
-		this.name = name;
-	}
 	public String getId() {
 		return id;
 	}
 	public void setId(String id) {
 		this.id = id;
 	}
+	public String getPw() {
+		return pw;
+	}
+	public void setPw(String pw) {
+		this.pw = pw;
+	}
 	public String getEmail() {
 		return email;
 	}
 	public void setEmail(String email) {
 		this.email = email;
+	}
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
+	public String getGender() {
+		return gender;
+	}
+	public void setGender(String gender) {
+		this.gender = gender;
 	}
 	public String getName_idx() {
 		return name_idx;

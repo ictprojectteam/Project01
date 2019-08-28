@@ -159,7 +159,7 @@ header #links{
 .title-line{
 	width: 980px;
 	display: grid;
-	grid-template-columns: 30px 90px 90px 130px 220px 220px 220px;
+	grid-template-columns: 40px 110px 90px 120px 200px 200px 70px 170px;
 	text-align: center;
 }
 #content-box{
@@ -168,7 +168,7 @@ header #links{
 .each-content{
 	width: 1000px;
 	display: grid;
-	grid-template-columns: 30px 90px 90px 130px 220px 220px 220px;
+	grid-template-columns: 40px 110px 90px 120px 200px 200px 70px 170px;
 	text-align: center;
 }
 .each-content:hover{
@@ -253,9 +253,15 @@ legend{
 .content-inf:hover{
 	background: #ddd;
 }
+.empty{
+	padding: 5px;
+	font-size: 12pt;
+	color: #aaa;
+}
 </style>
 <script>
 	var mvo = {};
+	mvo.cPage = 1;
 	$(function(){
 		$("#today").on("click", function(){
 			var date = new Date();
@@ -306,7 +312,7 @@ legend{
 		});
 		
 		getList();
-		/* load_page(1); */
+		load_page(mvo);
 	});
 	
 	function getList(){
@@ -321,7 +327,8 @@ legend{
 					res += "<div class='each-content' onclick='view(" + v["mng_idx"] + ")'><div class='body-content'>" + v["mng_idx"] + 
 						"</div><div class='body-content'>" + v["name"] + "</div><div class='body-content'>" + v["id"] +
 						"</div><div class='body-content'>" + v["mng_contact"] + "</div><div class='body-content'>" + v["email"] + 
-						"</div><div class='body-content'>" + v["mng_email"] + "</div><div class='body-content'>" + v["mng_regdate"] + "</div></div>";     
+						"</div><div class='body-content'>" + v["mng_email"] + "</div><div class='body-content'>" + v["mng_grade"] + 
+						"</div><div class='body-content'>" + v["mng_regdate"] + "</div></div>";     
 				});
 				$("#content-box").append(res);
 			},
@@ -330,8 +337,10 @@ legend{
 			}
 		});
 	}
+	
 	function search_manager() {
 		mvo = {};
+		mvo.cPage = 1;
 		var name = $("#input-name").val();
 		if(name != "") {
 			if($("[name=name_idx]").val() == "name") mvo.name = name;
@@ -346,12 +355,12 @@ legend{
 		mvo.endt = $("#end").val();
 		load_list(mvo);
 	}
+	
 	function move_page(e) {
 		mvo.cPage = e;
 		load_list(mvo);
+		load_page(mvo);
 	}
-
-	
 	 
 	function load_list(e) {
 		$.ajax({
@@ -362,13 +371,54 @@ legend{
 			success: function(data){
 				$("#content-box").empty();
 				var res = "";
-				$.each(data, function(k, v){
-					res += "<div class='each-content' onclick='view(" + v["mng_idx"] + ")'><div class='body-content'>" + v["mng_idx"] + 
+				if(data != null && data != "") {
+					$.each(data, function(k, v){
+						res += "<div class='each-content' onclick='view(" + v["mng_idx"] + ")'><div class='body-content'>" + v["mng_idx"] + 
 						"</div><div class='body-content'>" + v["name"] + "</div><div class='body-content'>" + v["id"] +
 						"</div><div class='body-content'>" + v["mng_contact"] + "</div><div class='body-content'>" + v["email"] + 
-						"</div><div class='body-content'>" + v["mng_email"] + "</div><div class='body-content'>" + v["mng_regdate"] + "</div></div>";     
-				});
+						"</div><div class='body-content'>" + v["mng_email"] + "</div><div class='body-content'>" + v["mng_grade"] + 
+						"</div><div class='body-content'>" + v["mng_regdate"] + "</div></div>";     
+					});
+				} else {
+					res += "<div class='empty'>원하는 정보가 없습니다.</div>";
+				}
+				
 				$("#content-box").append(res);
+				load_page(e);
+			},
+			error: function(){
+				alert("읽기 실패2");
+			}
+		});
+	}
+
+	function load_page(e) {
+		$.ajax({
+			url: "admin_mngPaging",
+			data : e,
+			dataType: "json",
+			type : "post",
+			success: function(data) {
+				$(".paging").empty();
+				var res = "";
+				if(data.beginBlock <= data.pagePerBlock){
+					res += "<span class='disable'> 이전으로 </span>";
+				} else {
+					res += "<span class='active pre-block'> 이전으로 </span>";
+				}
+				for(var i = data.beginBlock; i <= data.endBlock; i++) {
+					if(i == data.nowPage) {
+						res += "<span class='now'>" + i + "</span>";
+					} else {
+						res += "<span class='page'>" + i + "</span>";
+					}
+				}
+				if(data.endBlock >= data.totalPage){
+					res += "<span class='disable'> 다음으로 </span>";
+				} else {
+					res += "<span class='active next-block'> 다음으로 </span>";
+				}
+				$(".paging").append(res);
 			},
 			error: function(){
 				alert("읽기 실패2");
@@ -470,6 +520,7 @@ legend{
 						<div class="title">연락처</div>
 						<div class="title">이메일</div>
 						<div class="title">개인 이메일</div>
+						<div class="title">직책</div>
 						<div class="title">가입 일시</div>
 					</div>
 					<div id="content-box">

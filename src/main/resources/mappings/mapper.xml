@@ -664,4 +664,20 @@
 				) a
 			) where r_num between #{begin} and #{end}
 	</select>
+	
+	<select id="chkId" parameterType="String" resultType="int">
+		select count(*) from members where id = #{id}
+	</select>
+	
+	<insert id="regManager">
+		insert into manager(mng_idx, m_idx, mng_contact, mng_email, mng_grade, mng_regdate) values(
+			mng_seq.nextval, (
+				select last_number - 1 from user_sequences where sequence_name = 'MEMBERS_SEQ'
+			), #{mng_contact}, #{mng_email}, #{mng_grade}, sysdate
+		)
+	</insert>
+	
+	<select id="chkAdmin" parameterType="mvo" resultType="int">
+		select count(*) from manager where m_idx = #{m_idx}
+	</select>
 </mapper>
