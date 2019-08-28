@@ -168,7 +168,7 @@ public class UserController {
 	public ModelAndView getLogout(HttpServletRequest request) {
 		ModelAndView mv = new ModelAndView();
 		if((MVO)(request.getSession().getAttribute("mvo")) != null) {
-			if (((MVO)request.getSession().getAttribute("mvo")).getM_idx().equals("admin")) {
+			if (dao.chkAdmin((MVO)request.getSession().getAttribute("mvo")) > 0) {
 				mv.setViewName("redirect:m");
 			} else {
 				String str = request.getHeader("REFERER");
