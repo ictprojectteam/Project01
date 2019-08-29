@@ -118,7 +118,7 @@
 		margin-right: 1em;
 	}
 	
-	#links>span {
+	#links>a {
 	padding-top:1.0em;
 	color: #fff;
 	text-decoration: none;
@@ -133,7 +133,7 @@
 		background-color: #151515;
 	}
 	
-	#links span:hover{
+	#links a:hover{
 		color: #1E90FF;
 	}
 	
@@ -430,7 +430,7 @@
 		</nav>
 		<header>
 			<div id="links">
-				<span href="logout">${mvo.name}님 안녕하세요! <br> 로그아웃</span>
+				<a href="logout">${mvo.name}님 안녕하세요! <br> 로그아웃</a>
 			</div>
 		</header>
 		
