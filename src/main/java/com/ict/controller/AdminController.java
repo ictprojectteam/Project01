@@ -387,10 +387,11 @@ public class AdminController {
 	}
 	
 	@RequestMapping("a_reg_event")
-	public ModelAndView regEvent(EventVO evo, HttpSession session) {
+	@ResponseBody
+	public ModelAndView regEvent(EventVO evo, HttpSession session, HttpServletRequest request) {
 		ModelAndView mv = new ModelAndView("a_event");
-		System.out.println(evo.getE_content() + " ===============");
 		evo.setM_idx(((MVO)session.getAttribute("mvo")).getM_idx());
+		
 		try {
 			evo.setE_start(new SimpleDateFormat("yyyy-MM-dd HH:mm").format(new SimpleDateFormat("yyyy-MM-dd'T'HH:mm").parse(evo.getE_start())));
 			evo.setE_end(new SimpleDateFormat("yyyy-MM-dd HH:mm").format(new SimpleDateFormat("yyyy-MM-dd'T'HH:mm").parse(evo.getE_end())));

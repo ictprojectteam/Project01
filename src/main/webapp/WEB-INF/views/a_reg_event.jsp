@@ -117,7 +117,7 @@ header #links{
 	margin-right: 1em;
 }
 
-#links>span {
+#links>a {
 	padding-top:1.0em;
 	color: #fff;
 	text-decoration: none;
@@ -132,7 +132,7 @@ header #links{
 	background-color: #151515;
 }
 
-#links span:hover{
+#links a:hover{
 	color: #1E90FF;
 }
 
@@ -385,7 +385,7 @@ input[type=text], input[type=date]{
 		</nav>
 		<header>
 			<div id="links">
-				<span href="logout">${mvo.name}님 안녕하세요! <br> 로그아웃</span>
+				<a href="logout">${mvo.name}님 안녕하세요! <br> 로그아웃</a>
 			</div>
 		</header>
 		<div id="main">
@@ -429,7 +429,8 @@ input[type=text], input[type=date]{
 						<div class="detail">
 							<div class="detail-title">이벤트 상세보기</div>
 							<div class="detail-box">
-								<textarea id="smart" name="e_content" rows="10" cols="100" style="height:350px;"></textarea>
+
+								<textarea id="smart" name="e_content" rows="30" cols="100" style="height: 350px;"></textarea>
 							</div>
 							<input type="file" hidden="" id="e_image" accept="image/*">
 						</div>
