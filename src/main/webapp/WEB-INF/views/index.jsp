@@ -22,11 +22,15 @@
 	}
 	#talk-recent-label, #recipe-recent-label, #event-recent-label{
 		font-size: 25pt;
-		color: #fa8;
+		color: #F78181;
 		margin: 10px;
+		font-family: "궁서";
+	}
+	#event-recent-label{
+		margin-top: 50px;
 	}
 	#recipe-recent-label{
-		margin-top: 80px;
+		margin-top: 50px;
 	}
 	#talk-recent-label a:visited, #talk-recent-label a:link, #recipe-recent-label a:visited,
 	#recipe-recent-label a:link, #event-recent-label a:visited, #event-recent-label a:link{
@@ -34,10 +38,12 @@
 		color: #fa8;
 	}
 	#event-recent{
-		border: 1px solid #777;
+		border: 1px solid #F79F81;
 		display: grid;
 		grid-template-columns: 599px 599px;
-		background: #fcb;
+		background: #F6D8CE;
+		border-radius: 7px;
+		
 	}
 	.event-title{
 		text-align: center;
@@ -86,6 +92,8 @@
 		width: 250px;
 		margin: 10px 10px;
 		cursor: pointer;
+		border: 1px solid #F79F81;
+		border-radius:7px;
 	}
 	.recipe-preview img{
 		width: 250px;
@@ -132,8 +140,10 @@
 		text-overflow: ellipsis;
 	}
 	#talk-recent{
-		border: 1px solid #333;
+		border: 1px solid #F79F81;
 		padding: 10px 15px;
+		background-color: #F6D8CE;
+		border-radius: 7px;
 	}
 	.talk-preview{
 		cursor: pointer;
@@ -144,7 +154,7 @@
 		line-height: 10pt;
 	}
 	.talk-preview:hover{
-		background: #fcb;
+		background: #fa8;
 	}
 	.talk-preview div{
 		padding-top: 5px;
@@ -207,7 +217,7 @@
 	</header>
 	<div id="body-content">
 		<div id="mainbody">
-		<p id="talk-recent-label"><a href="talk">토크!!</a><p>
+		<p id="talk-recent-label"><a href="talk">토크</a><p>
 		<div id="talk-recent">
 			<c:forEach items="${t_list}" var="k">
 				<div class="talk-preview" id="talk${k.t_idx}">
@@ -218,7 +228,7 @@
 			</c:forEach>
 		</div>
 		
-		<p id="event-recent-label"><a href="event">이벤트!!</a></p>
+		<p id="event-recent-label"><a href="event">이벤트</a></p>
 		<div id="event-recent">
 			<div class="event-title">진행중인 이벤트</div>
 			<div class="event-title">이벤트 당첨자 확인</div>
@@ -248,7 +258,7 @@
 			</div>
 		</div>
 		
-		<p id="recipe-recent-label"><a href="recipe">레시피!!</a></p>
+		<p id="recipe-recent-label"><a href="recipe">레시피</a></p>
 		<div id="recipe-recent">
 			<div class="recipe-left-arrow">
 				<i class="fas fa-angle-left recipe-left"></i>
