@@ -85,23 +85,24 @@
 		position: relative;
 	}
 	#recipe-recent-preview{
-		width: 300%;
+		width: 500%;
 	}
 	.recipe-preview{
 		height: 280px;
 		display: inline-block;
-		width: 250px;
+		width: 251px;
 		margin: 10px 10px;
 		cursor: pointer;
+		box-sizing: content-box;
 		border: 1px solid #F79F81;
 		border-radius:7px;
 	}
 	.recipe-preview img{
-		width: 250px;
+		width: 251px;
 		height: 180px;
 	}
 	.recipe-preview-content{
-		width: 250px;
+		width: 251px;
 		height: 90px;
 		line-height: 15px;
 		color: #333;
@@ -115,15 +116,13 @@
 		text-align: center;
 		text-decoration: none;
 		color: #fa8;
+		cursor: pointer;
 	}
 	#recipe-recent a{
 		color: #fa8;
 	}
 	.arrow-disabled{
 		color: #555;!important;
-	}
-	.recipe-left{
-		visibility: hidden;
 	}
 	.recipe-preview:hover .recipe-preview-content{
 		background: #fb9;
@@ -169,6 +168,7 @@
 		text-overflow: ellipsis;
 		padding-right: 20px;
 		line-height: 10pt;
+		background: 
 	}
 </style>
 <script src="https://kit.fontawesome.com/057ba10041.js"></script>
@@ -177,31 +177,57 @@
 	$(function(){
 		var recipelist = $("#recipe-recent-preview");
 		var recipe_show_num = 4;
+		recipelist.append($(".recipe-preview:lt(" + recipe_show_num + ")").clone());
 		var recipe_num = 0;
 		var r_total = $(".recipe-preview").length;
-		var recipe_width = 273;
+		var recipe_width = 275;
+		var m = false;
+		
+		var p = function() {
+			slide = setInterval(function() {
+				$(".recipe-right-arrow").click();
+			}, 3000);
+		}
+		var s = function(){
+			clearInterval(slide);
+		};
 		if(recipe_num == 0){
 			$(".recipe-right").css("cursor", "pointer");
 		}
 		$(".recipe-right-arrow").on("click", function(){
-			if(recipe_num < (r_total - recipe_show_num)) {
-				recipe_num++;
-				recipelist.stop().animate({marginLeft:-recipe_width*recipe_num+"px"},400);
-				$(".recipe-left").css("visibility", "visible");
-				$(".recipe-left").fadeIn("fast");
-			}
-			if(recipe_num == (r_total - recipe_show_num)){
-				 $(".recipe-right").fadeOut("fast");
+			if(!m){
+				m = true;
+				s();
+				if(recipe_num == (r_total - recipe_show_num)){
+					recipe_num = 0;
+					recipelist.css("margin-left", 0);
+				}
+				if(recipe_num < (r_total - recipe_show_num)) {
+					recipe_num++;
+					recipelist.stop().animate({marginLeft:-recipe_width*recipe_num+"px"},400);
+				}
+				p();
+				setTimeout(function(){
+					m = false;
+				}, 500);
 			}
 		});
 		$(".recipe-left-arrow").on("click", function(){
-			if(recipe_num > 0) {
-				recipe_num--;
-				recipelist.stop().animate({marginLeft:-recipe_width*recipe_num+"px"},400);
-				$(".recipe-right").fadeIn("fast");
-			}
-			if(recipe_num == 0) {
-				$(".recipe-left").fadeOut("fast");
+			if(!m){
+				m = true;
+				s();
+				if(recipe_num == 0) {
+					recipe_num = r_total - recipe_show_num;
+					recipelist.css("margin-left", -recipe_width*recipe_num+"px");
+				}
+				if(recipe_num > 0) {
+					recipe_num--;
+					recipelist.stop().animate({marginLeft:-recipe_width*recipe_num+"px"},400);
+				}
+				p();
+				setTimeout(function(){
+					m = false;
+				}, 500);
 			}
 		});
 		$(".talk-preview").on("click", function(p){
@@ -212,6 +238,7 @@
 			var rno = $(this).attr("id").replace("recipe", "");
 			location.href = "view_recipe?rno=" + rno;
 		});
+		p();
 	});
 </script>
 </head>

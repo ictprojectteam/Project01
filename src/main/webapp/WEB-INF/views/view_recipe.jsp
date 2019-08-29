@@ -416,7 +416,7 @@
 			}
 		});
 		$("#comp-left").on("click", function(){
-			if(moving == false) {
+			if(!moving) {
 				moving = true;
 				if(imagenum == 0){
 					imagenum = i_count;
@@ -432,7 +432,7 @@
 			}
 		});
 		$("#comp-right").on("click", function(){
-			if(moving == false) {
+			if(!moving) {
 				moving = true;
 				if (imagenum == i_count) {
 					imagenum = 0;
