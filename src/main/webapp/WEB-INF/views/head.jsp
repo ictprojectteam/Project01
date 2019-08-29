@@ -126,7 +126,7 @@
 		display: grid;
 		grid-template-columns: auto auto auto auto auto auto auto;
 		font-family: "궁서";
-		font-size: 1.5em;
+		font-size: 1.3em;
 	}
 	.top-nav-menu{
 		padding-top: 10px;
