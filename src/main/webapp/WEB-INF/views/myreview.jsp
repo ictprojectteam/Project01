@@ -75,6 +75,9 @@
 		<span class="review_bt selected">받은 요리 후기</span>
 		<span class="review_bt">내가 쓴 요리 후기</span>
 	</div>
+	<div style="width: 500px; margin: auto;">
+		<img style="width: 500px; heught: 500px;" src="resources/images/review.png">
+	</div>
 </body>
 <footer>
 	<jsp:include page="foot.jsp" />
