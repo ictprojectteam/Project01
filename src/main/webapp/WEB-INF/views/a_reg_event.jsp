@@ -429,7 +429,8 @@ input[type=text], input[type=date]{
 						<div class="detail">
 							<div class="detail-title">이벤트 상세보기</div>
 							<div class="detail-box">
-								<textarea id="smart" name="e_content" rows="10" cols="100" style="height:350px;"></textarea>
+
+								<textarea id="smart" name="e_content" rows="30" cols="100" style="height: 350px;"></textarea>
 							</div>
 							<input type="file" hidden="" id="e_image" accept="image/*">
 						</div>

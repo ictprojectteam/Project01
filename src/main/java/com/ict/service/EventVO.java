@@ -6,7 +6,7 @@ public class EventVO {
 	private String e_idx, m_idx, e_title, e_start, e_end, e_type, e_public, e_banner, e_content, e_image, e_regdate;
 	private String open, name;
 	private String begin, end, cPage;
-	private MultipartFile Filedate;
+	private MultipartFile Filedata;
 	private String callback;
 	private String callback_func;
 	
@@ -106,11 +106,11 @@ public class EventVO {
 	public void setcPage(String cPage) {
 		this.cPage = cPage;
 	}
-	public MultipartFile getFiledate() {
-		return Filedate;
+	public MultipartFile getFiledata() {
+		return Filedata;
 	}
-	public void setFiledate(MultipartFile Filedate) {
-		this.Filedate = Filedate;
+	public void setFiledata(MultipartFile Filedata) {
+		this.Filedata = Filedata;
 	}
 	public String getCallback() {
 		return callback;

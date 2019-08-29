@@ -28,6 +28,8 @@
 	}
 	#event-recent-label{
 		margin-top: 50px;
+		color: #fa8;
+		margin: 30px;
 	}
 	#recipe-recent-label{
 		margin-top: 50px;
@@ -43,7 +45,6 @@
 		grid-template-columns: 599px 599px;
 		background: #F6D8CE;
 		border-radius: 7px;
-		
 	}
 	.event-title{
 		text-align: center;
@@ -143,6 +144,9 @@
 		border: 1px solid #F79F81;
 		padding: 10px 15px;
 		background-color: #F6D8CE;
+	background: #F6D8CE;
+		border: 1px solid  #777;
+		padding: 10px 15px;
 		border-radius: 7px;
 	}
 	.talk-preview{
