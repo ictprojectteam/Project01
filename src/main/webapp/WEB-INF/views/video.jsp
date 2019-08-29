@@ -86,12 +86,11 @@
 		<div id="video-group">
 			<c:forEach var="k" begin="1" end="9">
 				<div class="video-group-each">
-					<img src="#">
-					<div class="video-uploader">영상 게시자${k}</div>
+					<img src="resources/images/no_image.png">
+					<div class="video-uploader">채널${k}</div>
 				</div>
 			</c:forEach>
 		</div>
-		<div id="video-request">동영상 업로드 요청</div>
 		
 	</div>
 	<footer>
