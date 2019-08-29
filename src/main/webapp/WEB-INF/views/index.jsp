@@ -76,9 +76,9 @@
 	}
 	#recipe-recent{
 		display: grid;
-		width: 1200px;
+		width: 1201px;
 		height: 300px;
-		grid-template-columns: 50px 1100px 50px;
+		grid-template-columns: 50px 1101px 50px;
 	}
 	#recipe-recent-preview-wrap{
 		overflow: hidden;
@@ -98,11 +98,12 @@
 		border-radius:7px;
 	}
 	.recipe-preview img{
-		width: 251px;
+		width: 250px;
 		height: 180px;
+		border-radius:7px 7px 0px 0px;
 	}
 	.recipe-preview-content{
-		width: 251px;
+		width: 250px;
 		height: 90px;
 		line-height: 15px;
 		color: #333;
@@ -180,7 +181,7 @@
 		recipelist.append($(".recipe-preview:lt(" + recipe_show_num + ")").clone());
 		var recipe_num = 0;
 		var r_total = $(".recipe-preview").length;
-		var recipe_width = 275;
+		var recipe_width = 278;
 		var m = false;
 		
 		var p = function() {
