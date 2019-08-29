@@ -295,7 +295,6 @@ input:checked + .slider:before {
 <script type="text/javascript" src="<%= request.getContextPath() %>/smarteditor/js/HuskyEZCreator.js" charset="utf-8"></script>
 <script type="text/javascript">
 	$(function(){
-		var evo = {"e_idx":"${evo.e_idx}"};
 		var obj = [];
 	    //스마트에디터 프레임생성
 	    nhn.husky.EZCreator.createInIFrame({
@@ -312,13 +311,6 @@ input:checked + .slider:before {
 	        }
 	    });
 	    
-	    $(".save").click(function(){
-			obj.getById["smart"].exec("UPDATE_CONTENTS_FIELD", []);
-			$(".view").html($("#smart").val());
-			c.parent().find(".editor").css({"width": "0px", "height": "0px"});
-			c.parent().find(".view").css("display", "block");
-	    });
-	    
 		$("#list").on("click", function(){
 			history.go(-1);
 		});
@@ -327,14 +319,6 @@ input:checked + .slider:before {
 			location.href="#";
 		});
 
-		$("#public").on("change", function(){
-			var v = $(this).parent().parent().find(".value");
-			if($(this).prop("checked")){
-				v.text("공개");
-			} else {
-				v.text("비공개");
-			}
-		});
 		var c, l, p, d, i, s, e;
 		$(".edit").on("click", function() {
 			c = $(this).parent();
@@ -346,7 +330,17 @@ input:checked + .slider:before {
 					c.find(".edit").click();
 					return;
 				}
-				c.find(".value").text(p);
+				var evo = {"e_idx":"${evo.e_idx}", "e_title":p};
+				$.ajax({
+					url : "a_edit_event",
+					type : "post",
+					data : evo,
+					dataType : "text",
+					success : function(data){
+						c.find(".value").text(p);
+					}
+				});
+				return;
 			}
 			if(c.hasClass("dat")) {
 				d = c.text();
@@ -357,27 +351,10 @@ input:checked + .slider:before {
 			}
 			if(c.hasClass("ban")) {
 				$("#file").click();
-				/* c.find(".banner").attr("src", ""); */
 			}
 			if(c.hasClass("con")) {
 				c.parent().find(".view").css("display", "none");
 				c.parent().find(".editor").css({"width": "900px", "height": "500px"});
-			}
-		});
-
-		$("#file").on("change", function(){
-			var reader = new FileReader();
-			reader.readAsDataURL(this.files[0]);
-			reader.onload = function(e){
-				var readFile = e.target.result;
-				var chkcor = readFile.substring(readFile.indexOf(',') + 1, readFile.indexOf(',') + 5);
-				readFile = readFile.substring(0, readFile.indexOf('/'));
-				if(readFile === "data:image" && chkcor != "77u/"){
-					c.find(".banner").attr("src", e.target.result);
-					$("#file").val("");
-				} else {
-					alert("1");
-				}
 			}
 		});
 
@@ -394,14 +371,106 @@ input:checked + .slider:before {
 				$("#date-input").focus();
 				return;
 			}
-			$("#date-modal").css({"display":"none"});
-			c.find(".value").text($("#date-input").val().replace("T", " "));
+			var evo = {"e_idx":"${evo.e_idx}"};
+			if(l == '시작일') {
+				evo.e_start = s;
+				$.ajax({
+					url : "a_edit_event",
+					type : "post",
+					data : evo,
+					dataType : "text",
+					success : function(data){
+						$("#date-modal").css({"display":"none"});
+						c.find(".value").text($("#date-input").val().replace("T", " "));
+					}
+				});
+			} else {
+				evo.e_end = e;
+				$.ajax({
+					url : "a_edit_event",
+					type : "post",
+					data : evo,
+					dataType : "text",
+					success : function(data){
+						$("#date-modal").css({"display":"none"});
+						c.find(".value").text($("#date-input").val().replace("T", " "));
+					}
+				});
+			}
 		});
 
+		$("#public").on("change", function(){
+			var v = $(this).parent().parent().find(".value");
+			var evo = {"e_idx":"${evo.e_idx}"};
+			if($(this).prop("checked")){
+				evo.e_public = 1;
+				$.ajax({
+					url : "a_edit_event",
+					type : "post",
+					data : evo,
+					dataType : "text",
+					success : function(data){
+						v.text("공개");
+					}
+				});
+			} else {
+				evo.e_public = 0;
+				$.ajax({
+					url : "a_edit_event",
+					type : "post",
+					data : evo,
+					dataType : "text",
+					success : function(data){
+						v.text("비공개");
+					}
+				});
+			}
+		});
+
+		$("#file").on("change", function(){
+			var reader = new FileReader();
+			reader.readAsDataURL(this.files[0]);
+			reader.onload = function(e){
+				var readFile = e.target.result;
+				var chkcor = readFile.substring(readFile.indexOf(',') + 1, readFile.indexOf(',') + 5);
+				readFile = readFile.substring(0, readFile.indexOf('/'));
+				if(readFile === "data:image" && chkcor != "77u/"){
+					var evo = {"e_idx":"${evo.e_idx}", "e_banner":e.target.result};
+					$.ajax({
+						url : "a_edit_event",
+						type : "post",
+						data : evo,
+						dataType : "text",
+						success : function(data){
+							c.find(".banner").attr("src", e.target.result);
+							$("#file").val("");
+						}
+					});
+				} else {
+				}
+			}
+		});
+		
 		$(".modal-button:last-child").on("click",function(){
 			$("#date-modal").css({"display":"none"});
 		});
 
+		$(".save").click(function(){
+			obj.getById["smart"].exec("UPDATE_CONTENTS_FIELD", []);
+			var evo = {"e_idx":"${evo.e_idx}", "e_content":$("#smart").val()};
+			$.ajax({
+				url : "a_edit_event",
+				type : "post",
+				data : evo,
+				dataType : "text",
+				success : function(data){
+					$(".view").html($("#smart").val());
+					c.parent().find(".editor").css({"width": "0px", "height": "0px"});
+					c.parent().find(".view").css("display", "block");
+				}
+			});
+	    });
+		
 		$(this).on("click", function(){
 			if(event.target == document.getElementById("date-modal")) $("#date-modal").css({"display":"none"});
 		});

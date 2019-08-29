@@ -409,6 +409,18 @@ public class AdminController {
 		return mv;
 	}
 	
+	@RequestMapping("a_edit_event")
+	@ResponseBody
+	public String editEvent(EventVO evo) {
+		try {
+			if(evo.getE_start() != null) evo.setE_start(new SimpleDateFormat("yyyy-MM-dd HH:mm").format(new SimpleDateFormat("yyyy-MM-dd'T'HH:mm").parse(evo.getE_start())));
+			if (evo.getE_end() != null) evo.setE_end(new SimpleDateFormat("yyyy-MM-dd HH:mm").format(new SimpleDateFormat("yyyy-MM-dd'T'HH:mm").parse(evo.getE_end())));
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		return String.valueOf(dao.editEvent(evo));
+	}
+	
 	@RequestMapping(value = "admin_mnglist")
 	@ResponseBody
 	public List<ManagerVO> managerList(ManagerVO mvo) {

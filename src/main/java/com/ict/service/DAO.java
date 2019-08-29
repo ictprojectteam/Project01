@@ -319,6 +319,10 @@ public class DAO {
 		return sqlSessionTemplate.selectList("prizeList");
 	}
 	
+	public int editEvent(EventVO evo) {
+		return sqlSessionTemplate.update("editEvent", evo);
+	}
+	
 	public int countMyRecipe(RecipeVO rvo) {
 		return sqlSessionTemplate.selectOne("countMyRecipe", rvo);
 	}
