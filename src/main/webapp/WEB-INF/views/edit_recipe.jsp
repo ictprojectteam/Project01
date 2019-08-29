@@ -422,7 +422,7 @@
 	#save-button span{
 		cursor: pointer;
 	}
-	#save-button span:first-child{
+	#save{
 		display: inline-block;
 		border: 1px solid #5a5;
 		padding: 10px 40px;
@@ -432,13 +432,13 @@
 		border-radius: 5px;
 		font-weight: bold;
 	}
-	#save-button span:first-child:hover{
+	#save:hover{
 		background: #8c5;
 	}
-	#save-button span:first-child:active{
+	#save:active{
 		box-shadow: 0px 0px 5px 1px #79f;
 	}
-	#save-button span:nth-child(2){
+	#public{
 		display: inline-block;
 		border: 1px solid #d85;
 		padding: 10px 40px;
@@ -448,13 +448,13 @@
 		border-radius: 5px;
 		font-weight: bold;
 	}
-	#save-button span:nth-child(2):hover{
+	#public:hover{
 		background: #e98;
 	}
-	#save-button span:nth-child(2):active{
+	#public:active{
 		box-shadow: 0px 0px 5px 1px #79f;
 	}
-	#save-button span:last-child{
+	#cancel{
 		display: inline-block;
 		border: 1px solid #ccc;
 		padding: 10px 40px;
@@ -463,7 +463,7 @@
 		border-radius: 5px;
 		font-weight: bold;
 	}
-	#save-button span:last-child:active{
+	#cancel:active{
 		box-shadow: 0px 0px 5px 1px #79f;
 	}
 </style>
@@ -1311,7 +1311,7 @@
 				<p id="taginf">주재료, 목적, 효능, 대상 등을 태그로 남겨주세요. <span>예) 돼지고기, 다이어트, 비만, 칼슘, 감기예방, 이유식, 초간단</span></p>
 				<div id="save-button">
 					<span id="save">저장</span>
-					<span id="public"> 저장 후 공개하기 </span>
+					<c:if test="${rvo.savepublic eq '0'}"><span id="public"> 저장 후 공개하기 </span></c:if>
 					<span id="cancel">취소</span>
 				</div>
 				<input type="hidden" id="savepublic" name="savepublic" value="0">

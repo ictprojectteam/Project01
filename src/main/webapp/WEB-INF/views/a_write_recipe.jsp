@@ -38,7 +38,7 @@ nav{
 	height: 100%;
 	background-color: #333333;
 }
-#logo{
+#logo {
 	height: 50px;
 	background-color: #333333;
 	color: #1E90FE;
@@ -46,6 +46,12 @@ nav{
 	line-height: 50px;
 	font-size: 1.3em;
 	font-family: arial;
+	margin-left:0.5em;
+}
+
+#logo:hover{
+	cursor: pointer;
+	background-color: #151515;
 }
 #logo span{
 	font-size: 1em;
@@ -101,16 +107,23 @@ header #links{
 	font-size: 1em;
 	margin-right: 1em;
 }
-#links>a{
-	color: #f7f7f7;
+#links>span {
+	padding-top:1.0em;
+	color: #fff;
 	text-decoration: none;
-	padding: 0.5em;
 	width: 100%;
 	height: 100%;
 	display: block;
+	line-height: 1.1em;
 }
-#links:hover{
-	background-color: #1E90FF;
+
+#links:hover {
+	cursor:pointer;
+	background-color: #151515;
+}
+
+#links span:hover{
+	color: #1E90FF;
 }
 #main{
 	margin-left: 20em;
@@ -1049,7 +1062,7 @@ function del_compimage(num){
 <body>
 	<div id="container">
 		<nav>
-			<div id="logo">
+			<div id="logo" onclick="javascript:location.href='home'">
 				ICT레시피 <span>ict recipe</span>
 			</div>
 			<ul id="menu">
@@ -1065,7 +1078,7 @@ function del_compimage(num){
 		</nav>
 		<header>
 			<div id="links">
-				<a href="logout">로그아웃</a>
+				<span href="logout">${mvo.name}님 안녕하세요! <br> 로그아웃</span>
 			</div>
 		</header>
 		<main id="main">

@@ -50,6 +50,13 @@ nav {
 	line-height: 50px;
 	font-size: 1.3em;
 	font-family: arial;
+	margin-left:0.5em;
+	
+}
+
+#logo:hover{
+	cursor: pointer;
+	background-color: #151515;
 }
 
 #logo span {
@@ -115,7 +122,7 @@ header #links {
 
 #links>span {
 	padding-top:1.0em;
-	color: #1E90FE;
+	color: #fff;
 	text-decoration: none;
 	width: 100%;
 	height: 100%;
@@ -125,8 +132,11 @@ header #links {
 
 #links:hover {
 	cursor:pointer;
-	background-color: #ccc;
-	color: #fff;
+	background-color: #151515;
+}
+
+#links span:hover{
+	color: #1E90FF;
 }
 
 #actions-container {

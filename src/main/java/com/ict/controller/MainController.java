@@ -263,7 +263,6 @@ public class MainController {
 		rvo.setPack(packs.toString());
 		rvo.setMaterial(materials.toString());
 		rvo.setOrderContent(orderContents.toString());
-		rvo.setRegdate(new SimpleDateFormat("yyyy-MM-dd").format(new Date(Calendar.getInstance().getTimeInMillis())));
 		if(finImages.size() > 0) {
 			rvo.setFinImage(finImages.toString());
 		} else {
@@ -372,8 +371,6 @@ public class MainController {
 		List<TVO> list = dao.getTalk_p_List(pvo.getBegin(), pvo.getEnd());
 		
 		for (int i = 0; i < list.size(); i++) {
-			String prf_img = dao.getPrf_img(list.get(i).getM_idx());
-			list.get(i).setPrf_img(prf_img);
 			list.get(i).setCo_count(String.valueOf((dao.getT_co_count(list.get(i).getT_idx()))));
 			if(list.get(i).getFile_name() != null) {
 				String str = list.get(i).getFile_name();

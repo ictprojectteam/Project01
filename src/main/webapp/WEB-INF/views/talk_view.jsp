@@ -19,16 +19,17 @@
 }
 #body table .prf_img {
 	float: left;
-	padding: 30px 20px 30px 20px;
-	max-width: 100px;
-	max-height: 100px;
 	margin: 3px 10px 100px 3px;
-	border:  1px solid;
+}
+.user-img{
 	border-radius: 70px;
-	-moz-border-radius: 70px;
-	-khtml-border-radius: 70px;
-	-webkit-border-radius: 70px;
-	text-align: center;
+	border: 1px solid #333;
+	width: 60px;
+	height: 60px;
+}
+.t_content{
+	white-space: pre-wrap;
+	word-wrap: break-word;
 }
 #body table .haco {
 	float: right;
@@ -106,20 +107,15 @@
 #co_content table .prf_img {
 	float: left;
 	padding: 20px 10px 20px 10px;
-	max-width: 100px;
-	max-height: 100px;
 	margin: 15px 10px 100px 40px;
-	border:  1px solid;
-	border-radius: 70px;
-	-moz-border-radius: 70px;
-	-khtml-border-radius: 70px;
-	-webkit-border-radius: 70px;
-	text-align: center;
 }
 #co_content table .co_content{
 	resize: none;
 	border: none;
 	margin-top: 10px;
+	white-space: pre-wrap;
+	word-wrap: break-word;
+	display: -webkit-box;
 }
 #shares{
 	list-style: none;
@@ -415,13 +411,18 @@
 <div id="body">
 	<table class="content">
 		<tr>
-			<td class="prf_img">이미지</td>
+			<td class="prf_img">
+				<c:choose>
+					<c:when test="${empty tvo.prf_img}"><img class="user-img" src="resources/images/no_image.png"></c:when>
+					<c:otherwise><img class="user-img" src="${tvo.prf_img}"></c:otherwise>
+				</c:choose>
+			</td>
 			<td>
 				<header style="margin-top: -20px;">
 					<h5>${tvo.name}</h5>
 					<h6 style="margin-top: -20px;">${tvo.regdate}</h6>
 				</header>
-				<p style="width: 450px;">${tvo.content}</p>
+				<pre class="t_content" style="width: 450px;">${tvo.content}</pre>
 				<c:if test="${tvo.file_name != null}">
 					<footer>
 						<c:forEach var="i" items="${tvo.f_arr}">
@@ -472,7 +473,12 @@
 		<div id="co_content">
 			<table>
 				<tr>
-					<td class="prf_img">이미지</td>
+					<td class="prf_img">
+						<c:choose>
+							<c:when test="${empty k.prf_img}"><img class="user-img" src="resources/images/no_image.png"></c:when>
+							<c:otherwise><img class="user-img" src="${k.prf_img}"></c:otherwise>
+						</c:choose>
+					</td>
 					<td>
 						<header style="margin-top:-80px;">
 							<p style="margin-top: -20px; font-size: 14pt;">${k.name}</p>
@@ -484,7 +490,7 @@
 							<a href="#" style="text-decoration: none;"><p style="margin: -20px 0px 0px 190px; font-size: 12pt; color: #747474;"> | 수정 </p></a>
 							<a href="talk_c_del?t_c_idx=${k.t_c_idx}" style="text-decoration: none;"><p style="margin: -19px 0px 0px 230px; font-size: 12pt; color: #747474;"> | 삭제 </p></a>
 							</c:if>
-							<textarea rows="3" cols="50" class="co_content" readonly>${k.content}</textarea>
+							<pre class="co_content">${k.content}</pre>
 						</header>
 					</td>
 				</tr>
