@@ -183,6 +183,10 @@
 			}
 		});
 	});
+	function logout(){
+	alert("로그아웃되었습니다.");
+	location.href="logout";
+	}
 </script>
 </head>
 <body>
@@ -223,7 +227,7 @@
 					<a class="profile-dropdown-menu" href="myRecipe">레시피 노트</a>
 					<a class="profile-dropdown-menu" href="myReport">문의내역</a>
 					<a class="profile-dropdown-menu" href="check_login">회원정보수정</a>
-					<a class="profile-dropdown-menu" href="logout">로그아웃</a>
+					<a class="profile-dropdown-menu" onclick="logout()">로그아웃</a>
 				</div>
 			</div>
 		</div>

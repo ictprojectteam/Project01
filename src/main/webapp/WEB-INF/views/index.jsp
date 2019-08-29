@@ -90,20 +90,21 @@
 	.recipe-preview{
 		height: 280px;
 		display: inline-block;
-		width: 251px;
+		width: 247px;
 		margin: 10px 10px;
 		cursor: pointer;
 		box-sizing: content-box;
 		border: 1px solid #F79F81;
 		border-radius:7px;
+		padding: 2px;
 	}
 	.recipe-preview img{
-		width: 250px;
+		width: 247px;
 		height: 180px;
 		border-radius:7px 7px 0px 0px;
 	}
 	.recipe-preview-content{
-		width: 250px;
+		width: 247px;
 		height: 90px;
 		line-height: 15px;
 		color: #333;
