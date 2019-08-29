@@ -14,9 +14,10 @@
 		position: static;
 	}
 	#logo-image{
-		width: 186px;
-		height: 68px;
-		margin: 16px 20px;
+		width: 400px;
+		height: 90px;
+		margin-left: -160px;
+		margin-top: 10px;
 	}
 	#top-logo-bar{
 		width: 1000px;
@@ -195,7 +196,7 @@
 		<div id="top-logo-bar">
 			<div id="top-logo">
 				<!-- 로고 이미지 -->
-				<a href="/"><img src="resources/images/logo4.png" id="logo-image"></a>
+				<a href="/"><img src="resources/images/ict_logo.png" id="logo-image"></a>
 			</div>
 			<form id="recipe-search" action="recipe">
 				<div><input type="text" name="k" id="search-bar"></div>
