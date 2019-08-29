@@ -51,6 +51,7 @@ nav {
 	font-size: 1.3em;
 	font-family: arial;
 	margin-left:0.5em;
+	
 }
 
 #logo:hover{
