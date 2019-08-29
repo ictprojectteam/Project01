@@ -80,7 +80,14 @@
 		color: #aaa;
 	}
 	.com-content{
-		height: 50px;
+		line-height: 20px;
+		min-height: 40px;
+		overflow:hidden;
+		text-overflow: ellipsis;
+		display: -webkit-box;
+		-webkit-line-clamp: 2;
+		-webkit-box-orient: vertical;
+		word-wrap: break-word;
 	}
 	.com-date{
 		color: #aaa;
