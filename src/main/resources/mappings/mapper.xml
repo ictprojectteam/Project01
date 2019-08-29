@@ -562,6 +562,19 @@
 		) where r_num between 1 and 3
 	</select>
 	
+	<update id="editEvent" parameterType="evo">
+		update event
+			<set>
+				<if test="e_title != null">e_title = #{e_title}</if>
+				<if test="e_start != null">e_start = to_date(#{e_start}, 'YYYY-MM-DD HH24:MI')</if>
+				<if test="e_end != null">e_end = to_date(#{e_end}, 'YYYY-MM-DD HH24:MI')</if>
+				<if test="e_public != null">e_public = #{e_public}</if>
+				<if test="e_banner != null">e_banner = #{e_banner}</if>
+				<if test="e_content != null">e_content = #{e_content}</if>
+			</set>
+		where e_idx = #{e_idx}
+	</update>
+	
 	<select id="countMyRecipe" parameterType="rvo" resultType="int">
 		select count(*) from recipe where m_idx = #{m_idx} and savepublic = #{savepublic}
 	</select>
