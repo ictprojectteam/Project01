@@ -471,6 +471,10 @@ input:checked + .slider:before {
 				}
 			});
 	    });
+
+		$(".cancel").click(function(){
+			location.reload();
+		});
 		
 		$(this).on("click", function(){
 			if(event.target == document.getElementById("date-modal")) $("#date-modal").css({"display":"none"});
