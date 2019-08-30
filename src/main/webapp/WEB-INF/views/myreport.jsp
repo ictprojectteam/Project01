@@ -63,6 +63,7 @@
 		border-radius: 5px;
 		cursor: pointer;
 		background: #fa8;
+		display: none;
 	}
 	.write:after{
 		clear: both;
