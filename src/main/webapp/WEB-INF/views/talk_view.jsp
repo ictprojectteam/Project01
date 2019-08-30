@@ -107,7 +107,7 @@
 #co_content table .prf_img {
 	float: left;
 	padding: 20px 10px 20px 10px;
-	margin: 15px 10px 100px 40px;
+	margin: 0px 0px 100px 10px;
 }
 #co_content table .co_content{
 	resize: none;
