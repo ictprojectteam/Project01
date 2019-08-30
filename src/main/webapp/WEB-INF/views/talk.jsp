@@ -47,7 +47,7 @@
 }
 #user_img{
 	float: left;
-	border: 1px solid;
+	border: 1px solid #BDBDBD;
 	border-radius: 70px;
 	width: 60px;
 	height: 60px;
