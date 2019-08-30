@@ -63,6 +63,7 @@
 		border-radius: 5px;
 		cursor: pointer;
 		background: #fa8;
+		display: none;
 	}
 	.write:after{
 		clear: both;
@@ -74,6 +75,9 @@
 		color: #aaa;
 		text-align: center;
 		margin-top: 10px;
+	}
+	#box{
+		text-align: center;
 	}
 	.title{
 		width:900px;
