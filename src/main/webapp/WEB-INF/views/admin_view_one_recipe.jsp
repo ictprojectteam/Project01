@@ -403,7 +403,7 @@
 					</div>
 					<div id="tag">
 						<div id="tag-title">태그</div>
-						<div id="tag-content">#일태그#이태그#삼태그</div>
+						<div id="tag-content">${rvo.recipe_tag}</div>
 					</div>
 				</div>
 				<div class="label">관리자 메모</div>

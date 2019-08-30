@@ -63,7 +63,7 @@ public class UserController {
 		ModelAndView mv;
 		try {
 			dao.getJoin(mvo);
-			mv = new ModelAndView("redirect:/");
+			mv = new ModelAndView("redirect:login");
 			session.setAttribute("res", 1);
 		} catch (Exception e) {
 			mv = new ModelAndView("join");
