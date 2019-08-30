@@ -109,7 +109,7 @@ body, html{
 .editor{
 	height: 0px;
 	width: 0px;
-	overflow: hidden;
+	overflow: auto;
 	min-height: 0px;
 	text-align: center;
 }
@@ -355,7 +355,7 @@ input:checked + .slider:before {
 			}
 			if(c.hasClass("con")) {
 				c.parent().find(".view").css("display", "none");
-				c.parent().find(".editor").css({"width": "900px", "height": "500px"});
+				c.parent().find(".editor").css({"width": "900px", "min-height" : "500px" ,"height":""});
 			}
 		});
 
@@ -471,6 +471,10 @@ input:checked + .slider:before {
 				}
 			});
 	    });
+
+		$(".cancel").click(function(){
+			location.reload();
+		});
 		
 		$(this).on("click", function(){
 			if(event.target == document.getElementById("date-modal")) $("#date-modal").css({"display":"none"});
