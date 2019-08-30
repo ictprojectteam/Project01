@@ -18,6 +18,9 @@
 }
 
 #logo {
+	position: relative;
+	z-index: 3;
+	width: 300px;
 	height: 50px;
 	background-color: #333333;
 	color: #1E90FE;
@@ -25,7 +28,6 @@
 	line-height: 50px;
 	font-size: 1.3em;
 	font-family: arial;
-	margin-left:0.5em;
 }
 
 #logo:hover{

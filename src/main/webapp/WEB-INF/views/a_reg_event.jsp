@@ -154,6 +154,12 @@ textarea[name=e_content]{
 
 #regbutton{
 	background: #af8;
+	width: 150px;
+	height: 28px;
+	border: 1px solid #aaa;
+	border-radius: 5px;
+	cursor: pointer;
+	font-size: 10pt;
 }
 
 #cancel{
