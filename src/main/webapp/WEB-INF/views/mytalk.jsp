@@ -71,7 +71,7 @@
 	.paging{
 		width: 1000px;
 		text-align: center;
-		margin: 5px;
+		margin: 5px auto;
 	}
 	
 	.now{

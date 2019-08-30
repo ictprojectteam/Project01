@@ -15,6 +15,7 @@ body, html{
 }
 
 *{
+	padding: 0;
 	margin: 0;
 	font-family: monospace;
 	box-sizing: border-box;
