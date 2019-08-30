@@ -272,7 +272,8 @@ public class AdminController {
 			}
 		}
 		Calendar today = Calendar.getInstance();
-		if (qvo.getEndt() == null) qvo.setEndt(new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
+		today.add(Calendar.DATE, +1);
+		if (qvo.getEndt() == null) qvo.setEndt(new SimpleDateFormat("yyyy-MM-dd").format(new Date(today.getTimeInMillis())));
 		today.add(Calendar.MONTH, -1);
 		if (qvo.getStart() == null)	qvo.setStart(new SimpleDateFormat("yyyy-MM-dd").format(new Date(today.getTimeInMillis())));
 		if (qvo.getcPage() == null) qvo.setcPage("");
