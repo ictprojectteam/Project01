@@ -242,6 +242,10 @@
 		});
 		p();
 	});
+
+	function view_event(e) {
+		location.href = "event";
+	}
 </script>
 </head>
 <body>
