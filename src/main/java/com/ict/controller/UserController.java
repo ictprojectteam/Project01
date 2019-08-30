@@ -274,7 +274,7 @@ public class UserController {
 	@RequestMapping("myReport")
 	public ModelAndView getMyInquires(HttpSession session){
 		ModelAndView mv = new ModelAndView("myreport");
-		
+		mv.addObject("qlist", dao.reportList(((MVO)session.getAttribute("mvo")).getM_idx()));
 		return mv;
 	}
 	

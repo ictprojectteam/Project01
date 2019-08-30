@@ -91,7 +91,7 @@
 	margin: 10px 5px 0px;;
 	font-size: 15pt;
 	color: #444;
-	height: 50px;
+	height: 30px;
 	display: -webkit-box;
 	-webkit-line-clamp: 2;
 	-webkit-box-orient: vertical;
@@ -147,6 +147,14 @@
 
 .recipe-list-preview:hover img {
 	opacity: 0.5;
+}
+
+.recipe-info{
+	display: grid;
+	grid-template-columns: auto auto auto auto auto auto;
+	color: #aaa;
+	text-align: center;
+	margin-top: 10px;
 }
 </style>
 <script type="text/javascript" src="../resources/js/jquery-3.4.1.min.js"></script>
@@ -312,6 +320,14 @@
 								<div class="recipe-preview-image"><img src="${k.main_image}"></div>
 								<div class="recipe-preview-subject">${k.recipe_title}</div>
 								<div class="recipe-preview-writer">by ${k.writer}</div>
+								<div class="recipe-info">
+									<i class="fas fa-user-friends"></i>
+									<span>${k.recipe_quant}</span>
+									<i class="fas fa-stopwatch"></i>
+									<span>${k.recipe_time}</span>
+									<i class="fas fa-medal"></i>
+									<span>${k.recipe_difficulty}</span>
+								</div>
 							</div>
 						</c:forEach>
 					</c:otherwise>

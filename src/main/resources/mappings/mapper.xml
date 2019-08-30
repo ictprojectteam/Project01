@@ -575,6 +575,10 @@
 		where e_idx = #{e_idx}
 	</update>
 	
+	<select id="viewEvent" parameterType="String" resultType="evo">
+		select * from event where e_idx = #{e_idx}
+	</select>
+	
 	<select id="countMyRecipe" parameterType="rvo" resultType="int">
 		select count(*) from recipe where m_idx = #{m_idx} and savepublic = #{savepublic}
 	</select>
@@ -599,6 +603,14 @@
 				select t.*, m.prf_img from talk t, members m where t.m_idx = #{m_idx} and t.m_idx = m.m_idx
 			) a
 		) where r_num between #{begin} and #{end}
+	</select>
+	
+	<select id="reportList" parameterType="String" resultType="qvo">
+		select * from (
+			select rownum as r_num, a.* from (
+				select * from qna where m_idx = #{m_idx} and q_def != '댓글신고'
+			) a
+		) where r_num between 1 and 10
 	</select>
 	
 	<select id="countWriteComment" parameterType="rcvo" resultType="int">

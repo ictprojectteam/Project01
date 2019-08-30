@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -28,6 +29,8 @@
 		width: 900px;
 		margin: 20px auto;
 		border-bottom: 1px solid;
+		min-height: 50px;
+		text-align: center;
 	}
 	.inquires_bt{
 		width: 100px;
@@ -35,12 +38,16 @@
 		font-size: 12pt;
 		background: #dee;
 		border-radius: 6px;
-		margin-bottom: 10px;
+		margin: 10px auto;
 		padding: 3px 6px;
 		display: inline-block;
 		text-align: center;
 		box-sizing: border-box;
 		cursor: pointer;
+		float: left;
+	}
+	.inquires_bt:after{
+		clear: both;
 	}
 	.selected{
 		background: #489!important;
@@ -48,6 +55,52 @@
 	}
 	.inquires_bt:hover {
 		background-color: #8cd;
+	}
+	.write{
+		float: right;
+		padding: 10px;
+		border: 1px solid #aaa;
+		border-radius: 5px;
+		cursor: pointer;
+		background: #fa8;
+	}
+	.write:after{
+		clear: both;
+	}
+	.notice{
+		display: inline-block;
+		line-height: 12pt;
+		font-size: 9pt;
+		color: #aaa;
+		text-align: center;
+		margin-top: 10px;
+	}
+	.title{
+		width:900px;
+		display: grid;
+		grid-template-columns: 120px 500px 160px 120px;
+		border: solid #ccc;
+		border-width: 1px 0px 0px 1px;
+		background: #aaa;
+		margin: auto;
+	}
+	.title div{
+		border: solid #ccc;
+		border-width: 0px 1px 0px 0px;
+		padding: 5px;
+	}
+	.each-content{
+		width: 900px;
+		display: grid;
+		grid-template-columns: 120px 500px 160px 120px;
+		border: solid #ccc;
+		border-width: 1px 0px 1px 1px;
+		margin: auto;
+	}
+	.text{
+		border: solid #ccc;
+		border-width: 0px 1px 0px 0px;
+		padding: 5px;
 	}
 </style>
 <script type="text/javascript">
@@ -74,6 +127,31 @@
 	</div>
 	<div id="inquires_tab">
 		<span class="inquires_bt selected">문의 내역</span>
+		<div class="notice">문의 답변은 이메일로 발송되며 <br> 답변 완료 후 문의사항은 처리 완료로 이동됩니다.</div>
+		<span class="write">문의하기</span>
+	</div>
+	<div id="box">
+		<c:choose>
+			<c:when test="${empty qlist}">
+				표시할 내역이 없습니다.
+			</c:when>
+			<c:otherwise>
+				<div class="title">
+					<div>문의 구분</div>
+					<div>문의 내용</div>
+					<div>등록 일시</div>
+					<div>상태</div>
+				</div>
+				<c:forEach var="k" items="${qlist}">
+					<div class="each-content">
+						<div class="text">${k.q_def}</div>
+						<div class="text">${k.content}</div>
+						<div class="text">${k.regdate.substring(0, 16)}</div>
+						<c:choose><c:when test="${k.status eq '0'}"><div class="text">처리중</div></c:when><c:otherwise><div class="text">처리완료</div></c:otherwise></c:choose>
+					</div>
+				</c:forEach>
+			</c:otherwise>
+		</c:choose>
 	</div>
 </body>
 <footer>

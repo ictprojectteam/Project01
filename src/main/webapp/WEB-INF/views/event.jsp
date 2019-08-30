@@ -64,6 +64,10 @@
 	padding: 5px 10px;
 }
 
+.prize{
+	border-width: 0px 0px 1px 0px;
+}
+
 .image{
 	height: 150px;
 	width: 490px;
@@ -75,7 +79,7 @@
 }
 
 .each-prize .title{
-	height: 80px;
+	height: 50px;
 }
 
 .date{
@@ -90,30 +94,16 @@
 	margin: 30px auto;
 	text-align: center;
 }
-
-#e-modal{
-	width: 100%;
-	height: 100%;
-	display: none;
-	position: fixed;
-	z-index: 6;
-	background-color: #000a;
-}
-#modal-content{
-	width: 900px;
-	position: relative;
+.e-content{
+	width: 1000px;
 	margin: auto;
-	top: 200px;
-	border: 1px solid #aaa;
-	background: #fff;
-	border-radius: 10px;
-	padding: 20px;
 }
 </style>
 <script src="https://kit.fontawesome.com/057ba10041.js"></script>
 <script type="text/javascript" src="../resources/js/jquery-3.4.1.min.js"></script>
 <script>
 	var evo = {};
+	var open;
 	$(function(){
 		$("#tab span").each(function(){
 			$(this).on("click", function(){
@@ -136,6 +126,10 @@
 				}
 			});
 		});
+
+		$(this).on("click", function(){
+			if(event.target == document.getElementById("e-modal")) $("#e-modal").css({"display":"none"});
+		});
 		
 		evo.open = '1';
 		loadList();
@@ -156,6 +150,35 @@
 			}
 		});
 	}
+
+	function view(e, t){
+		$.ajax({
+			url : "event_content",
+			data : {"e_idx": e},
+			dataType : "json",
+			type : "post",
+			success : function(data) {
+				if(open == t){
+					$(".e-content").remove();
+				} else {
+					open = t;
+					if(data.e_content != null){
+						$(".e-content").remove();
+						$(t).append("<div class='e-content'></div>");
+						$(".e-content").append(data.e_content);
+					} else {
+						$(".e-content").remove();
+						$(t).append("<div class='e-content'>데이터가 없습니다.</div>");
+						$(".e-content").append(data.e_content);
+					}
+				}
+			},
+			error : function(){
+				alert("읽기 실패");
+			}
+		});
+	}
+
 </script>
 </head>
 <body>
@@ -168,11 +191,7 @@
 			<span class="close">종료된 이벤트</span>
 			<span class="anno">당첨자 발표</span>
 		</div>
-		<div id="e-modal">
-			<div id="modal-content">
-				
-			</div>
-		</div>
+		
 		<div id="box">
 		
 		</div>

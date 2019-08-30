@@ -621,15 +621,21 @@ public class MainController {
 		
 		for (EventVO k : elist) {
 			if (evo.getE_type().equals("2")) {
-				res.append("<div class='each-prize' onclick='view(" + k.getE_idx() + ")'><div class='content'><div class='title'>" + k.getE_title() + "</div>")
+				res.append("<div class='each-prize' onclick='view(" + k.getE_idx() + ", this)'><div class='prize content'><div class='title'>" + k.getE_title() + "</div>")
 				.append("<div class='date'>" + k.getE_start().substring(0, 16) + " ~ " + k.getE_end().substring(0, 16) + "</div></div></div>");
 			} else {
-				res.append("<div class='each-content' onclick='view(" + k.getE_idx() + ")'><img src='" + k.getE_banner() + "' class='image'>")
+				res.append("<div class='each-content' onclick='view(" + k.getE_idx() + ", this)'><img src='" + k.getE_banner() + "' class='image'>")
 				.append("<div class='content'><div class='title'>" + k.getE_title() + "</div>")
 				.append("<div class='date'>" + k.getE_start().substring(0, 16) + " ~ " + k.getE_end().substring(0, 16) + "</div></div></div>");
 			}
 		}
 		return res.toString();
+	}
+
+	@RequestMapping(value = "event_content")
+	@ResponseBody
+	public EventVO eventContent(String e_idx) {
+		return dao.viewEvent(e_idx);
 	}
 	
 //	유튜브 썸네일 URI를 ajax로 받기 위한 메소드

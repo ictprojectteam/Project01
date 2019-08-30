@@ -323,6 +323,10 @@ public class DAO {
 		return sqlSessionTemplate.update("editEvent", evo);
 	}
 	
+	public EventVO viewEvent(String e_idx) {
+		return sqlSessionTemplate.selectOne("viewEvent", e_idx);
+	}
+	
 	public int countMyRecipe(RecipeVO rvo) {
 		return sqlSessionTemplate.selectOne("countMyRecipe", rvo);
 	}
@@ -337,6 +341,10 @@ public class DAO {
 	
 	public List<TVO> myTalkList(TVO tvo) {
 		return sqlSessionTemplate.selectList("myTalkList", tvo);
+	}
+	
+	public List<QVO> reportList(String m_idx) {
+		return sqlSessionTemplate.selectList("reportList", m_idx);
 	}
 	
 	public int countWriteComment(RecipeCVO rcvo) {
