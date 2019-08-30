@@ -92,7 +92,7 @@
 	</update>
 	
 	<insert id="insertReport">
-		insert into qna values (q_seq.nextval, #{m_idx}, #{q_def}, #{content}, to_char(sysdate, 'YYYY-MM-DD'), 0)
+		insert into qna values (q_seq.nextval, #{m_idx}, #{q_def}, #{content}, sysdate, 0)
 	</insert>
 	
 	<insert id="insert_recipe" parameterType="rvo">

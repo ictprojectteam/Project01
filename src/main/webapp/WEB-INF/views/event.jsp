@@ -160,6 +160,7 @@
 			success : function(data) {
 				if(open == t){
 					$(".e-content").remove();
+					open = null;
 				} else {
 					open = t;
 					if(data.e_content != null){
