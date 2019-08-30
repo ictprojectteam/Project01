@@ -90,6 +90,25 @@
 	margin: 30px auto;
 	text-align: center;
 }
+
+#e-modal{
+	width: 100%;
+	height: 100%;
+	display: none;
+	position: fixed;
+	z-index: 6;
+	background-color: #000a;
+}
+#modal-content{
+	width: 900px;
+	position: relative;
+	margin: auto;
+	top: 200px;
+	border: 1px solid #aaa;
+	background: #fff;
+	border-radius: 10px;
+	padding: 20px;
+}
 </style>
 <script src="https://kit.fontawesome.com/057ba10041.js"></script>
 <script type="text/javascript" src="../resources/js/jquery-3.4.1.min.js"></script>
@@ -148,6 +167,11 @@
 			<span class="open selected">진행중인 이벤트</span>
 			<span class="close">종료된 이벤트</span>
 			<span class="anno">당첨자 발표</span>
+		</div>
+		<div id="e-modal">
+			<div id="modal-content">
+				
+			</div>
 		</div>
 		<div id="box">
 		
